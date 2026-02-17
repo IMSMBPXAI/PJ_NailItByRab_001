@@ -1,11 +1,144 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="th">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>ชำระเงินพร้อมเพย์ (Auto Gen)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;600&display=swap" rel="stylesheet">
+    <style> body { font-family: 'Prompt', sans-serif; } </style>
 </head>
-<body>
-    ftgyu vgyfh
+<body class="  bg-slate-100 flex justify-center items-center min-h-screen text-slate-800">
+
+    <div class="bg-white p-8 rounded-2xl shadow-xl w-full max-w-sm text-center relative border border-slate-200">
+        
+        <h3 class="text-xl text-slate-500 font-medium mb-2">สแกนจ่ายเงินเข้าบัญชี</h3>
+        <div class="text-4xl font-bold text-slate-800 mb-8">
+            <span id="display-amount">00.00</span> 
+            <span class="text-lg text-slate-500">THB</span>
+        </div>
+        
+        <div class="relative mx-auto w-[200px] h-[200px] mb-6">
+            <div id="qrcode" class="flex justify-center items-center w-full h-full"></div>
+            
+            <div id="expired-overlay" class="hidden absolute inset-0 bg-white/95 backdrop-blur-sm flex-col justify-center items-center z-10 rounded-lg">
+                <div class="text-5xl mb-2">🚫</div>
+                <div class="text-red-500 font-bold text-lg">QR Code หมดอายุ</div>
+            </div>
+        </div>
+
+        <div class="bg-slate-50 p-4 rounded-xl border border-slate-100">
+            <div class="text-sm text-slate-500 mb-1">ระยะเวลาชำระเงิน</div>
+            <div id="timer" class="text-2xl font-mono font-bold text-blue-600 tracking-wider">--:--</div>
+        </div>
+
+        <div class="mt-4 text-xs text-slate-400">
+            โอนเข้า: <span id="display-id">...</span>
+        </div>
+
+        <button id="btn-refresh" onclick="location.reload()" 
+            class="hidden w-full mt-6 bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-4 rounded-xl transition-colors duration-200 shadow-lg shadow-blue-200">
+            สร้างรายการใหม่
+        </button>
+    </div>
+
+    <script>
+        // ==========================================
+        // 1. ตั้งค่าบัญชีธนาคารของคุณที่นี่ (IMPORTANT)
+        // ==========================================
+        const config = {
+            promptpayID: "0948263229", // ใส่เบอร์มือถือ หรือ เลขบัตรประชาชน (ไม่ต้องมีขีด)
+            amount: 100.00,            // จำนวนเงิน
+            timeLimitSeconds: 15 * 60  // เวลาหมดอายุ (วินาที)
+        };
+
+        // แสดงผลข้อมูลบนหน้าเว็บ
+        document.getElementById('display-amount').textContent = config.amount.toFixed(2);
+        document.getElementById('display-id').textContent = formatPhoneNumber(config.promptpayID);
+
+        // ==========================================
+        // 2. ฟังก์ชันสร้าง PromptPay Payload (EMVCo)
+        // ==========================================
+        function generatePromptPay(id, amount) {
+            const target = id.length >= 13 ? id : ("0066" + id.substring(1)); // แปลงเบอร์ 08x เป็น 668x
+            const targetType = id.length >= 13 ? "02" : "01"; // 01=มือถือ, 02=บัตร ปชช.
+            
+            let data = [
+                "000201",         // Payload Format Indicator
+                "010211",         // Point of Initiation Method (12=Dynamic, 11=Static)
+                "2937",           // Merchant Account Information
+                "0016A000000677010111", // Application ID (PromptPay)
+                targetType + (target.length < 10 ? "0" + target.length : target.length) + target,
+                "5802TH",         // Country Code
+                "5303764",        // Transaction Currency (THB)
+                "54" + (amount.toFixed(2).length < 10 ? "0" + amount.toFixed(2).length : amount.toFixed(2).length) + amount.toFixed(2)
+            ].join("");
+
+            // คำนวณ CRC16 (Checksum)
+            data += "6304"; 
+            data += calcCRC16(data);
+            return data;
+        }
+
+        function calcCRC16(str) {
+            let crc = 0xFFFF;
+            for (let i = 0; i < str.length; i++) {
+                let x = ((crc >> 8) ^ str.charCodeAt(i)) & 0xFF;
+                x ^= x >> 4;
+                crc = ((crc << 8) ^ (x << 12) ^ (x << 5) ^ x) & 0xFFFF;
+            }
+            return ("0000" + crc.toString(16).toUpperCase()).slice(-4);
+        }
+
+        function formatPhoneNumber(phoneNumberString) {
+            var cleaned = ('' + phoneNumberString).replace(/\D/g, '');
+            var match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/);
+            if (match) return match[1] + '-' + match[2] + '-' + match[3];
+            return phoneNumberString;
+        }
+
+        // ==========================================
+        // 3. เริ่มทำงาน (Generate QR & Timer)
+        // ==========================================
+        
+        // สร้าง String สำหรับ PromptPay
+        const payload = generatePromptPay(config.promptpayID, config.amount);
+        console.log("Payload:", payload); // ดูค่าใน Console ได้
+
+        // สร้าง QR Code
+        new QRCode(document.getElementById("qrcode"), {
+            text: payload,
+            width: 200,
+            height: 200,
+            colorDark : "#1e293b",
+            colorLight : "#ffffff",
+            correctLevel : QRCode.CorrectLevel.H
+        });
+
+        // ระบบนับถอยหลัง
+        let timeLeft = config.timeLimitSeconds;
+        const timerDisplay = document.getElementById('timer');
+        const overlay = document.getElementById('expired-overlay');
+        const refreshBtn = document.getElementById('btn-refresh');
+
+        const countdown = setInterval(() => {
+            const minutes = Math.floor(timeLeft / 60);
+            let seconds = timeLeft % 60;
+            seconds = seconds < 10 ? '0' + seconds : seconds;
+            timerDisplay.textContent = `${minutes}:${seconds}`;
+            
+            timeLeft--;
+
+            if (timeLeft < 0) {
+                clearInterval(countdown);
+                timerDisplay.textContent = "00:00";
+                timerDisplay.classList.add('text-red-500');
+                overlay.classList.remove('hidden');
+                overlay.classList.add('flex');
+                refreshBtn.classList.remove('hidden');
+            }
+        }, 1000);
+    </script>
 </body>
 </html>
