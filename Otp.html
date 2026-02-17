@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Security Check - Nail It By Rabbitz</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Kanit', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: { 900: '#7f1d1d' }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* สร้าง Pattern พื้นหลังให้กล่อง OTP ดูเหมือนระบบความปลอดภัย */
+        .security-bg {
+            background-color: #f3f4f6;
+            background-image: radial-gradient(#7f1d1d 0.5px, transparent 0.5px), radial-gradient(#7f1d1d 0.5px, #f3f4f6 0.5px);
+            background-size: 10px 10px;
+            background-position: 0 0, 5px 5px;
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+
+<header>
+        <nav class="border-b border-red-900 px-4 py-2.5 fixed left-0 right-0 top-0 z-40 bg-red-900 w-full md:w-auto">
+            <div class="flex flex-wrap items-center justify-between mx-auto max-w-[1600px]">
+                <div class="flex items-center justify-start">
+                    <a href="#" class="flex items-center mr-6">
+                        <img src="logo rabbitz.svg" class="size-20 mr-3 bg-white rounded-full" alt="Rabbitz Logo" />
+                        <span class="self-center text-2xl font-semibold whitespace-nowrap text-red-900"></span>
+                    </a>
+                    <div class="hidden md:block relative mr-4"> 
+                        <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                            <svg class="w-5 h-5 text-red-900" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path></svg>
+                        </div>
+                        <input type="text" class="block w-64 p-2 pl-10 text-sm text-red-900 bg-gray-200 border border-red-900 rounded-lg placeholder-gray-400 focus:ring-white focus:border-white" placeholder="Search">
+                    </div>
+                </div>
+
+                <div class="flex items-center justify-between w-auto">
+                    <ul class="flex flex-row space-x-6 text-sm font-medium border-0 mr-8">
+                        <li><a href="Homepage.html" class="text-white hover:text-red-900 bg-red-900 hover:bg-white p-2 rounded-lg transition">Homepage</a></li>
+                        <div class="hidden lg:block w-px h-6 bg-white mr-4"></div> 
+                        <li><a href="#" class="text-white hover:text-red-900 bg-red-900 hover:bg-white p-2 rounded-lg transition">Contact</a></li>
+                        <div class="hidden lg:block w-px h-6 bg-white mr-4"></div>
+                        <li><a href="#" class="text-white hover:text-red-900 bg-red-900 hover:bg-white p-2 rounded-lg transition">Booking</a></li>
+                    </ul>
+                    <div class="hidden lg:block w-px h-6 bg-white mr-4"></div>
+                    <div class="flex items-center space-x-4 mr-4">
+                        <a href="Signup.html" class="text-white border-2 border-white bg-white-700 hover:bg-red-800 font-medium rounded-lg text-sm px-4 py-2 transition">Sign up</a>
+                        <a href="Rolechoosen.html" class="text-red-900 bg-white hover:bg-gray-200 font-medium rounded-lg text-sm px-4 py-2 transition">Sign in</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="flex justify-center items-center min-h-screen pt-28 pb-10 px-4">
+        
+        <div class="bg-white rounded-2xl shadow-xl border-2 border-red-900 w-full max-w-sm p-8 text-center relative">
+            
+            <div class="mb-4">
+                <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                    <svg class="w-8 h-8 text-red-900" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+                </div>
+                <h2 class="text-2xl font-bold text-red-900 uppercase">Security Check</h2>
+                <p class="text-gray-500 text-sm">Please enter the code shown below</p>
+            </div>
+
+            <div class="relative mb-6 group cursor-pointer" onclick="generateOTP()" title="Click to refresh code">
+                <div class="security-bg h-24 rounded-xl border-2 border-dashed border-red-300 flex items-center justify-center relative overflow-hidden select-none">
+                    <span id="otp-display" class="text-4xl font-mono font-bold text-red-900 tracking-[0.3em] drop-shadow-md z-10">
+                        LOADING
+                    </span>
+                    <div class="absolute inset-0 w-full h-full pointer-events-none opacity-20">
+                        <svg class="w-full h-full" preserveAspectRatio="none"><path d="M0,0 L1000,1000 M0,1000 L1000,0" stroke="black" stroke-width="2"></path></svg>
+                    </div>
+                </div>
+                
+                <div class="absolute top-2 right-2 text-red-900 opacity-50 hover:opacity-100 transition">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+                </div>
+                <p class="text-xs text-gray-400 mt-1">Click the box to generate new code</p>
+            </div>
+
+            <div class="mb-6">
+                <input type="text" id="otp-input" 
+                    class="w-full text-center text-xl tracking-widest px-4 py-3 border-2 border-gray-300 rounded-xl focus:outline-none focus:border-red-900 focus:ring-1 focus:ring-red-900 transition uppercase placeholder-gray-300" 
+                    placeholder="TYPE HERE" maxlength="6">
+                <p id="error-msg" class="text-red-600 text-xs font-bold mt-2 hidden animate-pulse">
+                    * Incorrect code, please try again.
+                </p>
+            </div>
+
+            <button onclick="checkOTP()" class="w-full bg-red-900 hover:bg-red-800 text-white font-bold py-3 rounded-xl shadow-lg transition duration-300 transform hover:scale-105">
+                Verify
+            </button>
+
+            <div class="mt-6 pt-4 border-t border-gray-200">
+                 <a href="Signup.html" class="text-sm text-gray-500 hover:text-red-900 underline">Back to Sign Up</a>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        const display = document.getElementById('otp-display');
+        const input = document.getElementById('otp-input');
+        const errorMsg = document.getElementById('error-msg');
+        let currentOTP = '';
+
+        // ฟังก์ชันสุ่มรหัส (ตัวเลข + ตัวอักษร)
+        function generateOTP() {
+            // ตัดตัวที่สับสนง่ายออก เช่น I, l, 1, 0, O
+            const characters = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'; 
+            let result = '';
+            for (let i = 0; i < 6; i++) {
+                result += characters.charAt(Math.floor(Math.random() * characters.length));
+            }
+            currentOTP = result;
+            display.innerText = result; // แสดงผลบนจอ
+            
+            // Reset Input & Error
+            input.value = '';
+            errorMsg.classList.add('hidden');
+            input.classList.remove('border-red-500', 'text-red-600');
+        }
+
+        // ฟังก์ชันตรวจสอบความถูกต้อง
+        function checkOTP() {
+            const userValue = input.value.toUpperCase(); // แปลงเป็นตัวพิมพ์ใหญ่หมด
+
+            if (userValue === currentOTP) {
+                // --- กรณีถูกต้อง ---
+                // เปลี่ยนปุ่มเป็น Loading
+                const btn = document.querySelector('button');
+                btn.innerHTML = 'Verifying...';
+                btn.classList.add('opacity-75', 'cursor-wait');
+                
+                setTimeout(() => {
+                    // ไปหน้า Role Selection
+                    window.location.href = 'Rolechoosen.html';
+                }, 800);
+            } else {
+                // --- กรณีผิด ---
+                errorMsg.classList.remove('hidden');
+                input.classList.add('border-red-500', 'text-red-600');
+                
+                // สั่นกล่อง input
+                input.classList.add('animate-bounce');
+                setTimeout(() => input.classList.remove('animate-bounce'), 500);
+                
+                // สร้างรหัสใหม่ทันทีเพื่อให้ยากขึ้น (Optional: ลบออกได้ถ้าไม่อยากให้เปลี่ยน)
+                generateOTP(); 
+            }
+        }
+
+        // สร้างรหัสทันทีเมื่อเปิดหน้าเว็บ
+        window.onload = generateOTP;
+
+        // กด Enter เพื่อ Submit ได้เลย
+        input.addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                checkOTP();
+            }
+        });
+    </script>
+</body>
+</html>
