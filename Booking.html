@@ -378,6 +378,57 @@
 
     closeBtn.addEventListener('click', closeMenu);
     overlay.addEventListener('click', closeMenu);
+    // --- ส่วนที่เพิ่มเพื่อส่งข้อมูลไปหน้า Admin ---
+// --- ส่วนที่รวม Validation และการส่งข้อมูลไปหน้า Admin ไว้ด้วยกัน ---
+document.getElementById('booking-form').addEventListener('submit', function(event) {
+    event.preventDefault(); // หยุดการส่งฟอร์มชั่วคราวเพื่อตรวจสอบข้อมูล
+
+    // 1. ดึงข้อมูลจากฟอร์ม
+    const dateVal = document.getElementById('booking_date').value;
+    const timeVal = document.getElementById('booking_time').value;
+    const selectedServices = Array.from(document.querySelectorAll('.service-checkbox:checked')).map(cb => cb.value);
+    const note = document.getElementById('additional_details').value;
+
+    // 2. ตรวจสอบข้อมูล (Validation) - ถ้าไม่ครบให้หยุดทำงานทันที
+    if (!dateVal) {
+        alert('กรุณาเลือกวันที่ต้องการจองคิวค่ะ');
+        return;
+    }
+    if (!timeVal) {
+        alert('กรุณาเลือกรอบเวลาที่ต้องการจองคิวค่ะ');
+        return;
+    }
+    if (selectedServices.length === 0) {
+        alert('กรุณาเลือกบริการที่ต้องการทำอย่างน้อย 1 รายการค่ะ');
+        return;
+    }
+
+    // 3. ถ้าข้อมูลครบแล้ว -> จัดรูปแบบวันที่เพื่อไปโชว์ในหน้า Admin
+    const d = new Date(dateVal);
+    const displayDate = d.toLocaleDateString('th-TH', { day: 'numeric', month: 'short', year: '2-digit' });
+
+    // 4. สร้างก้อนข้อมูลการจองใหม่
+    const newBooking = {
+        id: Date.now(),
+        customer_name: "ลูกค้าทั่วไป",
+        phone: "08x-xxx-xxxx",
+        service: selectedServices.join(', '),
+        datetime: `${displayDate} - ${timeVal} น.`,
+        status: "รอการยืนยัน",
+        rawDate: dateVal
+    };
+
+    // 5. บันทึกลง LocalStorage
+    const LOCAL_STORAGE_KEY = 'rabbitz_bookings';
+    let currentBookings = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY)) || [];
+    currentBookings.push(newBooking);
+    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(currentBookings));
+
+    // 6. แจ้งเตือนและไปหน้าถัดไป
+    alert('บันทึกการจองสำเร็จ! กำลังไปหน้าสรุปรายละเอียด');
+    window.location.href = 'detailbooking.html';
+});
 </script>
+
 </body>
 </html>
