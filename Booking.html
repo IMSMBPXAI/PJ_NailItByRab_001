@@ -1,12 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en text-gray-800 bg-gray-50 text-gray-800">
+
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8 text-gray-800 bg-gray-50 text-gray-800">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Booking - Rabbitz</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
+
     <script>
         tailwind.config = {
             theme: {
@@ -22,18 +23,19 @@
         }
     </script>
 </head>
+
 <body class="bg-gray-50 text-gray-800">
 
-   <header>
+    <header>
         <nav class="border-b border-red-900 px-4 py-2.5 fixed left-0 right-0 top-0 z-50 bg-red-900 w-full">
             <div class="flex flex-wrap items-center justify-between mx-auto max-w-[1600px]">
-                
+
                 <div class="flex items-center justify-start">
                     <a href="#" class="flex items-center mr-6">
                         <img src="logo rabbitz.svg" class="size-16 mr-3 bg-white rounded-full p-1" alt="Rabbitz Logo" />
                     </a>
 
-                    <div class="hidden md:block relative mr-4"> 
+                    <div class="hidden md:block relative mr-4">
                         <h1 class="text-white text-lg font-medium">NAIL IT BY RABBITZ สาขา มหาวิทยาลัยพะเยา</h1>
                     </div>
                 </div>
@@ -46,42 +48,50 @@
                         <li class="w-px h-5 bg-white/30"></li>
                         <li><a href="Booking.html" class="hover:text-red-200 transition">Booking</a></li>
                     </ul>
-                    
+
                     <div class="hidden lg:block w-px h-6 bg-white/30 mx-2"></div>
 
-                    <div class="flex items-center space-x-4">
-                        <a href="Signup.html" class="text-white border-2 border-white focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-4 py-2 text-center inline-flex items-center hover:bg-white hover:text-red-900 transition">Sign up</a>
-                        <a href="Rolechoosen.html" class="text-red-900 bg-white focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-4 py-2 text-center inline-flex items-center hover:bg-gray-100 transition">Sign in</a>
-                    </div>
+                    <div id="auth-container" class="flex items-center space-x-4">
+                        </div>
                 </div>
 
             </div>
         </nav>
-        <div id="sidebar" class="fixed top-0 right-0 h-full w-72 bg-gradient-to-b from-[#801919] to-[#5d1212] z-[100] transform translate-x-full transition-transform duration-300 ease-in-out shadow-2xl rounded-l-[3rem]">
-    
-        <div class="p-8 flex flex-col items-center">
-        <button id="closeBtn" class="self-end text-white mb-4">
-            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-        </button>
-        <button type="button" class="flex text-sm bg-white rounded-full focus:ring-40 overflow-hidden size-49 border-2 border-white/20 shadow-sm ">
-             <img class="w-full h-full object-cover" src="https://ui-avatars.com/api/?name=User&background=random" alt="User Profile">
-        </button>
-        
-        </div>
+        <div id="sidebar"
+            class="fixed top-0 right-0 h-full w-72 bg-gradient-to-b from-[#801919] to-[#5d1212] z-[100] transform translate-x-full transition-transform duration-300 ease-in-out shadow-2xl rounded-l-[3rem]">
 
-        <div class="px-6 py-4">
-        <div class="bg-white/90 rounded-[2rem] p-6 space-y-3 text-center shadow-lg">
-            <a href="#" class="block text-[#801919] font-bold hover:scale-105 transition uppercase tracking-wider text-medium">Setting</a>
-            <hr class="border-[#801919]/20 w-1/2 mx-auto">
-            <a href="#" class="block text-[#801919] font-bold hover:scale-105 transition uppercase tracking-wider text-medium">My Booking & History</a>
-        </div>
-        </div>
+            <div class="p-8 flex flex-col items-center">
+                <button id="closeBtn" class="self-end text-white mb-4">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12">
+                        </path>
+                    </svg>
+                </button>
+                <button type="button"
+                    class="flex text-sm bg-white rounded-full focus:ring-40 overflow-hidden size-49 border-2 border-white/20 shadow-sm ">
+                    <img class="w-full h-full object-cover"
+                        src="https://ui-avatars.com/api/?name=User&background=random" alt="User Profile">
+                </button>
 
-        <div class="absolute bottom-12 left-0 right-0 px-10 text-center">
-        <button class="w-full border-2 border-white text-white py-2 rounded-full font-bold uppercase text-medium hover:bg-white hover:text-[#801919] transition">
-            Sign out
-        </button>
-         </div>
+            </div>
+
+            <div class="px-6 py-4">
+                <div class="bg-white/90 rounded-[2rem] p-6 space-y-3 text-center shadow-lg">
+                    <a href="#"
+                        class="block text-[#801919] font-bold hover:scale-105 transition uppercase tracking-wider text-medium">Setting</a>
+                    <hr class="border-[#801919]/20 w-1/2 mx-auto">
+                    <a href="#"
+                        class="block text-[#801919] font-bold hover:scale-105 transition uppercase tracking-wider text-medium">My
+                        Booking & History</a>
+                </div>
+            </div>
+
+            <div class="absolute bottom-12 left-0 right-0 px-10 text-center">
+                <button
+                    class="w-full border-2 border-white text-white py-2 rounded-full font-bold uppercase text-medium hover:bg-white hover:text-[#801919] transition">
+                    Sign out
+                </button>
+            </div>
         </div>
 
         <div id="overlay" class="fixed inset-0 bg-black/40 z-[90] hidden"></div>
@@ -91,19 +101,24 @@
             <h2 class="font-bold text-3xl text-red-900 mb-8 border-b pb-4">จองคิวรับบริการ (Booking)</h2>
 
             <form action="NextPage.html" method="POST" enctype="multipart/form-data" id="booking-form">
-                
+
                 <div class="mb-10 bg-red-50 p-6 rounded-xl border border-red-100">
                     <h3 class="text-xl font-semibold mb-4 text-red-900">1. เลือกวันและเวลานัดหมาย</h3>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
-                            <label for="booking_date" class="block mb-2 text-sm font-medium text-gray-700">วันที่ต้องการจอง <span class="text-red-600">*</span></label>
-                            <select id="booking_date" name="booking_date" required class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-900 focus:border-red-900 block w-full p-3 outline-none transition cursor-pointer shadow-sm">
+                            <label for="booking_date" class="block mb-2 text-sm font-medium text-gray-700">วันที่ต้องการจอง
+                                <span class="text-red-600">*</span></label>
+                            <select id="booking_date" name="booking_date" required
+                                class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-900 focus:border-red-900 block w-full p-3 outline-none transition cursor-pointer shadow-sm">
                                 <option value="" disabled selected>-- กำลังโหลดข้อมูล... --</option>
                             </select>
                         </div>
                         <div>
-                            <label for="booking_time" class="block mb-2 text-sm font-medium text-gray-700">รอบเวลา (รอบละ 1.30 ชม.) <span class="text-red-600">*</span></label>
-                            <select id="booking_time" name="booking_time" required disabled class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-900 focus:border-red-900 block w-full p-3 outline-none transition cursor-pointer shadow-sm disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed">
+                            <label for="booking_time"
+                                class="block mb-2 text-sm font-medium text-gray-700">รอบเวลา (รอบละ 1.30 ชม.) <span
+                                    class="text-red-600">*</span></label>
+                            <select id="booking_time" name="booking_time" required disabled
+                                class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-900 focus:border-red-900 block w-full p-3 outline-none transition cursor-pointer shadow-sm disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed">
                                 <option value="" disabled selected>-- กรุณาเลือกวันที่ก่อน --</option>
                             </select>
                         </div>
@@ -112,54 +127,117 @@
 
                 <div class="mb-10">
                     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-end mb-4 gap-2">
-                        <h3 class="text-xl font-semibold text-gray-800">2. เลือกบริการที่คุณต้องการ <span class="text-red-600 text-sm font-normal">* (เลือกอย่างน้อย 1 รายการ)</span></h3>
+                        <h3 class="text-xl font-semibold text-gray-800">2. เลือกบริการที่คุณต้องการ <span
+                                class="text-red-600 text-sm font-normal">* (เลือกอย่างน้อย 1 รายการ)</span></h3>
                         <div class="space-x-4">
-                            <button type="button" onclick="selectAllServices()" class="text-sm font-medium text-red-900 hover:text-red-700 underline transition">+ เลือกทั้งหมด</button>
-                            <button type="button" onclick="clearAllServices()" class="text-sm font-medium text-gray-500 hover:text-gray-700 underline transition">- ล้างทั้งหมด</button>
+                            <button type="button" onclick="selectAllServices()"
+                                class="text-sm font-medium text-red-900 hover:text-red-700 underline transition">+
+                                เลือกทั้งหมด</button>
+                            <button type="button" onclick="clearAllServices()"
+                                class="text-sm font-medium text-gray-500 hover:text-gray-700 underline transition">-
+                                ล้างทั้งหมด</button>
                         </div>
                     </div>
-                    
+
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="services-container">
-                        <label class="flex items-center p-3 border rounded-lg hover:bg-red-50 cursor-pointer transition"><input type="checkbox" name="services[]" value="ทาสีพื้นมือ" class="service-checkbox w-5 h-5 text-red-900 accent-red-900 bg-gray-100 border-gray-300 rounded focus:ring-red-900"><span class="ml-3 text-gray-700">ทาสีพื้นมือ</span></label>
-                        <label class="flex items-center p-3 border rounded-lg hover:bg-red-50 cursor-pointer transition"><input type="checkbox" name="services[]" value="ทาสีพื้นเท้า" class="service-checkbox w-5 h-5 text-red-900 accent-red-900 bg-gray-100 border-gray-300 rounded focus:ring-red-900"><span class="ml-3 text-gray-700">ทาสีพื้นเท้า</span></label>
-                        <label class="flex items-center p-3 border rounded-lg hover:bg-red-50 cursor-pointer transition"><input type="checkbox" name="services[]" value="ทาสีแฟลช/ลูกแก้ว" class="service-checkbox w-5 h-5 text-red-900 accent-red-900 bg-gray-100 border-gray-300 rounded focus:ring-red-900"><span class="ml-3 text-gray-700">ทาสีแฟลช / ลูกแก้ว</span></label>
-                        <label class="flex items-center p-3 border rounded-lg hover:bg-red-50 cursor-pointer transition"><input type="checkbox" name="services[]" value="ปั้นนูน" class="service-checkbox w-5 h-5 text-red-900 accent-red-900 bg-gray-100 border-gray-300 rounded focus:ring-red-900"><span class="ml-3 text-gray-700">ปั้นนูน</span></label>
-                        <label class="flex items-center p-3 border rounded-lg hover:bg-red-50 cursor-pointer transition"><input type="checkbox" name="services[]" value="เพ้นท์นิ้ว" class="service-checkbox w-5 h-5 text-red-900 accent-red-900 bg-gray-100 border-gray-300 rounded focus:ring-red-900"><span class="ml-3 text-gray-700">เพ้นท์นิ้ว</span></label>
-                        <label class="flex items-center p-3 border rounded-lg hover:bg-red-50 cursor-pointer transition"><input type="checkbox" name="services[]" value="ตัดเล็บขบ" class="service-checkbox w-5 h-5 text-red-900 accent-red-900 bg-gray-100 border-gray-300 rounded focus:ring-red-900"><span class="ml-3 text-gray-700">ตัดเล็บขบ</span></label>
-                        <label class="flex items-center p-3 border rounded-lg hover:bg-red-50 cursor-pointer transition"><input type="checkbox" name="services[]" value="เสริมเล็บฉีก" class="service-checkbox w-5 h-5 text-red-900 accent-red-900 bg-gray-100 border-gray-300 rounded focus:ring-red-900"><span class="ml-3 text-gray-700">เสริมเล็บฉีก</span></label>
-                        <label class="flex items-center p-3 border rounded-lg hover:bg-red-50 cursor-pointer transition"><input type="checkbox" name="services[]" value="Overlay" class="service-checkbox w-5 h-5 text-red-900 accent-red-900 bg-gray-100 border-gray-300 rounded focus:ring-red-900"><span class="ml-3 text-gray-700">Overlay</span></label>
-                        <label class="flex items-center p-3 border rounded-lg hover:bg-red-50 cursor-pointer transition"><input type="checkbox" name="services[]" value="PVC กาวเจล" class="service-checkbox w-5 h-5 text-red-900 accent-red-900 bg-gray-100 border-gray-300 rounded focus:ring-red-900"><span class="ml-3 text-gray-700">PVC กาวเจล</span></label>
-                        <label class="flex items-center p-3 border rounded-lg hover:bg-red-50 cursor-pointer transition"><input type="checkbox" name="services[]" value="PVC กาวธรรมดา" class="service-checkbox w-5 h-5 text-red-900 accent-red-900 bg-gray-100 border-gray-300 rounded focus:ring-red-900"><span class="ml-3 text-gray-700">PVC กาวธรรมดา</span></label>
-                        <label class="flex items-center p-3 border rounded-lg hover:bg-red-50 cursor-pointer transition"><input type="checkbox" name="services[]" value="PVC โพลีเจล" class="service-checkbox w-5 h-5 text-red-900 accent-red-900 bg-gray-100 border-gray-300 rounded focus:ring-red-900"><span class="ml-3 text-gray-700">PVC โพลีเจล</span></label>
+                        <label
+                            class="flex items-center p-3 border rounded-lg hover:bg-red-50 cursor-pointer transition"><input
+                                type="checkbox" name="services[]" value="ทาสีพื้นมือ"
+                                class="service-checkbox w-5 h-5 text-red-900 accent-red-900 bg-gray-100 border-gray-300 rounded focus:ring-red-900"><span
+                                class="ml-3 text-gray-700">ทาสีพื้นมือ</span></label>
+                        <label
+                            class="flex items-center p-3 border rounded-lg hover:bg-red-50 cursor-pointer transition"><input
+                                type="checkbox" name="services[]" value="ทาสีพื้นเท้า"
+                                class="service-checkbox w-5 h-5 text-red-900 accent-red-900 bg-gray-100 border-gray-300 rounded focus:ring-red-900"><span
+                                class="ml-3 text-gray-700">ทาสีพื้นเท้า</span></label>
+                        <label
+                            class="flex items-center p-3 border rounded-lg hover:bg-red-50 cursor-pointer transition"><input
+                                type="checkbox" name="services[]" value="ทาสีแฟลช/ลูกแก้ว"
+                                class="service-checkbox w-5 h-5 text-red-900 accent-red-900 bg-gray-100 border-gray-300 rounded focus:ring-red-900"><span
+                                class="ml-3 text-gray-700">ทาสีแฟลช / ลูกแก้ว</span></label>
+                        <label
+                            class="flex items-center p-3 border rounded-lg hover:bg-red-50 cursor-pointer transition"><input
+                                type="checkbox" name="services[]" value="ปั้นนูน"
+                                class="service-checkbox w-5 h-5 text-red-900 accent-red-900 bg-gray-100 border-gray-300 rounded focus:ring-red-900"><span
+                                class="ml-3 text-gray-700">ปั้นนูน</span></label>
+                        <label
+                            class="flex items-center p-3 border rounded-lg hover:bg-red-50 cursor-pointer transition"><input
+                                type="checkbox" name="services[]" value="เพ้นท์นิ้ว"
+                                class="service-checkbox w-5 h-5 text-red-900 accent-red-900 bg-gray-100 border-gray-300 rounded focus:ring-red-900"><span
+                                class="ml-3 text-gray-700">เพ้นท์นิ้ว</span></label>
+                        <label
+                            class="flex items-center p-3 border rounded-lg hover:bg-red-50 cursor-pointer transition"><input
+                                type="checkbox" name="services[]" value="ตัดเล็บขบ"
+                                class="service-checkbox w-5 h-5 text-red-900 accent-red-900 bg-gray-100 border-gray-300 rounded focus:ring-red-900"><span
+                                class="ml-3 text-gray-700">ตัดเล็บขบ</span></label>
+                        <label
+                            class="flex items-center p-3 border rounded-lg hover:bg-red-50 cursor-pointer transition"><input
+                                type="checkbox" name="services[]" value="เสริมเล็บฉีก"
+                                class="service-checkbox w-5 h-5 text-red-900 accent-red-900 bg-gray-100 border-gray-300 rounded focus:ring-red-900"><span
+                                class="ml-3 text-gray-700">เสริมเล็บฉีก</span></label>
+                        <label
+                            class="flex items-center p-3 border rounded-lg hover:bg-red-50 cursor-pointer transition"><input
+                                type="checkbox" name="services[]" value="Overlay"
+                                class="service-checkbox w-5 h-5 text-red-900 accent-red-900 bg-gray-100 border-gray-300 rounded focus:ring-red-900"><span
+                                class="ml-3 text-gray-700">Overlay</span></label>
+                        <label
+                            class="flex items-center p-3 border rounded-lg hover:bg-red-50 cursor-pointer transition"><input
+                                type="checkbox" name="services[]" value="PVC กาวเจล"
+                                class="service-checkbox w-5 h-5 text-red-900 accent-red-900 bg-gray-100 border-gray-300 rounded focus:ring-red-900"><span
+                                class="ml-3 text-gray-700">PVC กาวเจล</span></label>
+                        <label
+                            class="flex items-center p-3 border rounded-lg hover:bg-red-50 cursor-pointer transition"><input
+                                type="checkbox" name="services[]" value="PVC กาวธรรมดา"
+                                class="service-checkbox w-5 h-5 text-red-900 accent-red-900 bg-gray-100 border-gray-300 rounded focus:ring-red-900"><span
+                                class="ml-3 text-gray-700">PVC กาวธรรมดา</span></label>
+                        <label
+                            class="flex items-center p-3 border rounded-lg hover:bg-red-50 cursor-pointer transition"><input
+                                type="checkbox" name="services[]" value="PVC โพลีเจล"
+                                class="service-checkbox w-5 h-5 text-red-900 accent-red-900 bg-gray-100 border-gray-300 rounded focus:ring-red-900"><span
+                                class="ml-3 text-gray-700">PVC โพลีเจล</span></label>
                     </div>
                 </div>
 
                 <div class="mb-8">
                     <h3 class="text-xl font-semibold mb-2 text-gray-800">3. อัปโหลดรูปเรฟเฟอเรนซ์ (Reference)</h3>
                     <p class="text-sm text-gray-500 mb-4">* สามารถอัปโหลดรูปภาพได้สูงสุด 5 รูป เพื่อเป็นแบบให้ช่าง</p>
-                    
+
                     <div class="flex items-center justify-center w-full">
-                        <label for="dropzone-file" class="flex flex-col items-center justify-center w-full h-40 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100 transition">
+                        <label for="dropzone-file"
+                            class="flex flex-col items-center justify-center w-full h-40 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100 transition">
                             <div class="flex flex-col items-center justify-center pt-5 pb-6">
-                                <svg class="w-10 h-10 mb-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg>
-                                <p class="mb-2 text-sm text-gray-500"><span class="font-semibold">คลิกเพื่ออัปโหลด</span> หรือลากไฟล์มาวาง</p>
+                                <svg class="w-10 h-10 mb-3 text-gray-400" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12">
+                                    </path>
+                                </svg>
+                                <p class="mb-2 text-sm text-gray-500"><span class="font-semibold">คลิกเพื่ออัปโหลด</span>
+                                    หรือลากไฟล์มาวาง</p>
                             </div>
                             <input id="dropzone-file" type="file" class="hidden" multiple accept="image/*" />
                         </label>
                     </div>
-                    
+
                     <div id="image-preview-container" class="grid grid-cols-2 md:grid-cols-5 gap-4 mt-4"></div>
                 </div>
 
                 <div class="mb-10">
                     <h3 class="text-xl font-semibold mb-2 text-gray-800">4. รายละเอียดเพิ่มเติม</h3>
-                    <textarea id="additional_details" name="additional_details" rows="3" class="block p-3 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-red-900 focus:border-red-900 placeholder-gray-400 outline-none transition" placeholder="พิมพ์บอกช่างได้เลยว่าต้องการโทนสีไหน หรือมีข้อควรระวังเรื่องเล็บเป็นพิเศษ"></textarea>
+                    <textarea id="additional_details" name="additional_details" rows="3"
+                        class="block p-3 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-red-900 focus:border-red-900 placeholder-gray-400 outline-none transition"
+                        placeholder="พิมพ์บอกช่างได้เลยว่าต้องการโทนสีไหน หรือมีข้อควรระวังเรื่องเล็บเป็นพิเศษ"></textarea>
                 </div>
 
                 <div class="flex justify-end pt-4 border-t border-gray-200">
-                    <a href="detailbooking.html" type="submit" class="text-white bg-red-900 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-lg px-10 py-3 text-center inline-flex items-center transition shadow-md">
+                    <a href="detailbooking.html" type="submit"
+                        class="text-white bg-red-900 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-lg px-10 py-3 text-center inline-flex items-center transition shadow-md">
                         ดำเนินการต่อ
-                        <svg class="w-5 h-5 ml-2 -mr-1" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                        <svg class="w-5 h-5 ml-2 -mr-1" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd"
+                                d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
+                                clip-rule="evenodd"></path>
+                        </svg>
                     </a>
                 </div>
 
@@ -168,8 +246,51 @@
     </div>
 
     <script>
+        // --------------------------------------------------------
+        // 0. ระบบตรวจสอบการ Login
+        // --------------------------------------------------------
+        // ตัวแปรจำลองสถานะการล็อกอิน (เปลี่ยนเป็น true เมื่อล็อกอินแล้ว)
+        let isSignedIn = false; 
 
-        
+        // ข้อมูลผู้ใช้จำลอง
+        const userProfile = {
+            name: "User Name",
+            avatarUrl: "https://ui-avatars.com/api/?name=User&background=random"
+        };
+
+        const authContainer = document.getElementById('auth-container');
+
+        function updateAuthUI() {
+            if (isSignedIn) {
+                // ถ้าล็อกอินแล้ว แสดงรูปโปรไฟล์
+                authContainer.innerHTML = `
+                    <button id="menuBtn" type="button" class="flex text-sm bg-white rounded-full focus:ring-4 focus:ring-gray-300 overflow-hidden size-10 border-2 border-white shadow-sm hover:scale-105 transition cursor-pointer">
+                        <img class="w-full h-full object-cover" src="${userProfile.avatarUrl}" alt="${userProfile.name} Profile">
+                    </button>
+                `;
+                
+                // หลังจากสร้างปุ่ม profile ให้ผูก event listener สำหรับ sidebar
+                const menuBtn = document.getElementById('menuBtn');
+                const sidebar = document.getElementById('sidebar');
+                const overlay = document.getElementById('overlay');
+
+                menuBtn.addEventListener('click', () => {
+                    sidebar.classList.remove('translate-x-full');
+                    overlay.classList.remove('hidden');
+                });
+
+            } else {
+                // ถ้ายังไม่ล็อกอิน แสดงปุ่ม Sign In / Sign Up
+                authContainer.innerHTML = `
+                    <a href="Signup.html" class="text-white border-2 border-white focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-4 py-2 text-center inline-flex items-center hover:bg-white hover:text-red-900 transition">Sign up</a>
+                    <a href="Rolechoosen.html" class="text-red-900 bg-white focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-4 py-2 text-center inline-flex items-center hover:bg-gray-100 transition">Sign in</a>
+                `;
+            }
+        }
+
+        // เรียกใช้งานตอนโหลดหน้า
+        updateAuthUI();
+
         // --------------------------------------------------------
         // 1. ระบบวัน/เวลาจำลอง (Mock Database)
         // --------------------------------------------------------
@@ -178,14 +299,9 @@
             "15:00 - 16:30", "16:30 - 18:00", "18:00 - 19:30", "19:30 - 21:00"
         ];
 
-        // ฐานข้อมูลเริ่มต้น: ว่างเปล่า (แปลว่าเปิดให้จองได้ทุกวัน ทุกรอบเวลา)
         const mockDatabase = {
-            bookedSlots: {
-                // หากต้องการจำลองคิวเต็ม ให้เพิ่มรูปแบบนี้ -> "YYYY-MM-DD": ["09:00 - 10:30"]
-            },
-            closedDates: [
-                // หากต้องการจำลองวันหยุดร้าน ให้เพิ่มรูปแบบนี้ -> "YYYY-MM-DD"
-            ]
+            bookedSlots: {},
+            closedDates: []
         };
 
         const dateSelect = document.getElementById('booking_date');
@@ -193,17 +309,15 @@
 
         function generateDates() {
             dateSelect.innerHTML = '<option value="" disabled selected>-- เลือกวันที่ --</option>';
-            
-            // ใช้วันที่ปัจจุบันเป็นตัวตั้งต้น (ของเดิมคือ new Date("2026-03-04"))
             let today = new Date();
 
             for (let i = 1; i <= 14; i++) {
                 let d = new Date(today);
                 d.setDate(today.getDate() + i);
-                
+
                 let dateString = d.toISOString().split('T')[0];
                 let displayDate = d.toLocaleDateString('th-TH', { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' });
-                
+
                 let option = document.createElement('option');
                 option.value = dateString;
 
@@ -228,7 +342,7 @@
             }
         }
 
-        dateSelect.addEventListener('change', function() {
+        dateSelect.addEventListener('change', function () {
             const selectedDate = this.value;
             const bookedTimes = mockDatabase.bookedSlots[selectedDate] || [];
 
@@ -260,7 +374,7 @@
         const previewContainer = document.getElementById('image-preview-container');
         let uploadedFiles = [];
 
-        fileInput.addEventListener('change', function(e) {
+        fileInput.addEventListener('change', function (e) {
             const newFiles = Array.from(e.target.files);
             if (uploadedFiles.length + newFiles.length > 5) {
                 alert('อัปโหลดได้สูงสุด 5 รูปเท่านั้นค่ะ');
@@ -277,11 +391,11 @@
             previewContainer.innerHTML = '';
             uploadedFiles.forEach((file, index) => {
                 const reader = new FileReader();
-                reader.onload = function(e) {
+                reader.onload = function (e) {
                     const imgContainer = document.createElement('div');
                     imgContainer.className = 'relative w-full h-24 rounded-lg overflow-hidden border border-gray-200 shadow-sm group';
                     imgContainer.innerHTML = `<img src="${e.target.result}" class="w-full h-full object-cover" alt="Reference">`;
-                    
+
                     const deleteBtn = document.createElement('button');
                     deleteBtn.type = 'button';
                     deleteBtn.className = 'absolute top-1 right-1 bg-red-600 bg-opacity-80 text-white rounded-full p-1 hover:bg-red-700 transition-opacity opacity-80 hover:opacity-100 focus:outline-none';
@@ -331,25 +445,21 @@
         // --------------------------------------------------------
         // 4. บังคับเลือกข้อมูลก่อนส่ง (Validation) 
         // --------------------------------------------------------
-        document.getElementById('booking-form').addEventListener('submit', function(event) {
-            
-            // 4.1 ตรวจสอบว่าเลือกวันที่แล้วหรือยัง
+        document.getElementById('booking-form').addEventListener('submit', function (event) {
             const selectedDate = document.getElementById('booking_date').value;
             if (!selectedDate) {
                 alert('กรุณาเลือกวันที่ต้องการจองคิวค่ะ');
-                event.preventDefault(); // สั่งให้หยุดการเปลี่ยนหน้า
-                return;
-            }
-
-            // 4.2 ตรวจสอบว่าเลือกเวลาแล้วหรือยัง
-            const selectedTime = document.getElementById('booking_time').value;
-            if (!selectedTime) {
-                alert('กรุณาเลือกรอบเวลาที่ต้องการจองคิวค่ะ');
                 event.preventDefault(); 
                 return;
             }
 
-            // 4.3 ตรวจสอบว่าเลือกบริการอย่างน้อย 1 อย่างหรือยัง
+            const selectedTime = document.getElementById('booking_time').value;
+            if (!selectedTime) {
+                alert('กรุณาเลือกรอบเวลาที่ต้องการจองคิวค่ะ');
+                event.preventDefault();
+                return;
+            }
+
             const checkedServices = document.querySelectorAll('.service-checkbox:checked');
             if (checkedServices.length === 0) {
                 alert('กรุณาเลือกบริการที่ต้องการทำอย่างน้อย 1 รายการค่ะ');
@@ -359,25 +469,22 @@
         });
     </script>
     <script>
-    const menuBtn = document.getElementById('menuBtn');
-    const closeBtn = document.getElementById('closeBtn');
-    const sidebar = document.getElementById('sidebar');
-    const overlay = document.getElementById('overlay');
+        // โค้ดส่วนนี้จะทำงานเมื่อหน้าเว็บโหลดเสร็จ
+        // และจะถูกผูกกับเมนู Sidebar หากผู้ใช้ล็อกอินแล้ว
+        document.addEventListener('DOMContentLoaded', () => {
+            const closeBtn = document.getElementById('closeBtn');
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('overlay');
 
-    // ฟังก์ชันเปิดเมนู
-    menuBtn.addEventListener('click', () => {
-        sidebar.classList.remove('translate-x-full');
-        overlay.classList.remove('hidden');
-    });
+            const closeMenu = () => {
+                sidebar.classList.add('translate-x-full');
+                overlay.classList.add('hidden');
+            };
 
-    // ฟังก์ชันปิดเมนู
-    const closeMenu = () => {
-        sidebar.classList.add('translate-x-full');
-        overlay.classList.add('hidden');
-    };
-
-    closeBtn.addEventListener('click', closeMenu);
-    overlay.addEventListener('click', closeMenu);
-</script>
+            if(closeBtn) closeBtn.addEventListener('click', closeMenu);
+            if(overlay) overlay.addEventListener('click', closeMenu);
+        });
+    </script>
 </body>
+
 </html>
