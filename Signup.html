@@ -184,6 +184,40 @@
 
         passwordInput.addEventListener('input', validateForm);
         confirmInput.addEventListener('input', validateForm);
+
+        // --- 3. ระบบบันทึกข้อมูล (Signup Logic) ---
+        registerForm.addEventListener('submit', function(e) {
+            e.preventDefault(); // ป้องกันการรีโหลดหน้า
+
+            const fullname = document.getElementById('fullname').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const password = passwordInput.value;
+
+            // ดึงฐานข้อมูลผู้ใช้เดิม
+            let users = JSON.parse(localStorage.getItem('rabbitz_users')) || [];
+
+            // ตรวจสอบอีเมลซ้ำ
+            if (users.some(user => user.email === email)) {
+                alert('อีเมลนี้ถูกใช้งานแล้ว กรุณาใช้อีเมลอื่นครับ');
+                return;
+            }
+
+            // บันทึกผู้ใช้ใหม่
+            const newUser = {
+                id: Date.now(),
+                fullname: fullname,
+                email: email,
+                password: password,
+                role: 'customer' // กำหนดสิทธิ์พื้นฐาน
+            };
+
+            users.push(newUser);
+            localStorage.setItem('rabbitz_users', JSON.stringify(users));
+
+            alert('สมัครสมาชิกสำเร็จ! กรุณาทำการยืนยันตัวตนในขั้นตอนถัดไป');
+            window.location.href = 'Otp.html'; // ไปหน้ายืนยัน OTP ตาม Flow เดิม
+        });
+
     </script>
 </body>
 </html>
