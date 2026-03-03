@@ -30,12 +30,11 @@
         <nav class="border-b border-red-900 px-4 py-2.5 fixed left-0 right-0 top-0 z-50 bg-red-900 w-full md:w-auto">
             <div class="flex flex-wrap items-center justify-between mx-auto max-w-[1600px]">
                 <div class="flex items-center justify-start">
-                    <a href="#" class="flex items-center mr-6">
-                        <img src="logo rabbitz.svg" class="size-20 mr-3 bg-white rounded-full" alt="Rabbitz Logo" />
+                    <a href="Homepage.html" class="flex items-center mr-6">
+                        <img src="logo rabbitz.svg" class="size-20 mr-3 bg-white rounded-full p-1" alt="Rabbitz Logo" onerror="this.src='https://ui-avatars.com/api/?name=R&background=fff&color=7f1d1d'"/>
                         <span class="self-center text-2xl font-semibold whitespace-nowrap text-red-900"></span>
                     </a>
                     <div class="hidden md:block relative mr-4"> 
-                        <div class="hidden md:block relative mr-4"> 
                         <h1 class="text-white text-lg font-medium">NAIL IT BY RABBITZ สาขา มหาวิทยาลัยพะเยา</h1>
                     </div>
                 </div>
@@ -45,7 +44,6 @@
                         <li><a href="Homepage.html" class="text-white hover:text-red-900 bg-red-900 hover:bg-white p-2 rounded-lg transition">Homepage</a></li>
                         <div class="hidden lg:block w-px h-6 bg-white mr-4"></div> 
                         <li><a href="#" class="text-white hover:text-red-900 bg-red-900 hover:bg-white p-2 rounded-lg transition">Contact</a></li>
-                        <div class="hidden lg:block w-px h-6 bg-white mr-4"></div>
                     </ul>
                     <div class="flex items-center space-x-4 mr-4">
                         <a href="Rolechoosen.html" class="text-red-900 bg-white hover:bg-gray-200 font-medium rounded-lg text-sm px-4 py-2 transition">Sign in</a>
@@ -56,18 +54,17 @@
     </header>
 
     <div class="flex justify-center items-center min-h-screen pt-32 pb-10 px-4">
-        
         <div class="bg-gray-200 rounded-2xl shadow-xl border-2 border-red-900 w-full max-w-md p-8 relative">
-            <div class="text-center mb-5 bg-red-900 p-4 rounded-xl border-2">
+            <div class="text-center mb-5 bg-red-900 p-4 rounded-xl border-2 shadow-md">
                 <h2 class="text-3xl font-bold text-white uppercase tracking-wide drop-shadow-md">Create Account</h2>
                 <p class="text-white text-sm mt-1 opacity-80">สมัครสมาชิกใหม่</p>
             </div>
 
-            <form id="registerForm" action="#" method="POST" class="space-y-4">
+            <form id="registerForm" class="space-y-4">
                 
                 <div>
-                    <label class="block text-red-900 font-semibold mb-1">Username:</label>
-                    <input type="text" id="username" class="w-full px-4 py-2 text-red-900 bg-white border-2 border-red-900 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500 transition placeholder-red-300" placeholder="ตั้งชื่อผู้ใช้ของคุณ" required>
+                    <label class="block text-red-900 font-semibold mb-1">Full Name:</label>
+                    <input type="text" id="fullname" class="w-full px-4 py-2 text-red-900 bg-white border-2 border-red-900 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500 transition placeholder-red-300" placeholder="กรอกชื่อ-นามสกุลของคุณ" required>
                 </div>
 
                 <div>
@@ -99,9 +96,9 @@
                 </div>
 
                 <div class="pt-4 flex justify-center">
-                    <a href="Otp.html" type="submit" id="submitBtn" disabled class="uppercase bg-red-900 hover:bg-red-800 text-white font-bold py-2 px-10 rounded-2xl shadow-lg transition duration-300 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 flex items-center justify-center">
+                    <button type="submit" id="submitBtn" disabled class="w-full uppercase bg-red-900 hover:bg-red-800 text-white font-bold py-3 rounded-2xl shadow-lg transition duration-300 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 flex items-center justify-center">
                         Sign Up 
-                    </a>
+                    </button>
                 </div>
 
             </form>
@@ -119,19 +116,17 @@
         const confirmInput = document.getElementById('confirm_password');
         const submitBtn = document.getElementById('submitBtn');
         const errorMsg = document.getElementById('error-msg');
+        const registerForm = document.getElementById('registerForm');
 
         // --- 1. Phone Auto-Format (0xx-xxx-xxxx) ---
         phoneInput.addEventListener('input', function (e) {
-            let value = e.target.value.replace(/\D/g, ''); // ลบทุกอย่างที่ไม่ใช่ตัวเลข
-            
-            if (value.length > 10) value = value.slice(0, 10); // จำกัด 10 ตัว
-
+            let value = e.target.value.replace(/\D/g, ''); 
+            if (value.length > 10) value = value.slice(0, 10); 
             if (value.length > 6) {
                 value = value.slice(0, 3) + '-' + value.slice(3, 6) + '-' + value.slice(6);
             } else if (value.length > 3) {
                 value = value.slice(0, 3) + '-' + value.slice(3);
             }
-            
             e.target.value = value;
         });
 
@@ -140,72 +135,55 @@
             const pass = passwordInput.value;
             const confirm = confirmInput.value;
 
-            // Regex Patterns
             const hasUpper = /[A-Z]/.test(pass);
             const hasLower = /[a-z]/.test(pass);
             const hasNumber = /[0-9]/.test(pass);
             const hasLength = pass.length >= 8;
 
-            // Update UI Checklist (ฟังก์ชันช่วยเปลี่ยนสี)
             updateStatus('req-upper', hasUpper);
             updateStatus('req-lower', hasLower);
             updateStatus('req-number', hasNumber);
             updateStatus('req-length', hasLength);
 
-            // Check Match
             const isMatch = pass === confirm && pass !== '';
             
             if (!isMatch && confirm !== '') {
                 errorMsg.classList.remove('hidden');
                 confirmInput.classList.add('border-red-500', 'ring-red-500');
-                confirmInput.classList.remove('border-green-500', 'ring-green-500');
             } else if (isMatch) {
                 errorMsg.classList.add('hidden');
                 confirmInput.classList.remove('border-red-500', 'ring-red-500');
-                confirmInput.classList.add('border-green-500', 'ring-green-500');
+                confirmInput.classList.add('border-green-500');
             } else {
-                // กรณีลบจนว่าง
                 errorMsg.classList.add('hidden');
-                confirmInput.classList.remove('border-red-500', 'ring-red-500', 'border-green-500', 'ring-green-500');
+                confirmInput.classList.remove('border-red-500', 'ring-red-500', 'border-green-500');
             }
 
-            // Final Check to Enable Button (Logic เดิมของคุณตรวจสอบแค่รหัสผ่าน)
             if (hasUpper && hasLower && hasNumber && hasLength && isMatch) {
-                submitBtn.style.pointerEvents = 'auto'; // เปิดให้กดได้
-                submitBtn.style.opacity = '1';
                 submitBtn.removeAttribute('disabled');
+                submitBtn.classList.remove('opacity-50', 'cursor-not-allowed');
             } else {
-                submitBtn.style.pointerEvents = 'none'; // ปิดไม่ให้กด
-                submitBtn.style.opacity = '0.5';
                 submitBtn.setAttribute('disabled', 'true');
+                submitBtn.classList.add('opacity-50', 'cursor-not-allowed');
             }
         }
 
-        // ฟังก์ชันเปลี่ยนสี UI รายการตรวจสอบ
         function updateStatus(elementId, isValid) {
             const el = document.getElementById(elementId);
             const icon = el.querySelector('span');
-            
             if (isValid) {
-                el.classList.remove('text-red-900/70');
                 el.classList.add('text-green-700', 'font-semibold');
                 icon.innerText = '✓';
-                icon.classList.remove('border-red-900', 'opacity-50');
-                icon.classList.add('border-green-700', 'bg-green-100');
+                icon.classList.add('bg-green-100', 'border-green-700');
             } else {
-                el.classList.add('text-red-900/70');
                 el.classList.remove('text-green-700', 'font-semibold');
                 icon.innerText = '✕';
-                icon.classList.add('border-red-900', 'opacity-50');
-                icon.classList.remove('border-green-700', 'bg-green-100');
+                icon.classList.remove('bg-green-100', 'border-green-700');
             }
         }
 
         passwordInput.addEventListener('input', validateForm);
         confirmInput.addEventListener('input', validateForm);
-        
-        // เรียกใช้ validateForm ครั้งแรกเพื่อให้ปุ่ม Disabled เริ่มต้น
-        validateForm();
     </script>
 </body>
 </html>
