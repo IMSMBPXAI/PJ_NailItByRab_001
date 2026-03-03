@@ -8,76 +8,196 @@
     <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script>
         tailwind.config = {
-            theme: { extend: { fontFamily: { sans: ['Kanit', 'sans-serif'], }, colors: { brand: { 900: '#7f1d1d' } } } }
+            theme: { 
+                extend: { 
+                    fontFamily: { sans: ['Kanit', 'sans-serif'] }, 
+                    colors: { brand: { 900: '#7f1d1d' } } 
+                } 
+            }
         }
     </script>
 </head>
 <body class="bg-gray-50 text-gray-800">
 
-    <header>
+<header>
         <nav class="border-b border-red-900 px-4 py-2.5 fixed left-0 right-0 top-0 z-50 bg-red-900 w-full">
             <div class="flex flex-wrap items-center justify-between mx-auto max-w-[1600px]">
+                
                 <div class="flex items-center justify-start">
-                    <a href="Homepage.html" class="flex items-center mr-6">
-                        <img src="logo rabbitz.svg" class="w-12 h-12 mr-3 bg-white rounded-full object-cover" alt="Rabbitz Logo" />
-                        <span class="self-center text-2xl font-semibold whitespace-nowrap text-white">Rabbitz</span>
+                    <a href="#" class="flex items-center mr-6">
+                        <img src="logo rabbitz.svg" class="size-16 mr-3 bg-white rounded-full p-1" alt="Rabbitz Logo" />
                     </a>
+
+                    <div class="hidden md:block relative mr-4"> 
+                        <h1 class="text-white text-lg font-medium">NAIL IT BY RABBITZ สาขา มหาวิทยาลัยพะเยา</h1>
+                    </div>
                 </div>
+
+                <div class="flex items-center gap-6">
+                    <ul class="hidden lg:flex flex-row space-x-6 text-sm font-medium text-white">
+                        <li><a href="#" class="hover:text-red-200 transition">Homepage</a></li>
+                        <li class="w-px h-5 bg-white/30"></li>
+                        <li><a href="Contact.html" class="hover:text-red-200 transition">Contact</a></li>
+                        <li class="w-px h-5 bg-white/30"></li>
+                        <li><a href="Booking.html" class="hover:text-red-200 transition">Booking</a></li>
+                    </ul>
+                    
+                    <div class="hidden lg:block w-px h-6 bg-white/30 mx-2"></div>
+
+                    <div class="flex items-center space-x-4">
+                        
+                        <button type="button" class="relative p-2 text-white hover:bg-white/10 rounded-full transition focus:outline-none">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
+                            </svg>
+                            <span class="absolute top-2 right-2 flex h-3 w-3">
+                                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-yellow-300 opacity-75"></span>
+                                <span class="relative inline-flex rounded-full h-3 w-3 bg-yellow-400 border-2 border-red-900"></span>
+                            </span>
+                        </button>
+
+                        <button type="button" class="flex text-sm bg-white rounded-full focus:ring-4 focus:ring-red-700 overflow-hidden size-10 border-2 border-white/20 shadow-sm transition hover:scale-105">
+                            <img class="w-full h-full object-cover" src="https://ui-avatars.com/api/?name=User&background=random" alt="User Profile">
+                        </button>
+
+                    </div>
+                    <div class="flex items-center gap-4 border-l border-white/30 pl-6">
+                    <button id="menuBtn" class="text-white hover:bg-white/10 p-2 rounded-lg transition">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                    </button>
+                    </div>
+                </div>
+
             </div>
         </nav>
+        <div id="sidebar" class="fixed top-0 right-0 h-full w-72 bg-gradient-to-b from-[#801919] to-[#5d1212] z-[100] transform translate-x-full transition-transform duration-300 ease-in-out shadow-2xl rounded-l-[3rem]">
+    
+        <div class="p-8 flex flex-col items-center">
+        <button id="closeBtn" class="self-end text-white mb-4">
+            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+        </button>
+        <button type="button" class="flex text-sm bg-white rounded-full focus:ring-40 overflow-hidden size-49 border-2 border-white/20 shadow-sm ">
+             <img class="w-full h-full object-cover" src="https://ui-avatars.com/api/?name=User&background=random" alt="User Profile">
+        </button>
+        
+        </div>
+
+        <div class="px-6 py-4">
+        <div class="bg-white/90 rounded-[2rem] p-6 space-y-3 text-center shadow-lg">
+            <a href="#" class="block text-[#801919] font-bold hover:scale-105 transition uppercase tracking-wider text-medium">Setting</a>
+            <hr class="border-[#801919]/20 w-1/2 mx-auto">
+            <a href="#" class="block text-[#801919] font-bold hover:scale-105 transition uppercase tracking-wider text-medium">My Booking & History</a>
+        </div>
+        </div>
+
+        <div class="absolute bottom-12 left-0 right-0 px-10 text-center">
+        <button class="w-full border-2 border-white text-white py-2 rounded-full font-bold uppercase text-medium hover:bg-white hover:text-[#801919] transition">
+            Sign out
+        </button>
+         </div>
+        </div>
+
+        <div id="overlay" class="fixed inset-0 bg-black/40 z-[90] hidden"></div>
     </header>
 
     <div class="pt-28 pb-12 px-4">
         <div class="max-w-3xl mx-auto bg-white rounded-2xl shadow-lg p-8 border-t-4 border-red-900">
             <h2 class="font-bold text-3xl text-red-900 mb-2 text-center">สรุปรายละเอียดการจอง</h2>
-            <p class="text-center text-gray-500 mb-8">กรุณาตรวจสอบความถูกต้องก่อนดำเนินการชำระมัดจำ</p>
+            <p class="text-center text-gray-500 mb-8">กรุณาตรวจสอบความถูกต้องของข้อมูลก่อนดำเนินการชำระมัดจำ</p>
 
             <div id="summary-content" class="space-y-6">
-                <div class="text-center py-10 text-gray-500">กำลังโหลดข้อมูล...</div>
+                <div class="text-center py-10 text-gray-500">
+                    <svg class="animate-spin h-8 w-8 text-red-900 mx-auto mb-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    กำลังโหลดข้อมูล...
+                </div>
             </div>
 
             <div class="mt-10 flex flex-col-reverse sm:flex-row justify-between items-center gap-4 pt-6 border-t border-gray-200">
-                <a href="Booking.html" class="text-gray-600 bg-gray-100 hover:bg-gray-200 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-lg px-8 py-3 w-full sm:w-auto transition">
+                <a href="Booking.html" class="text-gray-600 bg-gray-100 hover:bg-gray-200 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-lg px-8 py-3 w-full sm:w-auto text-center transition">
                     กลับไปแก้ไข
                 </a>
-                <a href="Payment.html" class="text-white bg-red-900 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-lg px-10 py-3 w-full sm:w-auto text-center transition shadow-md">
+                <button onclick="confirmBooking()" class="text-white bg-red-900 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-lg px-10 py-3 w-full sm:w-auto text-center transition shadow-md">
                     ยืนยันและชำระมัดจำ
-                </a>
+                </button>
             </div>
         </div>
     </div>
 
     <script>
+        // --------------------------------------------------------
+        // 1. ตรวจสอบสถานะการเข้าสู่ระบบ
+        // --------------------------------------------------------
+        const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+        const authContainer = document.getElementById('auth-container');
+
+        if (!currentUser) {
+            alert('กรุณาเข้าสู่ระบบก่อนดูรายละเอียดการจอง');
+            window.location.href = 'Rolechoosen.html';
+        } else {
+            // แสดงโปรไฟล์มุมขวาบน
+            const avatarUrl = `https://ui-avatars.com/api/?name=${currentUser.username}&background=random`;
+            authContainer.innerHTML = `
+                <div class="flex items-center gap-3">
+                    <span class="text-white text-sm hidden md:block">คุณ ${currentUser.username}</span>
+                    <img class="w-10 h-10 object-cover rounded-full border-2 border-white" src="${avatarUrl}" alt="Profile">
+                </div>
+            `;
+        }
+
+        // --------------------------------------------------------
+        // 2. ดึงข้อมูลและเรนเดอร์ลงในหน้าจอ
+        // --------------------------------------------------------
         document.addEventListener('DOMContentLoaded', () => {
-            // ดึงข้อมูลจากหน่วยความจำชั่วคราว
+            // ดึงข้อมูลการจองจาก sessionStorage ที่หน้า Booking ส่งมา
             const bookingDataStr = sessionStorage.getItem('bookingData');
             const summaryContainer = document.getElementById('summary-content');
 
             if (!bookingDataStr) {
-                summaryContainer.innerHTML = '<div class="text-red-600 text-center font-medium">ไม่พบข้อมูลการจอง กรุณากลับไปทำรายการใหม่</div>';
+                summaryContainer.innerHTML = `
+                    <div class="text-center py-10">
+                        <p class="text-red-600 font-medium text-lg">ไม่พบข้อมูลการจอง</p>
+                        <p class="text-gray-500 mt-2">กรุณากลับไปทำรายการที่หน้าจองคิวใหม่อีกครั้ง</p>
+                    </div>`;
                 return;
             }
 
+            // แปลงข้อมูลจาก String กลับเป็น Object และ Array
             const data = JSON.parse(bookingDataStr);
 
-            // จัดรูปแบบวันที่ให้สวยงาม
+            // จัดรูปแบบวันที่ให้เป็นภาษาไทยแบบอ่านง่าย
             const dateObj = new Date(data.date);
-            const formattedDate = dateObj.toLocaleDateString('th-TH', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+            const formattedDate = dateObj.toLocaleDateString('th-TH', { 
+                weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' 
+            });
 
-            // จัดการรูปภาพ (ถ้ามี)
+            // สร้าง HTML สำหรับรูปภาพที่อัปโหลดมา (ดึงจาก Array of Base64)
             let imagesHtml = '';
             if (data.images && data.images.length > 0) {
                 imagesHtml = `
-                    <div class="mt-4">
-                        <p class="text-sm text-gray-500 mb-2">รูปภาพอ้างอิง (Reference):</p>
-                        <div class="flex gap-3 flex-wrap">
-                            ${data.images.map(imgData => `<img src="${imgData}" class="w-24 h-24 object-cover rounded-lg border border-gray-200 shadow-sm">`).join('')}
+                    <div class="mb-6">
+                        <p class="text-sm text-gray-500 mb-2 border-b pb-2">รูปภาพอ้างอิง (Reference)</p>
+                        <div class="flex gap-3 flex-wrap mt-3">
+                            ${data.images.map(imgData => `<img src="${imgData}" class="w-24 h-24 object-cover rounded-lg border border-gray-200 shadow-sm hover:scale-105 transition duration-300">`).join('')}
                         </div>
                     </div>`;
             }
 
-            // แสดงผล HTML
+            // แสดงผล HTML ประกอบเข้าด้วยกัน
             summaryContainer.innerHTML = `
+                <div class="bg-gray-50 p-5 rounded-xl border border-gray-200 mb-6">
+                    <p class="text-sm text-gray-500 mb-3 border-b pb-2">ข้อมูลผู้จอง</p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-2 text-gray-800 font-medium">
+                        <p><span class="text-gray-500 font-normal mr-2">ชื่อ:</span> ${currentUser.username}</p>
+                        <p><span class="text-gray-500 font-normal mr-2">เบอร์โทร:</span> ${currentUser.phone}</p>
+                        <p class="md:col-span-2"><span class="text-gray-500 font-normal mr-2">อีเมล:</span> ${currentUser.email}</p>
+                    </div>
+                </div>
+
                 <div class="bg-red-50 p-6 rounded-xl border border-red-100 mb-6">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
@@ -94,20 +214,66 @@
                 <div class="px-2">
                     <div class="mb-6">
                         <p class="text-sm text-gray-500 mb-2 border-b pb-2">บริการที่เลือก</p>
-                        <ul class="list-disc list-inside text-gray-800 font-medium space-y-1">
-                            ${data.services.map(s => `<li>${s}</li>`).join('')}
+                        <ul class="list-none text-gray-800 font-medium space-y-2 mt-3">
+                            ${data.services.map(service => `
+                                <li class="flex items-center">
+                                    <svg class="w-4 h-4 text-green-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                    ${service}
+                                </li>
+                            `).join('')}
                         </ul>
                     </div>
 
+                    ${imagesHtml}
+
                     <div class="mb-6">
                         <p class="text-sm text-gray-500 mb-2 border-b pb-2">รายละเอียดเพิ่มเติม</p>
-                        <p class="text-gray-800 bg-gray-50 p-4 rounded-lg border border-gray-100">${data.details ? data.details.replace(/\n/g, '<br>') : 'ไม่มีการระบุรายละเอียดเพิ่มเติม'}</p>
+                        <div class="text-gray-800 bg-gray-50 p-4 rounded-lg border border-gray-100 min-h-[60px]">
+                            ${data.details ? data.details.replace(/\n/g, '<br>') : '<span class="text-gray-400 italic">ไม่มีการระบุรายละเอียดเพิ่มเติม</span>'}
+                        </div>
                     </div>
-
-                    ${imagesHtml}
                 </div>
             `;
         });
+
+        // --------------------------------------------------------
+        // 3. ฟังก์ชันกดยืนยันการจอง
+        // --------------------------------------------------------
+        function confirmBooking() {
+            // ในขั้นตอนนี้นำข้อมูลไปใช้งานต่อได้ เช่น บันทึกลงฐานข้อมูลหลัก หรือเด้งไปหน้า Payment
+            window.location.href = 'Payment.html';
+        }
+
+        // --------------------------------------------------------
+        // 3. ฟังก์ชันกดยืนยันการจอง (อัปเดตใหม่)
+        // --------------------------------------------------------
+        function confirmBooking() {
+            const bookingDataStr = sessionStorage.getItem('bookingData');
+            if(bookingDataStr && currentUser) {
+                const bookingData = JSON.parse(bookingDataStr);
+                
+                // แนบข้อมูลผู้จอง สร้าง ID จำลอง และสถานะ
+                bookingData.id = 'B' + Date.now(); // สร้าง ID แบบสุ่ม
+                bookingData.username = currentUser.username;
+                bookingData.status = 'Confirmed'; // สถานะเริ่มต้น
+                bookingData.createdAt = new Date().toISOString();
+
+                // ดึงประวัติเก่าทั้งหมดมา ถ้าไม่มีให้สร้าง Array เปล่า
+                let allBookings = JSON.parse(localStorage.getItem('allBookings')) || [];
+                
+                // เพิ่มรายการใหม่เข้าไป
+                allBookings.push(bookingData);
+                
+                // บันทึกกลับลง LocalStorage
+                localStorage.setItem('allBookings', JSON.stringify(allBookings));
+                
+                // ล้าง Session ชั่วคราว
+                sessionStorage.removeItem('bookingData');
+
+                alert('ยืนยันการจองและบันทึกลงประวัติเรียบร้อยแล้ว!');
+                window.location.href = 'History.html'; // เด้งไปหน้าประวัติ หรือ Payment
+            }
+        }
     </script>
 </body>
 </html>

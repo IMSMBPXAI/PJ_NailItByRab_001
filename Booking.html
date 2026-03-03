@@ -26,16 +26,16 @@
 
 <body class="bg-gray-50 text-gray-800">
 
-    <header>
+   <header>
         <nav class="border-b border-red-900 px-4 py-2.5 fixed left-0 right-0 top-0 z-50 bg-red-900 w-full">
             <div class="flex flex-wrap items-center justify-between mx-auto max-w-[1600px]">
-
+                
                 <div class="flex items-center justify-start">
                     <a href="#" class="flex items-center mr-6">
                         <img src="logo rabbitz.svg" class="size-16 mr-3 bg-white rounded-full p-1" alt="Rabbitz Logo" />
                     </a>
 
-                    <div class="hidden md:block relative mr-4">
+                    <div class="hidden md:block relative mr-4"> 
                         <h1 class="text-white text-lg font-medium">NAIL IT BY RABBITZ สาขา มหาวิทยาลัยพะเยา</h1>
                     </div>
                 </div>
@@ -48,15 +48,67 @@
                         <li class="w-px h-5 bg-white/30"></li>
                         <li><a href="Booking.html" class="hover:text-red-200 transition">Booking</a></li>
                     </ul>
-
+                    
                     <div class="hidden lg:block w-px h-6 bg-white/30 mx-2"></div>
 
-                    <div id="auth-container" class="flex items-center space-x-4">
-                        </div>
+                    <div class="flex items-center space-x-4">
+                        
+                        <button type="button" class="relative p-2 text-white hover:bg-white/10 rounded-full transition focus:outline-none">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
+                            </svg>
+                            <span class="absolute top-2 right-2 flex h-3 w-3">
+                                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-yellow-300 opacity-75"></span>
+                                <span class="relative inline-flex rounded-full h-3 w-3 bg-yellow-400 border-2 border-red-900"></span>
+                            </span>
+                        </button>
+
+                        <button type="button" class="flex text-sm bg-white rounded-full focus:ring-4 focus:ring-red-700 overflow-hidden size-10 border-2 border-white/20 shadow-sm transition hover:scale-105">
+                            <img class="w-full h-full object-cover" src="https://ui-avatars.com/api/?name=User&background=random" alt="User Profile">
+                        </button>
+
+                    </div>
+                    <div class="flex items-center gap-4 border-l border-white/30 pl-6">
+                    <button id="menuBtn" class="text-white hover:bg-white/10 p-2 rounded-lg transition">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                    </button>
+                    </div>
                 </div>
 
             </div>
         </nav>
+        <div id="sidebar" class="fixed top-0 right-0 h-full w-72 bg-gradient-to-b from-[#801919] to-[#5d1212] z-[100] transform translate-x-full transition-transform duration-300 ease-in-out shadow-2xl rounded-l-[3rem]">
+    
+        <div class="p-8 flex flex-col items-center">
+        <button id="closeBtn" class="self-end text-white mb-4">
+            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+        </button>
+        <button type="button" class="flex text-sm bg-white rounded-full focus:ring-40 overflow-hidden size-49 border-2 border-white/20 shadow-sm ">
+             <img class="w-full h-full object-cover" src="https://ui-avatars.com/api/?name=User&background=random" alt="User Profile">
+        </button>
+        
+        </div>
+
+        <div class="px-6 py-4">
+        <div class="bg-white/90 rounded-[2rem] p-6 space-y-3 text-center shadow-lg">
+            <a href="#" class="block text-[#801919] font-bold hover:scale-105 transition uppercase tracking-wider text-medium">Setting</a>
+            <hr class="border-[#801919]/20 w-1/2 mx-auto">
+            <a href="#" class="block text-[#801919] font-bold hover:scale-105 transition uppercase tracking-wider text-medium">My Booking & History</a>
+        </div>
+        </div>
+
+        <div class="absolute bottom-12 left-0 right-0 px-10 text-center">
+        <button class="w-full border-2 border-white text-white py-2 rounded-full font-bold uppercase text-medium hover:bg-white hover:text-[#801919] transition">
+            Sign out
+        </button>
+         </div>
+        </div>
+
+        <div id="overlay" class="fixed inset-0 bg-black/40 z-[90] hidden"></div>
+    </header>
+    
         <div id="sidebar"
             class="fixed top-0 right-0 h-full w-72 bg-gradient-to-b from-[#801919] to-[#5d1212] z-[100] transform translate-x-full transition-transform duration-300 ease-in-out shadow-2xl rounded-l-[3rem]">
 
@@ -69,10 +121,10 @@
                 </button>
                 <button type="button"
                     class="flex text-sm bg-white rounded-full focus:ring-40 overflow-hidden size-49 border-2 border-white/20 shadow-sm ">
-                    <img class="w-full h-full object-cover"
+                    <img id="sidebar-profile-img" class="w-full h-full object-cover"
                         src="https://ui-avatars.com/api/?name=User&background=random" alt="User Profile">
                 </button>
-
+                <p id="sidebar-username" class="text-white font-medium mt-3 text-lg"></p>
             </div>
 
             <div class="px-6 py-4">
@@ -87,7 +139,7 @@
             </div>
 
             <div class="absolute bottom-12 left-0 right-0 px-10 text-center">
-                <button
+                <button onclick="handleLogout()"
                     class="w-full border-2 border-white text-white py-2 rounded-full font-bold uppercase text-medium hover:bg-white hover:text-[#801919] transition">
                     Sign out
                 </button>
@@ -96,11 +148,12 @@
 
         <div id="overlay" class="fixed inset-0 bg-black/40 z-[90] hidden"></div>
     </header>
+    
     <div class="pt-28 pb-12 px-4">
         <div class="max-w-4xl mx-auto bg-white rounded-2xl shadow-lg p-8">
             <h2 class="font-bold text-3xl text-red-900 mb-8 border-b pb-4">จองคิวรับบริการ (Booking)</h2>
 
-            <form action="NextPage.html" method="POST" enctype="multipart/form-data" id="booking-form">
+            <form id="booking-form" class="space-y-6">
 
                 <div class="mb-10 bg-red-50 p-6 rounded-xl border border-red-100">
                     <h3 class="text-xl font-semibold mb-4 text-red-900">1. เลือกวันและเวลานัดหมาย</h3>
@@ -140,61 +193,17 @@
                     </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="services-container">
-                        <label
-                            class="flex items-center p-3 border rounded-lg hover:bg-red-50 cursor-pointer transition"><input
-                                type="checkbox" name="services[]" value="ทาสีพื้นมือ"
-                                class="service-checkbox w-5 h-5 text-red-900 accent-red-900 bg-gray-100 border-gray-300 rounded focus:ring-red-900"><span
-                                class="ml-3 text-gray-700">ทาสีพื้นมือ</span></label>
-                        <label
-                            class="flex items-center p-3 border rounded-lg hover:bg-red-50 cursor-pointer transition"><input
-                                type="checkbox" name="services[]" value="ทาสีพื้นเท้า"
-                                class="service-checkbox w-5 h-5 text-red-900 accent-red-900 bg-gray-100 border-gray-300 rounded focus:ring-red-900"><span
-                                class="ml-3 text-gray-700">ทาสีพื้นเท้า</span></label>
-                        <label
-                            class="flex items-center p-3 border rounded-lg hover:bg-red-50 cursor-pointer transition"><input
-                                type="checkbox" name="services[]" value="ทาสีแฟลช/ลูกแก้ว"
-                                class="service-checkbox w-5 h-5 text-red-900 accent-red-900 bg-gray-100 border-gray-300 rounded focus:ring-red-900"><span
-                                class="ml-3 text-gray-700">ทาสีแฟลช / ลูกแก้ว</span></label>
-                        <label
-                            class="flex items-center p-3 border rounded-lg hover:bg-red-50 cursor-pointer transition"><input
-                                type="checkbox" name="services[]" value="ปั้นนูน"
-                                class="service-checkbox w-5 h-5 text-red-900 accent-red-900 bg-gray-100 border-gray-300 rounded focus:ring-red-900"><span
-                                class="ml-3 text-gray-700">ปั้นนูน</span></label>
-                        <label
-                            class="flex items-center p-3 border rounded-lg hover:bg-red-50 cursor-pointer transition"><input
-                                type="checkbox" name="services[]" value="เพ้นท์นิ้ว"
-                                class="service-checkbox w-5 h-5 text-red-900 accent-red-900 bg-gray-100 border-gray-300 rounded focus:ring-red-900"><span
-                                class="ml-3 text-gray-700">เพ้นท์นิ้ว</span></label>
-                        <label
-                            class="flex items-center p-3 border rounded-lg hover:bg-red-50 cursor-pointer transition"><input
-                                type="checkbox" name="services[]" value="ตัดเล็บขบ"
-                                class="service-checkbox w-5 h-5 text-red-900 accent-red-900 bg-gray-100 border-gray-300 rounded focus:ring-red-900"><span
-                                class="ml-3 text-gray-700">ตัดเล็บขบ</span></label>
-                        <label
-                            class="flex items-center p-3 border rounded-lg hover:bg-red-50 cursor-pointer transition"><input
-                                type="checkbox" name="services[]" value="เสริมเล็บฉีก"
-                                class="service-checkbox w-5 h-5 text-red-900 accent-red-900 bg-gray-100 border-gray-300 rounded focus:ring-red-900"><span
-                                class="ml-3 text-gray-700">เสริมเล็บฉีก</span></label>
-                        <label
-                            class="flex items-center p-3 border rounded-lg hover:bg-red-50 cursor-pointer transition"><input
-                                type="checkbox" name="services[]" value="Overlay"
-                                class="service-checkbox w-5 h-5 text-red-900 accent-red-900 bg-gray-100 border-gray-300 rounded focus:ring-red-900"><span
-                                class="ml-3 text-gray-700">Overlay</span></label>
-                        <label
-                            class="flex items-center p-3 border rounded-lg hover:bg-red-50 cursor-pointer transition"><input
-                                type="checkbox" name="services[]" value="PVC กาวเจล"
-                                class="service-checkbox w-5 h-5 text-red-900 accent-red-900 bg-gray-100 border-gray-300 rounded focus:ring-red-900"><span
-                                class="ml-3 text-gray-700">PVC กาวเจล</span></label>
-                        <label
-                            class="flex items-center p-3 border rounded-lg hover:bg-red-50 cursor-pointer transition"><input
-                                type="checkbox" name="services[]" value="PVC กาวธรรมดา"
-                                class="service-checkbox w-5 h-5 text-red-900 accent-red-900 bg-gray-100 border-gray-300 rounded focus:ring-red-900"><span
-                                class="ml-3 text-gray-700">PVC กาวธรรมดา</span></label>
-                        <label
-                            class="flex items-center p-3 border rounded-lg hover:bg-red-50 cursor-pointer transition"><input
-                                type="checkbox" name="services[]" value="PVC โพลีเจล"
-                                class="service-checkbox w-5 h-5 text-red-900 accent-red-900 bg-gray-100 border-gray-300 rounded focus:ring-red-900"><span
-                                class="ml-3 text-gray-700">PVC โพลีเจล</span></label>
+                        <label class="flex items-center p-3 border rounded-lg hover:bg-red-50 cursor-pointer transition"><input type="checkbox" name="services[]" value="ทาสีพื้นมือ" class="service-checkbox w-5 h-5 text-red-900 accent-red-900 bg-gray-100 border-gray-300 rounded focus:ring-red-900"><span class="ml-3 text-gray-700">ทาสีพื้นมือ</span></label>
+                        <label class="flex items-center p-3 border rounded-lg hover:bg-red-50 cursor-pointer transition"><input type="checkbox" name="services[]" value="ทาสีพื้นเท้า" class="service-checkbox w-5 h-5 text-red-900 accent-red-900 bg-gray-100 border-gray-300 rounded focus:ring-red-900"><span class="ml-3 text-gray-700">ทาสีพื้นเท้า</span></label>
+                        <label class="flex items-center p-3 border rounded-lg hover:bg-red-50 cursor-pointer transition"><input type="checkbox" name="services[]" value="ทาสีแฟลช/ลูกแก้ว" class="service-checkbox w-5 h-5 text-red-900 accent-red-900 bg-gray-100 border-gray-300 rounded focus:ring-red-900"><span class="ml-3 text-gray-700">ทาสีแฟลช / ลูกแก้ว</span></label>
+                        <label class="flex items-center p-3 border rounded-lg hover:bg-red-50 cursor-pointer transition"><input type="checkbox" name="services[]" value="ปั้นนูน" class="service-checkbox w-5 h-5 text-red-900 accent-red-900 bg-gray-100 border-gray-300 rounded focus:ring-red-900"><span class="ml-3 text-gray-700">ปั้นนูน</span></label>
+                        <label class="flex items-center p-3 border rounded-lg hover:bg-red-50 cursor-pointer transition"><input type="checkbox" name="services[]" value="เพ้นท์นิ้ว" class="service-checkbox w-5 h-5 text-red-900 accent-red-900 bg-gray-100 border-gray-300 rounded focus:ring-red-900"><span class="ml-3 text-gray-700">เพ้นท์นิ้ว</span></label>
+                        <label class="flex items-center p-3 border rounded-lg hover:bg-red-50 cursor-pointer transition"><input type="checkbox" name="services[]" value="ตัดเล็บขบ" class="service-checkbox w-5 h-5 text-red-900 accent-red-900 bg-gray-100 border-gray-300 rounded focus:ring-red-900"><span class="ml-3 text-gray-700">ตัดเล็บขบ</span></label>
+                        <label class="flex items-center p-3 border rounded-lg hover:bg-red-50 cursor-pointer transition"><input type="checkbox" name="services[]" value="เสริมเล็บฉีก" class="service-checkbox w-5 h-5 text-red-900 accent-red-900 bg-gray-100 border-gray-300 rounded focus:ring-red-900"><span class="ml-3 text-gray-700">เสริมเล็บฉีก</span></label>
+                        <label class="flex items-center p-3 border rounded-lg hover:bg-red-50 cursor-pointer transition"><input type="checkbox" name="services[]" value="Overlay" class="service-checkbox w-5 h-5 text-red-900 accent-red-900 bg-gray-100 border-gray-300 rounded focus:ring-red-900"><span class="ml-3 text-gray-700">Overlay</span></label>
+                        <label class="flex items-center p-3 border rounded-lg hover:bg-red-50 cursor-pointer transition"><input type="checkbox" name="services[]" value="PVC กาวเจล" class="service-checkbox w-5 h-5 text-red-900 accent-red-900 bg-gray-100 border-gray-300 rounded focus:ring-red-900"><span class="ml-3 text-gray-700">PVC กาวเจล</span></label>
+                        <label class="flex items-center p-3 border rounded-lg hover:bg-red-50 cursor-pointer transition"><input type="checkbox" name="services[]" value="PVC กาวธรรมดา" class="service-checkbox w-5 h-5 text-red-900 accent-red-900 bg-gray-100 border-gray-300 rounded focus:ring-red-900"><span class="ml-3 text-gray-700">PVC กาวธรรมดา</span></label>
+                        <label class="flex items-center p-3 border rounded-lg hover:bg-red-50 cursor-pointer transition"><input type="checkbox" name="services[]" value="PVC โพลีเจล" class="service-checkbox w-5 h-5 text-red-900 accent-red-900 bg-gray-100 border-gray-300 rounded focus:ring-red-900"><span class="ml-3 text-gray-700">PVC โพลีเจล</span></label>
                     </div>
                 </div>
 
@@ -230,7 +239,7 @@
                 </div>
 
                 <div class="flex justify-end pt-4 border-t border-gray-200">
-                    <a href="detailbooking.html" type="submit"
+                    <button type="submit"
                         class="text-white bg-red-900 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-lg px-10 py-3 text-center inline-flex items-center transition shadow-md">
                         ดำเนินการต่อ
                         <svg class="w-5 h-5 ml-2 -mr-1" fill="currentColor" viewBox="0 0 20 20">
@@ -238,7 +247,7 @@
                                 d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
                                 clip-rule="evenodd"></path>
                         </svg>
-                    </a>
+                    </button>
                 </div>
 
             </form>
@@ -247,29 +256,31 @@
 
     <script>
         // --------------------------------------------------------
-        // 0. ระบบตรวจสอบการ Login
+        // 0. ระบบตรวจสอบการ Login จาก LocalStorage
         // --------------------------------------------------------
-        // ตัวแปรจำลองสถานะการล็อกอิน (เปลี่ยนเป็น true เมื่อล็อกอินแล้ว)
-        let isSignedIn = false; 
-
-        // ข้อมูลผู้ใช้จำลอง
-        const userProfile = {
-            name: "User Name",
-            avatarUrl: "https://ui-avatars.com/api/?name=User&background=random"
-        };
+        const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+        let isSignedIn = currentUser !== null; 
 
         const authContainer = document.getElementById('auth-container');
 
         function updateAuthUI() {
             if (isSignedIn) {
-                // ถ้าล็อกอินแล้ว แสดงรูปโปรไฟล์
+                // สร้าง Avatar จากชื่อผู้ใช้
+                const avatarUrl = `https://ui-avatars.com/api/?name=${currentUser.username}&background=random`;
+                
                 authContainer.innerHTML = `
                     <button id="menuBtn" type="button" class="flex text-sm bg-white rounded-full focus:ring-4 focus:ring-gray-300 overflow-hidden size-10 border-2 border-white shadow-sm hover:scale-105 transition cursor-pointer">
-                        <img class="w-full h-full object-cover" src="${userProfile.avatarUrl}" alt="${userProfile.name} Profile">
+                        <img class="w-full h-full object-cover" src="${avatarUrl}" alt="${currentUser.username} Profile">
                     </button>
                 `;
                 
-                // หลังจากสร้างปุ่ม profile ให้ผูก event listener สำหรับ sidebar
+                // อัปเดต Sidebar ข้อมูลผู้ใช้
+                const sidebarImg = document.getElementById('sidebar-profile-img');
+                const sidebarName = document.getElementById('sidebar-username');
+                if(sidebarImg) sidebarImg.src = avatarUrl;
+                if(sidebarName) sidebarName.textContent = currentUser.username;
+
+                // ผูก event listener สำหรับ sidebar
                 const menuBtn = document.getElementById('menuBtn');
                 const sidebar = document.getElementById('sidebar');
                 const overlay = document.getElementById('overlay');
@@ -278,9 +289,7 @@
                     sidebar.classList.remove('translate-x-full');
                     overlay.classList.remove('hidden');
                 });
-
             } else {
-                // ถ้ายังไม่ล็อกอิน แสดงปุ่ม Sign In / Sign Up
                 authContainer.innerHTML = `
                     <a href="Signup.html" class="text-white border-2 border-white focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-4 py-2 text-center inline-flex items-center hover:bg-white hover:text-red-900 transition">Sign up</a>
                     <a href="Rolechoosen.html" class="text-red-900 bg-white focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-4 py-2 text-center inline-flex items-center hover:bg-gray-100 transition">Sign in</a>
@@ -288,15 +297,21 @@
             }
         }
 
-        // เรียกใช้งานตอนโหลดหน้า
+        // ฟังก์ชัน Logout
+        function handleLogout() {
+            if(confirm('คุณต้องการออกจากระบบใช่หรือไม่?')) {
+                localStorage.removeItem('currentUser');
+                window.location.href = 'Rolechoosen.html';
+            }
+        }
+
         updateAuthUI();
 
         // --------------------------------------------------------
         // 1. ระบบวัน/เวลาจำลอง (Mock Database)
         // --------------------------------------------------------
         const allTimeSlots = [
-            "09:00 - 10:30", "10:30 - 12:00", "12:00 - 13:30", "13:30 - 15:00",
-            "15:00 - 16:30", "16:30 - 18:00", "18:00 - 19:30", "19:30 - 21:00"
+            "13:00 - 14:30", "14:30 - 16:00", "16:00 - 17:30", "17:30 - 19:00"
         ];
 
         const mockDatabase = {
@@ -321,16 +336,8 @@
                 let option = document.createElement('option');
                 option.value = dateString;
 
-                const isClosed = mockDatabase.closedDates.includes(dateString);
-                const bookedForDate = mockDatabase.bookedSlots[dateString] || [];
-                const isFull = bookedForDate.length === allTimeSlots.length;
-
-                if (isClosed) {
+                if (mockDatabase.closedDates.includes(dateString)) {
                     option.textContent = `${displayDate} (ร้านปิด)`;
-                    option.disabled = true;
-                    option.className = "text-gray-400 bg-gray-100";
-                } else if (isFull) {
-                    option.textContent = `${displayDate} (คิวเต็มแล้ว)`;
                     option.disabled = true;
                     option.className = "text-gray-400 bg-gray-100";
                 } else {
@@ -368,67 +375,55 @@
         generateDates();
 
         // --------------------------------------------------------
-        // 2. ระบบจัดการรูปภาพ (ลบและแสดงพรีวิว)
+        // 2. ระบบจัดการรูปภาพ (เก็บเป็น Array ของ Base64)
         // --------------------------------------------------------
         const fileInput = document.getElementById('dropzone-file');
         const previewContainer = document.getElementById('image-preview-container');
-        let uploadedFiles = [];
+        
+        // เราจะเก็บรูปภาพเป็น Base64 Data URL เพื่อเซฟลง Session Storage ได้
+        let uploadedImages = []; 
 
         fileInput.addEventListener('change', function (e) {
             const newFiles = Array.from(e.target.files);
-            if (uploadedFiles.length + newFiles.length > 5) {
+            if (uploadedImages.length + newFiles.length > 5) {
                 alert('อัปโหลดได้สูงสุด 5 รูปเท่านั้นค่ะ');
                 this.value = '';
                 return;
             }
-            uploadedFiles = uploadedFiles.concat(newFiles);
-            updateImagePreview();
-            updateFileInput();
+
+            // แปลงไฟล์เป็น Base64
+            newFiles.forEach(file => {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    uploadedImages.push(event.target.result);
+                    updateImagePreview();
+                };
+                reader.readAsDataURL(file);
+            });
             this.value = '';
         });
 
         function updateImagePreview() {
             previewContainer.innerHTML = '';
-            uploadedFiles.forEach((file, index) => {
-                const reader = new FileReader();
-                reader.onload = function (e) {
-                    const imgContainer = document.createElement('div');
-                    imgContainer.className = 'relative w-full h-24 rounded-lg overflow-hidden border border-gray-200 shadow-sm group';
-                    imgContainer.innerHTML = `<img src="${e.target.result}" class="w-full h-full object-cover" alt="Reference">`;
+            uploadedImages.forEach((base64String, index) => {
+                const imgContainer = document.createElement('div');
+                imgContainer.className = 'relative w-full h-24 rounded-lg overflow-hidden border border-gray-200 shadow-sm group';
+                imgContainer.innerHTML = `<img src="${base64String}" class="w-full h-full object-cover" alt="Reference">`;
 
-                    const deleteBtn = document.createElement('button');
-                    deleteBtn.type = 'button';
-                    deleteBtn.className = 'absolute top-1 right-1 bg-red-600 bg-opacity-80 text-white rounded-full p-1 hover:bg-red-700 transition-opacity opacity-80 hover:opacity-100 focus:outline-none';
-                    deleteBtn.innerHTML = '<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>';
-                    deleteBtn.onclick = () => removeFile(index);
+                const deleteBtn = document.createElement('button');
+                deleteBtn.type = 'button';
+                deleteBtn.className = 'absolute top-1 right-1 bg-red-600 bg-opacity-80 text-white rounded-full p-1 hover:bg-red-700 transition-opacity opacity-80 hover:opacity-100 focus:outline-none';
+                deleteBtn.innerHTML = '<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>';
+                deleteBtn.onclick = () => removeFile(index);
 
-                    imgContainer.appendChild(deleteBtn);
-                    previewContainer.appendChild(imgContainer);
-                }
-                reader.readAsDataURL(file);
+                imgContainer.appendChild(deleteBtn);
+                previewContainer.appendChild(imgContainer);
             });
         }
 
         function removeFile(index) {
-            uploadedFiles.splice(index, 1);
+            uploadedImages.splice(index, 1);
             updateImagePreview();
-            updateFileInput();
-        }
-
-        function updateFileInput() {
-            const dataTransfer = new DataTransfer();
-            uploadedFiles.forEach(file => dataTransfer.items.add(file));
-            let hiddenInput = document.getElementById('hidden-file-input');
-            if (!hiddenInput) {
-                hiddenInput = document.createElement('input');
-                hiddenInput.type = 'file';
-                hiddenInput.name = 'reference_images[]';
-                hiddenInput.id = 'hidden-file-input';
-                hiddenInput.multiple = true;
-                hiddenInput.className = 'hidden';
-                document.getElementById('booking-form').appendChild(hiddenInput);
-            }
-            hiddenInput.files = dataTransfer.files;
         }
 
         // --------------------------------------------------------
@@ -443,34 +438,59 @@
         }
 
         // --------------------------------------------------------
-        // 4. บังคับเลือกข้อมูลก่อนส่ง (Validation) 
+        // 4. บังคับเลือกข้อมูลและส่งมอบให้ detailbooking.html
         // --------------------------------------------------------
         document.getElementById('booking-form').addEventListener('submit', function (event) {
+            event.preventDefault(); // หยุดไม่ให้ฟอร์มโหลดหน้าใหม่ทันที
+
+            // 4.1 ตรวจสอบการล็อกอินก่อน
+            if (!isSignedIn) {
+                alert('กรุณาเข้าสู่ระบบก่อนทำการจองคิวค่ะ');
+                window.location.href = 'Rolechoosen.html'; // เด้งไปหน้าเข้าสู่ระบบ
+                return;
+            }
+
+            // 4.2 ตรวจสอบข้อมูลฟอร์ม
             const selectedDate = document.getElementById('booking_date').value;
             if (!selectedDate) {
                 alert('กรุณาเลือกวันที่ต้องการจองคิวค่ะ');
-                event.preventDefault(); 
                 return;
             }
 
             const selectedTime = document.getElementById('booking_time').value;
             if (!selectedTime) {
                 alert('กรุณาเลือกรอบเวลาที่ต้องการจองคิวค่ะ');
-                event.preventDefault();
                 return;
             }
 
-            const checkedServices = document.querySelectorAll('.service-checkbox:checked');
-            if (checkedServices.length === 0) {
+            const checkedServicesNodes = document.querySelectorAll('.service-checkbox:checked');
+            if (checkedServicesNodes.length === 0) {
                 alert('กรุณาเลือกบริการที่ต้องการทำอย่างน้อย 1 รายการค่ะ');
-                event.preventDefault();
                 return;
             }
+
+            // 4.3 สร้าง Array ของบริการที่เลือก
+            const selectedServicesArray = Array.from(checkedServicesNodes).map(cb => cb.value);
+            const additionalDetails = document.getElementById('additional_details').value;
+
+            // 4.4 สร้าง Object ข้อมูลการจอง
+            const bookingData = {
+                date: selectedDate,
+                time: selectedTime,
+                services: selectedServicesArray, // Array
+                details: additionalDetails,
+                images: uploadedImages // Array of Base64 strings
+            };
+
+            // 4.5 เซฟลง Session Storage
+            sessionStorage.setItem('bookingData', JSON.stringify(bookingData));
+
+            // 4.6 สั่งให้เด้งไปหน้าสรุปการจอง
+            window.location.href = 'detailbooking.html';
         });
+
     </script>
     <script>
-        // โค้ดส่วนนี้จะทำงานเมื่อหน้าเว็บโหลดเสร็จ
-        // และจะถูกผูกกับเมนู Sidebar หากผู้ใช้ล็อกอินแล้ว
         document.addEventListener('DOMContentLoaded', () => {
             const closeBtn = document.getElementById('closeBtn');
             const sidebar = document.getElementById('sidebar');
