@@ -27,7 +27,6 @@
                         <div class="w-12 h-12 mr-3 bg-white rounded-full flex items-center justify-center text-red-900 font-bold text-xs overflow-hidden">
                             <img src="logo rabbitz.svg" alt="Logo" onerror="this.style.display='none'; this.parentNode.innerHTML='LOGO'">
                         </div>
-                        <span class="self-center text-2xl font-semibold whitespace-nowrap text-red-900"></span>
                     </a>
                     <div class="hidden md:block relative mr-4"> 
                         <h1 class="text-white text-lg font-medium">NAIL IT BY RABBITZ สาขา มหาวิทยาลัยพะเยา</h1>
@@ -55,7 +54,7 @@
                 <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                 <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
             </svg>
-            <p class="mt-4 text-gray-600 font-medium" id="loadingText">กำลังเชื่อมต่อระบบเพื่อตรวจสอบสิทธิ์...</p>
+            <p class="mt-4 text-gray-600 font-medium" id="loadingText">กำลังตรวจสอบข้อมูลบัญชี...</p>
         </div>
     </div>
 
@@ -66,7 +65,7 @@
                 <p class="text-white text-sm mt-2" id="welcomeSub">เข้าสู่ระบบเพื่อใช้งานเว็บไซต์</p>
             </div>
 
-            <form class="space-y-5" onsubmit="event.preventDefault(); handleEmailLogin();">
+            <form id="loginForm" class="space-y-5">
                 <div>
                     <label for="email" class="block text-sm font-medium text-red-900 mb-1">Email :</label>
                     <input type="email" id="email" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-900 outline-none transition" placeholder="name@example.com">
@@ -113,43 +112,78 @@
             }
         });
 
-        // จำลองการล็อกอินด้วย Email ธรรมดา
+        // 1. ฟังก์ชัน Login ด้วยอีเมล (ตรวจสอบจากข้อมูลที่สมัครในหน้า Signup)
         function handleEmailLogin() {
-            const email = document.getElementById('email').value;
-            const username = email.split('@')[0];
-            processUserLogin({ displayName: username, email: email });
+            const emailInput = document.getElementById('email').value.trim();
+            const passwordInput = document.getElementById('password').value.trim();
+            const modal = document.getElementById('loadingModal');
+
+            if (!emailInput || !passwordInput) {
+                alert('กรุณากรอกอีเมลและรหัสผ่าน');
+                return;
+            }
+
+            modal.classList.remove('hidden');
+
+            // ดึงข้อมูลผู้ใช้ทั้งหมดที่เคยสมัครสมาชิกไว้จาก LocalStorage
+            const storedUsers = JSON.parse(localStorage.getItem('rabbitz_users')) || [];
+
+            // ตรวจสอบว่ามีข้อมูลตรงกันหรือไม่
+            const userMatch = storedUsers.find(u => u.email === emailInput && u.password === passwordInput);
+
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                if (userMatch) {
+                    // กรณีพบข้อมูลบัญชี
+                    processUserLogin({ 
+                        displayName: userMatch.fullname, 
+                        email: userMatch.email,
+                        role: userMatch.role // ใช้ role จากตอนสมัคร (ปกติคือ customer)
+                    });
+                } else {
+                    // กรณีไม่พบข้อมูล
+                    alert('ไม่พบบัญชีผู้ใช้ หรือรหัสผ่านไม่ถูกต้อง กรุณาตรวจสอบอีกครั้งครับ');
+                }
+            }, 800);
         }
 
-        // ฟังก์ชันหลักในการเซฟข้อมูลและย้ายหน้า
+        // 2. ฟังก์ชันหลักในการจัดเก็บ Session และย้ายหน้าตามสิทธิ์ (Role)
         function processUserLogin(user) {
-            const role = localStorage.getItem('rabbitz_temp_role') || 'customer';
+            // ดึงบทบาทที่เลือกล่าสุด หรือจากข้อมูลผู้ใช้ หรือให้เป็น customer โดยปริยาย
+            const chosenRole = localStorage.getItem('rabbitz_temp_role') || user.role || 'customer';
+            
             const userData = {
                 isLoggedIn: true,
                 name: user.displayName || 'ผู้ใช้งาน',
                 email: user.email || '',
                 photoUrl: user.photoURL || '',
-                uid: user.uid || '',
-                role: role
+                uid: user.uid || Date.now(),
+                role: chosenRole
             };
             
             localStorage.setItem('rabbitz_currentUser', JSON.stringify(userData));
-            localStorage.removeItem('rabbitz_temp_role');
+            localStorage.removeItem('rabbitz_temp_role'); // ลบค่าเลือกชั่วคราว
 
-            if (role === 'admin') {
+            // แยกเส้นทางส่งไปหน้าให้ถูกต้องตาม Role
+            if (chosenRole === 'admin' || chosenRole === 'tech') {
                 window.location.href = 'HomepageAddmin.html';
             } else {
                 window.location.href = 'HomepageCus.html';
             }
         }
+
+        document.getElementById('loginForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            handleEmailLogin();
+        });
     </script>
 
     <script type="module">
-        // นำเข้า Firebase และฟังก์ชัน Authentication
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
         import { getAuth, signInWithPopup, GoogleAuthProvider, FacebookAuthProvider } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
         import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-analytics.js";
 
-        // Config ของคุณ (fron-endpj)
+        // Config ของโปรเจกต์ fron-endpj ของคุณ
         const firebaseConfig = {
             apiKey: "AIzaSyAibegOwY9mPAp0VSMNtMo5QA_RZ3xV9mc",
             authDomain: "fron-endpj.firebaseapp.com",
@@ -160,28 +194,23 @@
             measurementId: "G-NZW5YNXMLY"
         };
 
-        // เริ่มต้นการทำงานของ Firebase
         const app = initializeApp(firebaseConfig);
         const analytics = getAnalytics(app);
         const auth = getAuth(app);
-        
         const modal = document.getElementById('loadingModal');
 
         // เหตุการณ์เมื่อคลิกปุ่ม Google
         document.getElementById('btn-google').addEventListener('click', () => {
             modal.classList.remove('hidden');
             const provider = new GoogleAuthProvider();
-            
             signInWithPopup(auth, provider)
                 .then((result) => {
-                    // ล็อกอินสำเร็จ ส่งข้อมูลไปให้ฟังก์ชันจัดการต่อ
                     processUserLogin(result.user);
                 })
                 .catch((error) => {
                     modal.classList.add('hidden');
                     if (error.code !== 'auth/popup-closed-by-user') {
-                        console.error("Google Login Error:", error);
-                        alert(`เกิดข้อผิดพลาด: ${error.message} \n(กรุณาตรวจสอบว่าเปิดใช้งาน Google Auth ใน Firebase แล้วหรือยัง)`);
+                        alert(`เกิดข้อผิดพลาด: ${error.message}`);
                     }
                 });
         });
@@ -190,7 +219,6 @@
         document.getElementById('btn-facebook').addEventListener('click', () => {
             modal.classList.remove('hidden');
             const provider = new FacebookAuthProvider();
-            
             signInWithPopup(auth, provider)
                 .then((result) => {
                     processUserLogin(result.user);
@@ -198,12 +226,10 @@
                 .catch((error) => {
                     modal.classList.add('hidden');
                     if (error.code !== 'auth/popup-closed-by-user') {
-                        console.error("Facebook Login Error:", error);
-                        alert(`เกิดข้อผิดพลาด: ${error.message} \n(ต้องตั้งค่า App ID ของ Facebook ในโหมดผู้พัฒนาก่อนครับ)`);
+                        alert(`เกิดข้อผิดพลาด: ${error.message}`);
                     }
                 });
         });
     </script>
-
 </body>
 </html>
