@@ -114,98 +114,202 @@
     </div>
 
     <script>
-        const phoneInput = document.getElementById('phone');
-        const passwordInput = document.getElementById('password');
-        const confirmInput = document.getElementById('confirm_password');
-        const submitBtn = document.getElementById('submitBtn');
-        const errorMsg = document.getElementById('error-msg');
+    const form = document.getElementById('registerForm');
+    const usernameInput = document.getElementById('username');
+    const emailInput = document.getElementById('email');
+    const phoneInput = document.getElementById('phone');
+    const passwordInput = document.getElementById('password');
+    const confirmInput = document.getElementById('confirm_password');
+    const submitBtn = document.getElementById('submitBtn');
+    const errorMsg = document.getElementById('error-msg');
 
-        // --- 1. Phone Auto-Format (0xx-xxx-xxxx) ---
-        phoneInput.addEventListener('input', function (e) {
-            let value = e.target.value.replace(/\D/g, ''); // ลบทุกอย่างที่ไม่ใช่ตัวเลข
-            
-            if (value.length > 10) value = value.slice(0, 10); // จำกัด 10 ตัว
+    // ฟังก์ชันดึงข้อมูลผู้ใช้จาก LocalStorage หรือสร้าง Array เปล่าถ้ายังไม่มี
+    function getUsers() {
+        const users = localStorage.getItem('users');
+        return users ? JSON.parse(users) : [];
+    }
 
-            if (value.length > 6) {
-                value = value.slice(0, 3) + '-' + value.slice(3, 6) + '-' + value.slice(6);
-            } else if (value.length > 3) {
-                value = value.slice(0, 3) + '-' + value.slice(3);
-            }
-            
-            e.target.value = value;
-        });
-
-        // --- 2. Password Validation Logic ---
-        function validateForm() {
-            const pass = passwordInput.value;
-            const confirm = confirmInput.value;
-
-            // Regex Patterns
-            const hasUpper = /[A-Z]/.test(pass);
-            const hasLower = /[a-z]/.test(pass);
-            const hasNumber = /[0-9]/.test(pass);
-            const hasLength = pass.length >= 8;
-
-            // Update UI Checklist (ฟังก์ชันช่วยเปลี่ยนสี)
-            updateStatus('req-upper', hasUpper);
-            updateStatus('req-lower', hasLower);
-            updateStatus('req-number', hasNumber);
-            updateStatus('req-length', hasLength);
-
-            // Check Match
-            const isMatch = pass === confirm && pass !== '';
-            
-            if (!isMatch && confirm !== '') {
-                errorMsg.classList.remove('hidden');
-                confirmInput.classList.add('border-red-500', 'ring-red-500');
-                confirmInput.classList.remove('border-green-500', 'ring-green-500');
-            } else if (isMatch) {
-                errorMsg.classList.add('hidden');
-                confirmInput.classList.remove('border-red-500', 'ring-red-500');
-                confirmInput.classList.add('border-green-500', 'ring-green-500');
-            } else {
-                // กรณีลบจนว่าง
-                errorMsg.classList.add('hidden');
-                confirmInput.classList.remove('border-red-500', 'ring-red-500', 'border-green-500', 'ring-green-500');
-            }
-
-            // Final Check to Enable Button (Logic เดิมของคุณตรวจสอบแค่รหัสผ่าน)
-            if (hasUpper && hasLower && hasNumber && hasLength && isMatch) {
-                submitBtn.style.pointerEvents = 'auto'; // เปิดให้กดได้
-                submitBtn.style.opacity = '1';
-                submitBtn.removeAttribute('disabled');
-            } else {
-                submitBtn.style.pointerEvents = 'none'; // ปิดไม่ให้กด
-                submitBtn.style.opacity = '0.5';
-                submitBtn.setAttribute('disabled', 'true');
-            }
+    // ฟังก์ชันลบข้อความแจ้งเตือนข้อผิดพลาด
+    function clearError(inputElement) {
+        const errorElement = inputElement.nextElementSibling;
+        if (errorElement && errorElement.classList.contains('error-message')) {
+            errorElement.remove();
         }
+        inputElement.classList.remove('border-red-500', 'ring-red-500');
+        inputElement.classList.add('border-red-900', 'focus:ring-red-500');
+    }
 
-        // ฟังก์ชันเปลี่ยนสี UI รายการตรวจสอบ
-        function updateStatus(elementId, isValid) {
-            const el = document.getElementById(elementId);
-            const icon = el.querySelector('span');
-            
-            if (isValid) {
-                el.classList.remove('text-red-900/70');
-                el.classList.add('text-green-700', 'font-semibold');
-                icon.innerText = '✓';
-                icon.classList.remove('border-red-900', 'opacity-50');
-                icon.classList.add('border-green-700', 'bg-green-100');
-            } else {
-                el.classList.add('text-red-900/70');
-                el.classList.remove('text-green-700', 'font-semibold');
-                icon.innerText = '✕';
-                icon.classList.add('border-red-900', 'opacity-50');
-                icon.classList.remove('border-green-700', 'bg-green-100');
-            }
-        }
-
-        passwordInput.addEventListener('input', validateForm);
-        confirmInput.addEventListener('input', validateForm);
+    // ฟังก์ชันแสดงข้อความแจ้งเตือนข้อผิดพลาด
+    function showError(inputElement, message) {
+        clearError(inputElement);
+        const errorElement = document.createElement('p');
+        errorElement.className = 'error-message text-red-600 font-bold text-xs mt-1';
+        errorElement.textContent = `* ${message}`;
+        inputElement.parentNode.insertBefore(errorElement, inputElement.nextSibling);
         
-        // เรียกใช้ validateForm ครั้งแรกเพื่อให้ปุ่ม Disabled เริ่มต้น
-        validateForm();
-    </script>
+        inputElement.classList.remove('border-red-900', 'focus:ring-red-500');
+        inputElement.classList.add('border-red-500', 'ring-red-500');
+    }
+
+    // --- 1. ตรวจสอบ Username ซ้ำ ---
+    usernameInput.addEventListener('blur', function() {
+        const users = getUsers();
+        const username = this.value.trim();
+        const exists = users.some(user => user.username === username);
+        
+        if (username && exists) {
+            showError(this, 'Username นี้มีผู้ใช้งานแล้ว โปรดเปลี่ยนใหม่');
+            validateForm(); // Re-validate to disable submit button
+        } else {
+            clearError(this);
+        }
+    });
+
+    // --- 2. ตรวจสอบ Email ซ้ำ ---
+    emailInput.addEventListener('blur', function() {
+        const users = getUsers();
+        const email = this.value.trim();
+        const exists = users.some(user => user.email === email);
+        
+        if (email && exists) {
+            showError(this, 'Email นี้ลงทะเบียนไปแล้ว โปรดเปลี่ยนใหม่');
+            validateForm(); // Re-validate to disable submit button
+        } else {
+            clearError(this);
+        }
+    });
+
+    // --- 3. Phone Auto-Format (0xx-xxx-xxxx) ---
+    phoneInput.addEventListener('input', function (e) {
+        let value = e.target.value.replace(/\D/g, ''); 
+        
+        if (value.length > 10) value = value.slice(0, 10); 
+
+        if (value.length > 6) {
+            value = value.slice(0, 3) + '-' + value.slice(3, 6) + '-' + value.slice(6);
+        } else if (value.length > 3) {
+            value = value.slice(0, 3) + '-' + value.slice(3);
+        }
+        
+        e.target.value = value;
+    });
+
+    // --- 4. Password Validation Logic ---
+    function validateForm() {
+        const pass = passwordInput.value;
+        const confirm = confirmInput.value;
+
+        // Regex Patterns
+        const hasUpper = /[A-Z]/.test(pass);
+        const hasLower = /[a-z]/.test(pass);
+        const hasNumber = /[0-9]/.test(pass);
+        const hasLength = pass.length >= 8;
+
+        // Update UI Checklist 
+        updateStatus('req-upper', hasUpper);
+        updateStatus('req-lower', hasLower);
+        updateStatus('req-number', hasNumber);
+        updateStatus('req-length', hasLength);
+
+        // Check Match
+        const isMatch = pass === confirm && pass !== '';
+        
+        if (!isMatch && confirm !== '') {
+            errorMsg.classList.remove('hidden');
+            confirmInput.classList.add('border-red-500', 'ring-red-500');
+            confirmInput.classList.remove('border-green-500', 'ring-green-500', 'border-red-900');
+        } else if (isMatch) {
+            errorMsg.classList.add('hidden');
+            confirmInput.classList.remove('border-red-500', 'ring-red-500', 'border-red-900');
+            confirmInput.classList.add('border-green-500', 'ring-green-500');
+        } else {
+            // กรณีลบจนว่าง
+            errorMsg.classList.add('hidden');
+            confirmInput.classList.remove('border-red-500', 'ring-red-500', 'border-green-500', 'ring-green-500');
+            confirmInput.classList.add('border-red-900');
+        }
+
+        // ตรวจสอบว่ามี Error Message ค้างอยู่หรือไม่ (Username หรือ Email ซ้ำ)
+        const hasErrors = document.querySelectorAll('.error-message').length > 0;
+
+        // Final Check to Enable Button 
+        if (hasUpper && hasLower && hasNumber && hasLength && isMatch && !hasErrors && usernameInput.value.trim() !== '' && emailInput.value.trim() !== '') {
+            submitBtn.style.pointerEvents = 'auto'; 
+            submitBtn.style.opacity = '1';
+            submitBtn.removeAttribute('disabled');
+        } else {
+            submitBtn.style.pointerEvents = 'none'; 
+            submitBtn.style.opacity = '0.5';
+            submitBtn.setAttribute('disabled', 'true');
+        }
+    }
+
+    // ฟังก์ชันเปลี่ยนสี UI รายการตรวจสอบ
+    function updateStatus(elementId, isValid) {
+        const el = document.getElementById(elementId);
+        const icon = el.querySelector('span');
+        
+        if (isValid) {
+            el.classList.remove('text-red-900/70');
+            el.classList.add('text-green-700', 'font-semibold');
+            icon.innerText = '✓';
+            icon.classList.remove('border-red-900', 'opacity-50');
+            icon.classList.add('border-green-700', 'bg-green-100');
+        } else {
+            el.classList.add('text-red-900/70');
+            el.classList.remove('text-green-700', 'font-semibold');
+            icon.innerText = '✕';
+            icon.classList.add('border-red-900', 'opacity-50');
+            icon.classList.remove('border-green-700', 'bg-green-100');
+        }
+    }
+
+    passwordInput.addEventListener('input', validateForm);
+    confirmInput.addEventListener('input', validateForm);
+    
+    // --- 5. จัดการตอน Submit Form เพื่อบันทึกข้อมูลลง LocalStorage ---
+    submitBtn.addEventListener('click', function(e) {
+        // ป้องกันการย้ายหน้าถ้าปุ่มยังไม่ควรให้กด
+        if(submitBtn.hasAttribute('disabled')) {
+            e.preventDefault();
+            return;
+        }
+        
+        const users = getUsers();
+        
+        // ตรวจสอบซ้ำอีกครั้งก่อนบันทึกเพื่อความชัวร์
+        const isUsernameExists = users.some(user => user.username === usernameInput.value.trim());
+        const isEmailExists = users.some(user => user.email === emailInput.value.trim());
+        
+        if(isUsernameExists || isEmailExists) {
+            e.preventDefault();
+            alert('ข้อมูลไม่ถูกต้อง กรุณาตรวจสอบ Username หรือ Email');
+            return;
+        }
+
+        // สร้าง Object ข้อมูลผู้ใช้ใหม่ โดยบังคับให้ role เป็น 'customer' เสมอ
+        const newUser = {
+            username: usernameInput.value.trim(),
+            email: emailInput.value.trim(),
+            phone: phoneInput.value,
+            password: passwordInput.value, // ในระบบจริงควรเข้ารหัสก่อนบันทึก
+            role: 'customer' // กำหนดสิทธิ์ให้เป็นลูกค้าโดยอัตโนมัติ
+        };
+
+        // เพิ่มเข้า Array และบันทึกลง LocalStorage
+        users.push(newUser);
+        localStorage.setItem('users', JSON.stringify(users));
+        
+        // Console log เพื่อดูว่าบันทึกสำเร็จไหม (เอาออกตอนใช้งานจริง)
+        console.log('User registered:', newUser);
+        console.log('All users:', users);
+        
+        // หากต้องการให้ลิงก์ href="Otp.html" ทำงานตามปกติ ก็ปล่อยผ่านให้ e ไปทำงาน
+        // หรือถ้าจะจัดการเปลี่ยนหน้าเองด้วย JS ใช้: window.location.href = "Otp.html";
+    });
+
+    // เรียกใช้ validateForm ครั้งแรกเพื่อให้ปุ่ม Disabled เริ่มต้น
+    validateForm();
+</script>
 </body>
 </html>

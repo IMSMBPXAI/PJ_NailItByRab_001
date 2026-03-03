@@ -27,7 +27,6 @@
 
 <body class="bg-gray-50 font-sans">
 
-    <!--แบนเนอร์หัว-->
     <header>
         <nav class="border-b border-red-900 px-4 py-2.5 fixed left-0 right-0 top-0 z-50 bg-red-900 w-full md:w-auto">
             <div class="flex flex-wrap items-center justify-between mx-auto max-w-[1600px]">
@@ -37,9 +36,7 @@
                         <span class="self-center text-2xl font-semibold whitespace-nowrap text-red-900"></span>
                     </a>
                     <div class="hidden md:block relative mr-4"> 
-                        <div class="hidden md:block relative mr-4"> 
                         <h1 class="text-white text-lg font-medium">NAIL IT BY RABBITZ สาขา มหาวิทยาลัยพะเยา</h1>
-                    </div>
                     </div>
                 </div>
 
@@ -48,8 +45,8 @@
                         <li><a href="Homepage.html" class="text-white hover:text-red-900 bg-red-900 hover:bg-white p-2 rounded-lg transition">Homepage</a></li>
                         <div class="hidden lg:block w-px h-6 bg-white mr-4"></div> 
                         <li><a href="#" class="text-white hover:text-red-900 bg-red-900 hover:bg-white p-2 rounded-lg transition">Contact</a></li>
-                        
-                    <div class="hidden lg:block w-px h-6 bg-white mr-4"></div>
+                        <div class="hidden lg:block w-px h-6 bg-white mr-4"></div>
+                    </ul>
                     <div class="flex items-center space-x-4 mr-4">
                         <a href="Signup.html" class="text-white border-2 border-white bg-white-700 hover:bg-red-800 font-medium rounded-lg text-sm px-4 py-2 transition">Sign up</a>
                     </div>
@@ -58,38 +55,34 @@
         </nav>
     </header>
 
-
-
-    <!--Internal log in-->
     <div class="min-h-screen flex items-center justify-center pt-20 pb-10 px-4">
         <div class="bg-gray-200 p-8 rounded-2xl shadow-xl w-full max-w-md border-t-4 border-red-900">
-            <div class="text-center mb-8  bg-red-900 p-4 rounded-xl border-2">
+            <div class="text-center mb-8 bg-red-900 p-4 rounded-xl border-2">
                 <h1 class="text-3xl font-bold text-white uppercase tracking-wide">Welcome Back</h1>
                 <p class="text-white text-sm mt-2">เข้าสู่ระบบเพื่อใช้งานเว็บไซต์ Nail It By Rabbitz</p>
             </div>
 
-            <!--ส่วนกรอกเมล-พาส-->
-            <form class="space-y-5">
+            <form id="loginForm" class="space-y-5">
                 
                 <div>
                     <label for="email" class="block text-sm font-medium text-red-900 mb-1">Email :</label>
-                    <input type="email" id="email" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-900 focus:border-transparent outline-none transition" placeholder="name@example.com">
+                    <input type="email" id="email" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-900 focus:border-transparent outline-none transition" placeholder="name@example.com" required>
                 </div>
                 <div>
                     <div class="flex justify-between items-center mb-1">
                         <label for="password" class="block text-sm font-medium text-red-900">Password :</label>
                         <a href="Forgetpassword.html" class="text-xs text-red-700 hover:underline">Forgot Password?</a>
                     </div>
-                    <input type="password" id="password" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-900 focus:border-transparent outline-none transition" placeholder="••••••••">
+                    <input type="password" id="password" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-900 focus:border-transparent outline-none transition" placeholder="••••••••" required>
                 </div>
 
-                <button type="button" class="w-full bg-red-900 hover:bg-red-800 text-white font-bold py-2.5 rounded-lg shadow-md transition duration-300 transform hover:scale-[1.02]">
+                <p id="error-msg" class="text-red-600 font-bold text-xs mt-2 text-center hidden"></p>
+
+                <button type="submit" class="w-full bg-red-900 hover:bg-red-800 text-white font-bold py-2.5 rounded-lg shadow-md transition duration-300 transform hover:scale-[1.02]">
                     SIGN IN
                 </button>
             </form>
 
-
-    <!--External log in-->
             <div class="mt-6 flex items-center justify-between">
                 <span class="border-b border-gray-300 w-1/5"></span>
                 <span class="text-xs text-gray-400 uppercase">หรือเข้าสู่ระบบด้วย</span>
@@ -97,7 +90,6 @@
             </div>
 
             <div class="mt-6 flex flex-col gap-3">
-                
                 <button onclick="handleGoogleLogin()" class="flex items-center justify-center w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm bg-white text-gray-700 hover:bg-gray-50 transition duration-300 transform hover:scale-[1.02]">
                     <svg class="w-5 h-5 mr-3" viewBox="0 0 48 48">
                         <path fill="#FFC107" d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24c0,11.045,8.955,20,20,20c11.045,0,20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z"></path>
@@ -114,11 +106,8 @@
                     </svg>
                     <span class="font-medium">Sign in with Facebook</span>
                 </button>
-
             </div>
 
-
-            <!--ส่วนท้ายเด้งไปหน้าสมัคร-->
             <div class="mt-8 text-center text-sm">
                 <span class="text-gray-500">Don't have an account? </span>
                 <a href="Signup.html" class="text-red-900 font-bold hover:underline">Create an account</a>
@@ -127,5 +116,90 @@
         </div>
     </div>
 
+    <script>
+        // ฟังก์ชันอัปเดตสมาชิกเดิมให้มี Role เป็น Customer 
+        // (เผื่อมีสมาชิกที่สมัครไปก่อนหน้านี้แต่ยังไม่มี Role)
+        function updateLegacyUsersToCustomer() {
+            let users = JSON.parse(localStorage.getItem('users')) || [];
+            let updated = false;
+
+            users = users.map(user => {
+                if (!user.role) {
+                    user.role = 'customer';
+                    updated = true;
+                }
+                return user;
+            });
+
+            // ถ้ามีการอัปเดต ให้เซฟทับกลับไปใน localStorage
+            if (updated) {
+                localStorage.setItem('users', JSON.stringify(users));
+            }
+        }
+
+        // เรียกใช้ฟังก์ชันปรับปรุงฐานข้อมูลทุกครั้งที่โหลดหน้าล็อกอิน
+        updateLegacyUsersToCustomer();
+
+        // -------------------------------------------------------------
+        // ระบบตรวจสอบการเข้าสู่ระบบ
+        // -------------------------------------------------------------
+        const loginForm = document.getElementById('loginForm');
+        const emailInput = document.getElementById('email');
+        const passwordInput = document.getElementById('password');
+        const errorMsg = document.getElementById('error-msg');
+
+        loginForm.addEventListener('submit', function(e) {
+            e.preventDefault(); // ป้องกันการรีเฟรชหน้าเว็บ
+
+            const email = emailInput.value.trim();
+            const password = passwordInput.value;
+
+            // ดึงข้อมูลสมาชิกทั้งหมดในระบบ
+            const users = JSON.parse(localStorage.getItem('users')) || [];
+
+            // ค้นหาผู้ใช้จากอีเมล
+            const foundUser = users.find(user => user.email === email);
+
+            if (!foundUser) {
+                // กรณีไม่เจออีเมลนี้ในระบบ
+                errorMsg.textContent = '* ไม่พบบัญชีผู้ใช้นี้ในระบบ กรุณาสมัครสมาชิก';
+                errorMsg.classList.remove('hidden');
+                emailInput.classList.add('border-red-500', 'ring-red-500');
+            } else if (foundUser.password !== password) {
+                // กรณีรหัสผ่านไม่ตรง
+                errorMsg.textContent = '* รหัสผ่านไม่ถูกต้อง กรุณาลองอีกครั้ง';
+                errorMsg.classList.remove('hidden');
+                passwordInput.classList.add('border-red-500', 'ring-red-500');
+                emailInput.classList.remove('border-red-500', 'ring-red-500'); // คืนค่าสีช่องอีเมล
+            } else {
+                // ล็อกอินสำเร็จ
+                errorMsg.classList.add('hidden');
+                emailInput.classList.remove('border-red-500', 'ring-red-500');
+                passwordInput.classList.remove('border-red-500', 'ring-red-500');
+
+                // บันทึกสถานะว่าผู้ใช้นี้กำลังใช้งานอยู่ (เซสชันจำลอง)
+                // ระบบจะบังคับให้ Role เป็น Customer ทันทีตอนดึงไปใช้งาน
+                localStorage.setItem('currentUser', JSON.stringify(foundUser));
+
+                alert('เข้าสู่ระบบสำเร็จ! ยินดีต้อนรับคุณ ' + foundUser.username);
+                
+                // เปลี่ยนหน้าไปที่ Homepage
+                window.location.href = 'Homepage.html';
+            }
+        });
+
+        // หากผู้ใช้พิมพ์แก้ไขข้อมูล ให้ซ่อนข้อความ Error ชั่วคราว
+        emailInput.addEventListener('input', () => errorMsg.classList.add('hidden'));
+        passwordInput.addEventListener('input', () => errorMsg.classList.add('hidden'));
+        
+        // ฟังก์ชันจำลองการล็อกอิน External
+        function handleGoogleLogin() {
+            alert('อยู่ระหว่างการพัฒนาระบบ Sign in with Google');
+        }
+
+        function handleFacebookLogin() {
+            alert('อยู่ระหว่างการพัฒนาระบบ Sign in with Facebook');
+        }
+    </script>
 </body>
 </html>
