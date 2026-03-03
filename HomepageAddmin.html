@@ -670,6 +670,24 @@
             }
             initLocalStorage();
         });
+        // --- แก้ไขฟังก์ชันนี้ให้เหลือเพียงอันเดียวใน HomepageAddmin.html ---
+function openEditTimeModal(bookingId) {
+    let bookings = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY));
+    const booking = bookings.find(b => b.id === bookingId);
+    
+    if (booking) {
+        document.getElementById('editBookingId').value = booking.id;
+        document.getElementById('editTimeCustomerName').innerText = `ลูกค้า: ${booking.customer_name}`;
+        document.getElementById('oldTimeText').innerText = booking.datetime; 
+        
+        // ดึงวันที่เดิมจากหน้า Booking มาใส่ในช่องปฏิทินให้แอดมินอัตโนมัติ
+        if (booking.rawDate) {
+            document.getElementById('editBookingDate').value = booking.rawDate;
+        }
+
+        document.getElementById('editTimeModal').classList.remove('hidden');
+    }
+}
     </script>
 </body>
 </html>
