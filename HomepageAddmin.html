@@ -102,67 +102,135 @@
         <div id="overlay" class="fixed inset-0 bg-black/40 z-[90] hidden"></div>
     </header>
     <br><br><br><br>
-<div class="max-w-md mx-auto">
-        <h2 class="text-lg font-bold mb-4">Quick Stats</h2>
-        <div class="grid grid-cols-3 gap-4 text-center mb-6">
-            <div>
-                <p class="text-xs mb-2 font-semibold">จำนวนการจองวันนี้</p>
-                <div class="w-12 h-12 bg-[#800000] text-white rounded-full flex items-center justify-center text-2xl font-bold mx-auto">
-                    1
-                </div>
+<main class="max-w-6xl mx-auto px-6">
+        
+        <h2 class="text-2xl font-bold mb-8 text-[#4A0000]">Quick Stats</h2>
+        <div class="flex flex-col md:flex-row items-center justify-between gap-4 mb-15">
+            <div class="flex-1 text-center">
+                <p class="font-bold text-lg mb-4">จำนวนการจองวันนี้</p>
+                <div class="w-24 h-24 bg-[#800000] text-white rounded-full flex items-center justify-center text-5xl font-bold mx-auto shadow-md">1</div>
             </div>
-            <div class="border-l border-gray-300 border-r">
-                <p class="text-xs mb-2 font-semibold">รายได้วันนี้</p>
-                <p class="text-sm font-bold">ประมาณ</p>
-                <p class="text-lg font-extrabold leading-tight">1000 บาท</p>
+            <div class="hidden md:block w-px h-32 bg-gray-400 opacity-50"></div>
+            <div class="flex-1 text-center">
+                <p class="font-bold text-lg mb-2">รายได้วันนี้</p>
+                <p class="text-3xl font-bold">ประมาณ</p>
+                <p class="text-3xl font-bold">1000 บาท</p>
             </div>
-            <div>
-                <p class="text-xs mb-2 font-semibold">ข้อมูลลูกค้า</p>
-                <div class="grid grid-cols-2 gap-1 w-10 mx-auto">
-                    <div class="h-4 bg-[#FFD700] rounded-sm"></div>
-                    <div class="h-4 bg-[#FFD700] rounded-sm"></div>
-                    <div class="h-4 bg-[#FFD700] rounded-sm"></div>
-                    <div class="h-4 bg-[#FFD700] rounded-sm"></div>
+            <div class="hidden md:block w-px h-32 bg-gray-400 opacity-50"></div>
+            <div class="flex-1 text-center">
+                <p class="font-bold text-lg mb-4">ข้อมูลลูกค้า</p>
+                <div class="grid grid-cols-2 gap-2 w-32 mx-auto">
+                    <div class="h-8 bg-[#FFCC33] rounded-md shadow-sm"></div>
+                    <div class="h-8 bg-[#FFCC33] rounded-md shadow-sm"></div>
+                    <div class="h-8 bg-[#FFCC33] rounded-md shadow-sm"></div>
+                    <div class="h-8 bg-[#FFCC33] rounded-md shadow-sm"></div>
                 </div>
             </div>
         </div>
-
-        <button class="w-full py-3 bg-[#FFDAB9] border border-[#D2B48C] rounded-xl font-bold shadow-md active:scale-95 transition-transform mb-8">
-            Booking Management
-        </button>
-
-        <hr class="border-gray-200 mb-6">
-
+        <br>
+        <div class="flex flex-col items-center my-10">
+        <div class="w-1/3 border-t border-gray-300 mb-4"></div>
     
+        <div class="bg-[#b3967a] text-white px-12 py-1 rounded-md shadow-sm uppercase tracking-widest text-sm font-medium">
+        Booking Management
+        </div>
+        <div class="w-1/3 border-t border-gray-300 mt-4"></div>
+        <br>
+       <div class="max-w-6xl mx-auto bg-white shadow-sm rounded-3xl p-10 py-7 px-30  border border-black ">
+        
+        <h2 class="text-xl text-left font-bold mb-6 text-[#800000] border-l-4 border-[#800000] pl-3">Calendar View</h2>
 
-       <div class="max-w-md mx-auto p-4 text-[#800000]">
-    <div class="flex justify-between items-center mb-4">
-        <h2 class="text-lg font-bold">Calender View</h2>
-        <div class="flex gap-2">
-            <select id="monthSelect" class="bg-gray-200 rounded-lg px-2 py-1 text-xs outline-none"></select>
+            <div class="grid lg:grid-cols-12 gap-8 justify-items-start">
+            
+            <div class="lg:col-span-7">
+               <div class="flex gap-5">
+            <select id="monthSelect" class="bg-gray-200 rounded-lg px-2 py-1 text-xs outline-none"></select>    
             <select id="yearSelect" class="bg-gray-200 rounded-lg px-2 py-1 text-xs outline-none"></select>
+            </div>
+            <br>
+                <div class="border-t border-gray-100 pt-4">
+                    <h3 id="currentMonthDisplay" class="text-center font-bold text-lg mb-4 tracking-widest text-[#800000]">MARCH 2026</h3>
+                    
+                    <div class="grid grid-cols-7 text-center font-bold text-xs mb-2 italic text-[#800000]/70">
+                        <span>Su</span><span>Mo</span><span>Tu</span><span>We</span><span>Th</span><span>Fr</span><span>Sa</span>
+                    </div>
+                    
+                    <div id="calendarGrid" class="grid grid-cols-7 text-center gap-1">
+                        <span class="calendar-day text-gray-300">24</span>
+                        <span class="calendar-day text-gray-300">25</span>
+                        <span class="calendar-day">1</span>
+                        <span class="calendar-day">2</span>
+                        <span class="calendar-day active-day">3</span>
+                        <span class="calendar-day">4</span>
+                        </div>
+                </div>
+            </div>
+
+            <div class="lg:col-span-5">
+                <div class="bg-[#FEFCE8]/50 border border-orange-100 rounded-2xl overflow-hidden">
+                    <div class="bg-[#800000] text-white text-center py-2.5 text-lg font-bold">
+                        รายการประจำวัน
+                    </div>
+                    <div class="p-6">
+                        <p class="text-center font-bold text-sm text-gray-500 mb-4 tracking-wide">5.30 - 7.30 PM</p>
+                        <ul class="space-y-3 mb-6 text-sm font-medium">
+                            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-[#800000] rounded-full"></span> ทาสีพื้นมือ</li>
+                            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-[#800000] rounded-full"></span> ทาสีพื้นเท้า</li>
+                            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-[#800000] rounded-full"></span> ทาสีแฟลช / ลูกแก้ว</li>
+                            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-[#800000] rounded-full"></span> Overlay</li>
+                        </ul>
+                        <div class="flex justify-between items-end border-t border-orange-100 pt-5">
+                        
+                            <div class="text-[#800000] font-bold text-base flex items-center gap-1 flex-8 justify-end">
+                                1,050 THB <span class="text-green-600 text-lg">✔</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        
+    </div>
+    <div>
+        <hr class="my-10 border-gray-50">
+        
+        <h2 class="text-xl font-bold mb-6 text-[#4A0000]">รีวิวจากลูกค้า</h2>
+        <div class="bg-gray-50/50 rounded-2xl p-6 max-w-3xl border border-black">
+            <div class="flex items-start gap-4">
+                <div class="w-12 h-12 border-2 border-[#800000] rounded-full flex items-center justify-center text-xl text-[#800000] bg-white">👤</div>
+                <div class="flex-1">
+                    <div class="flex justify-between items-center mb-1">
+                        <p class="font-bold text-[10px] text-gray-400 uppercase tracking-tighter">@USERNAME</p>
+                        <span class="text-sm font-bold text-[#800000]">4.9/5.0</span>
+                    </div>
+                    <div class="text-yellow-500 text-xs mb-2">★★★★★</div>
+                    <p class="text-[#800000] font-medium text-sm leading-relaxed mb-4">" บริการดีมากค่ะ งานสวยตรงปกตามเรฟที่ให้เลยค่ะ ประทับใจมาก "</p>
+                    
+                    <button class="text-xs font-bold text-gray-400 hover:text-[#800000] flex items-center gap-2 transition-colors">
+                        ตอบกลับรีวิวนี้ <span class="text-green-500">↩</span>
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
 
-    <div class="bg-white shadow-sm rounded-xl p-4 border border-gray-100">
-        <p id="currentMonthDisplay" class="text-center font-bold mb-4 uppercase tracking-widest text-sm"></p>
-        <div class="grid grid-cols-7 text-center text-[10px] font-bold border-b border-[#800000] pb-2 mb-2 italic">
-            <span>Su</span><span>Mo</span><span>Tu</span><span>We</span><span>Th</span><span>Fr</span><span>Sa</span>
-        </div>
-        <div id="calendarGrid" class="grid grid-cols-7 text-center text-xs gap-y-2"></div>
-    </div>
-</div>
-
-<div id="bookingModal" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-[100] p-4">
-    <div class="bg-white rounded-2xl p-6 w-full max-w-xs shadow-2xl">
-        <h3 class="font-bold mb-4">เพิ่มรายการวันที่ <span id="selectedDateText"></span></h3>
-        <input type="text" id="taskInput" placeholder="ชื่อลูกค้า / บริการ" class="w-full border p-2 rounded-lg mb-4 text-sm outline-none focus:border-[#800000]">
-        <div class="flex gap-2">
-            <button onclick="closeModal()" class="flex-1 py-2 bg-gray-200 rounded-lg text-sm font-bold">ยกเลิก</button>
-            <button onclick="saveTask()" class="flex-1 py-2 bg-[#800000] text-white rounded-lg text-sm font-bold">บันทึก</button>
+    <div id="bookingModal" class="hidden fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-[100] p-4">
+        <div class="bg-white rounded-2xl p-6 w-full max-w-[320px] shadow-xl border border-gray-100">
+            <h3 class="text-base font-bold mb-4 flex items-center gap-2">
+                <span class="w-2 h-2 bg-[#800000] rounded-full"></span>
+                เพิ่มรายการ: <span id="selectedDateText" class="text-[#800000]"></span>
+            </h3>
+            <input type="text" id="taskInput" placeholder="ระบุชื่อลูกค้า หรือบริการ..." 
+                class="w-full border border-gray-200 p-2.5 rounded-xl mb-5 text-sm outline-none focus:ring-1 focus:ring-[#800000] transition-all">
+            <div class="flex gap-2">
+                <button onclick="closeModal()" class="flex-1 py-2 text-gray-400 text-xs font-bold hover:bg-gray-50 rounded-lg transition-colors">ยกเลิก</button>
+                <button onclick="saveTask()" class="flex-1 py-2 bg-[#800000] text-white text-xs font-bold rounded-lg shadow-md hover:bg-[#600000] transition-colors">บันทึกข้อมูล</button>
+            </div>
         </div>
     </div>
-</div>
+    </main>
 <script>
     const monthSelect = document.getElementById('monthSelect');
 const yearSelect = document.getElementById('yearSelect');
@@ -239,38 +307,35 @@ renderCalendar();
 // ผูก Event เมื่อเปลี่ยน Select
 monthSelect.onchange = renderCalendar;
 yearSelect.onchange = renderCalendar;
+
+
 </script>
 
-        <hr class="border-gray-200 mb-6">
-
-        <h2 class="text-lg font-bold mb-4 text-[#800000]">การให้คะแนนและรีวิว</h2>
-        <div class="bg-[#FEF9E7] p-4 rounded-[2rem] shadow-sm">
-            <div class="flex gap-4 items-start">
-                <div class="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center text-2xl">👤</div>
-                <div class="flex-1">
-                    <p class="text-[10px] font-bold">@USERNAME</p>
-                    <div class="flex items-center gap-1 my-1">
-                        <span class="text-[#DAA520] text-sm">⭐⭐⭐⭐☆</span>
-                        <span class="text-xs font-bold ml-1">4.9/5</span>
-                    </div>
-                    <p class="text-xs font-medium opacity-80">บริการดีมากค่ะ งานสวยตามเรฟเลยค่ะ</p>
-                    
-                    <div class="border-t border-gray-300 mt-4 pt-2">
-                        <p class="text-[10px] flex items-center gap-1 text-green-700 font-bold cursor-pointer">
-                            ต้องการตอบกลับหรือไม่? 
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6" />
-                            </svg>
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <br><br>
+        <br>
      <footer class="text-center py-4 text-[10px] text-[#800000] border-t border-black">
         NAIL IT BY RABBITZ สาขามหาวิทยาลัยพะเยา
     </footer>
+    <script>
+    const menuBtn = document.getElementById('menuBtn');
+    const closeBtn = document.getElementById('closeBtn');
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('overlay');
+
+    // ฟังก์ชันเปิดเมนู
+    menuBtn.addEventListener('click', () => {
+        sidebar.classList.remove('translate-x-full');
+        overlay.classList.remove('hidden');
+    });
+
+    // ฟังก์ชันปิดเมนู
+    const closeMenu = () => {
+        sidebar.classList.add('translate-x-full');
+        overlay.classList.add('hidden');
+    };
+
+    closeBtn.addEventListener('click', closeMenu);
+    overlay.addEventListener('click', closeMenu);
+</script>
     
 </body>
 </html>
