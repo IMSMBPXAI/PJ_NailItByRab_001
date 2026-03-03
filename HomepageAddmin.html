@@ -118,9 +118,7 @@
                         </tr>
                     </thead>
                     <tbody id="bookingsTableBody">
-                        <tr>
-                            <td colspan="5" class="px-4 py-4 text-center text-gray-400">กำลังโหลดข้อมูล...</td>
-                        </tr>
+                        <tr><td colspan="5" class="px-4 py-4 text-center text-gray-400">กำลังโหลดข้อมูล...</td></tr>
                     </tbody>
                 </table>
             </div>
@@ -129,42 +127,22 @@
         <div id="section-roles" class="hidden bg-white p-6 rounded-xl shadow-sm border border-gray-100">
             <div class="flex justify-between items-center mb-4">
                 <h2 class="text-xl font-bold text-red-900">จัดการสิทธิ์ผู้ใช้งาน (Staff & Admins)</h2>
-                <button class="bg-red-900 text-white px-4 py-2 rounded-lg text-sm">+ เพิ่มพนักงานใหม่</button>
+                <button onclick="addRole()" class="bg-red-900 text-white px-4 py-2 rounded-lg text-sm hover:bg-red-800 transition-colors">+ เพิ่มพนักงานใหม่</button>
             </div>
-            <table class="w-full text-sm text-left text-gray-500">
-                <thead class="text-xs text-gray-700 uppercase bg-gray-100">
-                    <tr>
-                        <th class="px-4 py-3">ชื่อพนักงาน / บัญชี</th>
-                        <th class="px-4 py-3">ตำแหน่ง (Role)</th>
-                        <th class="px-4 py-3 text-center">จัดการ</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr class="border-b">
-                        <td class="px-4 py-3 font-medium text-gray-900">RABBITZ_CEO (คุณตัวกระต่าย)</td>
-                        <td class="px-4 py-3">
-                            <select class="border rounded p-1 text-sm bg-gray-50">
-                                <option value="admin" selected>Admin (เจ้าของร้าน)</option>
-                                <option value="tech">Nail Technician (ช่างทำเล็บ)</option>
-                            </select>
-                        </td>
-                        <td class="px-4 py-3 text-center"><button class="text-blue-600 hover:underline text-xs">บันทึก</button></td>
-                    </tr>
-                    <tr class="border-b">
-                        <td class="px-4 py-3 font-medium text-gray-900">Tech_Jane (ช่างเจน)</td>
-                        <td class="px-4 py-3">
-                            <select class="border rounded p-1 text-sm bg-gray-50">
-                                <option value="admin">Admin (เจ้าของร้าน)</option>
-                                <option value="tech" selected>Nail Technician (ช่างทำเล็บ)</option>
-                            </select>
-                        </td>
-                        <td class="px-4 py-3 text-center">
-                            <button class="text-blue-600 hover:underline text-xs mr-2">บันทึก</button>
-                            <button class="text-red-600 hover:underline text-xs">ลบสิทธิ์</button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm text-left text-gray-500">
+                    <thead class="text-xs text-gray-700 uppercase bg-gray-100">
+                        <tr>
+                            <th class="px-4 py-3">ชื่อพนักงาน / บัญชี</th>
+                            <th class="px-4 py-3">ตำแหน่ง (Role)</th>
+                            <th class="px-4 py-3 text-center">จัดการ</th>
+                        </tr>
+                    </thead>
+                    <tbody id="rolesTableBody">
+                        <tr><td colspan="3" class="px-4 py-4 text-center text-gray-400">กำลังโหลดข้อมูล...</td></tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
 
         <div id="section-content" class="hidden grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -173,43 +151,30 @@
                 <div class="space-y-4">
                     <div>
                         <label class="block text-xs font-bold text-gray-700 mb-1">ชื่อบริการ</label>
-                        <input type="text" class="w-full border rounded-lg p-2 text-sm focus:border-red-900 outline-none" placeholder="เช่น ทาสีเจลบุฟเฟต์">
+                        <input type="text" id="contentName" class="w-full border rounded-lg p-2 text-sm focus:border-red-900 outline-none" placeholder="เช่น ทาสีเจลบุฟเฟต์">
                     </div>
                     <div>
                         <label class="block text-xs font-bold text-gray-700 mb-1">รายละเอียด</label>
-                        <textarea class="w-full border rounded-lg p-2 text-sm focus:border-red-900 outline-none" rows="2" placeholder="ใส่เงื่อนไข หรือรายละเอียดงาน"></textarea>
+                        <textarea id="contentDetail" class="w-full border rounded-lg p-2 text-sm focus:border-red-900 outline-none" rows="2" placeholder="ใส่เงื่อนไข หรือรายละเอียดงาน"></textarea>
                     </div>
                     <div class="grid grid-cols-2 gap-4">
                         <div>
                             <label class="block text-xs font-bold text-gray-700 mb-1">ราคา (บาท)</label>
-                            <input type="number" class="w-full border rounded-lg p-2 text-sm focus:border-red-900 outline-none" placeholder="299">
+                            <input type="number" id="contentPrice" class="w-full border rounded-lg p-2 text-sm focus:border-red-900 outline-none" placeholder="299">
                         </div>
                         <div>
-                            <label class="block text-xs font-bold text-gray-700 mb-1">อัปโหลดรูปภาพ</label>
-                            <input type="file" class="w-full border rounded-lg p-1.5 text-xs text-gray-500">
+                            <label class="block text-xs font-bold text-gray-700 mb-1">อัปโหลดรูปภาพ (ไม่บังคับ)</label>
+                            <input type="file" id="contentImage" class="w-full border rounded-lg p-1.5 text-xs text-gray-500">
                         </div>
                     </div>
-                    <button class="w-full bg-red-900 text-white font-bold py-2 rounded-lg hover:bg-red-800 transition-colors">เพิ่มขึ้นหน้าเว็บ</button>
+                    <button onclick="addServiceContent()" class="w-full bg-red-900 text-white font-bold py-2 rounded-lg hover:bg-red-800 transition-colors">เพิ่มขึ้นหน้าเว็บ</button>
                 </div>
             </div>
 
             <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
                 <h2 class="text-lg font-bold mb-4 text-gray-700">บริการที่แสดงบนหน้าเว็บตอนนี้</h2>
-                <div class="space-y-3">
-                    <div class="flex justify-between items-center border p-3 rounded-lg">
-                        <div>
-                            <p class="font-bold text-sm">ทาสีเจลมือ (สีพื้น)</p>
-                            <p class="text-xs text-gray-500">เริ่มต้น 150 บาท</p>
-                        </div>
-                        <button class="text-red-500 hover:text-red-700 text-xs font-bold">ลบออก</button>
-                    </div>
-                    <div class="flex justify-between items-center border p-3 rounded-lg">
-                        <div>
-                            <p class="font-bold text-sm">ต่อ PVC + ทาสีเจล</p>
-                            <p class="text-xs text-gray-500">เริ่มต้น 350 บาท</p>
-                        </div>
-                        <button class="text-red-500 hover:text-red-700 text-xs font-bold">ลบออก</button>
-                    </div>
+                <div id="servicesList" class="space-y-3">
+                    <p class="text-center text-gray-400 text-sm mt-4">กำลังโหลดข้อมูล...</p>
                 </div>
             </div>
         </div>
@@ -245,6 +210,13 @@
 
     <script>
         // ==========================================
+        // KEY สำหรับ LocalStorage
+        // ==========================================
+        const LOCAL_STORAGE_KEY = 'rabbitz_bookings';
+        const LOCAL_STORAGE_ROLES_KEY = 'rabbitz_roles';
+        const LOCAL_STORAGE_CONTENT_KEY = 'rabbitz_content'; // เพิ่ม Key สำหรับ Content
+
+        // ==========================================
         // 1. ระบบ Tabs (สลับหน้า)
         // ==========================================
         function switchTab(tabId) {
@@ -262,13 +234,14 @@
             activeBtn.classList.remove('tab-inactive');
             activeBtn.classList.add('tab-active');
 
-            if(tabId === 'bookings') {
-                fetchBookings();
-            }
+            // โหลดข้อมูลให้ตรงกับหน้าที่เปิด
+            if(tabId === 'bookings') fetchBookings();
+            if(tabId === 'roles') fetchRoles();
+            if(tabId === 'content') fetchContent();
         }
 
         // ==========================================
-        // 2. ระบบ ปฏิทิน (ปฏิทินแบบจำลอง)
+        // 2. ระบบ ปฏิทิน
         // ==========================================
         const monthSelect = document.getElementById('monthSelect');
         const yearSelect = document.getElementById('yearSelect');
@@ -276,7 +249,6 @@
         const currentMonthDisplay = document.getElementById('currentMonthDisplay');
         const modal = document.getElementById('bookingModal');
         const selectedDateText = document.getElementById('selectedDateText');
-
         const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
         let currentViewDate = new Date();
 
@@ -326,11 +298,9 @@
         function saveTask() {
             const statusRadio = document.querySelector('input[name="dayStatus"]:checked').value;
             const task = document.getElementById('taskInput').value;
-            
             let msg = `ตั้งค่าวันที่ ${selectedDateText.innerText}\n`;
             msg += statusRadio === 'closed' ? "สถานะ: ปิดรับจอง (Block)\n" : "สถานะ: เปิดรับจองปกติ\n";
             if(task) msg += `บันทึกเพิ่มเติม: ${task}`;
-            
             alert(msg);
             closeModal();
         }
@@ -342,102 +312,219 @@
         yearSelect.onchange = renderCalendar;
 
         // ==========================================
-        // 3. ระบบจัดการข้อมูลด้วย LocalStorage
+        // ฟังก์ชันตั้งค่าเริ่มต้น LocalStorage (ใส่ Mock Data)
         // ==========================================
-        const LOCAL_STORAGE_KEY = 'rabbitz_bookings';
-
-        // ฟังก์ชันสร้างข้อมูลตัวอย่าง (ทำงานครั้งแรกที่โหลดเว็บเท่านั้น)
         function initLocalStorage() {
             if (!localStorage.getItem(LOCAL_STORAGE_KEY)) {
-                const mockData = [
+                const mockBookings = [
                     { id: 1, customer_name: "คุณสมหญิง", phone: "081-123-4567", service: "ทาสีเจล + เพ้นท์ลาย", datetime: "15 ต.ค. 67 - 13:00 น.", status: "รอการยืนยัน" },
-                    { id: 2, customer_name: "น้องมายด์", phone: "089-987-6543", service: "ต่อขนตา + สปามือ", datetime: "15 ต.ค. 67 - 15:30 น.", status: "ยืนยันแล้ว" },
-                    { id: 3, customer_name: "พี่แนน", phone: "082-222-3333", service: "ทาสีเจลมือ-เท้า", datetime: "16 ต.ค. 67 - 10:00 น.", status: "รอการยืนยัน" }
+                    { id: 2, customer_name: "น้องมายด์", phone: "089-987-6543", service: "ต่อขนตา + สปามือ", datetime: "15 ต.ค. 67 - 15:30 น.", status: "ยืนยันแล้ว" }
                 ];
-                // บันทึกลง LocalStorage
-                localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(mockData));
+                localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(mockBookings));
+            }
+            if (!localStorage.getItem(LOCAL_STORAGE_ROLES_KEY)) {
+                const mockRoles = [
+                    { id: 1, name: "RABBITZ_CEO (คุณตัวกระต่าย)", role: "admin" },
+                    { id: 2, name: "Tech_Jane (ช่างเจน)", role: "tech" }
+                ];
+                localStorage.setItem(LOCAL_STORAGE_ROLES_KEY, JSON.stringify(mockRoles));
+            }
+            if (!localStorage.getItem(LOCAL_STORAGE_CONTENT_KEY)) {
+                const mockContent = [
+                    { id: 1, name: "ทาสีเจลมือ (สีพื้น)", detail: "สีพื้นเรียบๆ 1-2 สี", price: 150 },
+                    { id: 2, name: "ต่อ PVC + ทาสีเจล", detail: "ต่อความยาว ทนทาน", price: 350 }
+                ];
+                localStorage.setItem(LOCAL_STORAGE_CONTENT_KEY, JSON.stringify(mockContent));
             }
         }
 
-        // ดึงข้อมูลมาแสดงในตาราง
+        // ==========================================
+        // 3. ระบบจัดการการจอง (Bookings)
+        // ==========================================
         function fetchBookings() {
             const tbody = document.getElementById('bookingsTableBody');
-            tbody.innerHTML = `<tr><td colspan="5" class="px-4 py-4 text-center text-gray-400">กำลังโหลดข้อมูล...</td></tr>`;
-
-            // ดึงข้อมูลจาก LocalStorage
-            setTimeout(() => { // จำลองความหน่วงให้ดูสมจริง
-                const storedBookings = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY)) || [];
-                renderTable(storedBookings, tbody);
-            }, 300);
-        }
-
-        // อัปเดตสถานะการจอง (แก้ข้อมูลใน LocalStorage)
-        function updateBookingStatus(bookingId, newStatus) {
-            // 1. อ่านข้อมูลทั้งหมดออกมาก่อน
-            let bookings = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY));
-
-            // 2. ค้นหาแถวที่ตรงกับ ID และเปลี่ยนสถานะ
-            const index = bookings.findIndex(b => b.id === bookingId);
-            if (index !== -1) {
-                bookings[index].status = newStatus;
-                
-                // 3. บันทึกข้อมูลที่อัปเดตแล้วกลับเข้าไปใหม่
-                localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(bookings));
-                
-                alert(`อัปเดตสถานะเป็น "${newStatus}" เรียบร้อยแล้ว!`);
-                fetchBookings(); // รีเฟรชตาราง
-            }
-        }
-
-        // ==========================================
-        // 4. วาดตารางและปุ่มจัดการต่างๆ
-        // ==========================================
-        function renderTable(bookings, tbody) {
-            tbody.innerHTML = ''; 
+            const storedBookings = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY)) || [];
             
-            if (bookings.length === 0) {
+            tbody.innerHTML = '';
+            if (storedBookings.length === 0) {
                 tbody.innerHTML = `<tr><td colspan="5" class="px-4 py-4 text-center text-gray-400">ยังไม่มีข้อมูลการจอง</td></tr>`;
                 return;
             }
 
-            bookings.forEach(booking => {
+            storedBookings.forEach(booking => {
                 let statusColor = booking.status === 'รอการยืนยัน' ? 'bg-yellow-100 text-yellow-800' : 
                                   booking.status === 'ยกเลิก' ? 'bg-red-100 text-red-800' : 'bg-green-100 text-green-800';
                 
-                // ปุ่มจะเรียกใช้ฟังก์ชัน updateBookingStatus ซึ่งจะไปแก้ข้อมูลใน LocalStorage
                 let actionButtons = booking.status === 'รอการยืนยัน' 
                     ? `<button onclick="updateBookingStatus(${booking.id}, 'ยืนยันแล้ว')" class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded text-xs">ยืนยัน</button>
                        <button onclick="updateBookingStatus(${booking.id}, 'ยกเลิก')" class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded text-xs">ยกเลิก</button>`
-                    : `<button onclick="alert('อยู่ในโหมดแก้ไข (กำลังพัฒนา)')" class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded text-xs">แก้ไขเวลา</button>`;
+                    : `<button onclick="alert('อยู่ในโหมดแก้ไข')" class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded text-xs">แก้ไขเวลา</button>`;
 
-                const row = `
+                tbody.innerHTML += `
                     <tr class="border-b bg-white hover:bg-gray-50">
-                        <td class="px-4 py-3 font-medium text-gray-900">
-                            ${booking.customer_name}<br>
-                            <span class="text-xs text-gray-400">${booking.phone}</span>
-                        </td>
+                        <td class="px-4 py-3 font-medium text-gray-900">${booking.customer_name}<br><span class="text-xs text-gray-400">${booking.phone}</span></td>
                         <td class="px-4 py-3">${booking.service}</td>
                         <td class="px-4 py-3">${booking.datetime}</td>
-                        <td class="px-4 py-3">
-                            <span class="text-xs font-medium px-2.5 py-0.5 rounded ${statusColor}">
-                                ${booking.status}
-                            </span>
-                        </td>
-                        <td class="px-4 py-3 flex gap-2 justify-center">
-                            ${actionButtons}
-                        </td>
+                        <td class="px-4 py-3"><span class="text-xs font-medium px-2.5 py-0.5 rounded ${statusColor}">${booking.status}</span></td>
+                        <td class="px-4 py-3 flex gap-2 justify-center">${actionButtons}</td>
                     </tr>
                 `;
-                tbody.innerHTML += row;
             });
         }
 
-        // รันฟังก์ชันนี้ทันทีที่เปิดเว็บ
-        document.addEventListener('DOMContentLoaded', () => {
-            initLocalStorage(); // สร้างข้อมูลตัวอย่างถ้ายังไม่มี
-            if(document.getElementById('section-bookings').classList.contains('block')) {
+        function updateBookingStatus(bookingId, newStatus) {
+            let bookings = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY));
+            const index = bookings.findIndex(b => b.id === bookingId);
+            if (index !== -1) {
+                bookings[index].status = newStatus;
+                localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(bookings));
                 fetchBookings();
             }
+        }
+
+        // ==========================================
+        // 4. ระบบจัดการสิทธิ์พนักงาน (Roles)
+        // ==========================================
+        function fetchRoles() {
+            const tbody = document.getElementById('rolesTableBody');
+            const storedRoles = JSON.parse(localStorage.getItem(LOCAL_STORAGE_ROLES_KEY)) || [];
+            
+            tbody.innerHTML = '';
+            if (storedRoles.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="3" class="px-4 py-4 text-center text-gray-400">ยังไม่มีข้อมูลพนักงาน</td></tr>`;
+                return;
+            }
+
+            storedRoles.forEach(roleData => {
+                let isAdmin = roleData.role === 'admin' ? 'selected' : '';
+                let isTech = roleData.role === 'tech' ? 'selected' : '';
+
+                tbody.innerHTML += `
+                    <tr class="border-b bg-white hover:bg-gray-50">
+                        <td class="px-4 py-3 font-medium text-gray-900">${roleData.name}</td>
+                        <td class="px-4 py-3">
+                            <select id="roleSelect-${roleData.id}" class="border rounded p-1 text-sm bg-gray-50 focus:outline-none focus:border-red-900">
+                                <option value="admin" ${isAdmin}>Admin (เจ้าของร้าน)</option>
+                                <option value="tech" ${isTech}>Nail Technician (ช่างทำเล็บ)</option>
+                            </select>
+                        </td>
+                        <td class="px-4 py-3 text-center">
+                            <button onclick="updateRole(${roleData.id})" class="text-blue-600 hover:text-blue-800 font-medium text-xs mr-2 transition-colors">บันทึก</button>
+                            <button onclick="deleteRole(${roleData.id})" class="text-red-600 hover:text-red-800 font-medium text-xs transition-colors">ลบสิทธิ์</button>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+
+        function addRole() {
+            const newName = prompt("กรุณากรอกชื่อพนักงาน หรือ บัญชีผู้ใช้ใหม่:");
+            if (newName && newName.trim() !== "") {
+                let roles = JSON.parse(localStorage.getItem(LOCAL_STORAGE_ROLES_KEY)) || [];
+                const newId = roles.length > 0 ? Math.max(...roles.map(r => r.id)) + 1 : 1;
+                roles.push({ id: newId, name: newName.trim(), role: "tech" });
+                localStorage.setItem(LOCAL_STORAGE_ROLES_KEY, JSON.stringify(roles));
+                alert(`เพิ่มพนักงาน: ${newName} เรียบร้อยแล้ว`);
+                fetchRoles();
+            }
+        }
+
+        function updateRole(roleId) {
+            const newRoleValue = document.getElementById(`roleSelect-${roleId}`).value;
+            let roles = JSON.parse(localStorage.getItem(LOCAL_STORAGE_ROLES_KEY)) || [];
+            const index = roles.findIndex(r => r.id === roleId);
+            if (index !== -1) {
+                roles[index].role = newRoleValue;
+                localStorage.setItem(LOCAL_STORAGE_ROLES_KEY, JSON.stringify(roles));
+                alert(`อัปเดตสิทธิ์ของ ${roles[index].name} เรียบร้อยแล้ว!`);
+            }
+        }
+
+        function deleteRole(roleId) {
+            let roles = JSON.parse(localStorage.getItem(LOCAL_STORAGE_ROLES_KEY)) || [];
+            const roleToDelete = roles.find(r => r.id === roleId);
+            if (roleToDelete && confirm(`คุณแน่ใจหรือไม่ว่าต้องการลบสิทธิ์ของ "${roleToDelete.name}"?`)) {
+                roles = roles.filter(r => r.id !== roleId);
+                localStorage.setItem(LOCAL_STORAGE_ROLES_KEY, JSON.stringify(roles));
+                fetchRoles();
+            }
+        }
+
+        // ==========================================
+        // 5. ระบบจัดการเนื้อหา (Content Management)
+        // ==========================================
+        function fetchContent() {
+            const listContainer = document.getElementById('servicesList');
+            const storedContent = JSON.parse(localStorage.getItem(LOCAL_STORAGE_CONTENT_KEY)) || [];
+            
+            listContainer.innerHTML = '';
+            if (storedContent.length === 0) {
+                listContainer.innerHTML = `<p class="text-center text-gray-400 text-sm mt-4">ยังไม่มีบริการที่แสดงบนหน้าเว็บ</p>`;
+                return;
+            }
+
+            storedContent.forEach(item => {
+                listContainer.innerHTML += `
+                    <div class="flex justify-between items-center border p-3 rounded-lg bg-gray-50 hover:bg-gray-100 transition-colors">
+                        <div>
+                            <p class="font-bold text-sm text-red-900">${item.name}</p>
+                            <p class="text-[10px] text-gray-500 mt-1">${item.detail}</p>
+                            <p class="text-xs text-gray-700 font-semibold mt-1">เริ่มต้น ${item.price} บาท</p>
+                        </div>
+                        <button onclick="deleteContent(${item.id})" class="text-red-500 hover:text-red-700 text-xs font-bold border border-red-200 px-2 py-1 rounded bg-white shadow-sm">ลบออก</button>
+                    </div>
+                `;
+            });
+        }
+
+        function addServiceContent() {
+            const nameInput = document.getElementById('contentName').value;
+            const detailInput = document.getElementById('contentDetail').value;
+            const priceInput = document.getElementById('contentPrice').value;
+
+            if (!nameInput || !priceInput) {
+                alert("กรุณากรอก ชื่อบริการ และ ราคา ให้ครบถ้วนครับ");
+                return;
+            }
+
+            let contents = JSON.parse(localStorage.getItem(LOCAL_STORAGE_CONTENT_KEY)) || [];
+            const newId = contents.length > 0 ? Math.max(...contents.map(c => c.id)) + 1 : 1;
+
+            contents.push({
+                id: newId,
+                name: nameInput.trim(),
+                detail: detailInput.trim(),
+                price: parseFloat(priceInput)
+            });
+
+            localStorage.setItem(LOCAL_STORAGE_CONTENT_KEY, JSON.stringify(contents));
+            alert(`เพิ่มบริการ "${nameInput}" เรียบร้อยแล้ว!`);
+            
+            // เคลียร์ฟอร์ม
+            document.getElementById('contentName').value = '';
+            document.getElementById('contentDetail').value = '';
+            document.getElementById('contentPrice').value = '';
+            document.getElementById('contentImage').value = '';
+
+            fetchContent(); // อัปเดตรายการที่แสดง
+        }
+
+        function deleteContent(contentId) {
+            let contents = JSON.parse(localStorage.getItem(LOCAL_STORAGE_CONTENT_KEY)) || [];
+            const contentToDelete = contents.find(c => c.id === contentId);
+            
+            if (contentToDelete && confirm(`ต้องการลบบริการ "${contentToDelete.name}" ออกจากหน้าเว็บใช่หรือไม่?`)) {
+                contents = contents.filter(c => c.id !== contentId);
+                localStorage.setItem(LOCAL_STORAGE_CONTENT_KEY, JSON.stringify(contents));
+                fetchContent();
+            }
+        }
+
+        // ==========================================
+        // ทำงานเมื่อโหลดเว็บเสร็จ
+        // ==========================================
+        document.addEventListener('DOMContentLoaded', () => {
+            initLocalStorage();
         });
     </script>
 </body>
