@@ -428,6 +428,70 @@ document.getElementById('booking-form').addEventListener('submit', function(even
     alert('บันทึกการจองสำเร็จ! กำลังไปหน้าสรุปรายละเอียด');
     window.location.href = 'detailbooking.html';
 });
+// ==========================================
+// 1. ระบบตรวจสอบการล็อกอิน (Auth Guard)
+// ==========================================
+document.addEventListener('DOMContentLoaded', () => {
+    const userDataString = localStorage.getItem('rabbitz_currentUser');
+    
+    // ถ้าไม่มีข้อมูลการล็อกอิน ให้เด้งกลับหน้า Rolechoosen หรือ Signin
+    if (!userDataString) {
+        alert('กรุณาเข้าสู่ระบบก่อนทำการจองคิวค่ะ');
+        window.location.href = 'Rolechoosen.html';
+        return;
+    }
+
+    const userData = JSON.parse(userDataString);
+    
+    // อัปเดต UI เล็กน้อยเพื่อให้รู้ว่าใครล็อกอินอยู่ (ถ้ามีส่วนแสดงชื่อ)
+    console.log("ล็อกอินในชื่อ:", userData.name);
+});
+
+// ==========================================
+// 2. ปรับปรุงการบันทึกข้อมูล (ใช้ข้อมูลจากระบบล็อกอินจริง)
+// ==========================================
+
+// ค้นหา Event Submit เดิมของคุณ แล้วอัปเดตส่วนการสร้าง newBooking ดังนี้:
+document.getElementById('booking-form').addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    const dateVal = document.getElementById('booking_date').value;
+    const timeVal = document.getElementById('booking_time').value;
+    const selectedServices = Array.from(document.querySelectorAll('.service-checkbox:checked')).map(cb => cb.value);
+    const note = document.getElementById('additional_details').value;
+
+    if (!dateVal || !timeVal || selectedServices.length === 0) {
+        alert('กรุณากรอกข้อมูลให้ครบถ้วนค่ะ');
+        return;
+    }
+
+    // --- ดึงข้อมูลผู้ใช้งานที่ล็อกอินอยู่จาก LocalStorage ---
+    const userData = JSON.parse(localStorage.getItem('rabbitz_currentUser'));
+
+    const d = new Date(dateVal);
+    const displayDate = d.toLocaleDateString('th-TH', { day: 'numeric', month: 'short', year: '2-digit' });
+
+    const newBooking = {
+        id: Date.now(),
+        // ใช้งานชื่อและ UID จริงจากระบบ Sign In
+        customer_name: userData.name || "ลูกค้าทั่วไป", 
+        customer_id: userData.uid,
+        phone: userData.phone || "0xx-xxx-xxxx", // ถ้าในหน้า Signin มีเก็บเบอร์จะดึงมาได้
+        service: selectedServices.join(', '),
+        datetime: `${displayDate} - ${timeVal} น.`,
+        status: "รอการยืนยัน",
+        rawDate: dateVal,
+        note: note
+    };
+
+    const LOCAL_STORAGE_KEY = 'rabbitz_bookings';
+    let currentBookings = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY)) || [];
+    currentBookings.push(newBooking);
+    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(currentBookings));
+
+    alert('บันทึกการจองสำเร็จ! กำลังไปหน้าสรุปรายละเอียด');
+    window.location.href = 'detailbooking.html';
+});
 </script>
 
 </body>
