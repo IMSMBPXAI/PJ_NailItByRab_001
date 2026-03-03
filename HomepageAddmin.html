@@ -30,7 +30,7 @@
                 <div class="flex items-center justify-between w-auto">
                     <button type="button" class="text-red-900 bg-white focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-4 py-2 text-center inline-flex items-center">
                         <a href="#">Log out</a>
-                    </button>  
+                    </button>
                 </div>
             </div>
         </nav>
@@ -102,7 +102,10 @@
         </div>
 
         <div id="section-bookings" class="hidden bg-white p-6 rounded-xl shadow-sm border border-gray-100">
-            <h2 class="text-xl font-bold mb-4 text-red-900">รายการจองคิวลูกค้า</h2>
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-xl font-bold text-red-900">รายการจองคิวลูกค้า</h2>
+                <button onclick="fetchBookings()" class="text-sm bg-gray-100 hover:bg-gray-200 px-3 py-1 rounded-lg">🔄 รีเฟรชข้อมูล</button>
+            </div>
             <div class="overflow-x-auto">
                 <table class="w-full text-sm text-left text-gray-500">
                     <thead class="text-xs text-gray-700 uppercase bg-gray-100">
@@ -114,25 +117,9 @@
                             <th class="px-4 py-3 text-center">จัดการ</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr class="border-b">
-                            <td class="px-4 py-3 font-medium text-gray-900">คุณสมหญิง<br><span class="text-xs text-gray-400">081-xxx-xxxx</span></td>
-                            <td class="px-4 py-3">ทาสีเจล + เพ้นท์ลาย</td>
-                            <td class="px-4 py-3">15 ต.ค. 67<br>13:00 น.</td>
-                            <td class="px-4 py-3"><span class="bg-yellow-100 text-yellow-800 text-xs font-medium px-2.5 py-0.5 rounded">รอการยืนยัน</span></td>
-                            <td class="px-4 py-3 flex gap-2 justify-center">
-                                <button onclick="alert('อนุมัติคิวนี้แล้ว')" class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded text-xs">ยืนยัน</button>
-                                <button onclick="alert('ปฏิเสธคิวนี้แล้ว')" class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded text-xs">ยกเลิก</button>
-                            </td>
-                        </tr>
-                        <tr class="border-b bg-gray-50">
-                            <td class="px-4 py-3 font-medium text-gray-900">น้องมายด์<br><span class="text-xs text-gray-400">089-xxx-xxxx</span></td>
-                            <td class="px-4 py-3">ต่อขนตา + สปามือ</td>
-                            <td class="px-4 py-3">15 ต.ค. 67<br>15:30 น.</td>
-                            <td class="px-4 py-3"><span class="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded">ยืนยันแล้ว</span></td>
-                            <td class="px-4 py-3 flex gap-2 justify-center">
-                                <button class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded text-xs">แก้ไขเวลา</button>
-                            </td>
+                    <tbody id="bookingsTableBody">
+                        <tr>
+                            <td colspan="5" class="px-4 py-4 text-center text-gray-400">กำลังโหลดข้อมูล...</td>
                         </tr>
                     </tbody>
                 </table>
@@ -257,27 +244,32 @@
     </div>
 
     <script>
+        // ==========================================
         // 1. ระบบ Tabs (สลับหน้า)
+        // ==========================================
         function switchTab(tabId) {
-            // ซ่อนทุก Section
             const sections = ['overview', 'bookings', 'roles', 'content'];
             sections.forEach(id => document.getElementById(`section-${id}`).classList.add('hidden'));
             
-            // รีเซ็ตสไตล์ของปุ่ม Tab ทุกอัน
             sections.forEach(id => {
                 const btn = document.getElementById(`tab-${id}`);
                 btn.classList.remove('tab-active');
                 btn.classList.add('tab-inactive');
             });
 
-            // แสดง Section ที่เลือก และเน้นสีปุ่ม
             document.getElementById(`section-${tabId}`).classList.remove('hidden');
             const activeBtn = document.getElementById(`tab-${tabId}`);
             activeBtn.classList.remove('tab-inactive');
             activeBtn.classList.add('tab-active');
+
+            if(tabId === 'bookings') {
+                fetchBookings();
+            }
         }
 
-        // 2. ระบบ ปฏิทิน (ของเดิมที่คุณเขียนมา นำมาปรับแต่งเล็กน้อย)
+        // ==========================================
+        // 2. ระบบ ปฏิทิน (ปฏิทินแบบจำลอง)
+        // ==========================================
         const monthSelect = document.getElementById('monthSelect');
         const yearSelect = document.getElementById('yearSelect');
         const calendarGrid = document.getElementById('calendarGrid');
@@ -343,12 +335,110 @@
             closeModal();
         }
 
-        // Initialize Calendar
         monthSelect.value = currentViewDate.getMonth();
         yearSelect.value = currentViewDate.getFullYear();
         renderCalendar();
         monthSelect.onchange = renderCalendar;
         yearSelect.onchange = renderCalendar;
+
+        // ==========================================
+        // 3. ระบบจัดการข้อมูลด้วย LocalStorage
+        // ==========================================
+        const LOCAL_STORAGE_KEY = 'rabbitz_bookings';
+
+        // ฟังก์ชันสร้างข้อมูลตัวอย่าง (ทำงานครั้งแรกที่โหลดเว็บเท่านั้น)
+        function initLocalStorage() {
+            if (!localStorage.getItem(LOCAL_STORAGE_KEY)) {
+                const mockData = [
+                    { id: 1, customer_name: "คุณสมหญิง", phone: "081-123-4567", service: "ทาสีเจล + เพ้นท์ลาย", datetime: "15 ต.ค. 67 - 13:00 น.", status: "รอการยืนยัน" },
+                    { id: 2, customer_name: "น้องมายด์", phone: "089-987-6543", service: "ต่อขนตา + สปามือ", datetime: "15 ต.ค. 67 - 15:30 น.", status: "ยืนยันแล้ว" },
+                    { id: 3, customer_name: "พี่แนน", phone: "082-222-3333", service: "ทาสีเจลมือ-เท้า", datetime: "16 ต.ค. 67 - 10:00 น.", status: "รอการยืนยัน" }
+                ];
+                // บันทึกลง LocalStorage
+                localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(mockData));
+            }
+        }
+
+        // ดึงข้อมูลมาแสดงในตาราง
+        function fetchBookings() {
+            const tbody = document.getElementById('bookingsTableBody');
+            tbody.innerHTML = `<tr><td colspan="5" class="px-4 py-4 text-center text-gray-400">กำลังโหลดข้อมูล...</td></tr>`;
+
+            // ดึงข้อมูลจาก LocalStorage
+            setTimeout(() => { // จำลองความหน่วงให้ดูสมจริง
+                const storedBookings = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY)) || [];
+                renderTable(storedBookings, tbody);
+            }, 300);
+        }
+
+        // อัปเดตสถานะการจอง (แก้ข้อมูลใน LocalStorage)
+        function updateBookingStatus(bookingId, newStatus) {
+            // 1. อ่านข้อมูลทั้งหมดออกมาก่อน
+            let bookings = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY));
+
+            // 2. ค้นหาแถวที่ตรงกับ ID และเปลี่ยนสถานะ
+            const index = bookings.findIndex(b => b.id === bookingId);
+            if (index !== -1) {
+                bookings[index].status = newStatus;
+                
+                // 3. บันทึกข้อมูลที่อัปเดตแล้วกลับเข้าไปใหม่
+                localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(bookings));
+                
+                alert(`อัปเดตสถานะเป็น "${newStatus}" เรียบร้อยแล้ว!`);
+                fetchBookings(); // รีเฟรชตาราง
+            }
+        }
+
+        // ==========================================
+        // 4. วาดตารางและปุ่มจัดการต่างๆ
+        // ==========================================
+        function renderTable(bookings, tbody) {
+            tbody.innerHTML = ''; 
+            
+            if (bookings.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="5" class="px-4 py-4 text-center text-gray-400">ยังไม่มีข้อมูลการจอง</td></tr>`;
+                return;
+            }
+
+            bookings.forEach(booking => {
+                let statusColor = booking.status === 'รอการยืนยัน' ? 'bg-yellow-100 text-yellow-800' : 
+                                  booking.status === 'ยกเลิก' ? 'bg-red-100 text-red-800' : 'bg-green-100 text-green-800';
+                
+                // ปุ่มจะเรียกใช้ฟังก์ชัน updateBookingStatus ซึ่งจะไปแก้ข้อมูลใน LocalStorage
+                let actionButtons = booking.status === 'รอการยืนยัน' 
+                    ? `<button onclick="updateBookingStatus(${booking.id}, 'ยืนยันแล้ว')" class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded text-xs">ยืนยัน</button>
+                       <button onclick="updateBookingStatus(${booking.id}, 'ยกเลิก')" class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded text-xs">ยกเลิก</button>`
+                    : `<button onclick="alert('อยู่ในโหมดแก้ไข (กำลังพัฒนา)')" class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded text-xs">แก้ไขเวลา</button>`;
+
+                const row = `
+                    <tr class="border-b bg-white hover:bg-gray-50">
+                        <td class="px-4 py-3 font-medium text-gray-900">
+                            ${booking.customer_name}<br>
+                            <span class="text-xs text-gray-400">${booking.phone}</span>
+                        </td>
+                        <td class="px-4 py-3">${booking.service}</td>
+                        <td class="px-4 py-3">${booking.datetime}</td>
+                        <td class="px-4 py-3">
+                            <span class="text-xs font-medium px-2.5 py-0.5 rounded ${statusColor}">
+                                ${booking.status}
+                            </span>
+                        </td>
+                        <td class="px-4 py-3 flex gap-2 justify-center">
+                            ${actionButtons}
+                        </td>
+                    </tr>
+                `;
+                tbody.innerHTML += row;
+            });
+        }
+
+        // รันฟังก์ชันนี้ทันทีที่เปิดเว็บ
+        document.addEventListener('DOMContentLoaded', () => {
+            initLocalStorage(); // สร้างข้อมูลตัวอย่างถ้ายังไม่มี
+            if(document.getElementById('section-bookings').classList.contains('block')) {
+                fetchBookings();
+            }
+        });
     </script>
 </body>
 </html>
