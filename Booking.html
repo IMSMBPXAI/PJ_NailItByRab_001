@@ -50,28 +50,8 @@
                     <div class="hidden lg:block w-px h-6 bg-white/30 mx-2"></div>
 
                     <div class="flex items-center space-x-4">
-                        
-                        <button type="button" class="relative p-2 text-white hover:bg-white/10 rounded-full transition focus:outline-none">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
-                            </svg>
-                            <span class="absolute top-2 right-2 flex h-3 w-3">
-                                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-yellow-300 opacity-75"></span>
-                                <span class="relative inline-flex rounded-full h-3 w-3 bg-yellow-400 border-2 border-red-900"></span>
-                            </span>
-                        </button>
-
-                        <button type="button" class="flex text-sm bg-white rounded-full focus:ring-4 focus:ring-red-700 overflow-hidden size-10 border-2 border-white/20 shadow-sm transition hover:scale-105">
-                            <img class="w-full h-full object-cover" src="https://ui-avatars.com/api/?name=User&background=random" alt="User Profile">
-                        </button>
-
-                    </div>
-                    <div class="flex items-center gap-4 border-l border-white/30 pl-6">
-                    <button id="menuBtn" class="text-white hover:bg-white/10 p-2 rounded-lg transition">
-                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                    </svg>
-                    </button>
+                        <a href="Signup.html" class="text-white border-2 border-white focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-4 py-2 text-center inline-flex items-center hover:bg-white hover:text-red-900 transition">Sign up</a>
+                        <a href="Rolechoosen.html" class="text-red-900 bg-white focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-4 py-2 text-center inline-flex items-center hover:bg-gray-100 transition">Sign in</a>
                     </div>
                 </div>
 
@@ -110,7 +90,7 @@
         <div class="max-w-4xl mx-auto bg-white rounded-2xl shadow-lg p-8">
             <h2 class="font-bold text-3xl text-red-900 mb-8 border-b pb-4">จองคิวรับบริการ (Booking)</h2>
 
-            <form action="#" method="POST" enctype="multipart/form-data">
+            <form action="NextPage.html" method="POST" enctype="multipart/form-data" id="booking-form">
                 
                 <div class="mb-10 bg-red-50 p-6 rounded-xl border border-red-100">
                     <h3 class="text-xl font-semibold mb-4 text-red-900">1. เลือกวันและเวลานัดหมาย</h3>
@@ -118,21 +98,21 @@
                         <div>
                             <label for="booking_date" class="block mb-2 text-sm font-medium text-gray-700">วันที่ต้องการจอง <span class="text-red-600">*</span></label>
                             <select id="booking_date" name="booking_date" required class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-900 focus:border-red-900 block w-full p-3 outline-none transition cursor-pointer shadow-sm">
-                                <option value="" disabled selected>-- เลือกวันที่ว่าง --</option>
-                                </select>
+                                <option value="" disabled selected>-- กำลังโหลดข้อมูล... --</option>
+                            </select>
                         </div>
                         <div>
-                            <label for="booking_time" class="block mb-2 text-sm font-medium text-gray-700">รอบเวลา (รอบละ 1 ชม. 30 นาที) <span class="text-red-600">*</span></label>
+                            <label for="booking_time" class="block mb-2 text-sm font-medium text-gray-700">รอบเวลา (รอบละ 1.30 ชม.) <span class="text-red-600">*</span></label>
                             <select id="booking_time" name="booking_time" required disabled class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-900 focus:border-red-900 block w-full p-3 outline-none transition cursor-pointer shadow-sm disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed">
                                 <option value="" disabled selected>-- กรุณาเลือกวันที่ก่อน --</option>
-                                </select>
+                            </select>
                         </div>
                     </div>
                 </div>
 
                 <div class="mb-10">
                     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-end mb-4 gap-2">
-                        <h3 class="text-xl font-semibold text-gray-800">2. เลือกบริการที่คุณต้องการ</h3>
+                        <h3 class="text-xl font-semibold text-gray-800">2. เลือกบริการที่คุณต้องการ <span class="text-red-600 text-sm font-normal">* (เลือกอย่างน้อย 1 รายการ)</span></h3>
                         <div class="space-x-4">
                             <button type="button" onclick="selectAllServices()" class="text-sm font-medium text-red-900 hover:text-red-700 underline transition">+ เลือกทั้งหมด</button>
                             <button type="button" onclick="clearAllServices()" class="text-sm font-medium text-gray-500 hover:text-gray-700 underline transition">- ล้างทั้งหมด</button>
@@ -164,10 +144,10 @@
                                 <svg class="w-10 h-10 mb-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg>
                                 <p class="mb-2 text-sm text-gray-500"><span class="font-semibold">คลิกเพื่ออัปโหลด</span> หรือลากไฟล์มาวาง</p>
                             </div>
-                            <input id="dropzone-file" type="file" name="reference_images[]" class="hidden" multiple accept="image/*" />
+                            <input id="dropzone-file" type="file" class="hidden" multiple accept="image/*" />
                         </label>
                     </div>
-
+                    
                     <div id="image-preview-container" class="grid grid-cols-2 md:grid-cols-5 gap-4 mt-4"></div>
                 </div>
 
@@ -177,10 +157,10 @@
                 </div>
 
                 <div class="flex justify-end pt-4 border-t border-gray-200">
-                    <button type="submit" class="text-white bg-red-900 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-lg px-10 py-3 text-center inline-flex items-center transition shadow-md">
+                    <a href="detailbooking.html" type="submit" class="text-white bg-red-900 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-lg px-10 py-3 text-center inline-flex items-center transition shadow-md">
                         ดำเนินการต่อ
                         <svg class="w-5 h-5 ml-2 -mr-1" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
-                    </button>
+                    </a>
                 </div>
 
             </form>
@@ -188,58 +168,157 @@
     </div>
 
     <script>
+
+        
         // --------------------------------------------------------
-        // ระบบจัดการ วันและเวลาที่ว่าง (Mock Database)
+        // 1. ระบบวัน/เวลาจำลอง (Mock Database)
         // --------------------------------------------------------
-        // โครงสร้างข้อมูลจำลอง: กำหนดวันที่ว่าง และ รอบเวลาที่ว่างของวันนั้นๆ (รอบละ 1.30 ชม.)
-        const availableSchedule = {
-            "2026-03-05": ["10:00 - 11:30", "13:00 - 14:30", "16:00 - 17:30"],
-            "2026-03-06": ["11:30 - 13:00", "14:30 - 16:00"],
-            "2026-03-07": ["10:00 - 11:30", "11:30 - 13:00", "14:30 - 16:00", "16:00 - 17:30"],
-            "2026-03-08": ["13:00 - 14:30", "17:30 - 19:00"]
+        const allTimeSlots = [
+            "09:00 - 10:30", "10:30 - 12:00", "12:00 - 13:30", "13:30 - 15:00",
+            "15:00 - 16:30", "16:30 - 18:00", "18:00 - 19:30", "19:30 - 21:00"
+        ];
+
+        // ฐานข้อมูลเริ่มต้น: ว่างเปล่า (แปลว่าเปิดให้จองได้ทุกวัน ทุกรอบเวลา)
+        const mockDatabase = {
+            bookedSlots: {
+                // หากต้องการจำลองคิวเต็ม ให้เพิ่มรูปแบบนี้ -> "YYYY-MM-DD": ["09:00 - 10:30"]
+            },
+            closedDates: [
+                // หากต้องการจำลองวันหยุดร้าน ให้เพิ่มรูปแบบนี้ -> "YYYY-MM-DD"
+            ]
         };
 
         const dateSelect = document.getElementById('booking_date');
         const timeSelect = document.getElementById('booking_time');
 
-        // ฟังก์ชันแปลงวันที่ให้อ่านง่ายขึ้น (เช่น จาก 2026-03-05 เป็น 5 มี.ค. 2026)
-        const formatDate = (dateString) => {
-            const dateObj = new Date(dateString);
-            return dateObj.toLocaleDateString('th-TH', { year: 'numeric', month: 'short', day: 'numeric' });
-        };
+        function generateDates() {
+            dateSelect.innerHTML = '<option value="" disabled selected>-- เลือกวันที่ --</option>';
+            
+            // ใช้วันที่ปัจจุบันเป็นตัวตั้งต้น (ของเดิมคือ new Date("2026-03-04"))
+            let today = new Date();
 
-        // โหลดข้อมูล "วันที่ว่าง" ใส่ลงใน Dropdown ทันทีเมื่อเปิดเว็บ
-        for (const date in availableSchedule) {
-            const option = document.createElement('option');
-            option.value = date;
-            option.textContent = `${formatDate(date)} (ว่าง ${availableSchedule[date].length} คิว)`;
-            dateSelect.appendChild(option);
+            for (let i = 1; i <= 14; i++) {
+                let d = new Date(today);
+                d.setDate(today.getDate() + i);
+                
+                let dateString = d.toISOString().split('T')[0];
+                let displayDate = d.toLocaleDateString('th-TH', { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' });
+                
+                let option = document.createElement('option');
+                option.value = dateString;
+
+                const isClosed = mockDatabase.closedDates.includes(dateString);
+                const bookedForDate = mockDatabase.bookedSlots[dateString] || [];
+                const isFull = bookedForDate.length === allTimeSlots.length;
+
+                if (isClosed) {
+                    option.textContent = `${displayDate} (ร้านปิด)`;
+                    option.disabled = true;
+                    option.className = "text-gray-400 bg-gray-100";
+                } else if (isFull) {
+                    option.textContent = `${displayDate} (คิวเต็มแล้ว)`;
+                    option.disabled = true;
+                    option.className = "text-gray-400 bg-gray-100";
+                } else {
+                    option.textContent = displayDate;
+                    option.className = "text-gray-900";
+                }
+
+                dateSelect.appendChild(option);
+            }
         }
 
-        // เมื่อลูกค้าเปลี่ยนวันที่ ให้โหลด "เวลาที่ว่าง" ของวันนั้นๆ ออกมาแสดง
         dateSelect.addEventListener('change', function() {
             const selectedDate = this.value;
-            const availableTimes = availableSchedule[selectedDate];
+            const bookedTimes = mockDatabase.bookedSlots[selectedDate] || [];
 
-            // ล้างตัวเลือกเวลาของเก่าทิ้ง
             timeSelect.innerHTML = '<option value="" disabled selected>-- เลือกรอบเวลา --</option>';
-            
-            if (availableTimes && availableTimes.length > 0) {
-                timeSelect.disabled = false; // ปลดล็อกให้กดเลือกเวลาได้
-                availableTimes.forEach(time => {
-                    const option = document.createElement('option');
-                    option.value = time;
-                    option.textContent = time;
-                    timeSelect.appendChild(option);
-                });
-            } else {
-                timeSelect.disabled = true;
-                timeSelect.innerHTML = '<option value="" disabled selected>-- ไม่มีคิวว่าง --</option>';
-            }
+            timeSelect.disabled = false;
+
+            allTimeSlots.forEach(slot => {
+                let option = document.createElement('option');
+                option.value = slot;
+
+                if (bookedTimes.includes(slot)) {
+                    option.textContent = `${slot} (มีผู้จองแล้ว)`;
+                    option.disabled = true;
+                    option.className = "text-gray-400 bg-gray-100";
+                } else {
+                    option.textContent = slot;
+                    option.className = "text-gray-900 font-medium";
+                }
+                timeSelect.appendChild(option);
+            });
         });
 
+        generateDates();
+
         // --------------------------------------------------------
-        // ระบบ Checkbox บริการ
+        // 2. ระบบจัดการรูปภาพ (ลบและแสดงพรีวิว)
+        // --------------------------------------------------------
+        const fileInput = document.getElementById('dropzone-file');
+        const previewContainer = document.getElementById('image-preview-container');
+        let uploadedFiles = [];
+
+        fileInput.addEventListener('change', function(e) {
+            const newFiles = Array.from(e.target.files);
+            if (uploadedFiles.length + newFiles.length > 5) {
+                alert('อัปโหลดได้สูงสุด 5 รูปเท่านั้นค่ะ');
+                this.value = '';
+                return;
+            }
+            uploadedFiles = uploadedFiles.concat(newFiles);
+            updateImagePreview();
+            updateFileInput();
+            this.value = '';
+        });
+
+        function updateImagePreview() {
+            previewContainer.innerHTML = '';
+            uploadedFiles.forEach((file, index) => {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const imgContainer = document.createElement('div');
+                    imgContainer.className = 'relative w-full h-24 rounded-lg overflow-hidden border border-gray-200 shadow-sm group';
+                    imgContainer.innerHTML = `<img src="${e.target.result}" class="w-full h-full object-cover" alt="Reference">`;
+                    
+                    const deleteBtn = document.createElement('button');
+                    deleteBtn.type = 'button';
+                    deleteBtn.className = 'absolute top-1 right-1 bg-red-600 bg-opacity-80 text-white rounded-full p-1 hover:bg-red-700 transition-opacity opacity-80 hover:opacity-100 focus:outline-none';
+                    deleteBtn.innerHTML = '<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>';
+                    deleteBtn.onclick = () => removeFile(index);
+
+                    imgContainer.appendChild(deleteBtn);
+                    previewContainer.appendChild(imgContainer);
+                }
+                reader.readAsDataURL(file);
+            });
+        }
+
+        function removeFile(index) {
+            uploadedFiles.splice(index, 1);
+            updateImagePreview();
+            updateFileInput();
+        }
+
+        function updateFileInput() {
+            const dataTransfer = new DataTransfer();
+            uploadedFiles.forEach(file => dataTransfer.items.add(file));
+            let hiddenInput = document.getElementById('hidden-file-input');
+            if (!hiddenInput) {
+                hiddenInput = document.createElement('input');
+                hiddenInput.type = 'file';
+                hiddenInput.name = 'reference_images[]';
+                hiddenInput.id = 'hidden-file-input';
+                hiddenInput.multiple = true;
+                hiddenInput.className = 'hidden';
+                document.getElementById('booking-form').appendChild(hiddenInput);
+            }
+            hiddenInput.files = dataTransfer.files;
+        }
+
+        // --------------------------------------------------------
+        // 3. ระบบ Checkbox บริการ
         // --------------------------------------------------------
         function selectAllServices() {
             document.querySelectorAll('.service-checkbox').forEach(cb => cb.checked = true);
@@ -250,33 +329,33 @@
         }
 
         // --------------------------------------------------------
-        // ระบบโชว์ภาพพรีวิว และ จำกัดจำนวนรูป (สูงสุด 5 รูป)
+        // 4. บังคับเลือกข้อมูลก่อนส่ง (Validation) 
         // --------------------------------------------------------
-        const fileInput = document.getElementById('dropzone-file');
-        const previewContainer = document.getElementById('image-preview-container');
-
-        fileInput.addEventListener('change', function() {
-            previewContainer.innerHTML = ''; // เคลียร์รูปเก่าที่เคยเลือก
-            const files = Array.from(this.files);
-
-            if (files.length > 5) {
-                alert('ขออภัยค่ะ คุณสามารถอัปโหลดรูปภาพได้สูงสุด 5 รูปเท่านั้น');
-                this.value = ''; // ล้างการเลือกไฟล์ทิ้ง
+        document.getElementById('booking-form').addEventListener('submit', function(event) {
+            
+            // 4.1 ตรวจสอบว่าเลือกวันที่แล้วหรือยัง
+            const selectedDate = document.getElementById('booking_date').value;
+            if (!selectedDate) {
+                alert('กรุณาเลือกวันที่ต้องการจองคิวค่ะ');
+                event.preventDefault(); // สั่งให้หยุดการเปลี่ยนหน้า
                 return;
             }
 
-            files.forEach(file => {
-                if (file && file.type.startsWith('image/')) {
-                    const reader = new FileReader();
-                    reader.onload = function(e) {
-                        const imgDiv = document.createElement('div');
-                        imgDiv.className = 'relative w-full h-24 rounded-lg overflow-hidden border border-gray-200 shadow-sm';
-                        imgDiv.innerHTML = `<img src="${e.target.result}" class="w-full h-full object-cover" alt="Preview">`;
-                        previewContainer.appendChild(imgDiv);
-                    }
-                    reader.readAsDataURL(file);
-                }
-            });
+            // 4.2 ตรวจสอบว่าเลือกเวลาแล้วหรือยัง
+            const selectedTime = document.getElementById('booking_time').value;
+            if (!selectedTime) {
+                alert('กรุณาเลือกรอบเวลาที่ต้องการจองคิวค่ะ');
+                event.preventDefault(); 
+                return;
+            }
+
+            // 4.3 ตรวจสอบว่าเลือกบริการอย่างน้อย 1 อย่างหรือยัง
+            const checkedServices = document.querySelectorAll('.service-checkbox:checked');
+            if (checkedServices.length === 0) {
+                alert('กรุณาเลือกบริการที่ต้องการทำอย่างน้อย 1 รายการค่ะ');
+                event.preventDefault();
+                return;
+            }
         });
     </script>
     <script>

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>สรุปการจอง - Rabbitz</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: { extend: { fontFamily: { sans: ['Kanit', 'sans-serif'], }, colors: { brand: { 900: '#7f1d1d' } } } }
+        }
+    </script>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <header>
+        <nav class="border-b border-red-900 px-4 py-2.5 fixed left-0 right-0 top-0 z-50 bg-red-900 w-full">
+            <div class="flex flex-wrap items-center justify-between mx-auto max-w-[1600px]">
+                <div class="flex items-center justify-start">
+                    <a href="Homepage.html" class="flex items-center mr-6">
+                        <img src="logo rabbitz.svg" class="w-12 h-12 mr-3 bg-white rounded-full object-cover" alt="Rabbitz Logo" />
+                        <span class="self-center text-2xl font-semibold whitespace-nowrap text-white">Rabbitz</span>
+                    </a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="pt-28 pb-12 px-4">
+        <div class="max-w-3xl mx-auto bg-white rounded-2xl shadow-lg p-8 border-t-4 border-red-900">
+            <h2 class="font-bold text-3xl text-red-900 mb-2 text-center">สรุปรายละเอียดการจอง</h2>
+            <p class="text-center text-gray-500 mb-8">กรุณาตรวจสอบความถูกต้องก่อนดำเนินการชำระมัดจำ</p>
+
+            <div id="summary-content" class="space-y-6">
+                <div class="text-center py-10 text-gray-500">กำลังโหลดข้อมูล...</div>
+            </div>
+
+            <div class="mt-10 flex flex-col-reverse sm:flex-row justify-between items-center gap-4 pt-6 border-t border-gray-200">
+                <a href="Booking.html" class="text-gray-600 bg-gray-100 hover:bg-gray-200 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-lg px-8 py-3 w-full sm:w-auto transition">
+                    กลับไปแก้ไข
+                </a>
+                <a href="Payment.html" class="text-white bg-red-900 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-lg px-10 py-3 w-full sm:w-auto text-center transition shadow-md">
+                    ยืนยันและชำระมัดจำ
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // ดึงข้อมูลจากหน่วยความจำชั่วคราว
+            const bookingDataStr = sessionStorage.getItem('bookingData');
+            const summaryContainer = document.getElementById('summary-content');
+
+            if (!bookingDataStr) {
+                summaryContainer.innerHTML = '<div class="text-red-600 text-center font-medium">ไม่พบข้อมูลการจอง กรุณากลับไปทำรายการใหม่</div>';
+                return;
+            }
+
+            const data = JSON.parse(bookingDataStr);
+
+            // จัดรูปแบบวันที่ให้สวยงาม
+            const dateObj = new Date(data.date);
+            const formattedDate = dateObj.toLocaleDateString('th-TH', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+
+            // จัดการรูปภาพ (ถ้ามี)
+            let imagesHtml = '';
+            if (data.images && data.images.length > 0) {
+                imagesHtml = `
+                    <div class="mt-4">
+                        <p class="text-sm text-gray-500 mb-2">รูปภาพอ้างอิง (Reference):</p>
+                        <div class="flex gap-3 flex-wrap">
+                            ${data.images.map(imgData => `<img src="${imgData}" class="w-24 h-24 object-cover rounded-lg border border-gray-200 shadow-sm">`).join('')}
+                        </div>
+                    </div>`;
+            }
+
+            // แสดงผล HTML
+            summaryContainer.innerHTML = `
+                <div class="bg-red-50 p-6 rounded-xl border border-red-100 mb-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <p class="text-sm text-gray-500 mb-1">วันที่นัดหมาย</p>
+                            <p class="font-semibold text-xl text-red-900">${formattedDate}</p>
+                        </div>
+                        <div>
+                            <p class="text-sm text-gray-500 mb-1">เวลานัดหมาย</p>
+                            <p class="font-semibold text-xl text-red-900">${data.time}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="px-2">
+                    <div class="mb-6">
+                        <p class="text-sm text-gray-500 mb-2 border-b pb-2">บริการที่เลือก</p>
+                        <ul class="list-disc list-inside text-gray-800 font-medium space-y-1">
+                            ${data.services.map(s => `<li>${s}</li>`).join('')}
+                        </ul>
+                    </div>
+
+                    <div class="mb-6">
+                        <p class="text-sm text-gray-500 mb-2 border-b pb-2">รายละเอียดเพิ่มเติม</p>
+                        <p class="text-gray-800 bg-gray-50 p-4 rounded-lg border border-gray-100">${data.details ? data.details.replace(/\n/g, '<br>') : 'ไม่มีการระบุรายละเอียดเพิ่มเติม'}</p>
+                    </div>
+
+                    ${imagesHtml}
+                </div>
+            `;
+        });
+    </script>
+</body>
+</html>
