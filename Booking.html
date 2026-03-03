@@ -24,46 +24,88 @@
 </head>
 <body class="bg-gray-50 text-gray-800">
 
-    <header>
+   <header>
         <nav class="border-b border-red-900 px-4 py-2.5 fixed left-0 right-0 top-0 z-50 bg-red-900 w-full">
             <div class="flex flex-wrap items-center justify-between mx-auto max-w-[1600px]">
                 
                 <div class="flex items-center justify-start">
                     <a href="#" class="flex items-center mr-6">
-                        <img src="logo rabbitz.svg" class="w-12 h-12 mr-3 bg-white rounded-full object-cover" alt="Rabbitz Logo" />
-                        <span class="self-center text-2xl font-semibold whitespace-nowrap text-white">Rabbitz</span>
+                        <img src="logo rabbitz.svg" class="size-16 mr-3 bg-white rounded-full p-1" alt="Rabbitz Logo" />
                     </a>
 
                     <div class="hidden md:block relative mr-4"> 
-                        <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                            <svg class="w-5 h-5 text-red-900" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path></svg>
-                        </div>
-                        <input type="text" id="search-navbar" class="block w-64 p-2 pl-10 text-sm text-red-900 bg-gray-200 border border-red-900 rounded-lg placeholder-gray-500 focus:ring-white focus:border-white" placeholder="Search">
+                        <h1 class="text-white text-lg font-medium">NAIL IT BY RABBITZ สาขา มหาวิทยาลัยพะเยา</h1>
                     </div>
                 </div>
 
-                <div class="flex items-center justify-between w-auto" id="navbar-sticky">
-                    <ul class="flex flex-row items-center p-0 mt-0 space-x-6 text-sm font-medium border-0 mr-8">
-                        <li><a href="Homepage.html" class="text-white hover:text-red-900 hover:bg-white px-3 py-2 rounded-lg transition">Homepage</a></li>
-                        <div class="hidden lg:block w-px h-6 bg-white mr-4"></div> 
-                        <li><a href="Contact.html" class="text-white hover:text-red-900 hover:bg-white px-3 py-2 rounded-lg transition">Contact</a></li>
-                        <div class="hidden lg:block w-px h-6 bg-white mr-4"></div>
-                        <li><a href="Booking.html" class="text-red-900 bg-white px-3 py-2 rounded-lg font-bold">Booking</a></li>
+                <div class="flex items-center gap-6">
+                    <ul class="hidden lg:flex flex-row space-x-6 text-sm font-medium text-white">
+                        <li><a href="#" class="hover:text-red-200 transition">Homepage</a></li>
+                        <li class="w-px h-5 bg-white/30"></li>
+                        <li><a href="Contact.html" class="hover:text-red-200 transition">Contact</a></li>
+                        <li class="w-px h-5 bg-white/30"></li>
+                        <li><a href="Booking.html" class="hover:text-red-200 transition">Booking</a></li>
                     </ul>
+                    
+                    <div class="hidden lg:block w-px h-6 bg-white/30 mx-2"></div>
 
                     <div class="flex items-center space-x-4">
-                        <a href="Signup.html" class="text-white border-2 border-white focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-4 py-2 text-center inline-flex items-center hover:bg-white hover:text-red-900 transition">
-                            Sign up
-                        </a>
-                        <a href="Rolechoosen.html" class="text-red-900 bg-white focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-4 py-2 text-center inline-flex items-center hover:bg-gray-100 transition">
-                            Sign in
-                        </a>
+                        
+                        <button type="button" class="relative p-2 text-white hover:bg-white/10 rounded-full transition focus:outline-none">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
+                            </svg>
+                            <span class="absolute top-2 right-2 flex h-3 w-3">
+                                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-yellow-300 opacity-75"></span>
+                                <span class="relative inline-flex rounded-full h-3 w-3 bg-yellow-400 border-2 border-red-900"></span>
+                            </span>
+                        </button>
+
+                        <button type="button" class="flex text-sm bg-white rounded-full focus:ring-4 focus:ring-red-700 overflow-hidden size-10 border-2 border-white/20 shadow-sm transition hover:scale-105">
+                            <img class="w-full h-full object-cover" src="https://ui-avatars.com/api/?name=User&background=random" alt="User Profile">
+                        </button>
+
+                    </div>
+                    <div class="flex items-center gap-4 border-l border-white/30 pl-6">
+                    <button id="menuBtn" class="text-white hover:bg-white/10 p-2 rounded-lg transition">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                    </button>
                     </div>
                 </div>
+
             </div>
         </nav>
-    </header>
+        <div id="sidebar" class="fixed top-0 right-0 h-full w-72 bg-gradient-to-b from-[#801919] to-[#5d1212] z-[100] transform translate-x-full transition-transform duration-300 ease-in-out shadow-2xl rounded-l-[3rem]">
+    
+        <div class="p-8 flex flex-col items-center">
+        <button id="closeBtn" class="self-end text-white mb-4">
+            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+        </button>
+        <button type="button" class="flex text-sm bg-white rounded-full focus:ring-40 overflow-hidden size-49 border-2 border-white/20 shadow-sm ">
+             <img class="w-full h-full object-cover" src="https://ui-avatars.com/api/?name=User&background=random" alt="User Profile">
+        </button>
+        
+        </div>
 
+        <div class="px-6 py-4">
+        <div class="bg-white/90 rounded-[2rem] p-6 space-y-3 text-center shadow-lg">
+            <a href="#" class="block text-[#801919] font-bold hover:scale-105 transition uppercase tracking-wider text-medium">Setting</a>
+            <hr class="border-[#801919]/20 w-1/2 mx-auto">
+            <a href="#" class="block text-[#801919] font-bold hover:scale-105 transition uppercase tracking-wider text-medium">My Booking & History</a>
+        </div>
+        </div>
+
+        <div class="absolute bottom-12 left-0 right-0 px-10 text-center">
+        <button class="w-full border-2 border-white text-white py-2 rounded-full font-bold uppercase text-medium hover:bg-white hover:text-[#801919] transition">
+            Sign out
+        </button>
+         </div>
+        </div>
+
+        <div id="overlay" class="fixed inset-0 bg-black/40 z-[90] hidden"></div>
+    </header>
     <div class="pt-28 pb-12 px-4">
         <div class="max-w-4xl mx-auto bg-white rounded-2xl shadow-lg p-8">
             <h2 class="font-bold text-3xl text-red-900 mb-8 border-b pb-4">จองคิวรับบริการ (Booking)</h2>
@@ -237,5 +279,26 @@
             });
         });
     </script>
+    <script>
+    const menuBtn = document.getElementById('menuBtn');
+    const closeBtn = document.getElementById('closeBtn');
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('overlay');
+
+    // ฟังก์ชันเปิดเมนู
+    menuBtn.addEventListener('click', () => {
+        sidebar.classList.remove('translate-x-full');
+        overlay.classList.remove('hidden');
+    });
+
+    // ฟังก์ชันปิดเมนู
+    const closeMenu = () => {
+        sidebar.classList.add('translate-x-full');
+        overlay.classList.add('hidden');
+    };
+
+    closeBtn.addEventListener('click', closeMenu);
+    overlay.addEventListener('click', closeMenu);
+</script>
 </body>
 </html>
