@@ -29,13 +29,9 @@
                         </a>
 
                         <div class="hidden md:block relative mr-4"> 
-                            <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                                <svg class="w-5 h-5 text-red-900" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path></svg>
-                            </div>
-                            <input type="text" id="search-navbar" class="block w-64 p-2 pl-10 text-sm text-red-900 bg-gray-200 border border-red-900 rounded-lg placeholder-gray-400 focus:ring-blue-500 focus:border-blue-500" placeholder="Search">
-                            <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-                                <span class="text-xs text-red-900 border border-red-900 rounded px-1.5 py-0.5">CTRL K</span>
-                            </div>
+                            <div class="hidden md:block relative mr-4"> 
+                        <h1 class="text-white text-lg font-medium">NAIL IT BY RABBITZ สาขา มหาวิทยาลัยพะเยา</h1>
+                    </div>
                         </div>
                     </div>
 
@@ -95,37 +91,113 @@
 
         <hr class="border-gray-200 mb-6">
 
-        <div class="flex justify-between items-center mb-4">
-            <h2 class="text-lg font-bold">Calender View</h2>
-            <button class="bg-[#800000] text-white px-6 py-1 rounded-full text-sm font-bold">รายการ</button>
-        </div>
+    
 
-        <div class="flex gap-4 mb-6 text-xs font-bold">
-            <div class="flex items-center gap-2">
-                <span>Month :</span>
-                <select class="bg-gray-300 rounded-lg px-2 py-1 outline-none"><option>JANUARY</option></select>
-            </div>
-            <div class="flex items-center gap-2">
-                <span>Year :</span>
-                <select class="bg-gray-300 rounded-lg px-2 py-1 outline-none"><option>2026</option></select>
-            </div>
+       <div class="max-w-md mx-auto p-4 text-[#800000]">
+    <div class="flex justify-between items-center mb-4">
+        <h2 class="text-lg font-bold">Calender View</h2>
+        <div class="flex gap-2">
+            <select id="monthSelect" class="bg-gray-200 rounded-lg px-2 py-1 text-xs outline-none"></select>
+            <select id="yearSelect" class="bg-gray-200 rounded-lg px-2 py-1 text-xs outline-none"></select>
         </div>
+    </div>
 
-        <div class="mb-8">
-            <p class="text-center font-bold mb-2 tracking-widest text-sm">JANUARY</p>
-            <div class="grid grid-cols-7 text-center text-[10px] font-bold border-t border-[#800000] pt-2 italic">
-                <span>Su</span><span>Mo</span><span>Tu</span><span>We</span><span>Th</span><span>Fr</span><span>Sa</span>
-            </div>
-            <div class="grid grid-cols-7 text-center text-xs gap-y-2 mt-2 text-gray-500">
-                <span class="opacity-30">28</span><span class="opacity-30">29</span><span class="opacity-30">30</span><span class="opacity-30">31</span>
-                <span>1</span><span>2</span><span>3</span>
-                <span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>10</span>
-                <span>11</span><span>12</span><span>13</span><span>14</span><span>15</span><span>16</span><span>17</span>
-                <span>18</span><span>19</span><span>20</span><span>21</span><span>22</span><span>23</span><span>24</span>
-                <span class="bg-[#FFD700] rounded-full w-5 h-5 flex items-center justify-center mx-auto text-black">25</span>
-                <span>26</span><span>27</span><span>28</span><span>29</span><span>30</span><span>31</span>
-            </div>
+    <div class="bg-white shadow-sm rounded-xl p-4 border border-gray-100">
+        <p id="currentMonthDisplay" class="text-center font-bold mb-4 uppercase tracking-widest text-sm"></p>
+        <div class="grid grid-cols-7 text-center text-[10px] font-bold border-b border-[#800000] pb-2 mb-2 italic">
+            <span>Su</span><span>Mo</span><span>Tu</span><span>We</span><span>Th</span><span>Fr</span><span>Sa</span>
         </div>
+        <div id="calendarGrid" class="grid grid-cols-7 text-center text-xs gap-y-2"></div>
+    </div>
+</div>
+
+<div id="bookingModal" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-[100] p-4">
+    <div class="bg-white rounded-2xl p-6 w-full max-w-xs shadow-2xl">
+        <h3 class="font-bold mb-4">เพิ่มรายการวันที่ <span id="selectedDateText"></span></h3>
+        <input type="text" id="taskInput" placeholder="ชื่อลูกค้า / บริการ" class="w-full border p-2 rounded-lg mb-4 text-sm outline-none focus:border-[#800000]">
+        <div class="flex gap-2">
+            <button onclick="closeModal()" class="flex-1 py-2 bg-gray-200 rounded-lg text-sm font-bold">ยกเลิก</button>
+            <button onclick="saveTask()" class="flex-1 py-2 bg-[#800000] text-white rounded-lg text-sm font-bold">บันทึก</button>
+        </div>
+    </div>
+</div>
+<script>
+    const monthSelect = document.getElementById('monthSelect');
+const yearSelect = document.getElementById('yearSelect');
+const calendarGrid = document.getElementById('calendarGrid');
+const currentMonthDisplay = document.getElementById('currentMonthDisplay');
+const modal = document.getElementById('bookingModal');
+const selectedDateText = document.getElementById('selectedDateText');
+
+const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+let currentViewDate = new Date(); // วันที่ปัจจุบันที่กำลังดูอยู่
+
+// 1. สร้าง Option ใน Select
+months.forEach((m, i) => monthSelect.innerHTML += `<option value="${i}">${m}</option>`);
+for(let y = 2024; y <= 2030; y++) yearSelect.innerHTML += `<option value="${y}">${y}</option>`;
+
+// 2. ฟังก์ชันวาดปฏิทิน
+function renderCalendar() {
+    const year = parseInt(yearSelect.value);
+    const month = parseInt(monthSelect.value);
+    
+    calendarGrid.innerHTML = '';
+    currentMonthDisplay.innerText = `${months[month]} ${year}`;
+
+    const firstDay = new Date(year, month, 1).getDay();
+    const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+    // เติมช่องว่างวันของเดือนก่อนหน้า
+    for (let i = 0; i < firstDay; i++) {
+        calendarGrid.innerHTML += `<span class="opacity-0"></span>`;
+    }
+
+    // สร้างวันที่ 1 ถึงสิ้นเดือน
+    for (let day = 1; day <= daysInMonth; day++) {
+        const dateBtn = document.createElement('button');
+        dateBtn.innerText = day;
+        dateBtn.className = "h-8 w-8 mx-auto flex items-center justify-center rounded-full hover:bg-[#FFDAB9] transition-colors cursor-pointer font-medium";
+        
+        // ถ้าเป็นวันนี้ให้ใส่สีเน้น
+        const today = new Date();
+        if(day === today.getDate() && month === today.getMonth() && year === today.getFullYear()) {
+            dateBtn.classList.add('bg-[#FFD700]', 'text-[#800000]', 'font-bold');
+        }
+
+        dateBtn.onclick = () => openModal(day, month, year);
+        calendarGrid.appendChild(dateBtn);
+    }
+}
+
+// 3. ฟังก์ชัน Modal
+function openModal(d, m, y) {
+    selectedDateText.innerText = `${d} ${months[m]} ${y}`;
+    modal.classList.remove('hidden');
+}
+
+function closeModal() {
+    modal.classList.add('hidden');
+    document.getElementById('taskInput').value = '';
+}
+
+function saveTask() {
+    const task = document.getElementById('taskInput').value;
+    if(task) {
+        alert(`บันทึกรายการ: ${task} สำหรับวันที่ ${selectedDateText.innerText} เรียบร้อย!`);
+        // ในอนาคตคุณสามารถใช้ fetch() เพื่อส่งข้อมูลไปเก็บใน Database ได้ที่นี่
+        closeModal();
+    }
+}
+
+// Initial setup
+monthSelect.value = currentViewDate.getMonth();
+yearSelect.value = currentViewDate.getFullYear();
+renderCalendar();
+
+// ผูก Event เมื่อเปลี่ยน Select
+monthSelect.onchange = renderCalendar;
+yearSelect.onchange = renderCalendar;
+</script>
 
         <hr class="border-gray-200 mb-6">
 
