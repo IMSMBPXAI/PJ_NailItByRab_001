@@ -3,103 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HOMEPAGE ADMIN</title>
+    <title>HOMEPAGE ADMIN - NAIL IT BY RABBITZ</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600&display=swap" rel="stylesheet">
-
     <style>
-  /* ตั้งค่าให้ทั้งหน้าเว็บใช้ฟอนต์ Kanit */
-  body {
-    font-family: 'Kanit', sans-serif;
-    }
+        body { font-family: 'Kanit', sans-serif; }
+        .tab-active { border-bottom: 2px solid #800000; color: #800000; font-weight: 600; }
+        .tab-inactive { color: #6b7280; font-weight: 400; }
+        
+        /* ตกแต่งให้กล่องเลือกวันเวลาดูสวยขึ้น */
+        input[type="date"]::-webkit-calendar-picker-indicator,
+        input[type="time"]::-webkit-calendar-picker-indicator {
+            cursor: pointer;
+            filter: invert(0.4) sepia(1) saturate(5) hue-rotate(330deg);
+        }
     </style>
 </head>
-<body class="bg-white min-h-screen">
-     <header>
+<body class="bg-gray-50 min-h-screen">
+    
+    <header>
         <nav class="border-b border-red-900 px-4 py-2.5 fixed left-0 right-0 top-0 z-50 bg-red-900 w-full">
             <div class="flex flex-wrap items-center justify-between mx-auto max-w-[1600px]">
-                
                 <div class="flex items-center justify-start">
-                    <a href="#" class="flex items-center mr-6">
-                        <img src="logo rabbitz.svg" class="size-16 mr-3 bg-white rounded-full p-1" alt="Rabbitz Logo" />
+                    <a href="HomepageAddmin.html" class="flex items-center mr-6">
+                        <div class="w-12 h-12 mr-3 bg-white rounded-full flex items-center justify-center text-red-900 font-bold text-xs overflow-hidden">
+                            <img src="logo rabbitz.svg" alt="Logo" onerror="this.style.display='none'; this.parentNode.innerHTML='LOGO'">
+                        </div>
+                        <span class="self-center text-2xl font-semibold whitespace-nowrap text-red-900"></span>
                     </a>
-
                     <div class="hidden md:block relative mr-4"> 
-                        <h1 class="text-white text-lg font-medium">NAIL IT BY RABBITZ สาขา มหาวิทยาลัยพะเยา</h1>
+                        <h1 class="text-white text-lg font-medium">NAIL IT BY RABBITZ สาขา มหาวิทยาลัยพะเยา (STAFF PANEL)</h1>
                     </div>
                 </div>
-
-                <div class="flex items-center gap-6">
-                    <ul class="hidden lg:flex flex-row space-x-6 text-sm font-medium text-white">
-                        <li><a href="#" class="hover:text-red-200 transition">Homepage</a></li>
-                        <li class="w-px h-5 bg-white/30"></li>
-                        <li><a href="#" class="hover:text-red-200 transition">Gallery</a></li>
-                        <li class="w-px h-5 bg-white/30"></li>
-                        <li><a href="#" class="hover:text-red-200 transition">List</a></li>
-                        <li class="w-px h-5 bg-white/30"></li>
-                        <li><a href="#" class="hover:text-red-200 transition">Booking</a></li>
-                    </ul>
-                    
-                    <div class="hidden lg:block w-px h-6 bg-white/30 mx-2"></div>
-
-                    <div class="flex items-center space-x-4">
-                        
-                        <button type="button" class="relative p-2 text-white hover:bg-white/10 rounded-full transition focus:outline-none">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
-                            </svg>
-                            <span class="absolute top-2 right-2 flex h-3 w-3">
-                                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-yellow-300 opacity-75"></span>
-                                <span class="relative inline-flex rounded-full h-3 w-3 bg-yellow-400 border-2 border-red-900"></span>
-                            </span>
-                        </button>
-
-                        <button type="button" class="flex text-sm bg-white rounded-full focus:ring-4 focus:ring-red-700 overflow-hidden size-10 border-2 border-white/20 shadow-sm transition hover:scale-105">
-                            <img class="w-full h-full object-cover" src="https://ui-avatars.com/api/?name=User&background=random" alt="User Profile">
-                        </button>
-
-                    </div>
-                    <div class="flex items-center gap-4 border-l border-white/30 pl-6">
-                    <button id="menuBtn" class="text-white hover:bg-white/10 p-2 rounded-lg transition">
-                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                    </svg>
+                <div class="flex items-center justify-between w-auto gap-4">
+                    <span id="navUserRole" class="text-white text-xs bg-red-800 px-2 py-1 rounded border border-red-700 hidden md:block"></span>
+                    <button onclick="adminLogout()" class="text-red-900 bg-white hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-4 py-2 text-center inline-flex items-center transition shadow-sm">
+                        Log out
                     </button>
-                    </div>
                 </div>
-
             </div>
         </nav>
-        <div id="sidebar" class="fixed top-0 right-0 h-full w-72 bg-gradient-to-b from-[#801919] to-[#5d1212] z-[100] transform translate-x-full transition-transform duration-300 ease-in-out shadow-2xl rounded-l-[3rem]">
-    
-        <div class="p-8 flex flex-col items-center">
-        <button id="closeBtn" class="self-end text-white mb-4">
-            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-        </button>
-        <button type="button" class="flex text-sm bg-white rounded-full focus:ring-40 overflow-hidden size-49 border-2 border-white/20 shadow-sm ">
-             <img class="w-full h-full object-cover" src="https://ui-avatars.com/api/?name=User&background=random" alt="User Profile">
-        </button>
-        
-        </div>
-
-        <div class="px-6 py-4">
-        <div class="bg-white/90 rounded-[2rem] p-6 space-y-3 text-center shadow-lg">
-            <a href="#" class="block text-[#801919] font-bold hover:scale-105 transition uppercase tracking-wider text-medium">Setting</a>
-            <hr class="border-[#801919]/20 w-1/2 mx-auto">
-            <a href="#" class="block text-[#801919] font-bold hover:scale-105 transition uppercase tracking-wider text-medium">My Booking & History</a>
-        </div>
-        </div>
-
-        <div class="absolute bottom-12 left-0 right-0 px-10 text-center">
-        <button class="w-full border-2 border-white text-white py-2 rounded-full font-bold uppercase text-medium hover:bg-white hover:text-[#801919] transition">
-            Sign out
-        </button>
-         </div>
-        </div>
-
-        <div id="overlay" class="fixed inset-0 bg-black/40 z-[90] hidden"></div>
     </header>
     <br><br><br><br><br>
 <main class="max-w-6xl mx-auto px-6">
@@ -140,202 +85,697 @@
         
         <h2 class="text-xl text-left font-bold mb-6 text-[#800000] border-l-4 border-[#800000] pl-3">Calendar View</h2>
 
-            <div class="grid lg:grid-cols-12 gap-8 justify-items-start">
-            
-            <div class="lg:col-span-7">
-               <div class="flex gap-5">
-            <select id="monthSelect" class="bg-gray-200 rounded-lg px-2 py-1 text-xs outline-none"></select>    
-            <select id="yearSelect" class="bg-gray-200 rounded-lg px-2 py-1 text-xs outline-none"></select>
-            </div>
-            <br>
-                <div class="border-t border-gray-100 pt-4">
-                    <h3 id="currentMonthDisplay" class="text-center font-bold text-lg mb-4 tracking-widest text-[#800000]">MARCH 2026</h3>
-                    
-                    <div class="grid grid-cols-7 text-center font-bold text-xs mb-2 italic text-[#800000]/70">
-                        <span>Su</span><span>Mo</span><span>Tu</span><span>We</span><span>Th</span><span>Fr</span><span>Sa</span>
-                    </div>
-                    
-                    <div id="calendarGrid" class="grid grid-cols-7 text-center gap-1">
-                        <span class="calendar-day text-gray-300">24</span>
-                        <span class="calendar-day text-gray-300">25</span>
-                        <span class="calendar-day">1</span>
-                        <span class="calendar-day">2</span>
-                        <span class="calendar-day active-day">3</span>
-                        <span class="calendar-day">4</span>
-                        </div>
-                </div>
-            </div>
+    <main class="max-w-5xl mx-auto pt-24 px-4 pb-10">
+        
+        <div class="flex border-b border-gray-200 mb-6 overflow-x-auto">
+            <button onclick="switchTab('overview')" id="tab-overview" class="tab-active px-4 py-2 text-sm focus:outline-none whitespace-nowrap">ภาพรวมระบบ (Overview)</button>
+            <button onclick="switchTab('bookings')" id="tab-bookings" class="tab-inactive px-4 py-2 text-sm focus:outline-none whitespace-nowrap hover:text-red-900">จัดการการจอง (Bookings)</button>
+            <button onclick="switchTab('roles')" id="tab-roles" class="tab-inactive px-4 py-2 text-sm focus:outline-none whitespace-nowrap hover:text-red-900">สิทธิ์พนักงาน (Roles)</button>
+            <button onclick="switchTab('content')" id="tab-content" class="tab-inactive px-4 py-2 text-sm focus:outline-none whitespace-nowrap hover:text-red-900">จัดการเนื้อหา (Content)</button>
+        </div>
 
-            <div class="lg:col-span-5">
-                <div class="bg-[#FEFCE8]/50 border border-orange-100 rounded-2xl overflow-hidden">
-                    <div class="bg-[#800000] text-white text-center py-2.5 text-lg font-bold">
-                        รายการประจำวัน
+        <div id="section-overview" class="block">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div>
+                    <h2 class="text-lg font-bold mb-4 text-red-900">สถิติวันนี้ (Quick Stats)</h2>
+                    <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 grid grid-cols-3 gap-4 text-center mb-6">
+                        <div>
+                            <p class="text-xs mb-2 font-semibold">จำนวนการจอง</p>
+                            <div class="w-12 h-12 bg-[#800000] text-white rounded-full flex items-center justify-center text-xl font-bold mx-auto">3</div>
+                        </div>
+                        <div class="border-l border-gray-200 border-r">
+                            <p class="text-xs mb-2 font-semibold">รายได้ประเมิน</p>
+                            <p class="text-sm font-bold text-gray-500">ประมาณ</p>
+                            <p class="text-lg font-extrabold leading-tight text-green-600">1,500 ฿</p>
+                        </div>
+                        <div>
+                            <p class="text-xs mb-2 font-semibold">ลูกค้าใหม่</p>
+                            <div class="w-12 h-12 bg-yellow-400 text-red-900 rounded-full flex items-center justify-center text-xl font-bold mx-auto">1</div>
+                        </div>
                     </div>
-                    <div class="p-6">
-                        <p class="text-center font-bold text-sm text-gray-500 mb-4 tracking-wide">5.30 - 7.30 PM</p>
-                        <ul class="space-y-3 mb-6 text-sm font-medium">
-                            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-[#800000] rounded-full"></span> ทาสีพื้นมือ</li>
-                            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-[#800000] rounded-full"></span> ทาสีพื้นเท้า</li>
-                            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-[#800000] rounded-full"></span> ทาสีแฟลช / ลูกแก้ว</li>
-                            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-[#800000] rounded-full"></span> Overlay</li>
-                        </ul>
-                        <div class="flex justify-between items-end border-t border-orange-100 pt-5">
-                        
-                            <div class="text-[#800000] font-bold text-base flex items-center gap-1 flex-8 justify-end">
-                                1,050 THB <span class="text-green-600 text-lg">✔</span>
+
+                    <h2 class="text-lg font-bold mb-4 text-[#800000] mt-8">รีวิวล่าสุด</h2>
+                    <div class="bg-[#FEF9E7] p-4 rounded-xl shadow-sm mb-4 border border-yellow-200">
+                        <div class="flex gap-4 items-start">
+                            <div class="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center text-xl overflow-hidden">
+                                <img src="https://ui-avatars.com/api/?name=Cus&background=random" alt="Avatar">
+                            </div>
+                            <div class="flex-1">
+                                <p class="text-xs font-bold">@ลูกค้าประจำ01</p>
+                                <div class="flex items-center gap-1 my-1">
+                                    <span class="text-[#DAA520] text-sm">⭐⭐⭐⭐⭐</span>
+                                </div>
+                                <p class="text-xs font-medium opacity-80">ช่างมือเบามากค่ะ ลายตรงปก แนะนำเลย!</p>
+                                <button class="mt-2 text-[10px] text-green-700 font-bold underline">ตอบกลับรีวิว</button>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-        </div>
-
-        
-    </div>
-    <div>
-        <hr class="my-10 border-gray-50">
-        
-        <h2 class="text-xl font-bold mb-6 text-[#4A0000]">รีวิวจากลูกค้า</h2>
-        <div class="bg-gray-50/50 rounded-2xl p-6 max-w-3xl border border-black">
-            <div class="flex items-start gap-4">
-                <div class="w-12 h-12 border-2 border-[#800000] rounded-full flex items-center justify-center text-xl text-[#800000] bg-white">👤</div>
-                <div class="flex-1">
-                    <div class="flex justify-between items-center mb-1">
-                        <p class="font-bold text-[10px] text-gray-400 uppercase tracking-tighter">@USERNAME</p>
-                        <span class="text-sm font-bold text-[#800000]">4.9/5.0</span>
+                <div>
+                    <div class="flex justify-between items-center mb-4">
+                        <h2 class="text-lg font-bold text-red-900">จัดการปฏิทินช่าง</h2>
+                        <div class="flex gap-2">
+                            <select id="monthSelect" class="bg-white border rounded-lg px-2 py-1 text-xs outline-none shadow-sm"></select>
+                            <select id="yearSelect" class="bg-white border rounded-lg px-2 py-1 text-xs outline-none shadow-sm"></select>
+                        </div>
                     </div>
-                    <div class="text-yellow-500 text-xs mb-2">★★★★★</div>
-                    <p class="text-[#800000] font-medium text-sm leading-relaxed mb-4">" บริการดีมากค่ะ งานสวยตรงปกตามเรฟที่ให้เลยค่ะ ประทับใจมาก "</p>
-                    
-                    <button class="text-xs font-bold text-gray-400 hover:text-[#800000] flex items-center gap-2 transition-colors">
-                        ตอบกลับรีวิวนี้ <span class="text-green-500">↩</span>
-                    </button>
+                    <div class="bg-white shadow-sm rounded-xl p-4 border border-gray-100">
+                        <p id="currentMonthDisplay" class="text-center font-bold mb-4 uppercase tracking-widest text-sm text-gray-700"></p>
+                        <div class="grid grid-cols-7 text-center text-xs font-bold border-b border-[#800000] pb-2 mb-2">
+                            <span>Su</span><span>Mo</span><span>Tu</span><span>We</span><span>Th</span><span>Fr</span><span>Sa</span>
+                        </div>
+                        <div id="calendarGrid" class="grid grid-cols-7 text-center text-sm gap-y-2 gap-x-1"></div>
+                        <p class="text-[10px] text-gray-500 mt-4 text-center">*กดที่วันที่เพื่อจัดการคิวหรือปิดรับจอง</p>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <div id="bookingModal" class="hidden fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-[100] p-4">
-        <div class="bg-white rounded-2xl p-6 w-full max-w-[320px] shadow-xl border border-gray-100">
-            <h3 class="text-base font-bold mb-4 flex items-center gap-2">
-                <span class="w-2 h-2 bg-[#800000] rounded-full"></span>
-                เพิ่มรายการ: <span id="selectedDateText" class="text-[#800000]"></span>
-            </h3>
-            <input type="text" id="taskInput" placeholder="ระบุชื่อลูกค้า หรือบริการ..." 
-                class="w-full border border-gray-200 p-2.5 rounded-xl mb-5 text-sm outline-none focus:ring-1 focus:ring-[#800000] transition-all">
+        <div id="section-bookings" class="hidden bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-xl font-bold text-red-900">รายการจองคิวลูกค้า</h2>
+                <button onclick="fetchBookings()" class="text-sm bg-gray-100 hover:bg-gray-200 px-3 py-1 rounded-lg transition">🔄 รีเฟรชข้อมูล</button>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm text-left text-gray-500">
+                    <thead class="text-xs text-gray-700 uppercase bg-gray-100">
+                        <tr>
+                            <th class="px-4 py-3">ลูกค้า / เบอร์โทร</th>
+                            <th class="px-4 py-3">บริการ</th>
+                            <th class="px-4 py-3">วัน - เวลา</th>
+                            <th class="px-4 py-3">สถานะ</th>
+                            <th class="px-4 py-3 text-center">จัดการ</th>
+                        </tr>
+                    </thead>
+                    <tbody id="bookingsTableBody">
+                        <tr><td colspan="5" class="px-4 py-4 text-center text-gray-400">กำลังโหลดข้อมูล...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="section-roles" class="hidden bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-xl font-bold text-red-900">จัดการสิทธิ์ผู้ใช้งาน (Staff & Admins)</h2>
+                <button id="addRoleBtn" onclick="addRole()" class="bg-red-900 text-white px-4 py-2 rounded-lg text-sm hover:bg-red-800 transition-colors shadow-sm">+ เพิ่มพนักงานใหม่</button>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm text-left text-gray-500">
+                    <thead class="text-xs text-gray-700 uppercase bg-gray-100">
+                        <tr>
+                            <th class="px-4 py-3">ชื่อพนักงาน / บัญชี</th>
+                            <th class="px-4 py-3">ตำแหน่ง (Role)</th>
+                            <th class="px-4 py-3 text-center">จัดการ</th>
+                        </tr>
+                    </thead>
+                    <tbody id="rolesTableBody">
+                        <tr><td colspan="3" class="px-4 py-4 text-center text-gray-400">กำลังโหลดข้อมูล...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="section-content" class="hidden grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                <h2 class="text-lg font-bold mb-4 text-red-900">เพิ่มบริการ / โปรโมชันใหม่</h2>
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-xs font-bold text-gray-700 mb-1">ชื่อบริการ</label>
+                        <input type="text" id="contentName" class="w-full border rounded-lg p-2 text-sm focus:border-red-900 outline-none" placeholder="เช่น ทาสีเจลบุฟเฟต์">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-gray-700 mb-1">รายละเอียด</label>
+                        <textarea id="contentDetail" class="w-full border rounded-lg p-2 text-sm focus:border-red-900 outline-none" rows="2" placeholder="ใส่เงื่อนไข หรือรายละเอียดงาน"></textarea>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-bold text-gray-700 mb-1">ราคา (บาท)</label>
+                            <input type="number" id="contentPrice" class="w-full border rounded-lg p-2 text-sm focus:border-red-900 outline-none" placeholder="299">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-gray-700 mb-1">อัปโหลดรูปภาพ (ไม่บังคับ)</label>
+                            <input type="file" id="contentImage" class="w-full border rounded-lg p-1.5 text-xs text-gray-500">
+                        </div>
+                    </div>
+                    <button onclick="addServiceContent()" class="w-full bg-red-900 text-white font-bold py-2 rounded-lg hover:bg-red-800 transition-colors shadow-sm">เพิ่มขึ้นหน้าเว็บ</button>
+                </div>
+            </div>
+
+            <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                <h2 class="text-lg font-bold mb-4 text-gray-700">บริการที่แสดงบนหน้าเว็บตอนนี้</h2>
+                <div id="servicesList" class="space-y-3">
+                    <p class="text-center text-gray-400 text-sm mt-4">กำลังโหลดข้อมูล...</p>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <div id="bookingModal" class="hidden fixed inset-0 bg-black/60 flex items-center justify-center z-[100] p-4 backdrop-blur-sm">
+        <div class="bg-white rounded-2xl p-6 w-full max-w-sm shadow-2xl">
+            <h3 class="font-bold mb-2 text-lg text-red-900">จัดการวันที่ <span id="selectedDateText"></span></h3>
+            <p class="text-xs text-gray-500 mb-4">คุณสามารถเพิ่มคิวนอกระบบ หรือปิดรับจองในวันนี้ได้</p>
+            
+            <div class="mb-4 bg-gray-50 p-3 rounded-lg border border-gray-200">
+                <label class="block text-sm font-bold mb-2">สถานะของวันนี้:</label>
+                <div class="flex items-center gap-4">
+                    <label class="flex items-center text-sm cursor-pointer">
+                        <input type="radio" name="dayStatus" value="open" class="mr-2" checked> เปิดรับจองปกติ
+                    </label>
+                    <label class="flex items-center text-sm text-red-600 font-bold cursor-pointer">
+                        <input type="radio" name="dayStatus" value="closed" class="mr-2"> ปิดรับจอง (Block)
+                    </label>
+                </div>
+            </div>
+
+            <label class="block text-xs font-bold mb-1 text-gray-700">เพิ่มบันทึกแอดมิน / คิวหน้าร้าน</label>
+            <input type="text" id="taskInput" placeholder="เช่น ช่างเจนลาหยุด หรือ ลูกค้า Walk-in" class="w-full border p-2 rounded-lg mb-4 text-sm outline-none focus:border-red-900">
+            
             <div class="flex gap-2">
-                <button onclick="closeModal()" class="flex-1 py-2 text-gray-400 text-xs font-bold hover:bg-gray-50 rounded-lg transition-colors">ยกเลิก</button>
-                <button onclick="saveTask()" class="flex-1 py-2 bg-[#800000] text-white text-xs font-bold rounded-lg shadow-md hover:bg-[#600000] transition-colors">บันทึกข้อมูล</button>
+                <button onclick="closeModal()" class="flex-1 py-2 bg-gray-200 rounded-lg text-sm font-bold text-gray-700 hover:bg-gray-300 transition">ยกเลิก</button>
+                <button onclick="saveTask()" class="flex-1 py-2 bg-red-900 text-white rounded-lg text-sm font-bold hover:bg-red-800 shadow-md transition">บันทึกการตั้งค่า</button>
             </div>
         </div>
     </div>
-    </main>
-<script>
-    const monthSelect = document.getElementById('monthSelect');
-const yearSelect = document.getElementById('yearSelect');
-const calendarGrid = document.getElementById('calendarGrid');
-const currentMonthDisplay = document.getElementById('currentMonthDisplay');
-const modal = document.getElementById('bookingModal');
-const selectedDateText = document.getElementById('selectedDateText');
 
-const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-let currentViewDate = new Date(); // วันที่ปัจจุบันที่กำลังดูอยู่
+    <div id="editTimeModal" class="hidden fixed inset-0 bg-black/60 flex items-center justify-center z-[110] p-4 backdrop-blur-sm">
+        <div class="bg-white rounded-2xl p-6 w-full max-w-sm shadow-2xl">
+            <h3 class="font-bold mb-1 text-lg text-red-900">เลื่อน/แก้ไขเวลาจองคิว</h3>
+            <p id="editTimeCustomerName" class="text-sm text-gray-800 font-bold"></p>
+            <p class="text-xs text-gray-500 mb-4">เวลาเดิม: <span id="oldTimeText" class="text-red-600"></span></p>
+            
+            <input type="hidden" id="editBookingId">
 
-// 1. สร้าง Option ใน Select
-months.forEach((m, i) => monthSelect.innerHTML += `<option value="${i}">${m}</option>`);
-for(let y = 2024; y <= 2030; y++) yearSelect.innerHTML += `<option value="${y}">${y}</option>`;
+            <div class="mb-5">
+                <label class="block text-sm font-bold mb-2 text-gray-700">เลือกวันและเวลาใหม่:</label>
+                <div class="flex gap-2">
+                    <input type="date" id="editBookingDate" class="w-1/2 border-2 border-gray-300 p-2.5 rounded-lg text-sm outline-none focus:border-blue-500 transition-colors">
+                    <input type="time" id="editBookingTime" class="w-1/2 border-2 border-gray-300 p-2.5 rounded-lg text-sm outline-none focus:border-blue-500 transition-colors">
+                </div>
+            </div>
+            
+            <div class="flex gap-2">
+                <button onclick="closeEditTimeModal()" class="flex-1 py-2.5 bg-gray-200 rounded-lg text-sm font-bold text-gray-700 hover:bg-gray-300 transition">ยกเลิก</button>
+                <button onclick="saveNewBookingTime()" class="flex-1 py-2.5 bg-blue-600 text-white rounded-lg text-sm font-bold hover:bg-blue-700 shadow-md transition">อัปเดตเวลา</button>
+            </div>
+        </div>
+    </div>
 
-// 2. ฟังก์ชันวาดปฏิทิน
-function renderCalendar() {
-    const year = parseInt(yearSelect.value);
-    const month = parseInt(monthSelect.value);
-    
-    calendarGrid.innerHTML = '';
-    currentMonthDisplay.innerText = `${months[month]} ${year}`;
+    <script>
+        const LOCAL_STORAGE_KEY = 'rabbitz_bookings';
+        const LOCAL_STORAGE_ROLES_KEY = 'rabbitz_roles';
+        const LOCAL_STORAGE_CONTENT_KEY = 'rabbitz_content';
 
-    const firstDay = new Date(year, month, 1).getDay();
-    const daysInMonth = new Date(year, month + 1, 0).getDate();
-
-    // เติมช่องว่างวันของเดือนก่อนหน้า
-    for (let i = 0; i < firstDay; i++) {
-        calendarGrid.innerHTML += `<span class="opacity-0"></span>`;
-    }
-
-    // สร้างวันที่ 1 ถึงสิ้นเดือน
-    for (let day = 1; day <= daysInMonth; day++) {
-        const dateBtn = document.createElement('button');
-        dateBtn.innerText = day;
-        dateBtn.className = "h-8 w-8 mx-auto flex items-center justify-center rounded-full hover:bg-[#FFDAB9] transition-colors cursor-pointer font-medium";
-        
-        // ถ้าเป็นวันนี้ให้ใส่สีเน้น
-        const today = new Date();
-        if(day === today.getDate() && month === today.getMonth() && year === today.getFullYear()) {
-            dateBtn.classList.add('bg-[#FFD700]', 'text-[#800000]', 'font-bold');
+        function adminLogout() {
+            if(confirm('ต้องการออกจากระบบหลังร้าน ใช่หรือไม่?')) {
+                localStorage.removeItem('rabbitz_currentUser');
+                window.location.href = 'Homepage.html';
+            }
         }
 
-        dateBtn.onclick = () => openModal(day, month, year);
-        calendarGrid.appendChild(dateBtn);
-    }
-}
+        function switchTab(tabId) {
+            const sections = ['overview', 'bookings', 'roles', 'content'];
+            sections.forEach(id => document.getElementById(`section-${id}`).classList.add('hidden'));
+            
+            sections.forEach(id => {
+                const btn = document.getElementById(`tab-${id}`);
+                btn.classList.remove('tab-active');
+                btn.classList.add('tab-inactive');
+            });
 
-// 3. ฟังก์ชัน Modal
-function openModal(d, m, y) {
-    selectedDateText.innerText = `${d} ${months[m]} ${y}`;
-    modal.classList.remove('hidden');
-}
+            document.getElementById(`section-${tabId}`).classList.remove('hidden');
+            const activeBtn = document.getElementById(`tab-${tabId}`);
+            activeBtn.classList.remove('tab-inactive');
+            activeBtn.classList.add('tab-active');
 
-function closeModal() {
-    modal.classList.add('hidden');
-    document.getElementById('taskInput').value = '';
-}
+            if(tabId === 'bookings') fetchBookings();
+            if(tabId === 'roles') fetchRoles();
+            if(tabId === 'content') fetchContent();
+        }
 
-function saveTask() {
-    const task = document.getElementById('taskInput').value;
-    if(task) {
-        alert(`บันทึกรายการ: ${task} สำหรับวันที่ ${selectedDateText.innerText} เรียบร้อย!`);
-        // ในอนาคตคุณสามารถใช้ fetch() เพื่อส่งข้อมูลไปเก็บใน Database ได้ที่นี่
-        closeModal();
-    }
-}
+        // --- ระบบปฏิทิน ---
+        const monthSelect = document.getElementById('monthSelect');
+        const yearSelect = document.getElementById('yearSelect');
+        const calendarGrid = document.getElementById('calendarGrid');
+        const currentMonthDisplay = document.getElementById('currentMonthDisplay');
+        const modal = document.getElementById('bookingModal');
+        const selectedDateText = document.getElementById('selectedDateText');
+        const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+        let currentViewDate = new Date();
 
-// Initial setup
-monthSelect.value = currentViewDate.getMonth();
-yearSelect.value = currentViewDate.getFullYear();
-renderCalendar();
+        months.forEach((m, i) => monthSelect.innerHTML += `<option value="${i}">${m}</option>`);
+        for(let y = 2024; y <= 2030; y++) yearSelect.innerHTML += `<option value="${y}">${y}</option>`;
 
-// ผูก Event เมื่อเปลี่ยน Select
-monthSelect.onchange = renderCalendar;
-yearSelect.onchange = renderCalendar;
+        function renderCalendar() {
+            const year = parseInt(yearSelect.value);
+            const month = parseInt(monthSelect.value);
+            calendarGrid.innerHTML = '';
+            currentMonthDisplay.innerText = `${months[month]} ${year}`;
+            
+            const firstDay = new Date(year, month, 1).getDay();
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
 
+            for (let i = 0; i < firstDay; i++) {
+                calendarGrid.innerHTML += `<span></span>`;
+            }
 
-</script>
+            for (let day = 1; day <= daysInMonth; day++) {
+                const dateBtn = document.createElement('button');
+                dateBtn.innerText = day;
+                dateBtn.className = "h-8 w-8 mx-auto flex items-center justify-center rounded-full hover:bg-red-100 transition-colors cursor-pointer font-medium border border-transparent";
+                
+                const today = new Date();
+                if(day === today.getDate() && month === today.getMonth() && year === today.getFullYear()) {
+                    dateBtn.classList.add('bg-red-900', 'text-white', 'shadow-md');
+                } else {
+                    dateBtn.classList.add('bg-white', 'hover:border-red-900');
+                }
 
-        <br>
-     <footer class="text-center py-4 text-[10px] text-[#800000] border-t border-black">
-        NAIL IT BY RABBITZ สาขามหาวิทยาลัยพะเยา
-    </footer>
-    <script>
-    const menuBtn = document.getElementById('menuBtn');
-    const closeBtn = document.getElementById('closeBtn');
-    const sidebar = document.getElementById('sidebar');
-    const overlay = document.getElementById('overlay');
+                dateBtn.onclick = () => openModal(day, month, year);
+                calendarGrid.appendChild(dateBtn);
+            }
+        }
 
-    // ฟังก์ชันเปิดเมนู
-    menuBtn.addEventListener('click', () => {
-        sidebar.classList.remove('translate-x-full');
-        overlay.classList.remove('hidden');
-    });
+        function openModal(d, m, y) {
+            selectedDateText.innerText = `${d} ${months[m]} ${y}`;
+            modal.classList.remove('hidden');
+        }
 
-    // ฟังก์ชันปิดเมนู
-    const closeMenu = () => {
-        sidebar.classList.add('translate-x-full');
-        overlay.classList.add('hidden');
-    };
+        function closeModal() {
+            modal.classList.add('hidden');
+            document.getElementById('taskInput').value = '';
+        }
 
-    closeBtn.addEventListener('click', closeMenu);
-    overlay.addEventListener('click', closeMenu);
-</script>
+        function saveTask() {
+            const statusRadio = document.querySelector('input[name="dayStatus"]:checked').value;
+            const task = document.getElementById('taskInput').value;
+            let msg = `ตั้งค่าวันที่ ${selectedDateText.innerText}\n`;
+            msg += statusRadio === 'closed' ? "สถานะ: ปิดรับจอง (Block)\n" : "สถานะ: เปิดรับจองปกติ\n";
+            if(task) msg += `บันทึกเพิ่มเติม: ${task}`;
+            alert(msg);
+            closeModal();
+        }
+
+        monthSelect.value = currentViewDate.getMonth();
+        yearSelect.value = currentViewDate.getFullYear();
+        renderCalendar();
+        monthSelect.onchange = renderCalendar;
+        yearSelect.onchange = renderCalendar;
+
+        function initLocalStorage() {
+            if (!localStorage.getItem(LOCAL_STORAGE_KEY)) {
+                const mockBookings = [
+                    { id: 1, customer_name: "คุณสมหญิง", phone: "081-123-4567", service: "ทาสีเจล + เพ้นท์ลาย", datetime: "15 ต.ค. 67 - 13:00 น.", status: "รอการยืนยัน" },
+                    { id: 2, customer_name: "น้องมายด์", phone: "089-987-6543", service: "ต่อขนตา + สปามือ", datetime: "15 ต.ค. 67 - 15:30 น.", status: "ยืนยันแล้ว" },
+                    { id: 3, customer_name: "พี่แนน", phone: "082-222-3333", service: "ทาสีเจลมือ-เท้า", datetime: "16 ต.ค. 67 - 10:00 น.", status: "รอการยืนยัน" }
+                ];
+                localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(mockBookings));
+            }
+            if (!localStorage.getItem(LOCAL_STORAGE_ROLES_KEY)) {
+                const mockRoles = [
+                    { id: 1, name: "RABBITZ_CEO (คุณตัวกระต่าย)", role: "admin" },
+                    { id: 2, name: "Tech_Jane (ช่างเจน)", role: "tech" }
+                ];
+                localStorage.setItem(LOCAL_STORAGE_ROLES_KEY, JSON.stringify(mockRoles));
+            }
+            if (!localStorage.getItem(LOCAL_STORAGE_CONTENT_KEY)) {
+                const mockContent = [
+                    { id: 1, name: "ทาสีเจลมือ (สีพื้น)", detail: "สีพื้นเรียบๆ 1-2 สี", price: 150 },
+                    { id: 2, name: "ต่อ PVC + ทาสีเจล", detail: "ต่อความยาว ทนทาน", price: 350 }
+                ];
+                localStorage.setItem(LOCAL_STORAGE_CONTENT_KEY, JSON.stringify(mockContent));
+            }
+        }
+
+        // --- ระบบการจองคิว ---
+        function fetchBookings() {
+            const tbody = document.getElementById('bookingsTableBody');
+            const storedBookings = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY)) || [];
+            
+            tbody.innerHTML = '';
+            if (storedBookings.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="5" class="px-4 py-4 text-center text-gray-400">ยังไม่มีข้อมูลการจอง</td></tr>`;
+                return;
+            }
+
+            storedBookings.forEach(booking => {
+                let statusColor = booking.status === 'รอการยืนยัน' ? 'bg-yellow-100 text-yellow-800' :
+                                  booking.status === 'ยกเลิก' ? 'bg-red-100 text-red-800' : 'bg-green-100 text-green-800';
+                
+                let actionButtons = booking.status === 'รอการยืนยัน' 
+                    ? `<button onclick="updateBookingStatus(${booking.id}, 'ยืนยันแล้ว')" class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded text-xs shadow-sm">ยืนยัน</button>
+                       <button onclick="updateBookingStatus(${booking.id}, 'ยกเลิก')" class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded text-xs shadow-sm">ยกเลิก</button>`
+                    : `<button onclick="openEditTimeModal(${booking.id})" class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded text-xs shadow-sm">แก้ไขเวลา</button>`;
+
+                tbody.innerHTML += `
+                    <tr class="border-b bg-white hover:bg-gray-50 transition-colors">
+                        <td class="px-4 py-3 font-medium text-gray-900">${booking.customer_name}<br><span class="text-xs text-gray-400">${booking.phone}</span></td>
+                        <td class="px-4 py-3">${booking.service}</td>
+                        <td class="px-4 py-3 font-semibold text-gray-800">${booking.datetime}</td>
+                        <td class="px-4 py-3"><span class="text-xs font-medium px-2.5 py-0.5 rounded ${statusColor}">${booking.status}</span></td>
+                        <td class="px-4 py-3 flex gap-2 justify-center">${actionButtons}</td>
+                    </tr>
+                `;
+            });
+        }
+
+        function updateBookingStatus(bookingId, newStatus) {
+            let bookings = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY));
+            const index = bookings.findIndex(b => b.id === bookingId);
+            if (index !== -1) {
+                bookings[index].status = newStatus;
+                localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(bookings));
+                fetchBookings();
+            }
+        }
+
+        function openEditTimeModal(bookingId) {
+            let bookings = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY));
+            const booking = bookings.find(b => b.id === bookingId);
+            
+            if (booking) {
+                document.getElementById('editBookingId').value = booking.id;
+                document.getElementById('editTimeCustomerName').innerText = `ลูกค้า: ${booking.customer_name}`;
+                document.getElementById('oldTimeText').innerText = booking.datetime; 
+                
+                document.getElementById('editBookingDate').value = '';
+                document.getElementById('editBookingTime').value = '';
+                
+                document.getElementById('editTimeModal').classList.remove('hidden');
+            }
+        }
+
+        function closeEditTimeModal() {
+            document.getElementById('editTimeModal').classList.add('hidden');
+        }
+
+        function saveNewBookingTime() {
+            const bookingId = parseInt(document.getElementById('editBookingId').value);
+            const dateVal = document.getElementById('editBookingDate').value; 
+            const timeVal = document.getElementById('editBookingTime').value; 
+
+            if (!dateVal || !timeVal) {
+                alert('กรุณาเลือกปฏิทินและเวลาให้ครบถ้วนครับ');
+                return;
+            }
+
+            const thaiMonths = ['ม.ค.', 'ก.พ.', 'มี.ค.', 'เม.ย.', 'พ.ค.', 'มิ.ย.', 'ก.ค.', 'ส.ค.', 'ก.ย.', 'ต.ค.', 'พ.ย.', 'ธ.ค.'];
+            const dateObj = new Date(dateVal);
+            const day = dateObj.getDate();
+            const month = thaiMonths[dateObj.getMonth()];
+            const year = (dateObj.getFullYear() + 543).toString().slice(-2); 
+
+            const newDatetimeStr = `${day} ${month} ${year} - ${timeVal} น.`;
+
+            let bookings = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY));
+            const index = bookings.findIndex(b => b.id === bookingId);
+            
+            if (index !== -1) {
+                bookings[index].datetime = newDatetimeStr;
+                localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(bookings));
+                
+                alert('อัปเดตเวลาการจองเรียบร้อยแล้ว!');
+                closeEditTimeModal();
+                fetchBookings(); 
+            }
+        }
+
+        // ==========================================
+        // ⭐️ ระบบจัดการสิทธิ์พนักงาน (Roles) - ปรับปรุงสิทธิ์
+        // ==========================================
+        function fetchRoles() {
+            const tbody = document.getElementById('rolesTableBody');
+            const storedRoles = JSON.parse(localStorage.getItem(LOCAL_STORAGE_ROLES_KEY)) || [];
+            const currentUser = JSON.parse(localStorage.getItem('rabbitz_currentUser')) || {};
+            
+            // เช็คว่าคนที่ล็อกอินอยู่เป็น admin (เจ้าของร้าน) หรือไม่
+            const isOwner = currentUser.role === 'admin';
+
+            // ซ่อนปุ่ม "เพิ่มพนักงานใหม่" ถ้าไม่ใช่เจ้าของร้าน
+            const addBtn = document.getElementById('addRoleBtn');
+            if (addBtn) {
+                addBtn.style.display = isOwner ? 'block' : 'none';
+            }
+            
+            tbody.innerHTML = '';
+            if (storedRoles.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="3" class="px-4 py-4 text-center text-gray-400">ยังไม่มีข้อมูลพนักงาน</td></tr>`;
+                return;
+            }
+
+            storedRoles.forEach(roleData => {
+                let isAdmin = roleData.role === 'admin' ? 'selected' : '';
+                let isTech = roleData.role === 'tech' ? 'selected' : '';
+                
+                // ถ้าไม่ใช่เจ้าของร้าน จะกด Dropdown เลือกสิทธิ์ไม่ได้
+                let selectState = isOwner ? '' : 'disabled';
+                let selectBg = isOwner ? 'bg-white focus:border-red-900' : 'bg-gray-100 cursor-not-allowed';
+
+                // ถ้าไม่ใช่เจ้าของร้าน จะไม่เห็นปุ่ม บันทึก / ลบสิทธิ์
+                let actionHtml = isOwner 
+                    ? `<button onclick="updateRole(${roleData.id})" class="text-blue-600 hover:text-blue-800 font-bold text-xs mr-3 transition-colors">บันทึก</button>
+                       <button onclick="deleteRole(${roleData.id})" class="text-red-600 hover:text-red-800 font-bold text-xs transition-colors">ลบสิทธิ์</button>`
+                    : `<span class="text-gray-400 text-[10px] font-bold bg-gray-200 px-2 py-1 rounded">เฉพาะเจ้าของร้าน</span>`;
+
+                tbody.innerHTML += `
+                    <tr class="border-b bg-white hover:bg-gray-50 transition-colors">
+                        <td class="px-4 py-3 font-medium text-gray-900">${roleData.name}</td>
+                        <td class="px-4 py-3">
+                            <select id="roleSelect-${roleData.id}" class="border border-gray-300 rounded p-1 text-sm ${selectBg} focus:outline-none" ${selectState}>
+                                <option value="admin" ${isAdmin}>Admin (เจ้าของร้าน)</option>
+                                <option value="tech" ${isTech}>Nail Technician (ช่างทำเล็บ)</option>
+                            </select>
+                        </td>
+                        <td class="px-4 py-3 text-center">
+                            ${actionHtml}
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+
+        function addRole() {
+            // ระบบป้องกันเผื่อมีคนเจาะโค้ดมากด
+            const currentUser = JSON.parse(localStorage.getItem('rabbitz_currentUser')) || {};
+            if (currentUser.role !== 'admin') {
+                alert('เฉพาะเจ้าของร้านเท่านั้นที่มีสิทธิ์เพิ่มพนักงานครับ');
+                return;
+            }
+
+            const newName = prompt("กรุณากรอกชื่อพนักงาน หรือ บัญชีผู้ใช้ใหม่:");
+            if (newName && newName.trim() !== "") {
+                let roles = JSON.parse(localStorage.getItem(LOCAL_STORAGE_ROLES_KEY)) || [];
+                const newId = roles.length > 0 ? Math.max(...roles.map(r => r.id)) + 1 : 1;
+                roles.push({ id: newId, name: newName.trim(), role: "tech" });
+                localStorage.setItem(LOCAL_STORAGE_ROLES_KEY, JSON.stringify(roles));
+                alert(`เพิ่มพนักงาน: ${newName} เรียบร้อยแล้ว`);
+                fetchRoles();
+            }
+        }
+
+        function updateRole(roleId) {
+            const currentUser = JSON.parse(localStorage.getItem('rabbitz_currentUser')) || {};
+            if (currentUser.role !== 'admin') return;
+
+            const newRoleValue = document.getElementById(`roleSelect-${roleId}`).value;
+            let roles = JSON.parse(localStorage.getItem(LOCAL_STORAGE_ROLES_KEY)) || [];
+            const index = roles.findIndex(r => r.id === roleId);
+            if (index !== -1) {
+                roles[index].role = newRoleValue;
+                localStorage.setItem(LOCAL_STORAGE_ROLES_KEY, JSON.stringify(roles));
+                alert(`อัปเดตสิทธิ์ของ ${roles[index].name} เรียบร้อยแล้ว!`);
+            }
+        }
+
+        function deleteRole(roleId) {
+            const currentUser = JSON.parse(localStorage.getItem('rabbitz_currentUser')) || {};
+            if (currentUser.role !== 'admin') return;
+
+            let roles = JSON.parse(localStorage.getItem(LOCAL_STORAGE_ROLES_KEY)) || [];
+            const roleToDelete = roles.find(r => r.id === roleId);
+            if (roleToDelete && confirm(`คุณแน่ใจหรือไม่ว่าต้องการลบสิทธิ์ของ "${roleToDelete.name}"?`)) {
+                roles = roles.filter(r => r.id !== roleId);
+                localStorage.setItem(LOCAL_STORAGE_ROLES_KEY, JSON.stringify(roles));
+                fetchRoles();
+            }
+        }
+
+        // ==========================================
+        // ระบบจัดการเนื้อหา (Content Management)
+        // ==========================================
+        function fetchContent() {
+            const listContainer = document.getElementById('servicesList');
+            const storedContent = JSON.parse(localStorage.getItem(LOCAL_STORAGE_CONTENT_KEY)) || [];
+            const currentUser = JSON.parse(localStorage.getItem('rabbitz_currentUser')) || {};
+            const isOwner = currentUser.role === 'admin';
+            
+            listContainer.innerHTML = '';
+            if (storedContent.length === 0) {
+                listContainer.innerHTML = `<p class="text-center text-gray-400 text-sm mt-4">ยังไม่มีบริการที่แสดงบนหน้าเว็บ</p>`;
+                return;
+            }
+
+            storedContent.forEach(item => {
+                // ซ่อนปุ่มลบถ้าไม่ใช่แอดมิน
+                let deleteBtn = isOwner 
+                    ? `<button onclick="deleteContent(${item.id})" class="text-red-500 hover:text-white hover:bg-red-500 text-xs font-bold border border-red-500 px-3 py-1.5 rounded transition-colors shadow-sm">ลบออก</button>`
+                    : ``;
+
+                listContainer.innerHTML += `
+                    <div class="flex justify-between items-center border border-gray-200 p-3 rounded-lg bg-white hover:shadow-md transition-shadow">
+                        <div>
+                            <p class="font-bold text-sm text-red-900">${item.name}</p>
+                            <p class="text-[10px] text-gray-500 mt-1">${item.detail}</p>
+                            <p class="text-xs text-gray-800 font-semibold mt-1">ราคาเริ่มต้น ${item.price} บาท</p>
+                        </div>
+                        ${deleteBtn}
+                    </div>
+                `;
+            });
+        }
+
+        function addServiceContent() {
+            const currentUser = JSON.parse(localStorage.getItem('rabbitz_currentUser')) || {};
+            if (currentUser.role !== 'admin') {
+                alert('เฉพาะเจ้าของร้านเท่านั้นที่แก้ไขเนื้อหาหน้าเว็บได้ครับ');
+                return;
+            }
+
+            const nameInput = document.getElementById('contentName').value;
+            const detailInput = document.getElementById('contentDetail').value;
+            const priceInput = document.getElementById('contentPrice').value;
+
+            if (!nameInput || !priceInput) {
+                alert("กรุณากรอก ชื่อบริการ และ ราคา ให้ครบถ้วนครับ");
+                return;
+            }
+
+            let contents = JSON.parse(localStorage.getItem(LOCAL_STORAGE_CONTENT_KEY)) || [];
+            const newId = contents.length > 0 ? Math.max(...contents.map(c => c.id)) + 1 : 1;
+
+            contents.push({
+                id: newId,
+                name: nameInput.trim(),
+                detail: detailInput.trim(),
+                price: parseFloat(priceInput)
+            });
+
+            localStorage.setItem(LOCAL_STORAGE_CONTENT_KEY, JSON.stringify(contents));
+            alert(`เพิ่มบริการ "${nameInput}" เรียบร้อยแล้ว!`);
+            
+            document.getElementById('contentName').value = '';
+            document.getElementById('contentDetail').value = '';
+            document.getElementById('contentPrice').value = '';
+            document.getElementById('contentImage').value = '';
+
+            fetchContent(); 
+        }
+
+        function deleteContent(contentId) {
+            let contents = JSON.parse(localStorage.getItem(LOCAL_STORAGE_CONTENT_KEY)) || [];
+            const contentToDelete = contents.find(c => c.id === contentId);
+            
+            if (contentToDelete && confirm(`ต้องการลบบริการ "${contentToDelete.name}" ออกจากหน้าเว็บใช่หรือไม่?`)) {
+                contents = contents.filter(c => c.id !== contentId);
+                localStorage.setItem(LOCAL_STORAGE_CONTENT_KEY, JSON.stringify(contents));
+                fetchContent();
+            }
+        }
+
+        // ==========================================
+        // ⭐️ ทำงานเมื่อเปิดเว็บ (อัปเดตสิทธิ์การเข้าถึง)
+        // ==========================================
+        document.addEventListener('DOMContentLoaded', () => {
+            const userDataString = localStorage.getItem('rabbitz_currentUser');
+            if (!userDataString) {
+                alert('กรุณาเข้าสู่ระบบก่อนใช้งานครับ');
+                window.location.href = 'Homepage.html';
+            } else {
+                const userData = JSON.parse(userDataString);
+                
+                // อนุญาตให้ทั้ง Admin และ Tech เข้าหน้านี้ได้ 
+                if (userData.role !== 'admin' && userData.role !== 'tech') {
+                    alert('บัญชีของคุณเป็นลูกค้า ไม่มีสิทธิ์เข้าถึงหน้าหลังร้านครับ');
+                    window.location.href = 'HomepageCus.html';
+                }
+
+                // โชว์ว่าล็อกอินด้วยสถานะอะไรบนแถบเมนูด้านบน
+                const roleBadge = document.getElementById('navUserRole');
+                if (roleBadge) {
+                    roleBadge.innerText = userData.role === 'admin' ? '👑 Admin' : '💅 Technician';
+                }
+            }
+            initLocalStorage();
+        });
+        // --- แก้ไขฟังก์ชันนี้ให้เหลือเพียงอันเดียวใน HomepageAddmin.html ---
+function openEditTimeModal(bookingId) {
+    let bookings = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY));
+    const booking = bookings.find(b => b.id === bookingId);
     
+    if (booking) {
+        document.getElementById('editBookingId').value = booking.id;
+        document.getElementById('editTimeCustomerName').innerText = `ลูกค้า: ${booking.customer_name}`;
+        document.getElementById('oldTimeText').innerText = booking.datetime; 
+        
+        // ดึงวันที่เดิมจากหน้า Booking มาใส่ในช่องปฏิทินให้แอดมินอัตโนมัติ
+        if (booking.rawDate) {
+            document.getElementById('editBookingDate').value = booking.rawDate;
+        }
+
+        document.getElementById('editTimeModal').classList.remove('hidden');
+    }
+}
+// ค้นหาและแทนที่ฟังก์ชัน openEditTimeModal ใน HomepageAddmin.html ให้เหลือเพียงอันเดียวครับ
+function openEditTimeModal(bookingId) {
+    let bookings = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY));
+    const booking = bookings.find(b => b.id === bookingId);
+    
+    if (booking) {
+        document.getElementById('editBookingId').value = booking.id;
+        document.getElementById('editTimeCustomerName').innerText = `ลูกค้า: ${booking.customer_name}`;
+        document.getElementById('oldTimeText').innerText = booking.datetime; 
+        
+        // --- ส่วนที่อัปเดต: ดึงวันที่เดิมมาใส่ในช่องแก้ไขอัตโนมัติเพื่อให้แอดมินแก้ไขได้ทันที ---
+        if(booking.rawDate) {
+            document.getElementById('editBookingDate').value = booking.rawDate;
+        }
+        // --------------------------------------------------------------------------
+
+        document.getElementById('editTimeModal').classList.remove('hidden');
+    }
+}
+
+// และอัปเดตฟังก์ชัน fetchBookings ให้แสดงผลข้อมูลล่าสุดเสมอ
+function fetchBookings() {
+    const tbody = document.getElementById('bookingsTableBody');
+    const storedBookings = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY)) || [];
+    
+    tbody.innerHTML = '';
+    if (storedBookings.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="5" class="px-4 py-4 text-center text-gray-400">ยังไม่มีข้อมูลการจอง</td></tr>`;
+        return;
+    }
+
+    // เรียงคิวล่าสุดขึ้นข้างบน
+    [...storedBookings].reverse().forEach(booking => {
+        let statusColor = booking.status === 'รอการยืนยัน' ? 'bg-yellow-100 text-yellow-800' : 
+                          booking.status === 'ยกเลิก' ? 'bg-red-100 text-red-800' : 'bg-green-100 text-green-800';
+        
+        tbody.innerHTML += `
+            <tr class="border-b bg-white hover:bg-gray-50 transition-colors">
+                <td class="px-4 py-3 font-medium text-gray-900">${booking.customer_name}<br><span class="text-xs text-gray-400">${booking.phone}</span></td>
+                <td class="px-4 py-3">${booking.service}</td>
+                <td class="px-4 py-3 font-semibold text-gray-800">${booking.datetime}</td>
+                <td class="px-4 py-3"><span class="text-xs font-medium px-2.5 py-0.5 rounded ${statusColor}">${booking.status}</span></td>
+                <td class="px-4 py-3 flex gap-2 justify-center">
+                    <button onclick="updateBookingStatus(${booking.id}, 'ยืนยันแล้ว')" class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded text-xs">ยืนยัน</button>
+                    <button onclick="openEditTimeModal(${booking.id})" class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded text-xs">แก้ไขเวลา</button>
+                </td>
+            </tr>`;
+    });
+}
+
+    </script>
 </body>
 </html>
