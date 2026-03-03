@@ -12,6 +12,13 @@
         body { font-family: 'Kanit', sans-serif; }
         .tab-active { border-bottom: 2px solid #800000; color: #800000; font-weight: 600; }
         .tab-inactive { color: #6b7280; font-weight: 400; }
+        
+        /* ตกแต่งให้กล่องเลือกวันเวลาดูสวยขึ้น */
+        input[type="date"]::-webkit-calendar-picker-indicator,
+        input[type="time"]::-webkit-calendar-picker-indicator {
+            cursor: pointer;
+            filter: invert(0.4) sepia(1) saturate(5) hue-rotate(330deg);
+        }
     </style>
 </head>
 <body class="bg-gray-50 min-h-screen">
@@ -27,10 +34,11 @@
                         <span class="self-center text-2xl font-semibold whitespace-nowrap text-red-900"></span>
                     </a>
                     <div class="hidden md:block relative mr-4"> 
-                        <h1 class="text-white text-lg font-medium">NAIL IT BY RABBITZ สาขา มหาวิทยาลัยพะเยา (ADMIN PANEL)</h1>
+                        <h1 class="text-white text-lg font-medium">NAIL IT BY RABBITZ สาขา มหาวิทยาลัยพะเยา (STAFF PANEL)</h1>
                     </div>
                 </div>
-                <div class="flex items-center justify-between w-auto">
+                <div class="flex items-center justify-between w-auto gap-4">
+                    <span id="navUserRole" class="text-white text-xs bg-red-800 px-2 py-1 rounded border border-red-700 hidden md:block"></span>
                     <button onclick="adminLogout()" class="text-red-900 bg-white hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-4 py-2 text-center inline-flex items-center transition shadow-sm">
                         Log out
                     </button>
@@ -132,7 +140,7 @@
         <div id="section-roles" class="hidden bg-white p-6 rounded-xl shadow-sm border border-gray-100">
             <div class="flex justify-between items-center mb-4">
                 <h2 class="text-xl font-bold text-red-900">จัดการสิทธิ์ผู้ใช้งาน (Staff & Admins)</h2>
-                <button onclick="addRole()" class="bg-red-900 text-white px-4 py-2 rounded-lg text-sm hover:bg-red-800 transition-colors shadow-sm">+ เพิ่มพนักงานใหม่</button>
+                <button id="addRoleBtn" onclick="addRole()" class="bg-red-900 text-white px-4 py-2 rounded-lg text-sm hover:bg-red-800 transition-colors shadow-sm">+ เพิ่มพนักงานใหม่</button>
             </div>
             <div class="overflow-x-auto">
                 <table class="w-full text-sm text-left text-gray-500">
@@ -213,27 +221,41 @@
         </div>
     </div>
 
+    <div id="editTimeModal" class="hidden fixed inset-0 bg-black/60 flex items-center justify-center z-[110] p-4 backdrop-blur-sm">
+        <div class="bg-white rounded-2xl p-6 w-full max-w-sm shadow-2xl">
+            <h3 class="font-bold mb-1 text-lg text-red-900">เลื่อน/แก้ไขเวลาจองคิว</h3>
+            <p id="editTimeCustomerName" class="text-sm text-gray-800 font-bold"></p>
+            <p class="text-xs text-gray-500 mb-4">เวลาเดิม: <span id="oldTimeText" class="text-red-600"></span></p>
+            
+            <input type="hidden" id="editBookingId">
+
+            <div class="mb-5">
+                <label class="block text-sm font-bold mb-2 text-gray-700">เลือกวันและเวลาใหม่:</label>
+                <div class="flex gap-2">
+                    <input type="date" id="editBookingDate" class="w-1/2 border-2 border-gray-300 p-2.5 rounded-lg text-sm outline-none focus:border-blue-500 transition-colors">
+                    <input type="time" id="editBookingTime" class="w-1/2 border-2 border-gray-300 p-2.5 rounded-lg text-sm outline-none focus:border-blue-500 transition-colors">
+                </div>
+            </div>
+            
+            <div class="flex gap-2">
+                <button onclick="closeEditTimeModal()" class="flex-1 py-2.5 bg-gray-200 rounded-lg text-sm font-bold text-gray-700 hover:bg-gray-300 transition">ยกเลิก</button>
+                <button onclick="saveNewBookingTime()" class="flex-1 py-2.5 bg-blue-600 text-white rounded-lg text-sm font-bold hover:bg-blue-700 shadow-md transition">อัปเดตเวลา</button>
+            </div>
+        </div>
+    </div>
+
     <script>
-        // ==========================================
-        // KEY สำหรับ LocalStorage
-        // ==========================================
         const LOCAL_STORAGE_KEY = 'rabbitz_bookings';
         const LOCAL_STORAGE_ROLES_KEY = 'rabbitz_roles';
         const LOCAL_STORAGE_CONTENT_KEY = 'rabbitz_content';
 
-        // ==========================================
-        // 1. ระบบจัดการบัญชี (Log out)
-        // ==========================================
         function adminLogout() {
-            if(confirm('ต้องการออกจากระบบ Admin ใช่หรือไม่?')) {
-                localStorage.removeItem('rabbitz_currentUser'); // ลบข้อมูลการล็อกอิน
-                window.location.href = 'Homepage.html'; // เด้งกลับหน้าแรก
+            if(confirm('ต้องการออกจากระบบหลังร้าน ใช่หรือไม่?')) {
+                localStorage.removeItem('rabbitz_currentUser');
+                window.location.href = 'Homepage.html';
             }
         }
 
-        // ==========================================
-        // 2. ระบบ Tabs (สลับหน้า)
-        // ==========================================
         function switchTab(tabId) {
             const sections = ['overview', 'bookings', 'roles', 'content'];
             sections.forEach(id => document.getElementById(`section-${id}`).classList.add('hidden'));
@@ -249,15 +271,12 @@
             activeBtn.classList.remove('tab-inactive');
             activeBtn.classList.add('tab-active');
 
-            // โหลดข้อมูลให้ตรงกับหน้าที่เปิด
             if(tabId === 'bookings') fetchBookings();
             if(tabId === 'roles') fetchRoles();
             if(tabId === 'content') fetchContent();
         }
 
-        // ==========================================
-        // 3. ระบบ ปฏิทิน
-        // ==========================================
+        // --- ระบบปฏิทิน ---
         const monthSelect = document.getElementById('monthSelect');
         const yearSelect = document.getElementById('yearSelect');
         const calendarGrid = document.getElementById('calendarGrid');
@@ -326,9 +345,6 @@
         monthSelect.onchange = renderCalendar;
         yearSelect.onchange = renderCalendar;
 
-        // ==========================================
-        // 4. ฟังก์ชันตั้งค่าเริ่มต้น LocalStorage (ใส่ Mock Data)
-        // ==========================================
         function initLocalStorage() {
             if (!localStorage.getItem(LOCAL_STORAGE_KEY)) {
                 const mockBookings = [
@@ -354,9 +370,7 @@
             }
         }
 
-        // ==========================================
-        // 5. ระบบจัดการการจอง (Bookings)
-        // ==========================================
+        // --- ระบบการจองคิว ---
         function fetchBookings() {
             const tbody = document.getElementById('bookingsTableBody');
             const storedBookings = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY)) || [];
@@ -374,13 +388,13 @@
                 let actionButtons = booking.status === 'รอการยืนยัน' 
                     ? `<button onclick="updateBookingStatus(${booking.id}, 'ยืนยันแล้ว')" class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded text-xs shadow-sm">ยืนยัน</button>
                        <button onclick="updateBookingStatus(${booking.id}, 'ยกเลิก')" class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded text-xs shadow-sm">ยกเลิก</button>`
-                    : `<button onclick="alert('อยู่ในโหมดแก้ไข')" class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded text-xs shadow-sm">แก้ไขเวลา</button>`;
+                    : `<button onclick="openEditTimeModal(${booking.id})" class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded text-xs shadow-sm">แก้ไขเวลา</button>`;
 
                 tbody.innerHTML += `
                     <tr class="border-b bg-white hover:bg-gray-50 transition-colors">
                         <td class="px-4 py-3 font-medium text-gray-900">${booking.customer_name}<br><span class="text-xs text-gray-400">${booking.phone}</span></td>
                         <td class="px-4 py-3">${booking.service}</td>
-                        <td class="px-4 py-3">${booking.datetime}</td>
+                        <td class="px-4 py-3 font-semibold text-gray-800">${booking.datetime}</td>
                         <td class="px-4 py-3"><span class="text-xs font-medium px-2.5 py-0.5 rounded ${statusColor}">${booking.status}</span></td>
                         <td class="px-4 py-3 flex gap-2 justify-center">${actionButtons}</td>
                     </tr>
@@ -398,12 +412,73 @@
             }
         }
 
+        function openEditTimeModal(bookingId) {
+            let bookings = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY));
+            const booking = bookings.find(b => b.id === bookingId);
+            
+            if (booking) {
+                document.getElementById('editBookingId').value = booking.id;
+                document.getElementById('editTimeCustomerName').innerText = `ลูกค้า: ${booking.customer_name}`;
+                document.getElementById('oldTimeText').innerText = booking.datetime; 
+                
+                document.getElementById('editBookingDate').value = '';
+                document.getElementById('editBookingTime').value = '';
+                
+                document.getElementById('editTimeModal').classList.remove('hidden');
+            }
+        }
+
+        function closeEditTimeModal() {
+            document.getElementById('editTimeModal').classList.add('hidden');
+        }
+
+        function saveNewBookingTime() {
+            const bookingId = parseInt(document.getElementById('editBookingId').value);
+            const dateVal = document.getElementById('editBookingDate').value; 
+            const timeVal = document.getElementById('editBookingTime').value; 
+
+            if (!dateVal || !timeVal) {
+                alert('กรุณาเลือกปฏิทินและเวลาให้ครบถ้วนครับ');
+                return;
+            }
+
+            const thaiMonths = ['ม.ค.', 'ก.พ.', 'มี.ค.', 'เม.ย.', 'พ.ค.', 'มิ.ย.', 'ก.ค.', 'ส.ค.', 'ก.ย.', 'ต.ค.', 'พ.ย.', 'ธ.ค.'];
+            const dateObj = new Date(dateVal);
+            const day = dateObj.getDate();
+            const month = thaiMonths[dateObj.getMonth()];
+            const year = (dateObj.getFullYear() + 543).toString().slice(-2); 
+
+            const newDatetimeStr = `${day} ${month} ${year} - ${timeVal} น.`;
+
+            let bookings = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY));
+            const index = bookings.findIndex(b => b.id === bookingId);
+            
+            if (index !== -1) {
+                bookings[index].datetime = newDatetimeStr;
+                localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(bookings));
+                
+                alert('อัปเดตเวลาการจองเรียบร้อยแล้ว!');
+                closeEditTimeModal();
+                fetchBookings(); 
+            }
+        }
+
         // ==========================================
-        // 6. ระบบจัดการสิทธิ์พนักงาน (Roles)
+        // ⭐️ ระบบจัดการสิทธิ์พนักงาน (Roles) - ปรับปรุงสิทธิ์
         // ==========================================
         function fetchRoles() {
             const tbody = document.getElementById('rolesTableBody');
             const storedRoles = JSON.parse(localStorage.getItem(LOCAL_STORAGE_ROLES_KEY)) || [];
+            const currentUser = JSON.parse(localStorage.getItem('rabbitz_currentUser')) || {};
+            
+            // เช็คว่าคนที่ล็อกอินอยู่เป็น admin (เจ้าของร้าน) หรือไม่
+            const isOwner = currentUser.role === 'admin';
+
+            // ซ่อนปุ่ม "เพิ่มพนักงานใหม่" ถ้าไม่ใช่เจ้าของร้าน
+            const addBtn = document.getElementById('addRoleBtn');
+            if (addBtn) {
+                addBtn.style.display = isOwner ? 'block' : 'none';
+            }
             
             tbody.innerHTML = '';
             if (storedRoles.length === 0) {
@@ -414,19 +489,28 @@
             storedRoles.forEach(roleData => {
                 let isAdmin = roleData.role === 'admin' ? 'selected' : '';
                 let isTech = roleData.role === 'tech' ? 'selected' : '';
+                
+                // ถ้าไม่ใช่เจ้าของร้าน จะกด Dropdown เลือกสิทธิ์ไม่ได้
+                let selectState = isOwner ? '' : 'disabled';
+                let selectBg = isOwner ? 'bg-white focus:border-red-900' : 'bg-gray-100 cursor-not-allowed';
+
+                // ถ้าไม่ใช่เจ้าของร้าน จะไม่เห็นปุ่ม บันทึก / ลบสิทธิ์
+                let actionHtml = isOwner 
+                    ? `<button onclick="updateRole(${roleData.id})" class="text-blue-600 hover:text-blue-800 font-bold text-xs mr-3 transition-colors">บันทึก</button>
+                       <button onclick="deleteRole(${roleData.id})" class="text-red-600 hover:text-red-800 font-bold text-xs transition-colors">ลบสิทธิ์</button>`
+                    : `<span class="text-gray-400 text-[10px] font-bold bg-gray-200 px-2 py-1 rounded">เฉพาะเจ้าของร้าน</span>`;
 
                 tbody.innerHTML += `
                     <tr class="border-b bg-white hover:bg-gray-50 transition-colors">
                         <td class="px-4 py-3 font-medium text-gray-900">${roleData.name}</td>
                         <td class="px-4 py-3">
-                            <select id="roleSelect-${roleData.id}" class="border border-gray-300 rounded p-1 text-sm bg-white focus:outline-none focus:border-red-900">
+                            <select id="roleSelect-${roleData.id}" class="border border-gray-300 rounded p-1 text-sm ${selectBg} focus:outline-none" ${selectState}>
                                 <option value="admin" ${isAdmin}>Admin (เจ้าของร้าน)</option>
                                 <option value="tech" ${isTech}>Nail Technician (ช่างทำเล็บ)</option>
                             </select>
                         </td>
                         <td class="px-4 py-3 text-center">
-                            <button onclick="updateRole(${roleData.id})" class="text-blue-600 hover:text-blue-800 font-bold text-xs mr-3 transition-colors">บันทึก</button>
-                            <button onclick="deleteRole(${roleData.id})" class="text-red-600 hover:text-red-800 font-bold text-xs transition-colors">ลบสิทธิ์</button>
+                            ${actionHtml}
                         </td>
                     </tr>
                 `;
@@ -434,6 +518,13 @@
         }
 
         function addRole() {
+            // ระบบป้องกันเผื่อมีคนเจาะโค้ดมากด
+            const currentUser = JSON.parse(localStorage.getItem('rabbitz_currentUser')) || {};
+            if (currentUser.role !== 'admin') {
+                alert('เฉพาะเจ้าของร้านเท่านั้นที่มีสิทธิ์เพิ่มพนักงานครับ');
+                return;
+            }
+
             const newName = prompt("กรุณากรอกชื่อพนักงาน หรือ บัญชีผู้ใช้ใหม่:");
             if (newName && newName.trim() !== "") {
                 let roles = JSON.parse(localStorage.getItem(LOCAL_STORAGE_ROLES_KEY)) || [];
@@ -446,6 +537,9 @@
         }
 
         function updateRole(roleId) {
+            const currentUser = JSON.parse(localStorage.getItem('rabbitz_currentUser')) || {};
+            if (currentUser.role !== 'admin') return;
+
             const newRoleValue = document.getElementById(`roleSelect-${roleId}`).value;
             let roles = JSON.parse(localStorage.getItem(LOCAL_STORAGE_ROLES_KEY)) || [];
             const index = roles.findIndex(r => r.id === roleId);
@@ -457,6 +551,9 @@
         }
 
         function deleteRole(roleId) {
+            const currentUser = JSON.parse(localStorage.getItem('rabbitz_currentUser')) || {};
+            if (currentUser.role !== 'admin') return;
+
             let roles = JSON.parse(localStorage.getItem(LOCAL_STORAGE_ROLES_KEY)) || [];
             const roleToDelete = roles.find(r => r.id === roleId);
             if (roleToDelete && confirm(`คุณแน่ใจหรือไม่ว่าต้องการลบสิทธิ์ของ "${roleToDelete.name}"?`)) {
@@ -467,11 +564,13 @@
         }
 
         // ==========================================
-        // 7. ระบบจัดการเนื้อหา (Content Management)
+        // ระบบจัดการเนื้อหา (Content Management)
         // ==========================================
         function fetchContent() {
             const listContainer = document.getElementById('servicesList');
             const storedContent = JSON.parse(localStorage.getItem(LOCAL_STORAGE_CONTENT_KEY)) || [];
+            const currentUser = JSON.parse(localStorage.getItem('rabbitz_currentUser')) || {};
+            const isOwner = currentUser.role === 'admin';
             
             listContainer.innerHTML = '';
             if (storedContent.length === 0) {
@@ -480,6 +579,11 @@
             }
 
             storedContent.forEach(item => {
+                // ซ่อนปุ่มลบถ้าไม่ใช่แอดมิน
+                let deleteBtn = isOwner 
+                    ? `<button onclick="deleteContent(${item.id})" class="text-red-500 hover:text-white hover:bg-red-500 text-xs font-bold border border-red-500 px-3 py-1.5 rounded transition-colors shadow-sm">ลบออก</button>`
+                    : ``;
+
                 listContainer.innerHTML += `
                     <div class="flex justify-between items-center border border-gray-200 p-3 rounded-lg bg-white hover:shadow-md transition-shadow">
                         <div>
@@ -487,13 +591,19 @@
                             <p class="text-[10px] text-gray-500 mt-1">${item.detail}</p>
                             <p class="text-xs text-gray-800 font-semibold mt-1">ราคาเริ่มต้น ${item.price} บาท</p>
                         </div>
-                        <button onclick="deleteContent(${item.id})" class="text-red-500 hover:text-white hover:bg-red-500 text-xs font-bold border border-red-500 px-3 py-1.5 rounded transition-colors shadow-sm">ลบออก</button>
+                        ${deleteBtn}
                     </div>
                 `;
             });
         }
 
         function addServiceContent() {
+            const currentUser = JSON.parse(localStorage.getItem('rabbitz_currentUser')) || {};
+            if (currentUser.role !== 'admin') {
+                alert('เฉพาะเจ้าของร้านเท่านั้นที่แก้ไขเนื้อหาหน้าเว็บได้ครับ');
+                return;
+            }
+
             const nameInput = document.getElementById('contentName').value;
             const detailInput = document.getElementById('contentDetail').value;
             const priceInput = document.getElementById('contentPrice').value;
@@ -516,7 +626,6 @@
             localStorage.setItem(LOCAL_STORAGE_CONTENT_KEY, JSON.stringify(contents));
             alert(`เพิ่มบริการ "${nameInput}" เรียบร้อยแล้ว!`);
             
-            // เคลียร์ฟอร์ม
             document.getElementById('contentName').value = '';
             document.getElementById('contentDetail').value = '';
             document.getElementById('contentPrice').value = '';
@@ -537,22 +646,28 @@
         }
 
         // ==========================================
-        // ทำงานเมื่อโหลดเว็บเสร็จ
+        // ⭐️ ทำงานเมื่อเปิดเว็บ (อัปเดตสิทธิ์การเข้าถึง)
         // ==========================================
         document.addEventListener('DOMContentLoaded', () => {
-            // ตรวจสอบการล็อกอิน (เผื่อมีการแอบเข้าหน้านี้ตรงๆ)
             const userDataString = localStorage.getItem('rabbitz_currentUser');
             if (!userDataString) {
                 alert('กรุณาเข้าสู่ระบบก่อนใช้งานครับ');
                 window.location.href = 'Homepage.html';
             } else {
                 const userData = JSON.parse(userDataString);
-                if (userData.role !== 'admin') {
-                    alert('บัญชีของคุณไม่มีสิทธิ์เข้าถึงหน้า Admin ครับ');
+                
+                // อนุญาตให้ทั้ง Admin และ Tech เข้าหน้านี้ได้ 
+                if (userData.role !== 'admin' && userData.role !== 'tech') {
+                    alert('บัญชีของคุณเป็นลูกค้า ไม่มีสิทธิ์เข้าถึงหน้าหลังร้านครับ');
                     window.location.href = 'HomepageCus.html';
                 }
-            }
 
+                // โชว์ว่าล็อกอินด้วยสถานะอะไรบนแถบเมนูด้านบน
+                const roleBadge = document.getElementById('navUserRole');
+                if (roleBadge) {
+                    roleBadge.innerText = userData.role === 'admin' ? '👑 Admin' : '💅 Technician';
+                }
+            }
             initLocalStorage();
         });
     </script>
