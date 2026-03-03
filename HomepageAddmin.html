@@ -382,7 +382,7 @@
             }
 
             storedBookings.forEach(booking => {
-                let statusColor = booking.status === 'รอการยืนยัน' ? 'bg-yellow-100 text-yellow-800' : 
+                let statusColor = booking.status === 'รอการยืนยัน' ? 'bg-yellow-100 text-yellow-800' :
                                   booking.status === 'ยกเลิก' ? 'bg-red-100 text-red-800' : 'bg-green-100 text-green-800';
                 
                 let actionButtons = booking.status === 'รอการยืนยัน' 
@@ -688,6 +688,56 @@ function openEditTimeModal(bookingId) {
         document.getElementById('editTimeModal').classList.remove('hidden');
     }
 }
+// ค้นหาและแทนที่ฟังก์ชัน openEditTimeModal ใน HomepageAddmin.html ให้เหลือเพียงอันเดียวครับ
+function openEditTimeModal(bookingId) {
+    let bookings = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY));
+    const booking = bookings.find(b => b.id === bookingId);
+    
+    if (booking) {
+        document.getElementById('editBookingId').value = booking.id;
+        document.getElementById('editTimeCustomerName').innerText = `ลูกค้า: ${booking.customer_name}`;
+        document.getElementById('oldTimeText').innerText = booking.datetime; 
+        
+        // --- ส่วนที่อัปเดต: ดึงวันที่เดิมมาใส่ในช่องแก้ไขอัตโนมัติเพื่อให้แอดมินแก้ไขได้ทันที ---
+        if(booking.rawDate) {
+            document.getElementById('editBookingDate').value = booking.rawDate;
+        }
+        // --------------------------------------------------------------------------
+
+        document.getElementById('editTimeModal').classList.remove('hidden');
+    }
+}
+
+// และอัปเดตฟังก์ชัน fetchBookings ให้แสดงผลข้อมูลล่าสุดเสมอ
+function fetchBookings() {
+    const tbody = document.getElementById('bookingsTableBody');
+    const storedBookings = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY)) || [];
+    
+    tbody.innerHTML = '';
+    if (storedBookings.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="5" class="px-4 py-4 text-center text-gray-400">ยังไม่มีข้อมูลการจอง</td></tr>`;
+        return;
+    }
+
+    // เรียงคิวล่าสุดขึ้นข้างบน
+    [...storedBookings].reverse().forEach(booking => {
+        let statusColor = booking.status === 'รอการยืนยัน' ? 'bg-yellow-100 text-yellow-800' : 
+                          booking.status === 'ยกเลิก' ? 'bg-red-100 text-red-800' : 'bg-green-100 text-green-800';
+        
+        tbody.innerHTML += `
+            <tr class="border-b bg-white hover:bg-gray-50 transition-colors">
+                <td class="px-4 py-3 font-medium text-gray-900">${booking.customer_name}<br><span class="text-xs text-gray-400">${booking.phone}</span></td>
+                <td class="px-4 py-3">${booking.service}</td>
+                <td class="px-4 py-3 font-semibold text-gray-800">${booking.datetime}</td>
+                <td class="px-4 py-3"><span class="text-xs font-medium px-2.5 py-0.5 rounded ${statusColor}">${booking.status}</span></td>
+                <td class="px-4 py-3 flex gap-2 justify-center">
+                    <button onclick="updateBookingStatus(${booking.id}, 'ยืนยันแล้ว')" class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded text-xs">ยืนยัน</button>
+                    <button onclick="openEditTimeModal(${booking.id})" class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded text-xs">แก้ไขเวลา</button>
+                </td>
+            </tr>`;
+    });
+}
+
     </script>
 </body>
 </html>
