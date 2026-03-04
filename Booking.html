@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="en text-gray-800 bg-gray-50 text-gray-800">
+<html lang="en">
 
 <head>
-    <meta charset="UTF-8 text-gray-800 bg-gray-50 text-gray-800">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Booking - Rabbitz</title>
     <script src="https://cdn.tailwindcss.com"></script>
@@ -26,7 +26,7 @@
 
 <body class="bg-gray-50 text-gray-800">
 
-   <header>
+ <header>
         <nav class="border-b border-red-900 px-4 py-2.5 fixed left-0 right-0 top-0 z-50 bg-red-900 w-full">
             <div class="flex flex-wrap items-center justify-between mx-auto max-w-[1600px]">
                 
@@ -42,9 +42,9 @@
 
                 <div class="flex items-center gap-6">
                     <ul class="hidden lg:flex flex-row space-x-6 text-sm font-medium text-white">
-                        <li><a href="#" class="hover:text-red-200 transition">Homepage</a></li>
+                        <li><a href="HomepageCus.html" class="hover:text-red-200 transition">Homepage</a></li>
                         <li class="w-px h-5 bg-white/30"></li>
-                        <li><a href="Contact.html" class="hover:text-red-200 transition">Contact</a></li>
+                        <li><a href="ContactSI.html" class="hover:text-red-200 transition">Contact</a></li>
                         <li class="w-px h-5 bg-white/30"></li>
                         <li><a href="Booking.html" class="hover:text-red-200 transition">Booking</a></li>
                     </ul>
@@ -104,46 +104,6 @@
             Sign out
         </button>
          </div>
-        </div>
-
-        <div id="overlay" class="fixed inset-0 bg-black/40 z-[90] hidden"></div>
-    </header>
-    
-        <div id="sidebar"
-            class="fixed top-0 right-0 h-full w-72 bg-gradient-to-b from-[#801919] to-[#5d1212] z-[100] transform translate-x-full transition-transform duration-300 ease-in-out shadow-2xl rounded-l-[3rem]">
-
-            <div class="p-8 flex flex-col items-center">
-                <button id="closeBtn" class="self-end text-white mb-4">
-                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12">
-                        </path>
-                    </svg>
-                </button>
-                <button type="button"
-                    class="flex text-sm bg-white rounded-full focus:ring-40 overflow-hidden size-49 border-2 border-white/20 shadow-sm ">
-                    <img id="sidebar-profile-img" class="w-full h-full object-cover"
-                        src="https://ui-avatars.com/api/?name=User&background=random" alt="User Profile">
-                </button>
-                <p id="sidebar-username" class="text-white font-medium mt-3 text-lg"></p>
-            </div>
-
-            <div class="px-6 py-4">
-                <div class="bg-white/90 rounded-[2rem] p-6 space-y-3 text-center shadow-lg">
-                    <a href="#"
-                        class="block text-[#801919] font-bold hover:scale-105 transition uppercase tracking-wider text-medium">Setting</a>
-                    <hr class="border-[#801919]/20 w-1/2 mx-auto">
-                    <a href="#"
-                        class="block text-[#801919] font-bold hover:scale-105 transition uppercase tracking-wider text-medium">My
-                        Booking & History</a>
-                </div>
-            </div>
-
-            <div class="absolute bottom-12 left-0 right-0 px-10 text-center">
-                <button onclick="handleLogout()"
-                    class="w-full border-2 border-white text-white py-2 rounded-full font-bold uppercase text-medium hover:bg-white hover:text-[#801919] transition">
-                    Sign out
-                </button>
-            </div>
         </div>
 
         <div id="overlay" class="fixed inset-0 bg-black/40 z-[90] hidden"></div>
@@ -256,67 +216,15 @@
 
     <script>
         // --------------------------------------------------------
-        // 0. ระบบตรวจสอบการ Login จาก LocalStorage
-        // --------------------------------------------------------
-        const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-        let isSignedIn = currentUser !== null; 
-
-        const authContainer = document.getElementById('auth-container');
-
-        function updateAuthUI() {
-            if (isSignedIn) {
-                // สร้าง Avatar จากชื่อผู้ใช้
-                const avatarUrl = `https://ui-avatars.com/api/?name=${currentUser.username}&background=random`;
-                
-                authContainer.innerHTML = `
-                    <button id="menuBtn" type="button" class="flex text-sm bg-white rounded-full focus:ring-4 focus:ring-gray-300 overflow-hidden size-10 border-2 border-white shadow-sm hover:scale-105 transition cursor-pointer">
-                        <img class="w-full h-full object-cover" src="${avatarUrl}" alt="${currentUser.username} Profile">
-                    </button>
-                `;
-                
-                // อัปเดต Sidebar ข้อมูลผู้ใช้
-                const sidebarImg = document.getElementById('sidebar-profile-img');
-                const sidebarName = document.getElementById('sidebar-username');
-                if(sidebarImg) sidebarImg.src = avatarUrl;
-                if(sidebarName) sidebarName.textContent = currentUser.username;
-
-                // ผูก event listener สำหรับ sidebar
-                const menuBtn = document.getElementById('menuBtn');
-                const sidebar = document.getElementById('sidebar');
-                const overlay = document.getElementById('overlay');
-
-                menuBtn.addEventListener('click', () => {
-                    sidebar.classList.remove('translate-x-full');
-                    overlay.classList.remove('hidden');
-                });
-            } else {
-                authContainer.innerHTML = `
-                    <a href="Signup.html" class="text-white border-2 border-white focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-4 py-2 text-center inline-flex items-center hover:bg-white hover:text-red-900 transition">Sign up</a>
-                    <a href="Rolechoosen.html" class="text-red-900 bg-white focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-4 py-2 text-center inline-flex items-center hover:bg-gray-100 transition">Sign in</a>
-                `;
-            }
-        }
-
-        // ฟังก์ชัน Logout
-        function handleLogout() {
-            if(confirm('คุณต้องการออกจากระบบใช่หรือไม่?')) {
-                localStorage.removeItem('currentUser');
-                window.location.href = 'Rolechoosen.html';
-            }
-        }
-
-        updateAuthUI();
-
-        // --------------------------------------------------------
-        // 1. ระบบวัน/เวลาจำลอง (Mock Database)
+        // 1. ระบบจัดการวันและเวลา + เช็คคิวแบบเรียลไทม์
         // --------------------------------------------------------
         const allTimeSlots = [
             "13:00 - 14:30", "14:30 - 16:00", "16:00 - 17:30", "17:30 - 19:00"
         ];
 
         const mockDatabase = {
-            bookedSlots: {},
-            closedDates: []
+            // หากแอดมินต้องการปิดร้านวันไหน ให้มาเพิ่มวันที่ใน Array นี้ ตัวอย่าง: ['2026-04-13', '2026-04-14']
+            closedDates: [] 
         };
 
         const dateSelect = document.getElementById('booking_date');
@@ -326,7 +234,8 @@
             dateSelect.innerHTML = '<option value="" disabled selected>-- เลือกวันที่ --</option>';
             let today = new Date();
 
-            for (let i = 1; i <= 14; i++) {
+            // เปิดคิวล่วงหน้า 90 วัน
+            for (let i = 1; i <= 90; i++) {
                 let d = new Date(today);
                 d.setDate(today.getDate() + i);
 
@@ -351,7 +260,10 @@
 
         dateSelect.addEventListener('change', function () {
             const selectedDate = this.value;
-            const bookedTimes = mockDatabase.bookedSlots[selectedDate] || [];
+            
+            // ดึงประวัติการจองทั้งหมดจากระบบ (Local Storage)
+            const allBookings = JSON.parse(localStorage.getItem('allBookings')) || [];
+            const now = Date.now();
 
             timeSelect.innerHTML = '<option value="" disabled selected>-- เลือกรอบเวลา --</option>';
             timeSelect.disabled = false;
@@ -360,14 +272,43 @@
                 let option = document.createElement('option');
                 option.value = slot;
 
-                if (bookedTimes.includes(slot)) {
-                    option.textContent = `${slot} (มีผู้จองแล้ว)`;
+                // กรองหารายการจองที่ตรงกับวันและเวลานี้
+                const slotBookings = allBookings.filter(b => b.date === selectedDate && b.time === slot);
+
+                let isUnavailable = false;
+                let statusText = "";
+
+                // วนลูปเช็คสถานะการจองในรอบเวลานี้
+                for (let booking of slotBookings) {
+                    if (booking.status === 'Confirmed') {
+                        isUnavailable = true;
+                        statusText = " (มีผู้จองแล้ว)";
+                        break; // ถ้ามีคนยืนยันแล้ว ไม่ต้องเช็คเงื่อนไขอื่น
+                    } 
+                    else if (booking.status === 'Pending Payment') {
+                        // ถ้าติดสถานะรอดำเนินการ เช็คว่าเวลาผ่านมาเกิน 15 นาทีหรือยัง
+                        const createdAtTime = new Date(booking.createdAt).getTime();
+                        const diffMinutes = (now - createdAtTime) / (1000 * 60);
+
+                        if (diffMinutes <= 15) {
+                            isUnavailable = true;
+                            statusText = " (อยู่ระหว่างดำเนินการจอง)";
+                        }
+                        // ถ้าเกิน 15 นาที ระบบจะข้ามไป ถือว่าคิวนั้นว่างแล้ว
+                    }
+                    // ถ้าสถานะเป็น Cancelled หรือ Failed ระบบจะข้ามไป ถือว่าคิวว่าง
+                }
+
+                // นำสถานะมาอัปเดตบนหน้าจอ
+                if (isUnavailable) {
+                    option.textContent = `${slot}${statusText}`;
                     option.disabled = true;
                     option.className = "text-gray-400 bg-gray-100";
                 } else {
                     option.textContent = slot;
                     option.className = "text-gray-900 font-medium";
                 }
+                
                 timeSelect.appendChild(option);
             });
         });
@@ -380,7 +321,6 @@
         const fileInput = document.getElementById('dropzone-file');
         const previewContainer = document.getElementById('image-preview-container');
         
-        // เราจะเก็บรูปภาพเป็น Base64 Data URL เพื่อเซฟลง Session Storage ได้
         let uploadedImages = []; 
 
         fileInput.addEventListener('change', function (e) {
@@ -441,16 +381,9 @@
         // 4. บังคับเลือกข้อมูลและส่งมอบให้ detailbooking.html
         // --------------------------------------------------------
         document.getElementById('booking-form').addEventListener('submit', function (event) {
-            event.preventDefault(); // หยุดไม่ให้ฟอร์มโหลดหน้าใหม่ทันที
+            event.preventDefault(); 
 
-            // 4.1 ตรวจสอบการล็อกอินก่อน
-            if (!isSignedIn) {
-                alert('กรุณาเข้าสู่ระบบก่อนทำการจองคิวค่ะ');
-                window.location.href = 'Rolechoosen.html'; // เด้งไปหน้าเข้าสู่ระบบ
-                return;
-            }
-
-            // 4.2 ตรวจสอบข้อมูลฟอร์ม
+            // ตรวจสอบข้อมูลฟอร์ม
             const selectedDate = document.getElementById('booking_date').value;
             if (!selectedDate) {
                 alert('กรุณาเลือกวันที่ต้องการจองคิวค่ะ');
@@ -469,38 +402,41 @@
                 return;
             }
 
-            // 4.3 สร้าง Array ของบริการที่เลือก
             const selectedServicesArray = Array.from(checkedServicesNodes).map(cb => cb.value);
             const additionalDetails = document.getElementById('additional_details').value;
 
-            // 4.4 สร้าง Object ข้อมูลการจอง
             const bookingData = {
                 date: selectedDate,
                 time: selectedTime,
-                services: selectedServicesArray, // Array
+                services: selectedServicesArray, 
                 details: additionalDetails,
-                images: uploadedImages // Array of Base64 strings
+                images: uploadedImages 
             };
 
-            // 4.5 เซฟลง Session Storage
             sessionStorage.setItem('bookingData', JSON.stringify(bookingData));
-
-            // 4.6 สั่งให้เด้งไปหน้าสรุปการจอง
             window.location.href = 'detailbooking.html';
         });
 
     </script>
     <script>
+        // ระบบเปิด-ปิด Sidebar
         document.addEventListener('DOMContentLoaded', () => {
+            const menuBtn = document.getElementById('menuBtn');
             const closeBtn = document.getElementById('closeBtn');
             const sidebar = document.getElementById('sidebar');
             const overlay = document.getElementById('overlay');
+
+            const openMenu = () => {
+                sidebar.classList.remove('translate-x-full');
+                overlay.classList.remove('hidden');
+            };
 
             const closeMenu = () => {
                 sidebar.classList.add('translate-x-full');
                 overlay.classList.add('hidden');
             };
 
+            if(menuBtn) menuBtn.addEventListener('click', openMenu);
             if(closeBtn) closeBtn.addEventListener('click', closeMenu);
             if(overlay) overlay.addEventListener('click', closeMenu);
         });

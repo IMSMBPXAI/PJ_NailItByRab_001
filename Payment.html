@@ -25,7 +25,7 @@
         <nav class="border-b border-red-900 px-4 py-2.5 fixed left-0 right-0 top-0 z-50 bg-red-900 w-full">
             <div class="flex flex-wrap items-center justify-between mx-auto max-w-[1600px]">
                 <div class="flex items-center justify-start">
-                    <a href="Homepage.html" class="flex items-center mr-6">
+                    <a href="HomepageCus.html" class="flex items-center mr-6">
                         <img src="logo rabbitz.svg" class="w-12 h-12 mr-3 bg-white rounded-full object-cover p-1" alt="Rabbitz Logo" />
                         <span class="self-center text-xl font-semibold whitespace-nowrap text-white">NAIL IT BY RABBITZ</span>
                     </a>
@@ -36,7 +36,7 @@
 
     <div class="pt-28 pb-12 px-4 flex flex-col justify-center items-center min-h-screen">
         
-        <div class="bg-white p-8 rounded-2xl shadow-xl border-t-4 border-red-900 w-full max-w-sm text-center relative">
+        <div class="bg-white p-8 rounded-2xl shadow-xl border-t-4 border-red-900 w-full max-w-sm text-center relative" id="payment-container" style="display: none;">
             
             <div id="loading-overlay" class="hidden absolute inset-0 bg-white/90 z-20 flex flex-col items-center justify-center rounded-2xl backdrop-blur-sm">
                 <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-red-900 mb-3"></div>
@@ -47,7 +47,7 @@
             <h3 class="text-sm text-gray-500 font-medium mb-6 border-b pb-4">สแกน QR Code เพื่อยืนยันคิว</h3>
             
             <div class="text-4xl font-bold text-gray-800 mb-2">
-                <span id="display-amount">200.00</span> 
+                <span id="display-amount">100.00</span> 
                 <span class="text-lg text-gray-500 font-normal">THB</span>
             </div>
             
@@ -66,223 +66,216 @@
 
             <div class="flex justify-between items-center bg-gray-50 p-4 rounded-xl border border-gray-200 mb-6">
                 <span class="text-gray-600 text-sm font-medium">เวลาที่เหลือ</span>
-                <span id="timer" class="text-2xl font-mono font-bold text-red-900">--:--</span>
+                <span id="timer" class="text-2xl font-mono font-bold text-red-900">15:00</span>
             </div>
 
             <button onclick="manualCheckPayment()" class="w-full bg-red-900 hover:bg-red-800 text-white font-medium py-3 rounded-xl shadow-md transition-all">
                 ตรวจสอบสถานะการชำระเงิน
             </button>
             
-            <a href="detailbooking.html" class="block mt-4 text-sm text-gray-500 hover:text-red-900 underline transition">
+            <a href="javascript:simulatePayment('CANCELLED')" class="block mt-4 text-sm text-gray-500 hover:text-red-900 underline transition">
                 ยกเลิกการทำรายการ
             </a>
         </div>
 
-        <div class="mt-8 p-4 border border-dashed border-gray-300 rounded-xl bg-gray-100 w-full max-w-sm">
+        <div class="mt-8 p-4 border border-dashed border-gray-300 rounded-xl bg-gray-100 w-full max-w-sm" id="simulation-tools" style="display: none;">
             <p class="text-xs text-gray-500 mb-3 text-center font-bold">-- ส่วนสำหรับจำลองการจ่ายเงิน --</p>
             <div class="flex gap-2 justify-center">
-                <button onclick="simulateSuccess()" class="flex-1 py-2 bg-green-600 text-white rounded-lg text-xs font-medium hover:bg-green-700 shadow-sm transition">จำลอง: จ่ายสำเร็จ</button>
-                <button onclick="simulateFail()" class="flex-1 py-2 bg-red-600 text-white rounded-lg text-xs font-medium hover:bg-red-700 shadow-sm transition">จำลอง: จ่ายไม่สำเร็จ</button>
+                <button onclick="simulatePayment('SUCCESS')" class="flex-1 py-2 bg-green-600 text-white rounded-lg text-xs font-medium hover:bg-green-700 shadow-sm transition">จำลอง: จ่ายสำเร็จ</button>
+                <button onclick="simulatePayment('FAILED')" class="flex-1 py-2 bg-red-600 text-white rounded-lg text-xs font-medium hover:bg-red-700 shadow-sm transition">จำลอง: จ่ายไม่สำเร็จ</button>
             </div>
         </div>
 
     </div>
 
     <script>
-        // =========================================================
-        // 1. ตรวจสอบการ Login และข้อมูลการจอง
-        // =========================================================
-        const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-        const bookingDataStr = sessionStorage.getItem('bookingData');
+        let currentBooking = null;
+        let isExpired = false; 
+        let countdownInterval;
 
-        if (!currentUser || !bookingDataStr) {
-            alert('ข้อมูลไม่ครบถ้วน กรุณาทำรายการใหม่อีกครั้ง');
-            window.location.href = 'Booking.html';
-        }
+        document.addEventListener('DOMContentLoaded', () => {
+            const bookingDataStr = sessionStorage.getItem('bookingData');
 
-        // =========================================================
-        // 2. ตั้งค่าระบบ Payment (CONFIG)
-        // =========================================================
-        const config = {
-            promptpayID: "0948263229",   // เบอร์พร้อมเพย์ร้าน
-            amount: 100.00,             // ค่ามัดจำคงที่ (สมมติ 200 บาท)
-            timeLimit: 15 * 60,          // เวลา 15 นาที
-            redirectUrl: "History.html"  // หน้าที่จะไปเมื่อจ่ายเสร็จ
-        };
-
-        // =========================================================
-        // 3. Logic สร้าง PromptPay QR Code
-        // =========================================================
-        function generatePromptPay(id, amount) {
-            const target = id.length >= 13 ? id : ("0066" + id.substring(1));
-            const targetType = id.length >= 13 ? "02" : "01";
-            
-            let data = [
-                "000201", "010211", "2937", 
-                "0016A000000677010111" + targetType + (target.length < 10 ? "0" + target.length : target.length) + target,
-                "5802TH", "5303764", 
-                "54" + (amount.toFixed(2).length < 10 ? "0" + amount.toFixed(2).length : amount.toFixed(2).length) + amount.toFixed(2)
-            ].join("");
-
-            data += "6304"; 
-            data += calcCRC16(data); 
-            return data;
-        }
-
-        function calcCRC16(str) {
-            let crc = 0xFFFF;
-            for (let i = 0; i < str.length; i++) {
-                let x = ((crc >> 8) ^ str.charCodeAt(i)) & 0xFF;
-                x ^= x >> 4;
-                crc = ((crc << 8) ^ (x << 12) ^ (x << 5) ^ x) & 0xFFFF;
+            if (!bookingDataStr) {
+                alert('ไม่พบข้อมูลการทำรายการ กรุณาจองคิวใหม่');
+                window.location.href = 'Booking.html';
+                return;
             }
-            return ("0000" + crc.toString(16).toUpperCase()).slice(-4);
-        }
 
-        function formatID(id) {
-            if(id.length === 10) return id.replace(/(\d{3})(\d{3})(\d{4})/, '$1-$2-$3');
-            return id;
-        }
+            currentBooking = JSON.parse(bookingDataStr);
 
-        // =========================================================
-        // 4. เริ่มการทำงานบนหน้าจอ
-        // =========================================================
-        document.getElementById('display-amount').textContent = config.amount.toFixed(2);
-        document.getElementById('display-account').textContent = formatID(config.promptpayID);
-
-        const payload = generatePromptPay(config.promptpayID, config.amount);
-        
-        const qrDiv = document.getElementById("qrcode");
-        new QRCode(qrDiv, {
-            text: payload,
-            width: 180, height: 180,
-            colorDark : "#1e293b", colorLight : "#ffffff",
-            correctLevel : QRCode.CorrectLevel.M
+            // แสดงส่วนชำระเงิน
+            document.getElementById('payment-container').style.display = 'block';
+            document.getElementById('simulation-tools').style.display = 'block';
+            
+            initPaymentSystem();
         });
 
-        // =========================================================
-        // 5. Timer Logic
-        // =========================================================
-        let timeLeft = config.timeLimit;
-        const timerDisplay = document.getElementById('timer');
-        const overlay = document.getElementById('expired-overlay');
-        
-        const countdown = setInterval(() => {
-            const m = Math.floor(timeLeft / 60);
-            const s = (timeLeft % 60).toString().padStart(2, '0');
-            timerDisplay.textContent = `${m}:${s}`;
-            timeLeft--;
+        function initPaymentSystem() {
+            const config = {
+                promptpayID: "0948263229",   
+                amount: 100.00,             
+                timeLimit: 15 * 60, // 15 นาที         
+            };
 
-            if (timeLeft < 0) {
-                clearInterval(countdown);
-                handleTimeout();
+            function generatePromptPay(id, amount) {
+                const target = id.length >= 13 ? id : ("0066" + id.substring(1));
+                const targetType = id.length >= 13 ? "02" : "01";
+                let data = [
+                    "000201", "010211", "2937", 
+                    "0016A000000677010111" + targetType + (target.length < 10 ? "0" + target.length : target.length) + target,
+                    "5802TH", "5303764", 
+                    "54" + (amount.toFixed(2).length < 10 ? "0" + amount.toFixed(2).length : amount.toFixed(2).length) + amount.toFixed(2)
+                ].join("");
+                data += "6304"; 
+                data += calcCRC16(data); 
+                return data;
             }
-        }, 1000);
+
+            function calcCRC16(str) {
+                let crc = 0xFFFF;
+                for (let i = 0; i < str.length; i++) {
+                    let x = ((crc >> 8) ^ str.charCodeAt(i)) & 0xFF;
+                    x ^= x >> 4;
+                    crc = ((crc << 8) ^ (x << 12) ^ (x << 5) ^ x) & 0xFFFF;
+                }
+                return ("0000" + crc.toString(16).toUpperCase()).slice(-4);
+            }
+
+            function formatID(id) {
+                if(id.length === 10) return id.replace(/(\d{3})(\d{3})(\d{4})/, '$1-$2-$3');
+                return id;
+            }
+
+            document.getElementById('display-amount').textContent = config.amount.toFixed(2);
+            document.getElementById('display-account').textContent = formatID(config.promptpayID);
+
+            const payload = generatePromptPay(config.promptpayID, config.amount);
+            const qrDiv = document.getElementById("qrcode");
+            new QRCode(qrDiv, {
+                text: payload,
+                width: 180, height: 180,
+                colorDark : "#1e293b", colorLight : "#ffffff",
+                correctLevel : QRCode.CorrectLevel.M
+            });
+
+            let timeLeft = config.timeLimit;
+            const timerDisplay = document.getElementById('timer');
+            const overlay = document.getElementById('expired-overlay');
+            
+            countdownInterval = setInterval(() => {
+                const m = Math.floor(timeLeft / 60);
+                const s = (timeLeft % 60).toString().padStart(2, '0');
+                timerDisplay.textContent = `${m}:${s}`;
+                timeLeft--;
+
+                if (timeLeft < 0) {
+                    clearInterval(countdownInterval); 
+                    isExpired = true; 
+                    overlay.classList.remove('hidden');
+                    overlay.classList.add('flex');
+                    
+                    updateBookingStatus('Failed');
+
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'หมดเวลาชำระเงิน',
+                        text: 'คิวนี้หมดเวลาการยืนยันแล้ว กรุณาเริ่มทำรายการจองใหม่อีกครั้ง',
+                        confirmButtonText: 'ตกลง',
+                        confirmButtonColor: '#7f1d1d',
+                        allowOutsideClick: false
+                    }).then(() => {
+                        sessionStorage.removeItem('bookingData');
+                        window.location.href = 'Booking.html';
+                    });
+                }
+            }, 1000);
+        }
 
         // =========================================================
-        // 6. Check Status & บันทึกข้อมูล
+        // 3. ฟังก์ชันอัปเดตข้อมูลเข้าฐานข้อมูลและเชื่อมโยงปุ่มจำลอง
         // =========================================================
-        let serverPaymentStatus = "PENDING"; 
+        function updateBookingStatus(newStatus) {
+            if(!currentBooking) return;
 
-        const checkInterval = setInterval(() => {
-            checkPaymentStatusFromBackend(); 
-        }, 3000);
+            let allBookings = JSON.parse(localStorage.getItem('allBookings')) || [];
+            // หาคิวที่ตัวเองกั๊กเอาไว้โดยเทียบจาก ID
+            const bookingIndex = allBookings.findIndex(b => b.id === currentBooking.id);
 
-        function checkPaymentStatusFromBackend() {
-            if (serverPaymentStatus === 'SUCCESS') {
-                clearInterval(checkInterval); 
-                clearInterval(countdown);    
-                onPaymentSuccess();
-            } else if (serverPaymentStatus === 'FAILED') {
-                clearInterval(checkInterval);
-                onPaymentFailed();
+            if (bookingIndex > -1) {
+                allBookings[bookingIndex].status = newStatus;
+                localStorage.setItem('allBookings', JSON.stringify(allBookings));
+            }
+        }
+
+        function simulatePayment(status) {
+            if (isExpired) return;
+
+            clearInterval(countdownInterval);
+
+            if (status === 'SUCCESS') {
+                updateBookingStatus('Confirmed');
+                
+                Swal.fire({
+                    icon: 'success',
+                    title: 'ชำระเงินสำเร็จ!',
+                    text: 'ยืนยันคิวเรียบร้อย กำลังพาท่านไปหน้าประวัติการจอง...',
+                    timer: 2000,
+                    showConfirmButton: false,
+                    allowOutsideClick: false
+                }).then(() => {
+                    sessionStorage.removeItem('bookingData');
+                    window.location.href = "History.html"; 
+                });
+
+            } else if (status === 'FAILED') {
+                updateBookingStatus('Failed');
+
+                Swal.fire({
+                    icon: 'error',
+                    title: 'การชำระเงินล้มเหลว',
+                    text: 'กรุณาตรวจสอบยอดเงิน หรือลองทำรายการใหม่อีกครั้ง',
+                    confirmButtonText: 'กลับไปหน้าจองคิว',
+                    confirmButtonColor: '#7f1d1d',
+                    allowOutsideClick: false
+                }).then(() => {
+                    sessionStorage.removeItem('bookingData');
+                    window.location.href = "Booking.html"; 
+                });
+
+            } else if (status === 'CANCELLED') {
+                updateBookingStatus('Cancelled');
+
+                Swal.fire({
+                    icon: 'info',
+                    title: 'ยกเลิกรายการ',
+                    text: 'คุณได้ยกเลิกรายการจองนี้แล้ว',
+                    confirmButtonText: 'ตกลง',
+                    confirmButtonColor: '#7f1d1d',
+                    allowOutsideClick: false
+                }).then(() => {
+                    sessionStorage.removeItem('bookingData');
+                    window.location.href = "Booking.html"; 
+                });
             }
         }
 
         function manualCheckPayment() {
+            if (isExpired) return;
+
             document.getElementById('loading-overlay').classList.remove('hidden');
             setTimeout(() => {
                 document.getElementById('loading-overlay').classList.add('hidden');
-                if (serverPaymentStatus === 'SUCCESS') {
-                    onPaymentSuccess();
-                } else {
-                    Swal.fire({
-                        icon: 'info',
-                        title: 'ยังไม่ได้รับยอดเงิน',
-                        text: 'ระบบกำลังรอการชำระเงินจากธนาคาร...',
-                        confirmButtonText: 'ตกลง',
-                        confirmButtonColor: '#7f1d1d'
-                    });
-                }
+                
+                Swal.fire({
+                    icon: 'info',
+                    title: 'ยังไม่ได้รับยอดเงิน',
+                    text: 'ระบบกำลังรอการชำระเงินจากธนาคาร...',
+                    confirmButtonText: 'ตกลง',
+                    confirmButtonColor: '#7f1d1d'
+                });
             }, 1500);
         }
-
-        // =========================================================
-        // 7. Event Handlers
-        // =========================================================
-        
-        // ฟังก์ชันบันทึกการจองเมื่อจ่ายสำเร็จ
-        function saveBookingToHistory() {
-            const bookingData = JSON.parse(sessionStorage.getItem('bookingData'));
-            
-            // เพิ่มข้อมูลส่วนตัวและสถานะ
-            bookingData.id = 'B' + Date.now(); // สุ่มไอดี
-            bookingData.username = currentUser.username;
-            bookingData.status = 'Confirmed';
-            bookingData.createdAt = new Date().toISOString();
-
-            // ดึงข้อมูลเก่ามาและต่อท้ายข้อมูลใหม่
-            let allBookings = JSON.parse(localStorage.getItem('allBookings')) || [];
-            allBookings.push(bookingData);
-            
-            localStorage.setItem('allBookings', JSON.stringify(allBookings));
-            sessionStorage.removeItem('bookingData'); // ลบของชั่วคราวทิ้ง
-        }
-
-        function onPaymentSuccess() {
-            saveBookingToHistory(); // บันทึกข้อมูลก่อน
-            
-            Swal.fire({
-                icon: 'success',
-                title: 'ชำระเงินสำเร็จ!',
-                text: 'ยืนยันคิวเรียบร้อย กำลังพาท่านไปหน้าประวัติการจอง...',
-                timer: 2000,
-                showConfirmButton: false
-            }).then(() => {
-                window.location.href = config.redirectUrl; 
-            });
-        }
-
-        function onPaymentFailed() {
-            Swal.fire({
-                icon: 'error',
-                title: 'การชำระเงินล้มเหลว',
-                text: 'กรุณาตรวจสอบยอดเงิน หรือลองใหม่อีกครั้ง',
-                confirmButtonText: 'ลองใหม่',
-                confirmButtonColor: '#7f1d1d'
-            }).then(() => {
-                location.reload(); 
-            });
-        }
-
-        function handleTimeout() {
-            overlay.classList.remove('hidden');
-            overlay.classList.add('flex');
-            Swal.fire({
-                icon: 'warning',
-                title: 'หมดเวลาชำระเงิน',
-                text: 'กรุณากดยืนยันเพื่อสร้าง QR Code ใหม่อีกครั้ง',
-                confirmButtonText: 'รีโหลดหน้าเว็บ',
-                confirmButtonColor: '#7f1d1d',
-                allowOutsideClick: false
-            }).then(() => {
-                location.reload();
-            });
-        }
-
-        // --- Simulation Tools ---
-        function simulateSuccess() { serverPaymentStatus = "SUCCESS"; }
-        function simulateFail() { serverPaymentStatus = "FAILED"; }
 
     </script>
 </body>
