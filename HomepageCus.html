@@ -3,25 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HOMEPAGE CUSTOMMER</title>
-     <script src="https://cdn.tailwindcss.com"></script>
+    <title>HOMEPAGE CUSTOMER - NAIL IT BY RABBITZ</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600&display=swap" rel="stylesheet">
 
     <style>
-  /* ตั้งค่าให้ทั้งหน้าเว็บใช้ฟอนต์ Kanit */
-  body {
-    font-family: 'Kanit', sans-serif;
-    }
+        /* ตั้งค่าให้ทั้งหน้าเว็บใช้ฟอนต์ Kanit */
+        body {
+            font-family: 'Kanit', sans-serif;
+        }
     </style>
-<header>
+</head>
+<body class="bg-gray-50">
+
+    <header>
         <nav class="border-b border-red-900 px-4 py-2.5 fixed left-0 right-0 top-0 z-50 bg-red-900 w-full">
             <div class="flex flex-wrap items-center justify-between mx-auto max-w-[1600px]">
                 
                 <div class="flex items-center justify-start">
-                    <a href="#" class="flex items-center mr-6">
-                        <img src="logo rabbitz.svg" class="size-16 mr-3 bg-white rounded-full p-1" alt="Rabbitz Logo" />
+                    <a href="HomepageCus.html" class="flex items-center mr-6">
+                        <img src="logo rabbitz.svg" class="size-16 mr-3 bg-white rounded-full p-1" alt="Rabbitz Logo" onerror="this.src='https://ui-avatars.com/api/?name=Logo&background=fff&color=7f1d1d'"/>
                     </a>
 
                     <div class="hidden md:block relative mr-4"> 
@@ -30,8 +33,8 @@
                 </div>
 
                 <div class="flex items-center gap-6">
-                    <ul class="hidden lg:flex flex-row space-x-6 text-sm font-medium text-white">
-                        <li><a href="#" class="hover:text-red-200 transition">Homepage</a></li>
+                    <ul class="hidden lg:flex flex-row space-x-6 text-sm font-medium text-white items-center">
+                        <li><a href="HomepageCus.html" class="hover:text-red-200 transition">Homepage</a></li>
                         <li class="w-px h-5 bg-white/30"></li>
                         <li><a href="ContactSI.html" class="hover:text-red-200 transition">Contact</a></li>
                         <li class="w-px h-5 bg-white/30"></li>
@@ -42,6 +45,8 @@
 
                     <div class="flex items-center space-x-4">
                         
+                        <span id="userNameDisplay" class="text-white text-sm font-medium hidden md:block"></span>
+
                         <button type="button" class="relative p-2 text-white hover:bg-white/10 rounded-full transition focus:outline-none">
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
@@ -53,8 +58,10 @@
                         </button>
 
                         <button type="button" class="flex text-sm bg-white rounded-full focus:ring-4 focus:ring-red-700 overflow-hidden size-10 border-2 border-white/20 shadow-sm transition hover:scale-105">
-                            <img class="w-full h-full object-cover" src="https://ui-avatars.com/api/?name=User&background=random" alt="User Profile">
+                            <img id="userProfilePic" class="w-full h-full object-cover" src="https://ui-avatars.com/api/?name=User&background=fff&color=7f1d1d" alt="User Profile">
                         </button>
+
+                        <button onclick="handleLogout()" class="text-xs text-white underline hover:text-red-200 ml-2">Log out</button>
 
                     </div>
                     <div class="flex items-center gap-4 border-l border-white/30 pl-6">
@@ -97,202 +104,235 @@
 
         <div id="overlay" class="fixed inset-0 bg-black/40 z-[90] hidden"></div>
     </header>
-    <br>
-    <!-- แบนเนอร์โปรโมชั่น -->
-    <div>
-    </div>
-
-    <main class="pt-24 pb-12 max-w-4xl mx-auto px-4">
+    
+    <main class="pt-28 pb-12 max-w-4xl mx-auto px-4">
         
         <div class="relative mb-8">
             <input type="text" class="w-full border-2 border-gray-400 rounded-full py-2 px-10 focus:outline-none" placeholder="ค้นหา...">
-            <svg class="w-5 h-5 absolute right-4 top-3 text-rabbitz-red" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+            <svg class="w-5 h-5 absolute right-4 top-3 text-red-900" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
         </div>
 
         <div class="relative rounded-2xl overflow-hidden mb-8 shadow-lg">
-            <img src="pic/613027901_1331443012336595_6896879974426628931_n.jpg" class="w-full h-[300px] object-cover" alt="Promotion">
-            <div class="absolute bottom-4 left-6 text-white shadow-2xl p-2 rounded">
+            <img src="pic/613027901_1331443012336595_6896879974426628931_n.jpg" class="w-full h-[300px] object-cover" alt="Promotion" onerror="this.src='https://via.placeholder.com/800x300?text=Promotion'">
+            <div class="absolute bottom-4 left-6 text-white shadow-2xl p-2 rounded bg-black/40 backdrop-blur-sm">
                 <h2 class="font-bold">PROMOTION</h2>
                 <p class="text-xs">NAIL IT BY RABBITZ สาขา มหาวิทยาลัยพะเยา</p>
             </div>
         </div>
 
         <div class="bg-gray-200 rounded-3xl p-4 flex items-center gap-4 mb-8 max-w-lg mx-auto border border-gray-300 shadow-inner">
-            <div class="bg-rabbitz-red p-2 rounded-full">
+            <div class="bg-red-900 p-2 rounded-full">
                 <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20"><path d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"></path></svg>
             </div>
             <div>
-                <p class="text-rabbitz-red font-bold text-sm">บริการดีมากค่ะ งานสวยตามบรีฟเลยค่ะ</p>
-                <div class="flex text-yellow-500 text-xs">
+                <p class="text-red-900 font-bold text-sm">บริการดีมากค่ะ งานสวยตามบรีฟเลยค่ะ</p>
+                <div class="flex text-yellow-500 text-xs mt-1">
                     4.9/5 ★★★★★
                 </div>
             </div>
         </div>
+
         <div class="flex flex-col items-center my-10">
-        <div class="w-1/3 border-t border-gray-300 mb-4"></div>
-    
-        <div class="bg-[#b3967a] text-white px-12 py-1 rounded-md shadow-sm uppercase tracking-widest text-sm font-medium">
-        GALLERY
+            <div class="w-1/3 border-t border-gray-300 mb-4"></div>
+            <div class="bg-[#b3967a] text-white px-12 py-1 rounded-md shadow-sm uppercase tracking-widest text-sm font-medium">
+            GALLERY
+            </div>
+            <div class="w-1/3 border-t border-gray-300 mt-4"></div>
         </div>
-    
-        <div class="w-1/3 border-t border-gray-300 mt-4"></div>
-         </div>
 
         <div class="text-center mb-8">
-           
             <div class="grid grid-cols-3 gap-4 mt-6">
-                <img src="pic/617032545_1344062771074619_1246152938556010655_n.jpg" class="rounded-xl shadow-md border-2 border-white">
-                <img src="pic/633932142_1362916385855924_282871075612265257_n.jpg" class="rounded-xl shadow-md border-2 border-white">
-                <img src="pic/634931143_1365712815576281_5935012769015046080_n.jpg" class="rounded-xl shadow-md border-2 border-white">
-                <img src="pic/637032793_1365703782243851_2013380184915318522_n.jpg" class="rounded-xl shadow-md border-2 border-white">
-                <img src="pic/637144201_1365693598911536_5126569838382212738_n.jpg" class="rounded-xl shadow-md border-2 border-white">
-                <img src="pic/637349459_1365695622244667_2662039558123424415_n.jpg" class="rounded-xl shadow-md border-2 border-white">
+                <img src="pic/617032545_1344062771074619_1246152938556010655_n.jpg" class="rounded-xl shadow-md border-2 border-white object-cover aspect-square" onerror="this.src='https://via.placeholder.com/150'">
+                <img src="pic/633932142_1362916385855924_282871075612265257_n.jpg" class="rounded-xl shadow-md border-2 border-white object-cover aspect-square" onerror="this.src='https://via.placeholder.com/150'">
+                <img src="pic/634931143_1365712815576281_5935012769015046080_n.jpg" class="rounded-xl shadow-md border-2 border-white object-cover aspect-square" onerror="this.src='https://via.placeholder.com/150'">
+                <img src="pic/637032793_1365703782243851_2013380184915318522_n.jpg" class="rounded-xl shadow-md border-2 border-white object-cover aspect-square" onerror="this.src='https://via.placeholder.com/150'">
+                <img src="pic/637144201_1365693598911536_5126569838382212738_n.jpg" class="rounded-xl shadow-md border-2 border-white object-cover aspect-square" onerror="this.src='https://via.placeholder.com/150'">
+                <img src="pic/637349459_1365695622244667_2662039558123424415_n.jpg" class="rounded-xl shadow-md border-2 border-white object-cover aspect-square" onerror="this.src='https://via.placeholder.com/150'">
             </div>
             <div class="flex justify-center items-center gap-4 mt-8">
-        <a href="Homepage.html" class="w-8 h-8 flex items-center justify-center rounded-full bg-[#800000] text-white text-sm font-medium transition duration-300 shadow-md">
-        1
-         </a>
+                <a href="#" class="w-8 h-8 flex items-center justify-center rounded-full bg-[#800000] text-white text-sm font-medium transition duration-300 shadow-md">1</a>
+                <a href="#" class="w-8 h-8 flex items-center justify-center rounded-full bg-white text-[#800000] border border-[#800000] text-sm font-medium hover:bg-red-50 transition duration-300">2</a>
+                <a href="#" class="w-8 h-8 flex items-center justify-center rounded-full bg-white text-[#800000] border border-[#800000] text-sm font-medium hover:bg-red-50 transition duration-300">3</a>
+            </div>
+        </div>
 
-        <a href="#" class="w-8 h-8 flex items-center justify-center rounded-full bg-white text-[#800000] border border-[#800000] text-sm font-medium hover:bg-red-50 transition duration-300">
-        2
-         </a>
-
-        <a href="#" class="w-8 h-8 flex items-center justify-center rounded-full bg-white text-[#800000] border border-[#800000] text-sm font-medium hover:bg-red-50 transition duration-300">
-        3
-         </a>
+        <div class="flex flex-col items-center my-10">
+            <div class="w-1/3 border-t border-gray-300 mb-4"></div>
+            <div class="bg-[#b3967a] text-white px-12 py-1 rounded-md shadow-sm uppercase tracking-widest text-sm font-medium">
+            LIST
+            </div>
+            <div class="w-1/3 border-t border-gray-300 mt-4"></div>
         </div>
-        </div>
-         <div class="flex flex-col items-center my-10">
-        <div class="w-1/3 border-t border-gray-300 mb-4"></div>
-    
-        <div class="bg-[#b3967a] text-white px-12 py-1 rounded-md shadow-sm uppercase tracking-widest text-sm font-medium">
-        LIST
-        </div>
-    
-        <div class="w-1/3 border-t border-gray-300 mt-4"></div>
-        </div>
+        
         <div class="text-center my-10">
+<<<<<<< HEAD
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto p-4">
+
+                <div class="bg-[#800000] rounded-full p-2 flex items-center shadow-lg border border-gray-700 hover:scale-105 transition-transform duration-300">
+                    <div class="w-24 h-16 rounded-full overflow-hidden border-2 border-white/20 ml-2 shadow-inner">
+                        <img src="pic/601956313_1319492430198320_7052164193354462207_n.jpg" class="w-full h-full object-cover" alt="ทาสีพื้นมือ" onerror="this.src='https://via.placeholder.com/100'">
+                    </div>
+                    <div class="flex-grow px-4 text-center">
+                        <span class="bg-white text-[#800000] px-6 py-1 rounded-full text-sm font-bold block mb-1">ทาสีพื้นมือ</span>
+                        <span class="text-white font-bold tracking-wider">200 BATH</span>
+                    </div>
+                </div>
+
+                <div class="bg-[#800000] rounded-full p-2 flex items-center shadow-lg border border-gray-700 hover:scale-105 transition-transform duration-300">
+                    <div class="w-24 h-16 rounded-full overflow-hidden border-2 border-white/20 ml-2">
+                        <img src="pic/511032408_1168803168600581_3208422786457523597_n.jpg" class="w-full h-full object-cover" alt="ทาสีพื้นเท้า" onerror="this.src='https://via.placeholder.com/100'">
+                    </div>
+                    <div class="flex-grow px-4 text-center">
+                        <span class="bg-white text-[#800000] px-6 py-1 rounded-full text-sm font-bold block mb-1">ทาสีพื้นเท้า</span>
+                        <span class="text-white font-bold tracking-wider">250 BATH</span>
+                    </div>
+                </div>
+
+                <div class="bg-[#800000] rounded-full p-2 flex items-center shadow-lg border border-gray-700 hover:scale-105 transition-transform duration-300">
+                    <div class="w-24 h-16 rounded-full overflow-hidden border-2 border-white/20 ml-2">
+                        <img src="pic/541656025_1225856676228563_1605876038283017915_n.jpg" class="w-full h-full object-cover" alt="ทาสีแฟลช" onerror="this.src='https://via.placeholder.com/100'">
+                    </div>
+                    <div class="flex-grow px-4 text-center">
+                        <span class="bg-white text-[#800000] px-6 py-1 rounded-full text-sm font-bold block mb-1">ทาสีแฟลช/ลูกแก้ว</span>
+                        <span class="text-white font-bold tracking-wider">250 BATH</span>
+                    </div>
+                </div>
+
+                <div class="bg-[#800000] rounded-full p-2 flex items-center shadow-lg border border-gray-700 hover:scale-105 transition-transform duration-300">
+                    <div class="w-24 h-16 rounded-full overflow-hidden border-2 border-white/20 ml-2">
+                        <img src="pic/634931143_1365712815576281_5935012769015046080_n.jpg" class="w-full h-full object-cover" alt="ปั้นนูน" onerror="this.src='https://via.placeholder.com/100'">
+                    </div>
+                    <div class="flex-grow px-4 text-center">
+                        <span class="bg-white text-[#800000] px-6 py-1 rounded-full text-sm font-bold block mb-1">ปั้นนูน</span>
+                        <span class="text-white font-bold tracking-wider">เริ่มต้น 50 BATH</span>
+                    </div>
+                </div>
+
+                <div class="bg-[#800000] rounded-full p-2 flex items-center shadow-lg border border-gray-700 hover:scale-105 transition-transform duration-300">
+                    <div class="w-24 h-16 rounded-full overflow-hidden border-2 border-white/20 ml-2">
+                        <img src="pic/637032793_1365703782243851_2013380184915318522_n.jpg" class="w-full h-full object-cover" alt="เพ้นท์" onerror="this.src='https://via.placeholder.com/100'">
+                    </div>
+                    <div class="flex-grow px-4 text-center">
+                        <span class="bg-white text-[#800000] px-6 py-1 rounded-full text-sm font-bold block mb-1">เพ้นท์ นิ้วละ</span>
+                        <span class="text-white font-bold tracking-wider">เริ่มต้น 10 BATH</span>
+                    </div>
+                </div>
+
+                <div class="bg-[#800000] rounded-full p-2 flex items-center shadow-lg border border-gray-700 hover:scale-105 transition-transform duration-300">
+                    <div class="w-24 h-16 rounded-full overflow-hidden border-2 border-white/20 ml-2">
+                        <img src="pic/618016409_1344054654408764_5231712140971278326_n.jpg" class="w-full h-full object-cover" alt="ตัดเล็บขบ" onerror="this.src='https://via.placeholder.com/100'">
+                    </div>
+                    <div class="flex-grow px-4 text-center">
+                        <span class="bg-white text-[#800000] px-6 py-1 rounded-full text-sm font-bold block mb-1">ตัดเล็บขบ</span>
+                        <span class="text-white font-bold tracking-wider">300 - 600 BATH</span>
+                    </div>
+                </div>
+
+                <div class="bg-[#800000] rounded-full p-2 flex items-center shadow-lg border border-gray-700 hover:scale-105 transition-transform duration-300">
+                    <div class="w-24 h-16 rounded-full overflow-hidden border-2 border-white/20 ml-2">
+                        <img src="pic/495703403_1134734932007405_5326898256585780220_n.jpg" class="w-full h-full object-cover" alt="เสริมเล็บฉีก" onerror="this.src='https://via.placeholder.com/100'">
+                    </div>
+                    <div class="flex-grow px-4 text-center">
+                        <span class="bg-white text-[#800000] px-6 py-1 rounded-full text-sm font-bold block mb-1">เสริมเล็บฉีก</span>
+                        <span class="text-white font-bold tracking-wider">250 BATH</span>
+                    </div>
+                </div>
+
+                <div class="bg-[#800000] rounded-full p-2 flex items-center shadow-lg border border-gray-700 hover:scale-105 transition-transform duration-300">
+                    <div class="w-24 h-16 rounded-full overflow-hidden border-2 border-white/20 ml-2">
+                        <img src="pic/490293883_1114039417410290_142180983519165611_n.jpg" class="w-full h-full object-cover" alt="Overlay" onerror="this.src='https://via.placeholder.com/100'">
+                    </div>
+                    <div class="flex-grow px-4 text-center">
+                        <span class="bg-white text-[#800000] px-6 py-1 rounded-full text-sm font-bold block mb-1">Overlay</span>
+                        <span class="text-white font-bold tracking-wider">250 BATH</span>
+                    </div>
+                </div>
+
+                <div class="bg-[#800000] rounded-full p-2 flex items-center shadow-lg border border-gray-700 hover:scale-105 transition-transform duration-300">
+                    <div class="w-24 h-16 rounded-full overflow-hidden border-2 border-white/20 ml-2">
+                        <img src="pic/490476818_1110586974422201_6270697783765503633_n.jpg" class="w-full h-full object-cover" alt="PVC กาวธรรมดา" onerror="this.src='https://via.placeholder.com/100'">
+                    </div>
+                    <div class="flex-grow px-4 text-center">
+                        <span class="bg-white text-[#800000] px-6 py-1 rounded-full text-sm font-bold block mb-1">PVC กาวธรรมดา</span>
+                        <span class="text-white font-bold tracking-wider">300 BATH</span>
+                    </div>
+                </div>
+
+                <div class="bg-[#800000] rounded-full p-2 flex items-center shadow-lg border border-gray-700 hover:scale-105 transition-transform duration-300">
+                    <div class="w-24 h-16 rounded-full overflow-hidden border-2 border-white/20 ml-2">
+                        <img src="pic/539777209_1220247906789440_5999770783096744961_n.jpg" class="w-full h-full object-cover" alt="PVC กาวเจล" onerror="this.src='https://via.placeholder.com/100'">
+                    </div>
+                    <div class="flex-grow px-4 text-center">
+                        <span class="bg-white text-[#800000] px-6 py-1 rounded-full text-sm font-bold block mb-1">PVC กาวเจล</span>
+                        <span class="text-white font-bold tracking-wider">350 - 450 BATH</span>
+                    </div>
+                </div>
+
+                <div class="bg-[#800000] rounded-full p-2 flex items-center shadow-lg border border-gray-700 hover:scale-105 transition-transform duration-300">
+                    <div class="w-24 h-16 rounded-full overflow-hidden border-2 border-white/20 ml-2">
+                        <img src="pic/543160509_1225864926227738_4532955836967550676_n.jpg" class="w-full h-full object-cover" alt="PVC โพลีเจล" onerror="this.src='https://via.placeholder.com/100'">
+                    </div>
+                    <div class="flex-grow px-4 text-center">
+                        <span class="bg-white text-[#800000] px-6 py-1 rounded-full text-sm font-bold block mb-1">PVC โพลีเจล</span>
+                        <span class="text-white font-bold tracking-wider">700 - 900 BATH</span>
+                    </div>
+                </div>
+=======
     
         <div class="text-center my-10">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto p-4">
+>>>>>>> main
 
-        <div class="bg-[#800000] rounded-full p-2 flex items-center shadow-lg border border-gray-700 hover:scale-105 transition-transform duration-300">
-            <div class="w-24 h-16 rounded-full overflow-hidden border-2 border-white/20 ml-2 shadow-inner">
-                <img src="pic/601956313_1319492430198320_7052164193354462207_n.jpg" class="w-full h-full object-cover" alt="ทาสีพื้นมือ">
-            </div>
-            <div class="flex-grow px-4 text-center">
-                <span class="bg-white text-[#800000] px-6 py-1 rounded-full text-sm font-bold block mb-1">ทาสีพื้นมือ</span>
-                <span class="text-white font-bold tracking-wider">200 BATH</span>
             </div>
         </div>
-
-        <div class="bg-[#800000] rounded-full p-2 flex items-center shadow-lg border border-gray-700 hover:scale-105 transition-transform duration-300">
-            <div class="w-24 h-16 rounded-full overflow-hidden border-2 border-white/20 ml-2">
-                <img src="pic/511032408_1168803168600581_3208422786457523597_n.jpg" class="w-full h-full object-cover" alt="ทาสีพื้นเท้า">
-            </div>
-            <div class="flex-grow px-4 text-center">
-                <span class="bg-white text-[#800000] px-6 py-1 rounded-full text-sm font-bold block mb-1">ทาสีพื้นเท้า</span>
-                <span class="text-white font-bold tracking-wider">250 BATH</span>
-            </div>
-        </div>
-
-        <div class="bg-[#800000] rounded-full p-2 flex items-center shadow-lg border border-gray-700 hover:scale-105 transition-transform duration-300">
-            <div class="w-24 h-16 rounded-full overflow-hidden border-2 border-white/20 ml-2">
-                <img src="pic/541656025_1225856676228563_1605876038283017915_n.jpg" class="w-full h-full object-cover" alt="ทาสีแฟลช">
-            </div>
-            <div class="flex-grow px-4 text-center">
-                <span class="bg-white text-[#800000] px-6 py-1 rounded-full text-sm font-bold block mb-1">ทาสีแฟลช/ลูกแก้ว</span>
-                <span class="text-white font-bold tracking-wider">250 BATH</span>
-            </div>
-        </div>
-
-        <div class="bg-[#800000] rounded-full p-2 flex items-center shadow-lg border border-gray-700 hover:scale-105 transition-transform duration-300">
-            <div class="w-24 h-16 rounded-full overflow-hidden border-2 border-white/20 ml-2">
-                <img src="pic/634931143_1365712815576281_5935012769015046080_n.jpg" class="w-full h-full object-cover" alt="ปั้นนูน">
-            </div>
-            <div class="flex-grow px-4 text-center">
-                <span class="bg-white text-[#800000] px-6 py-1 rounded-full text-sm font-bold block mb-1">ปั้นนูน</span>
-                <span class="text-white font-bold tracking-wider">เริ่มต้น 50 BATH</span>
-            </div>
-        </div>
-
-        <div class="bg-[#800000] rounded-full p-2 flex items-center shadow-lg border border-gray-700 hover:scale-105 transition-transform duration-300">
-            <div class="w-24 h-16 rounded-full overflow-hidden border-2 border-white/20 ml-2">
-                <img src="pic/637032793_1365703782243851_2013380184915318522_n.jpg" class="w-full h-full object-cover" alt="เพ้นท์">
-            </div>
-            <div class="flex-grow px-4 text-center">
-                <span class="bg-white text-[#800000] px-6 py-1 rounded-full text-sm font-bold block mb-1">เพ้นท์ นิ้วละ</span>
-                <span class="text-white font-bold tracking-wider">เริ่มต้น 10 BATH</span>
-            </div>
-        </div>
-
-        <div class="bg-[#800000] rounded-full p-2 flex items-center shadow-lg border border-gray-700 hover:scale-105 transition-transform duration-300">
-            <div class="w-24 h-16 rounded-full overflow-hidden border-2 border-white/20 ml-2">
-                <img src="pic/618016409_1344054654408764_5231712140971278326_n.jpg" class="w-full h-full object-cover" alt="ตัดเล็บขบ">
-            </div>
-            <div class="flex-grow px-4 text-center">
-                <span class="bg-white text-[#800000] px-6 py-1 rounded-full text-sm font-bold block mb-1">ตัดเล็บขบ</span>
-                <span class="text-white font-bold tracking-wider">300 - 600 BATH</span>
-            </div>
-        </div>
-
-        <div class="bg-[#800000] rounded-full p-2 flex items-center shadow-lg border border-gray-700 hover:scale-105 transition-transform duration-300">
-            <div class="w-24 h-16 rounded-full overflow-hidden border-2 border-white/20 ml-2">
-                <img src="pic/495703403_1134734932007405_5326898256585780220_n.jpg" class="w-full h-full object-cover" alt="เสริมเล็บฉีก">
-            </div>
-            <div class="flex-grow px-4 text-center">
-                <span class="bg-white text-[#800000] px-6 py-1 rounded-full text-sm font-bold block mb-1">เสริมเล็บฉีก</span>
-                <span class="text-white font-bold tracking-wider">250 BATH</span>
-            </div>
-        </div>
-
-        <div class="bg-[#800000] rounded-full p-2 flex items-center shadow-lg border border-gray-700 hover:scale-105 transition-transform duration-300">
-            <div class="w-24 h-16 rounded-full overflow-hidden border-2 border-white/20 ml-2">
-                <img src="pic/490293883_1114039417410290_142180983519165611_n.jpg" class="w-full h-full object-cover" alt="Overlay">
-            </div>
-            <div class="flex-grow px-4 text-center">
-                <span class="bg-white text-[#800000] px-6 py-1 rounded-full text-sm font-bold block mb-1">Overlay</span>
-                <span class="text-white font-bold tracking-wider">250 BATH</span>
-            </div>
-        </div>
-
-        <div class="bg-[#800000] rounded-full p-2 flex items-center shadow-lg border border-gray-700 hover:scale-105 transition-transform duration-300">
-            <div class="w-24 h-16 rounded-full overflow-hidden border-2 border-white/20 ml-2">
-                <img src="pic/490476818_1110586974422201_6270697783765503633_n.jpg" class="w-full h-full object-cover" alt="PVC กาวธรรมดา">
-            </div>
-            <div class="flex-grow px-4 text-center">
-                <span class="bg-white text-[#800000] px-6 py-1 rounded-full text-sm font-bold block mb-1">PVC กาวธรรมดา</span>
-                <span class="text-white font-bold tracking-wider">300 BATH</span>
-            </div>
-        </div>
-
-        <div class="bg-[#800000] rounded-full p-2 flex items-center shadow-lg border border-gray-700 hover:scale-105 transition-transform duration-300">
-            <div class="w-24 h-16 rounded-full overflow-hidden border-2 border-white/20 ml-2">
-                <img src="pic/539777209_1220247906789440_5999770783096744961_n.jpg" class="w-full h-full object-cover" alt="PVC กาวเจล">
-            </div>
-            <div class="flex-grow px-4 text-center">
-                <span class="bg-white text-[#800000] px-6 py-1 rounded-full text-sm font-bold block mb-1">PVC กาวเจล</span>
-                <span class="text-white font-bold tracking-wider">350 - 450 BATH</span>
-            </div>
-        </div>
-
-        <div class="bg-[#800000] rounded-full p-2 flex items-center shadow-lg border border-gray-700 hover:scale-105 transition-transform duration-300">
-            <div class="w-24 h-16 rounded-full overflow-hidden border-2 border-white/20 ml-2">
-                <img src="pic/543160509_1225864926227738_4532955836967550676_n.jpg" class="w-full h-full object-cover" alt="PVC โพลีเจล">
-            </div>
-            <div class="flex-grow px-4 text-center">
-                <span class="bg-white text-[#800000] px-6 py-1 rounded-full text-sm font-bold block mb-1">PVC โพลีเจล</span>
-                <span class="text-white font-bold tracking-wider">700 - 900 BATH</span>
-            </div>
-        </div>
-
-        </div>
-    </div>
     </main>
 
-    <footer class="text-center py-4 text-[10px] text-[#800000] border-t border-black">
+    <footer class="text-center py-4 text-[10px] text-[#800000] border-t border-gray-300">
         NAIL IT BY RABBITZ สาขามหาวิทยาลัยพะเยา
     </footer>
+<<<<<<< HEAD
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // โหลดข้อมูลผู้ใช้จาก LocalStorage
+            const userDataString = localStorage.getItem('rabbitz_currentUser');
+            
+            if (userDataString) {
+                const userData = JSON.parse(userDataString);
+                
+                // แสดงชื่อผู้ใช้บน Navbar
+                const nameDisplay = document.getElementById('userNameDisplay');
+                if (nameDisplay) {
+                    nameDisplay.innerText = `Hi, ${userData.name}`;
+                }
+                
+                // แสดงรูปโปรไฟล์ (ถ้าล็อกอินด้วย Google จะมี photoUrl ถ้าไม่มีจะดึงชื่อมาทำเป็นรูป)
+                const profilePic = document.getElementById('userProfilePic');
+                if (profilePic) {
+                    if (userData.photoUrl) {
+                        profilePic.src = userData.photoUrl;
+                    } else {
+                        profilePic.src = `https://ui-avatars.com/api/?name=${userData.name}&background=fff&color=7f1d1d&bold=true`;
+                    }
+                }
+            } else {
+                // ถ้าแอบเข้าหน้านี้โดยที่ไม่ได้ล็อกอิน ให้เด้งกลับไปหน้า Homepage หลัก
+                alert('กรุณาเข้าสู่ระบบก่อนใช้งานครับ');
+                window.location.href = 'Homepage.html';
+            }
+        });
+
+        // ⭐️ ฟังก์ชันสำหรับปุ่ม Log out
+        function handleLogout() {
+            if(confirm('ต้องการออกจากระบบใช่หรือไม่?')) {
+                // ลบข้อมูลผู้ใช้ออกจากเครื่อง
+                localStorage.removeItem('rabbitz_currentUser');
+                // เด้งกลับไปหน้าแรก
+                window.location.href = 'Homepage.html';
+            }
+        }
+    </script>
+=======
   
     <script>
     const menuBtn = document.getElementById('menuBtn');
@@ -315,5 +355,6 @@
     closeBtn.addEventListener('click', closeMenu);
     overlay.addEventListener('click', closeMenu);
 </script>
+>>>>>>> main
 </body>
 </html>
