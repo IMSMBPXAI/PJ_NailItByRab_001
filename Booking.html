@@ -25,89 +25,93 @@
 </head>
 
 <body class="bg-gray-50 text-gray-800">
-
- <header>
-        <nav class="border-b border-red-900 px-4 py-2.5 fixed left-0 right-0 top-0 z-50 bg-red-900 w-full">
-            <div class="flex flex-wrap items-center justify-between mx-auto max-w-[1600px]">
-                
-                <div class="flex items-center justify-start">
-                    <a href="#" class="flex items-center mr-6">
-                        <img src="logo rabbitz.svg" class="size-16 mr-3 bg-white rounded-full p-1" alt="Rabbitz Logo" />
-                    </a>
-
-                    <div class="hidden md:block relative mr-4"> 
-                        <h1 class="text-white text-lg font-medium">NAIL IT BY RABBITZ สาขา มหาวิทยาลัยพะเยา</h1>
-                    </div>
-                </div>
-
-                <div class="flex items-center gap-6">
-                    <ul class="hidden lg:flex flex-row space-x-6 text-sm font-medium text-white">
-                        <li><a href="HomepageCus.html" class="hover:text-red-200 transition">Homepage</a></li>
-                        <li class="w-px h-5 bg-white/30"></li>
-                        <li><a href="ContactSI.html" class="hover:text-red-200 transition">Contact</a></li>
-                        <li class="w-px h-5 bg-white/30"></li>
-                        <li><a href="Booking.html" class="hover:text-red-200 transition">Booking</a></li>
-                    </ul>
+    <header>
+            <nav class="border-b border-red-900 px-4 py-2.5 fixed left-0 right-0 top-0 z-50 bg-red-900 w-full">
+                <div class="flex flex-wrap items-center justify-between mx-auto max-w-[1600px]">
                     
-                    <div class="hidden lg:block w-px h-6 bg-white/30 mx-2"></div>
+                    <div class="flex items-center justify-start">
+                        <a href="HomepageCus.html" class="flex items-center mr-6">
+                            <img src="logo rabbitz.svg" class="size-16 mr-3 bg-white rounded-full p-1" alt="Rabbitz Logo" onerror="this.src='https://ui-avatars.com/api/?name=Logo&background=fff&color=7f1d1d'"/>
+                        </a>
 
-                    <div class="flex items-center space-x-4">
+                        <div class="hidden md:block relative mr-4"> 
+                            <h1 class="text-white text-lg font-medium">NAIL IT BY RABBITZ สาขา มหาวิทยาลัยพะเยา</h1>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center gap-6">
+                        <ul class="hidden lg:flex flex-row space-x-6 text-sm font-medium text-white items-center">
+                            <li><a href="HomepageCus.html" class="hover:text-red-200 transition">Homepage</a></li>
+                            <li class="w-px h-5 bg-white/30"></li>
+                            <li><a href="ContactSI.html" class="hover:text-red-200 transition">Contact</a></li>
+                            <li class="w-px h-5 bg-white/30"></li>
+                            <li><a href="Booking.html" class="hover:text-red-200 transition">Booking</a></li>
+                        </ul>
                         
-                        <button type="button" class="relative p-2 text-white hover:bg-white/10 rounded-full transition focus:outline-none">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
-                            </svg>
-                            <span class="absolute top-2 right-2 flex h-3 w-3">
-                                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-yellow-300 opacity-75"></span>
-                                <span class="relative inline-flex rounded-full h-3 w-3 bg-yellow-400 border-2 border-red-900"></span>
-                            </span>
-                        </button>
+                        <div class="hidden lg:block w-px h-6 bg-white/30 mx-2"></div>
 
-                        <button type="button" class="flex text-sm bg-white rounded-full focus:ring-4 focus:ring-red-700 overflow-hidden size-10 border-2 border-white/20 shadow-sm transition hover:scale-105">
-                            <img class="w-full h-full object-cover" src="https://ui-avatars.com/api/?name=User&background=random" alt="User Profile">
-                        </button>
+                        <div class="flex items-center space-x-4">
+                            
+                            <span id="userNameDisplay" class="text-white text-sm font-medium hidden md:block"></span>
 
+                            <button type="button" class="relative p-2 text-white hover:bg-white/10 rounded-full transition focus:outline-none">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
+                                </svg>
+                                <span class="absolute top-2 right-2 flex h-3 w-3">
+                                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-yellow-300 opacity-75"></span>
+                                    <span class="relative inline-flex rounded-full h-3 w-3 bg-yellow-400 border-2 border-red-900"></span>
+                                </span>
+                            </button>
+
+                            <button type="button" class="flex text-sm bg-white rounded-full focus:ring-4 focus:ring-red-700 overflow-hidden size-10 border-2 border-white/20 shadow-sm transition hover:scale-105">
+                                <img id="userProfilePic" class="w-full h-full object-cover" src="https://ui-avatars.com/api/?name=User&background=fff&color=7f1d1d" alt="User Profile">
+                            </button>
+
+                            <button onclick="handleLogout()" class="text-xs text-white underline hover:text-red-200 ml-2">Log out</button>
+
+                        </div>
+                        <div class="flex items-center gap-4 border-l border-white/30 pl-6">
+                        <button id="menuBtn" class="text-white hover:bg-white/10 p-2 rounded-lg transition">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                        </button>
+                        </div>
                     </div>
-                    <div class="flex items-center gap-4 border-l border-white/30 pl-6">
-                    <button id="menuBtn" class="text-white hover:bg-white/10 p-2 rounded-lg transition">
-                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                    </svg>
-                    </button>
-                    </div>
+
                 </div>
-
-            </div>
-        </nav>
-        <div id="sidebar" class="fixed top-0 right-0 h-full w-72 bg-gradient-to-b from-[#801919] to-[#5d1212] z-[100] transform translate-x-full transition-transform duration-300 ease-in-out shadow-2xl rounded-l-[3rem]">
-    
-        <div class="p-8 flex flex-col items-center">
-        <button id="closeBtn" class="self-end text-white mb-4">
-            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-        </button>
-        <button type="button" class="flex text-sm bg-white rounded-full focus:ring-40 overflow-hidden size-49 border-2 border-white/20 shadow-sm ">
-             <img class="w-full h-full object-cover" src="https://ui-avatars.com/api/?name=User&background=random" alt="User Profile">
-        </button>
+            </nav>
+            <div id="sidebar" class="fixed top-0 right-0 h-full w-72 bg-gradient-to-b from-[#801919] to-[#5d1212] z-[100] transform translate-x-full transition-transform duration-300 ease-in-out shadow-2xl rounded-l-[3rem]">
         
-        </div>
+            <div class="p-8 flex flex-col items-center">
+            <button id="closeBtn" class="self-end text-white mb-4">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+            <button type="button" class="flex text-sm bg-white rounded-full focus:ring-40 overflow-hidden size-49 border-2 border-white/20 shadow-sm ">
+                <img class="w-full h-full object-cover" src="https://ui-avatars.com/api/?name=User&background=random" alt="User Profile">
+            </button>
+            
+            </div>
 
-        <div class="px-6 py-4">
-        <div class="bg-white/90 rounded-[2rem] p-6 space-y-3 text-center shadow-lg">
-            <a href="#" class="block text-[#801919] font-bold hover:scale-105 transition uppercase tracking-wider text-medium">Setting</a>
-            <hr class="border-[#801919]/20 w-1/2 mx-auto">
-            <a href="#" class="block text-[#801919] font-bold hover:scale-105 transition uppercase tracking-wider text-medium">My Booking & History</a>
-        </div>
-        </div>
+            <div class="px-6 py-4">
+            <div class="bg-white/90 rounded-[2rem] p-6 space-y-3 text-center shadow-lg">
+                <a href="#" class="block text-[#801919] font-bold hover:scale-105 transition uppercase tracking-wider text-medium">Setting</a>
+                <hr class="border-[#801919]/20 w-1/2 mx-auto">
+                <a href="#" class="block text-[#801919] font-bold hover:scale-105 transition uppercase tracking-wider text-medium">My Booking & History</a>
+            </div>
+            </div>
 
-        <div class="absolute bottom-12 left-0 right-0 px-10 text-center">
-        <button class="w-full border-2 border-white text-white py-2 rounded-full font-bold uppercase text-medium hover:bg-white hover:text-[#801919] transition">
-            Sign out
-        </button>
-         </div>
-        </div>
+            <div class="absolute bottom-12 left-0 right-0 px-10 text-center">
+            <button class="w-full border-2 border-white text-white py-2 rounded-full font-bold uppercase text-medium hover:bg-white hover:text-[#801919] transition">
+                Sign out
+            </button>
+            </div>
+            </div>
 
-        <div id="overlay" class="fixed inset-0 bg-black/40 z-[90] hidden"></div>
-    </header>
+            <div id="overlay" class="fixed inset-0 bg-black/40 z-[90] hidden"></div>
+        </header>
+        
     
     <div class="pt-28 pb-12 px-4">
         <div class="max-w-4xl mx-auto bg-white rounded-2xl shadow-lg p-8">
@@ -215,6 +219,46 @@
     </div>
 
     <script>
+
+         document.addEventListener('DOMContentLoaded', () => {
+            // โหลดข้อมูลผู้ใช้จาก LocalStorage
+            const userDataString = localStorage.getItem('rabbitz_currentUser');
+            
+            if (userDataString) {
+                const userData = JSON.parse(userDataString);
+                
+                // แสดงชื่อผู้ใช้บน Navbar
+                const nameDisplay = document.getElementById('userNameDisplay');
+                if (nameDisplay) {
+                    nameDisplay.innerText = `Hi, ${userData.name}`;
+                }
+                
+                // แสดงรูปโปรไฟล์ (ถ้าล็อกอินด้วย Google จะมี photoUrl ถ้าไม่มีจะดึงชื่อมาทำเป็นรูป)
+                const profilePic = document.getElementById('userProfilePic');
+                if (profilePic) {
+                    if (userData.photoUrl) {
+                        profilePic.src = userData.photoUrl;
+                    } else {
+                        profilePic.src = `https://ui-avatars.com/api/?name=${userData.name}&background=fff&color=7f1d1d&bold=true`;
+                    }
+                }
+            } else {
+                // ถ้าแอบเข้าหน้านี้โดยที่ไม่ได้ล็อกอิน ให้เด้งกลับไปหน้า Homepage หลัก
+                alert('กรุณาเข้าสู่ระบบก่อนใช้งานครับ');
+                window.location.href = 'Homepage.html';
+            }
+        });
+
+        // ⭐️ ฟังก์ชันสำหรับปุ่ม Log out
+        function handleLogout() {
+            if(confirm('ต้องการออกจากระบบใช่หรือไม่?')) {
+                // ลบข้อมูลผู้ใช้ออกจากเครื่อง
+                localStorage.removeItem('rabbitz_currentUser');
+                // เด้งกลับไปหน้าแรก
+                window.location.href = 'Homepage.html';
+            }
+        }
+
         // --------------------------------------------------------
         // 1. ระบบจัดการวันและเวลา + เช็คคิวแบบเรียลไทม์
         // --------------------------------------------------------

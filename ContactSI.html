@@ -16,14 +16,13 @@
     </style>
 </head>
 <body>
-    
- <header>
+   <header>
         <nav class="border-b border-red-900 px-4 py-2.5 fixed left-0 right-0 top-0 z-50 bg-red-900 w-full">
             <div class="flex flex-wrap items-center justify-between mx-auto max-w-[1600px]">
                 
                 <div class="flex items-center justify-start">
-                    <a href="#" class="flex items-center mr-6">
-                        <img src="logo rabbitz.svg" class="size-16 mr-3 bg-white rounded-full p-1" alt="Rabbitz Logo" />
+                    <a href="HomepageCus.html" class="flex items-center mr-6">
+                        <img src="logo rabbitz.svg" class="size-16 mr-3 bg-white rounded-full p-1" alt="Rabbitz Logo" onerror="this.src='https://ui-avatars.com/api/?name=Logo&background=fff&color=7f1d1d'"/>
                     </a>
 
                     <div class="hidden md:block relative mr-4"> 
@@ -32,7 +31,7 @@
                 </div>
 
                 <div class="flex items-center gap-6">
-                    <ul class="hidden lg:flex flex-row space-x-6 text-sm font-medium text-white">
+                    <ul class="hidden lg:flex flex-row space-x-6 text-sm font-medium text-white items-center">
                         <li><a href="HomepageCus.html" class="hover:text-red-200 transition">Homepage</a></li>
                         <li class="w-px h-5 bg-white/30"></li>
                         <li><a href="ContactSI.html" class="hover:text-red-200 transition">Contact</a></li>
@@ -44,6 +43,8 @@
 
                     <div class="flex items-center space-x-4">
                         
+                        <span id="userNameDisplay" class="text-white text-sm font-medium hidden md:block"></span>
+
                         <button type="button" class="relative p-2 text-white hover:bg-white/10 rounded-full transition focus:outline-none">
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
@@ -55,8 +56,10 @@
                         </button>
 
                         <button type="button" class="flex text-sm bg-white rounded-full focus:ring-4 focus:ring-red-700 overflow-hidden size-10 border-2 border-white/20 shadow-sm transition hover:scale-105">
-                            <img class="w-full h-full object-cover" src="https://ui-avatars.com/api/?name=User&background=random" alt="User Profile">
+                            <img id="userProfilePic" class="w-full h-full object-cover" src="https://ui-avatars.com/api/?name=User&background=fff&color=7f1d1d" alt="User Profile">
                         </button>
+
+                        <button onclick="handleLogout()" class="text-xs text-white underline hover:text-red-200 ml-2">Log out</button>
 
                     </div>
                     <div class="flex items-center gap-4 border-l border-white/30 pl-6">
@@ -155,6 +158,48 @@
     <footer class="text-center py-2 text-[10px] text-[#800000] border-t border-black ">
         NAIL IT BY RABBITZ สาขามหาวิทยาลัยพะเยา
     </footer>
+
+
+    <script>
+         document.addEventListener('DOMContentLoaded', () => {
+            // โหลดข้อมูลผู้ใช้จาก LocalStorage
+            const userDataString = localStorage.getItem('rabbitz_currentUser');
+            
+            if (userDataString) {
+                const userData = JSON.parse(userDataString);
+                
+                // แสดงชื่อผู้ใช้บน Navbar
+                const nameDisplay = document.getElementById('userNameDisplay');
+                if (nameDisplay) {
+                    nameDisplay.innerText = `Hi, ${userData.name}`;
+                }
+                
+                // แสดงรูปโปรไฟล์ (ถ้าล็อกอินด้วย Google จะมี photoUrl ถ้าไม่มีจะดึงชื่อมาทำเป็นรูป)
+                const profilePic = document.getElementById('userProfilePic');
+                if (profilePic) {
+                    if (userData.photoUrl) {
+                        profilePic.src = userData.photoUrl;
+                    } else {
+                        profilePic.src = `https://ui-avatars.com/api/?name=${userData.name}&background=fff&color=7f1d1d&bold=true`;
+                    }
+                }
+            } else {
+                // ถ้าแอบเข้าหน้านี้โดยที่ไม่ได้ล็อกอิน ให้เด้งกลับไปหน้า Homepage หลัก
+                alert('กรุณาเข้าสู่ระบบก่อนใช้งานครับ');
+                window.location.href = 'Homepage.html';
+            }
+        });
+
+        // ⭐️ ฟังก์ชันสำหรับปุ่ม Log out
+        function handleLogout() {
+            if(confirm('ต้องการออกจากระบบใช่หรือไม่?')) {
+                // ลบข้อมูลผู้ใช้ออกจากเครื่อง
+                localStorage.removeItem('rabbitz_currentUser');
+                // เด้งกลับไปหน้าแรก
+                window.location.href = 'Homepage.html';
+            }
+        }
+    </script>
     
 </body>
 </html>
