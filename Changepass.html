@@ -4,26 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Change Password - Nail It By Rabbitz</title>
-    
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
     <script>
         tailwind.config = {
             theme: {
                 extend: {
-                    fontFamily: {
-                        sans: ['Kanit', 'sans-serif'],
-                    },
-                    colors: {
-                        brand: { 900: '#7f1d1d' }
-                    }
+                    fontFamily: { sans: ['Kanit', 'sans-serif'] },
+                    colors: { brand: { 900: '#7f1d1d' } }
                 }
             }
         }
     </script>
 </head>
-
 <body class="bg-gray-50 font-sans">
 
     <header>
@@ -32,29 +25,13 @@
                 <div class="flex items-center justify-start">
                     <a href="#" class="flex items-center mr-6">
                         <img src="logo rabbitz.svg" class="size-20 mr-3 bg-white rounded-full" alt="Rabbitz Logo" />
-                        <span class="self-center text-2xl font-semibold whitespace-nowrap text-red-900"></span>
                     </a>
-                    <div class="hidden md:block relative mr-4"> 
-                        <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                            <svg class="w-5 h-5 text-red-900" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path></svg>
-                        </div>
-                        <input type="text" class="block w-64 p-2 pl-10 text-sm text-red-900 bg-gray-200 border border-red-900 rounded-lg placeholder-gray-400 focus:ring-white focus:border-white" placeholder="Search">
-                    </div>
-                </div>
-
-                <div class="flex items-center justify-between w-auto">
-                    <ul class="flex flex-row space-x-6 text-sm font-medium border-0 mr-8">
-                        <li><a href="Homepage.html" class="text-white hover:text-red-900 bg-red-900 hover:bg-white p-2 rounded-lg transition">Homepage</a></li>
-                        <div class="hidden lg:block w-px h-6 bg-white mr-4"></div> 
-                        <li><a href="#" class="text-white hover:text-red-900 bg-red-900 hover:bg-white p-2 rounded-lg transition">Contact</a></li>
-                    </ul>
                 </div>
             </div>
         </nav>
     </header>
 
     <div class="min-h-screen flex items-center justify-center pt-28 pb-10 px-4">
-        
         <div class="bg-gray-200 p-8 rounded-2xl shadow-xl w-full max-w-md border-t-4 border-red-900 relative">
             
             <div class="text-center mb-6">
@@ -62,11 +39,10 @@
                     <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
                 </div>
                 <h1 class="text-2xl font-bold text-red-900 uppercase tracking-wide">Reset Password</h1>
-                <p class="text-gray-600 text-sm mt-1">ตั้งรหัสผ่านใหม่เพื่อความปลอดภัย</p>
+                <p class="text-gray-600 text-sm mt-1" id="email-target">ตั้งรหัสผ่านใหม่เพื่อความปลอดภัย</p>
             </div>
 
             <form id="resetForm" class="space-y-5">
-                
                 <div>
                     <label class="block text-sm font-bold text-red-900 mb-1">New Password</label>
                     <input type="password" id="new_password" 
@@ -95,8 +71,8 @@
                     class="w-full bg-red-900 hover:bg-red-800 text-white font-bold py-3 rounded-xl shadow-md transition duration-300 transform hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none">
                     CONFIRM CHANGE
                 </button>
-
             </form>
+
         </div>
     </div>
 
@@ -106,26 +82,32 @@
         const submitBtn = document.getElementById('submitBtn');
         const matchMsg = document.getElementById('match-msg');
 
-        // ฟังก์ชันตรวจสอบเงื่อนไข
+        document.addEventListener('DOMContentLoaded', () => {
+            const resetEmail = sessionStorage.getItem('reset_email');
+            if (!resetEmail) {
+                alert('คำขอหมดอายุหรือไม่ถูกต้อง กรุณาเริ่มรายการใหม่');
+                window.location.href = 'Rolechoosen.html'; // กลับไปหน้า Sign In
+            } else {
+                document.getElementById('email-target').innerText = `สำหรับบัญชี: ${resetEmail}`;
+            }
+        });
+
         function validatePassword() {
             const val = newPassInput.value;
             const confirmVal = confirmPassInput.value;
 
-            // 1. Regex Checks
             const hasLength = val.length >= 8;
             const hasUpper = /[A-Z]/.test(val);
             const hasLower = /[a-z]/.test(val);
             const hasNumber = /[0-9]/.test(val);
             const hasSpecial = /[!@#$%^&*(),.?":{}|<>]/.test(val);
 
-            // Update UI Colors
             updateRequirement('req-length', hasLength);
             updateRequirement('req-upper', hasUpper);
             updateRequirement('req-lower', hasLower);
             updateRequirement('req-number', hasNumber);
             updateRequirement('req-special', hasSpecial);
 
-            // 2. Check Matching
             const isMatch = val === confirmVal && val !== '';
 
             if (!isMatch && confirmVal !== '') {
@@ -138,7 +120,6 @@
                 else confirmPassInput.classList.remove('border-green-500', 'ring-1', 'ring-green-500');
             }
 
-            // 3. Enable Button ?
             if (hasLength && hasUpper && hasLower && hasNumber && hasSpecial && isMatch) {
                 submitBtn.disabled = false;
             } else {
@@ -146,7 +127,6 @@
             }
         }
 
-        // Helper Function เปลี่ยนสี Checklist
         function updateRequirement(id, isValid) {
             const el = document.getElementById(id);
             const icon = el.querySelector('span');
@@ -162,20 +142,42 @@
             }
         }
 
-        // Action เมื่อกดปุ่ม
         function submitChange() {
-            // จำลองการเปลี่ยนรหัส
-            submitBtn.innerHTML = 'CHANGING...';
-            setTimeout(() => {
-                alert("เปลี่ยนรหัสผ่านสำเร็จ!");
-                window.location.href = 'Rolechoosen.html'; // กลับไปหน้า Sign In
-            }, 1000);
+            const resetEmail = sessionStorage.getItem('reset_email');
+            const newPasswordValue = newPassInput.value;
+
+            if(!resetEmail) {
+                alert('เกิดข้อผิดพลาด ไม่พบข้อมูลอีเมล');
+                return;
+            }
+
+            // ดึงฐานข้อมูลผู้ใช้มา (จากที่สมัครผ่านหน้า Signup)
+            let storedUsers = JSON.parse(localStorage.getItem('rabbitz_users')) || [];
+            
+            // หา Index ของอีเมลที่ต้องการเปลี่ยนรหัสผ่าน
+            const userIndex = storedUsers.findIndex(u => u.email === resetEmail);
+
+            if (userIndex > -1) {
+                // เขียนรหัสผ่านใหม่ทับของเดิม
+                storedUsers[userIndex].password = newPasswordValue;
+                
+                // บันทึกกลับลง LocalStorage
+                localStorage.setItem('rabbitz_users', JSON.stringify(storedUsers));
+
+                submitBtn.innerHTML = 'CHANGING...';
+                setTimeout(() => {
+                    alert("เปลี่ยนรหัสผ่านสำเร็จ! กรุณาเข้าสู่ระบบด้วยรหัสผ่านใหม่ของคุณ");
+                    sessionStorage.removeItem('reset_email'); // ล้างข้อมูล Session
+                    window.location.href = 'Rolechoosen.html'; // ส่งกลับไปหน้าเข้าสู่ระบบ
+                }, 1000);
+            } else {
+                alert('ข้อผิดพลาดจากระบบ: ไม่พบบัญชีอีเมลนี้ในฐานข้อมูล');
+                window.location.href = 'Rolechoosen.html';
+            }
         }
 
-        // Event Listeners
         newPassInput.addEventListener('input', validatePassword);
         confirmPassInput.addEventListener('input', validatePassword);
     </script>
-
 </body>
 </html>
