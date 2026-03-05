@@ -256,7 +256,47 @@
         </div>
     </div>
     </main>
+    <section class="max-w-4xl mx-auto px-6 my-12">
+    <div class="flex justify-between items-center mb-6">
+        <h2 class="text-xl font-bold text-[#800000] border-l-4 border-[#800000] pl-3">ผลงานล่าสุด</h2>
+        <a href="Gallery.html" class="text-sm text-[#800000] hover:underline">ดูทั้งหมด →</a>
+    </div>
 
+    <div id="homepageGalleryDisplay" class="grid grid-cols-3 md:grid-cols-5 gap-4">
+        </div>
+</section>
+<script>
+    function updateHomepageGallery() {
+        const displayContainer = document.getElementById('homepageGalleryDisplay');
+        // ดึงข้อมูลรูปภาพจาก Key เดียวกันกับหน้า Gallery
+        const savedImages = JSON.parse(localStorage.getItem('rabbitz_gallery')) || [];
+        
+        if (savedImages.length === 0) {
+            displayContainer.innerHTML = '<p class="text-gray-400 text-sm col-span-full text-center">ยังไม่มีรูปภาพผลงานในขณะนี้</p>';
+            return;
+        }
+
+        // ล้างข้อมูลเก่าและแสดงรูปภาพ 5 รูปล่าสุด (หรือรูปแรกๆ ตามลำดับที่คุณองุ่นจัดไว้)
+        displayContainer.innerHTML = '';
+        savedImages.slice(0, 5).forEach(src => {
+            const imgElement = document.createElement('img');
+            imgElement.src = src;
+            // ใช้ Class Tailwind ให้สวยงามเหมือนในหน้า Gallery
+            imgElement.className = "aspect-square rounded-[20px] shadow-sm object-cover border-2 border-white hover:scale-105 transition-transform duration-300";
+            displayContainer.appendChild(imgElement);
+        });
+    }
+
+    // เรียกใช้งานเมื่อโหลดหน้าเว็บ
+    document.addEventListener('DOMContentLoaded', updateHomepageGallery);
+
+    // พิเศษ: ถ้ามีการแก้ไขรูปในหน้า Gallery ขณะที่เปิดหน้า Home ค้างไว้ ให้รูปอัปเดตทันที
+    window.addEventListener('storage', (e) => {
+        if (e.key === 'rabbitz_gallery') {
+            updateHomepageGallery();
+        }
+    });
+</script>
     <footer class="text-center py-4 text-[10px] text-[#800000] border-t border-black">
         NAIL IT BY RABBITZ สาขามหาวิทยาลัยพะเยา
     </footer>

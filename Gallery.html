@@ -1,128 +1,268 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gallery</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600&display=swap" rel="stylesheet">
-
-    <style>
-  /* ตั้งค่าให้ทั้งหน้าเว็บใช้ฟอนต์ Kanit */
-  body {
-    font-family: 'Kanit', sans-serif;
-    }
-    </style>
-</head>
-<body>
-    <header>
-        <nav class="border-b border-red-900 px-4 py-2.5 fixed left-0 right-0 top-0 z-50 bg-red-900 w-full">
-            <div class="flex flex-wrap items-center justify-between mx-auto max-w-[1600px]">
-                
-                <div class="flex items-center justify-start">
-                    <a href="#" class="flex items-center mr-6">
-                        <img src="logo rabbitz.svg" class="size-16 mr-3 bg-white rounded-full p-1" alt="Rabbitz Logo" />
-                    </a>
-
-                    <div class="hidden md:block relative mr-4"> 
-                        <h1 class="text-white text-lg font-medium">NAIL IT BY RABBITZ สาขา มหาวิทยาลัยพะเยา</h1>
-                    </div>
-                </div>
-
-                <div class="flex items-center gap-6">
-                    <ul class="hidden lg:flex flex-row space-x-6 text-sm font-medium text-white">
-                        <li><a href="#" class="hover:text-red-200 transition">Homepage</a></li>
-                        <li class="w-px h-5 bg-white/30"></li>
-                        <li><a href="#" class="hover:text-red-200 transition">Gallery</a></li>
-                        <li class="w-px h-5 bg-white/30"></li>
-                        <li><a href="#" class="hover:text-red-200 transition">List</a></li>
-                        <li class="w-px h-5 bg-white/30"></li>
-                        <li><a href="#" class="hover:text-red-200 transition">Booking</a></li>
-                    </ul>
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Gallery</title>
+        <script src="https://cdn.tailwindcss.com"></script>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600&display=swap" rel="stylesheet">
+        <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
+        <style>
+    /* ตั้งค่าให้ทั้งหน้าเว็บใช้ฟอนต์ Kanit */
+    body {
+        font-family: 'Kanit', sans-serif;
+        }
+        </style>
+    </head>
+    <body>
+        <header>
+            <nav class="border-b border-red-900 px-4 py-2.5 fixed left-0 right-0 top-0 z-50 bg-red-900 w-full">
+                <div class="flex flex-wrap items-center justify-between mx-auto max-w-[1600px]">
                     
-                    <div class="hidden lg:block w-px h-6 bg-white/30 mx-2"></div>
+                    <div class="flex items-center justify-start">
+                        <a href="#" class="flex items-center mr-6">
+                            <img src="logo rabbitz.svg" class="size-16 mr-3 bg-white rounded-full p-1" alt="Rabbitz Logo" />
+                        </a>
 
-                    <div class="flex items-center space-x-4">
+                        <div class="hidden md:block relative mr-4"> 
+                            <h1 class="text-white text-lg font-medium">NAIL IT BY RABBITZ สาขา มหาวิทยาลัยพะเยา</h1>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center gap-6">
+                        <ul class="hidden lg:flex flex-row space-x-6 text-sm font-medium text-white">
+                            <li><a href="#" class="hover:text-red-200 transition">Homepage</a></li>
+                            <li class="w-px h-5 bg-white/30"></li>
+                            <li><a href="#" class="hover:text-red-200 transition">Gallery</a></li>
+                            <li class="w-px h-5 bg-white/30"></li>
+                            <li><a href="#" class="hover:text-red-200 transition">List</a></li>
+                            <li class="w-px h-5 bg-white/30"></li>
+                            <li><a href="#" class="hover:text-red-200 transition">Booking</a></li>
+                        </ul>
                         
-                        <button type="button" class="relative p-2 text-white hover:bg-white/10 rounded-full transition focus:outline-none">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
-                            </svg>
-                            <span class="absolute top-2 right-2 flex h-3 w-3">
-                                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-yellow-300 opacity-75"></span>
-                                <span class="relative inline-flex rounded-full h-3 w-3 bg-yellow-400 border-2 border-red-900"></span>
-                            </span>
-                        </button>
+                        <div class="hidden lg:block w-px h-6 bg-white/30 mx-2"></div>
 
-                        <button type="button" class="flex text-sm bg-white rounded-full focus:ring-4 focus:ring-red-700 overflow-hidden size-10 border-2 border-white/20 shadow-sm transition hover:scale-105">
-                            <img class="w-full h-full object-cover" src="https://ui-avatars.com/api/?name=User&background=random" alt="User Profile">
-                        </button>
+                        <div class="flex items-center space-x-4">
+                            
+                            <button type="button" class="relative p-2 text-white hover:bg-white/10 rounded-full transition focus:outline-none">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
+                                </svg>
+                                <span class="absolute top-2 right-2 flex h-3 w-3">
+                                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-yellow-300 opacity-75"></span>
+                                    <span class="relative inline-flex rounded-full h-3 w-3 bg-yellow-400 border-2 border-red-900"></span>
+                                </span>
+                            </button>
 
+                            <button type="button" class="flex text-sm bg-white rounded-full focus:ring-4 focus:ring-red-700 overflow-hidden size-10 border-2 border-white/20 shadow-sm transition hover:scale-105">
+                                <img class="w-full h-full object-cover" src="https://ui-avatars.com/api/?name=User&background=random" alt="User Profile">
+                            </button>
+
+                        </div>
+                        <div class="flex items-center gap-4 border-l border-white/30 pl-6">
+                        <button id="menuBtn" class="text-white hover:bg-white/10 p-2 rounded-lg transition">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                        </button>
+                        </div>
                     </div>
-                    <div class="flex items-center gap-4 border-l border-white/30 pl-6">
-                    <button id="menuBtn" class="text-white hover:bg-white/10 p-2 rounded-lg transition">
-                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                    </svg>
-                    </button>
-                    </div>
+
                 </div>
-
-            </div>
-        </nav>
-        <div id="sidebar" class="fixed top-0 right-0 h-full w-72 bg-gradient-to-b from-[#801919] to-[#5d1212] z-[100] transform translate-x-full transition-transform duration-300 ease-in-out shadow-2xl rounded-l-[3rem]">
-    
-        <div class="p-8 flex flex-col items-center">
-        <button id="closeBtn" class="self-end text-white mb-4">
-            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-        </button>
-        <button type="button" class="flex text-sm bg-white rounded-full focus:ring-40 overflow-hidden size-49 border-2 border-white/20 shadow-sm ">
-             <img class="w-full h-full object-cover" src="https://ui-avatars.com/api/?name=User&background=random" alt="User Profile">
-        </button>
+            </nav>
+            <div id="sidebar" class="fixed top-0 right-0 h-full w-72 bg-gradient-to-b from-[#801919] to-[#5d1212] z-[100] transform translate-x-full transition-transform duration-300 ease-in-out shadow-2xl rounded-l-[3rem]">
         
-        </div>
-
-        <div class="px-6 py-4">
-        <div class="bg-white/90 rounded-[2rem] p-6 space-y-3 text-center shadow-lg">
-            <a href="#" class="block text-[#801919] font-bold hover:scale-105 transition uppercase tracking-wider text-medium">Setting</a>
-            <hr class="border-[#801919]/20 w-1/2 mx-auto">
-            <a href="#" class="block text-[#801919] font-bold hover:scale-105 transition uppercase tracking-wider text-medium">My Booking & History</a>
-        </div>
-        </div>
-
-        <div class="absolute bottom-12 left-0 right-0 px-10 text-center">
-        <button class="w-full border-2 border-white text-white py-2 rounded-full font-bold uppercase text-medium hover:bg-white hover:text-[#801919] transition">
-            Sign out
-        </button>
-         </div>
-        </div>
-
-        <div id="overlay" class="fixed inset-0 bg-black/40 z-[90] hidden"></div>
-    </header>
-       
-<main class="pt-24 pb-12 max-w-4xl mx-auto px-4">
-     <div class="max-w-[1600px] mx-auto px-4 py-8">
-            <h1 class="text-3xl font-bold text-center text-[#800000] mb-8">Gallery</h1>
-            <div class="relative rounded-2xl overflow-hidden mb-8 shadow-lg">
-            <img src="pic/613027901_1331443012336595_6896879974426628931_n.jpg" class="w-full h-[300px] object-cover" alt="Promotion">
-            <div class="absolute bottom-4 left-6 text-white shadow-2xl p-2 rounded">
-                <h2 class="font-bold">PROMOTION</h2>
-                <p class="text-xs">NAIL IT BY RABBITZ สาขา มหาวิทยาลัยพะเยา</p>
+            <div class="p-8 flex flex-col items-center">
+            <button id="closeBtn" class="self-end text-white mb-4">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+            <button type="button" class="flex text-sm bg-white rounded-full focus:ring-40 overflow-hidden size-49 border-2 border-white/20 shadow-sm ">
+                <img class="w-full h-full object-cover" src="https://ui-avatars.com/api/?name=User&background=random" alt="User Profile">
+            </button>
+            
             </div>
-        </div>
-        </div>
-        <div class="flex flex-col items-center my-10">
-        <div class="w-1/3 border-t border-gray-300 mb-4"></div>
-    
-        <div class="bg-[#b3967a] text-white px-12 py-1 rounded-md shadow-sm uppercase tracking-widest text-sm font-medium">
-        GALLERY
-        </div>
-    
-        <div class="w-1/3 border-t border-gray-300 mt-4"></div>
-         </div>
 
-</main>
-</body>
-</html>
+            <div class="px-6 py-4">
+            <div class="bg-white/90 rounded-[2rem] p-6 space-y-3 text-center shadow-lg">
+                <a href="#" class="block text-[#801919] font-bold hover:scale-105 transition uppercase tracking-wider text-medium">Setting</a>
+                <hr class="border-[#801919]/20 w-1/2 mx-auto">
+                <a href="#" class="block text-[#801919] font-bold hover:scale-105 transition uppercase tracking-wider text-medium">My Booking & History</a>
+            </div>
+            </div>
+
+            <div class="absolute bottom-12 left-0 right-0 px-10 text-center">
+            <button class="w-full border-2 border-white text-white py-2 rounded-full font-bold uppercase text-medium hover:bg-white hover:text-[#801919] transition">
+                Sign out
+            </button>
+            </div>
+            </div>
+
+            <div id="overlay" class="fixed inset-0 bg-black/40 z-[90] hidden"></div>
+        </header>
+        
+    <main class="pt-24 pb-12 max-w-4xl mx-auto px-4">
+        <div class="max-w-[1600px] mx-auto px-4 py-8">
+                <h1 class="text-3xl font-bold text-center text-[#800000] mb-8">Gallery</h1>
+                <div class="relative rounded-2xl overflow-hidden mb-8 shadow-lg">
+                <img src="pic/613027901_1331443012336595_6896879974426628931_n.jpg" class="w-full h-[300px] object-cover" alt="Promotion">
+                <div class="absolute bottom-4 left-6 text-white shadow-2xl p-2 rounded">
+                    <h2 class="font-bold">PROMOTION</h2>
+                    <p class="text-xs">NAIL IT BY RABBITZ สาขา มหาวิทยาลัยพะเยา</p>
+                </div>
+            </div>
+            </div>
+            <div class="flex flex-col items-center my-10">
+            <div class="w-1/3 border-t border-gray-300 mb-4"></div>
+        
+            <div class="bg-[#b3967a] text-white px-12 py-1 rounded-md shadow-sm uppercase tracking-widest text-sm font-medium">
+            GALLERY
+            </div>
+        
+            <div class="w-1/3 border-t border-gray-300 mt-4"></div>
+            </div>
+    
+    </main>
+    <main class="pt-24 pb-12 max-w-4xl mx-auto px-4">
+
+        <div id="galleryGrid" class="grid grid-cols-3 gap-6 mb-10">
+            <div id="addBtn" class="relative aspect-square bg-[#E5E1E1] rounded-[30px] overflow-hidden flex items-center justify-center cursor-pointer hover:shadow-lg transition-all group">
+                <input type="file" id="imageInput" class="hidden" accept="image/*" multiple>
+                <img src="pic/617032545_1344062771074619_1246152938556010655_n.jpg" class="absolute inset-0 w-full h-full object-cover opacity-50 pointer-events-none">
+                <span class="relative z-10 text-[#4A0000] text-6xl font-light">+</span>
+            </div>
+            <img src="pic/633932142_1362916385855924_282871075612265257_n.jpg" class="rounded-xl shadow-md border-2 border-white">
+                    <img src="pic/634931143_1365712815576281_5935012769015046080_n.jpg" class="rounded-xl shadow-md border-2 border-white">
+                    <img src="pic/637032793_1365703782243851_2013380184915318522_n.jpg" class="rounded-xl shadow-md border-2 border-white">
+                    <img src="pic/637144201_1365693598911536_5126569838382212738_n.jpg" class="rounded-xl shadow-md border-2 border-white">
+                    <img src="pic/637349459_1365695622244667_2662039558123424415_n.jpg" class="rounded-xl shadow-md border-2 border-white">
+            </div>
+
+        <div id="pagination" class="flex justify-center items-center gap-4 mt-8">
+            </div>
+    </main>
+    <div class="flex justify-center items-center gap-4 mt-8">
+            <a href="Homepage.html" class="w-8 h-8 flex items-center justify-center rounded-full bg-[#800000] text-white text-sm font-medium transition duration-300 shadow-md">
+            1
+            </a>
+
+            <a href="#" class="w-8 h-8 flex items-center justify-center rounded-full bg-white text-[#800000] border border-[#800000] text-sm font-medium hover:bg-red-50 transition duration-300">
+            2
+            </a>
+
+            <a href="#" class="w-8 h-8 flex items-center justify-center rounded-full bg-white text-[#800000] border border-[#800000] text-sm font-medium hover:bg-red-50 transition duration-300">
+            3
+            </a>
+            </div>
+    <br><br>
+    <footer class="text-center py-4 text-[10px] text-[#800000] border-t border-black">
+            NAIL IT BY RABBITZ สาขามหาวิทยาลัยพะเยา
+        </footer>
+        <script>
+    // ข้อมูลรูปภาพเริ่มต้น (สามารถเปลี่ยนเป็น Path รูปจริงๆ ของคุณองุ่นได้เลย)
+    let images = JSON.parse(localStorage.getItem('rabbitz_gallery')) || [
+        'pic/633932142_1362916385855924_282871075612265257_n.jpg',
+        'pic/634931143_1365712815576281_5935012769015046080_n.jpg',
+        'pic/637032793_1365703782243851_2013380184915318522_n.jpg',
+        'pic/637144201_1365693598911536_5126569838382212738_n.jpg',
+        'pic/637349459_1365695622244667_2662039558123424415_n.jpg'
+    ];
+
+    let currentPage = 1;
+    const itemsPerPage = 5; // แสดงหน้าละ 5 รูป (บวกปุ่มบวกอีก 1 เป็น 6 ช่อง)
+
+    const galleryGrid = document.getElementById('galleryGrid');
+    const imageInput = document.getElementById('imageInput');
+    const addBtn = document.getElementById('addBtn');
+
+    // 1. ฟังก์ชันแสดงผล Gallery
+    function renderGallery() {
+        // ล้างรูปเก่าออกยกเว้นปุ่มบวก
+        const oldImages = galleryGrid.querySelectorAll('.gallery-item');
+        oldImages.forEach(img => img.remove());
+
+        const start = (currentPage - 1) * itemsPerPage;
+        const end = start + itemsPerPage;
+        const pageItems = images.slice(start, end);
+
+        pageItems.forEach((src, index) => {
+            const actualIndex = start + index;
+            const container = document.createElement('div');
+            container.className = "gallery-item group relative aspect-square rounded-[30px] shadow-md border-2 border-white overflow-hidden cursor-move transition-transform hover:scale-[1.02]";
+            container.innerHTML = `
+                <img src="${src}" class="w-full h-full object-cover">
+                <button onclick="deleteImage(${actualIndex})" class="absolute top-2 right-2 bg-red-600/90 text-white w-8 h-8 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity z-20">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            `;
+            galleryGrid.appendChild(container);
+        });
+
+        updatePagination();
+    }
+
+    // 2. ฟังก์ชันจัดการเลขหน้า
+    function updatePagination() {
+        const container = document.getElementById('paginationContainer');
+        const totalPages = Math.max(1, Math.ceil(images.length / itemsPerPage));
+        container.innerHTML = '';
+
+        for (let i = 1; i <= totalPages + 1; i++) { // +1 หน้าเผื่อไว้เพิ่มรูปใหม่ข้ามหน้า
+            const btn = document.createElement('button');
+            btn.innerText = i;
+            if (i === currentPage) {
+                btn.className = "w-8 h-8 flex items-center justify-center rounded-full bg-[#800000] text-white text-sm font-medium shadow-md";
+            } else {
+                btn.className = "w-8 h-8 flex items-center justify-center rounded-full bg-white text-[#800000] border border-[#800000] text-sm font-medium hover:bg-red-50 transition";
+            }
+            btn.onclick = () => { currentPage = i; renderGallery(); };
+            container.appendChild(btn);
+        }
+    }
+
+    // 3. ระบบเพิ่มรูป
+    addBtn.onclick = () => imageInput.click();
+    imageInput.onchange = function() {
+        const files = Array.from(this.files);
+        files.forEach(file => {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                images.push(e.target.result); // เพิ่มรูปใหม่ไปต่อท้ายสุด
+                localStorage.setItem('rabbitz_gallery', JSON.stringify(images));
+                renderGallery();
+            };
+            reader.readAsDataURL(file);
+        });
+    };
+
+    // 4. ระบบลบรูป
+    window.deleteImage = function(index) {
+        if (confirm('ลบรูปภาพนี้ใช่ไหมคะ?')) {
+            images.splice(index, 1);
+            localStorage.setItem('rabbitz_gallery', JSON.stringify(images));
+            renderGallery();
+        }
+    }
+
+    // 5. ระบบลากวางสลับรูป
+    new Sortable(galleryGrid, {
+        animation: 150,
+        draggable: ".gallery-item",
+        onEnd: function (evt) {
+            const start = (currentPage - 1) * itemsPerPage;
+            // คำนวณ Index ใหม่ใน Array (ลบ 1 เพราะปุ่มบวกอยู่ที่ index 0 ใน DOM)
+            const oldIdx = evt.oldIndex - 1 + start;
+            const newIdx = evt.newIndex - 1 + start;
+
+            const movedItem = images.splice(oldIdx, 1)[0];
+            images.splice(newIdx, 0, movedItem);
+
+            localStorage.setItem('rabbitz_gallery', JSON.stringify(images));
+        }
+    });
+
+    renderGallery();
+</script>
+    </body>
+    </html>
