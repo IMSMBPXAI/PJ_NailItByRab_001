@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Services - Nail It By Rabbitz</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Kanit', 'sans-serif'] },
+                    colors: { brand: { 900: '#7f1d1d' } }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-50 font-sans">
+ 
+    <header>
+        <nav class="border-b border-red-900 px-4 py-2.5 fixed left-0 right-0 top-0 z-50 bg-red-900 w-full">
+            <div class="flex flex-wrap items-center justify-between mx-auto max-w-[1600px]">
+               
+                <div class="flex items-center justify-start">
+                    <a href="HomepageCus.html" class="flex items-center mr-6">
+                        <img src="logo rabbitz.svg" class="size-16 mr-3 bg-white rounded-full p-1" alt="Rabbitz Logo" onerror="this.src='https://ui-avatars.com/api/?name=Logo&background=fff&color=7f1d1d'"/>
+                    </a>
+ 
+                    <div class="hidden md:block relative mr-4">
+                        <h1 class="text-white text-lg font-medium">NAIL IT BY RABBITZ สาขา มหาวิทยาลัยพะเยา</h1>
+                    </div>
+                </div>
+ 
+                <div class="flex items-center gap-6">
+                    <ul class="hidden lg:flex flex-row space-x-6 text-sm font-medium text-white items-center">
+                        <li><a href="HomepageCus.html" class="hover:text-red-200 transition">Homepage</a></li>
+                        <li class="w-px h-5 bg-white/30"></li>
+                        <li><a href="ContactSI.html" class="hover:text-red-200 transition">Contact</a></li>
+                        <li class="w-px h-5 bg-white/30"></li>
+                        <li><a href="Booking.html" class="hover:text-red-200 transition">Booking</a></li>
+                    </ul>
+                   
+                    <div class="hidden lg:block w-px h-6 bg-white/30 mx-2"></div>
+ 
+                    <div class="flex items-center space-x-4">
+                       
+                        <span id="userNameDisplay" class="text-white text-sm font-medium hidden md:block"></span>
+ 
+                        <button type="button" class="relative p-2 text-white hover:bg-white/10 rounded-full transition focus:outline-none">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
+                            </svg>
+                            <span class="absolute top-2 right-2 flex h-3 w-3">
+                                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-yellow-300 opacity-75"></span>
+                                <span class="relative inline-flex rounded-full h-3 w-3 bg-yellow-400 border-2 border-red-900"></span>
+                            </span>
+                        </button>
+ 
+                        <button type="button" class="flex text-sm bg-white rounded-full focus:ring-4 focus:ring-red-700 overflow-hidden size-10 border-2 border-white/20 shadow-sm transition hover:scale-105">
+                            <img id="userProfilePic" class="w-full h-full object-cover" src="https://ui-avatars.com/api/?name=User&background=fff&color=7f1d1d" alt="User Profile">
+                        </button>
+ 
+                        <button onclick="handleLogout()" class="text-xs text-white underline hover:text-red-200 ml-2">Log out</button>
+ 
+                    </div>
+                    <div class="flex items-center gap-4 border-l border-white/30 pl-6">
+                    <button id="menuBtn" class="text-white hover:bg-white/10 p-2 rounded-lg transition">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                    </button>
+                    </div>
+                </div>
+ 
+            </div>
+        </nav>
+        <div id="sidebar" class="fixed top-0 right-0 h-full w-72 bg-gradient-to-b from-[#801919] to-[#5d1212] z-[100] transform translate-x-full transition-transform duration-300 ease-in-out shadow-2xl rounded-l-[3rem]">
+   
+        <div class="p-8 flex flex-col items-center">
+        <button id="closeBtn" class="self-end text-white mb-4">
+            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+        </button>
+        <button type="button" class="flex text-sm bg-white rounded-full focus:ring-40 overflow-hidden size-49 border-2 border-white/20 shadow-sm ">
+             <img class="w-full h-full object-cover" src="https://ui-avatars.com/api/?name=User&background=random" alt="User Profile">
+        </button>
+       
+        </div>
+ 
+        <div class="px-6 py-4">
+        <div class="bg-white/90 rounded-[2rem] p-6 space-y-3 text-center shadow-lg">
+            <a href="#" class="block text-[#801919] font-bold hover:scale-105 transition uppercase tracking-wider text-medium">Setting</a>
+            <hr class="border-[#801919]/20 w-1/2 mx-auto">
+            <a href="#" class="block text-[#801919] font-bold hover:scale-105 transition uppercase tracking-wider text-medium">My Booking & History</a>
+        </div>
+        </div>
+ 
+        <div class="absolute bottom-12 left-0 right-0 px-10 text-center">
+        <button class="w-full border-2 border-white text-white py-2 rounded-full font-bold uppercase text-medium hover:bg-white hover:text-[#801919] transition">
+            Sign out
+        </button>
+         </div>
+        </div>
+ 
+        <div id="overlay" class="fixed inset-0 bg-black/40 z-[90] hidden"></div>
+    </header>
+ 
+    <main class="pt-24 pb-10 px-4 max-w-4xl mx-auto">
+       
+        <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 mb-8">
+            <h2 class="text-xl font-bold text-red-900 mb-4">ค้นหาบริการที่สนใจ</h2>
+            <div class="relative">
+                <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-400">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                </span>
+                <input type="text" id="searchInput"
+                    onkeyup="searchService()"
+                    placeholder="พิมพ์ชื่อบริการ เช่น ทาสีเจล, ต่อเล็บ, สปา..."
+                    class="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-red-900 focus:border-transparent outline-none transition">
+            </div>
+           
+            <div class="flex flex-wrap gap-2 mt-4">
+                <button onclick="filterByTag('ทั้งหมด')" class="tag-btn active px-4 py-1.5 bg-red-900 text-white text-xs rounded-full transition">ทั้งหมด</button>
+                <button onclick="filterByTag('ทาสี')" class="tag-btn px-4 py-1.5 bg-gray-100 text-gray-600 text-xs rounded-full hover:bg-red-100 transition">ทาสี</button>
+                <button onclick="filterByTag('ตกแต่ง')" class="tag-btn px-4 py-1.5 bg-gray-100 text-gray-600 text-xs rounded-full hover:bg-red-100 transition">ตกแต่ง</button>
+                <button onclick="filterByTag('ดูแลเล็บ')" class="tag-btn px-4 py-1.5 bg-gray-100 text-gray-600 text-xs rounded-full hover:bg-red-100 transition">ดูแลเล็บ</button>
+                <button onclick="filterByTag('เสริมเล็บ')" class="tag-btn px-4 py-1.5 bg-gray-100 text-gray-600 text-xs rounded-full hover:bg-red-100 transition">เสริมเล็บ</button>
+                <button onclick="filterByTag('PVC')" class="tag-btn px-4 py-1.5 bg-gray-100 text-gray-600 text-xs rounded-full hover:bg-red-100 transition">PVC</button>
+            </div>
+        </div>
+ 
+        <div id="serviceContainer" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="service-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex gap-4 hover:shadow-md transition" data-name="ทาสีพื้นมือ" data-category="ทาสี">
+                <div class="w-24 h-24 bg-gray-200 rounded-xl flex-shrink-0"></div>
+               
+                <div>
+                    <span class="text-[10px] bg-red-100 text-red-900 px-2 py-0.5 rounded-md font-bold uppercase">ทาสี</span>
+                    <h3 class="font-bold text-gray-900 mt-1">ทาสีพื้นมือ</h3>
+                   
+                    <button class="mt-2 text-xs text-red-900 font-bold hover:underline">จองเลย →</button>
+                </div>
+            </div>
+ 
+            <div class="service-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex gap-4 hover:shadow-md transition" data-name="ทาสีพื้นเท้า" data-category="ทาสี">
+                <div class="w-24 h-24 bg-gray-200 rounded-xl flex-shrink-0"></div>
+                <div>
+                    <span class="text-[10px] bg-red-100 text-red-900 px-2 py-0.5 rounded-md font-bold uppercase">ทาสี</span>
+                    <h3 class="font-bold text-gray-900 mt-1">ทาสีพื้นเท้า</h3>
+                   
+                    <button class="mt-2 text-xs text-red-900 font-bold hover:underline">จองเลย →</button>
+                </div>
+            </div>
+ 
+            <div class="service-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex gap-4 hover:shadow-md transition" data-name="ทาสีแฟลช/ลูกแก้ว" data-category="ทาสี">
+                <div class="w-24 h-24 bg-gray-200 rounded-xl flex-shrink-0"></div>
+                <div>
+                    <span class="text-[10px] bg-red-100 text-red-900 px-2 py-0.5 rounded-md font-bold uppercase">ทาสี</span>
+                    <h3 class="font-bold text-gray-900 mt-1">ทาสีแฟลช/ลูกแก้ว</h3>
+                 
+                    <button class="mt-2 text-xs text-red-900 font-bold hover:underline">จองเลย →</button>
+                </div>
+            </div>
+             <div class="service-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex gap-4 hover:shadow-md transition" data-name="ปั้นนูน" data-category="ตกแต่ง">
+                <div class="w-24 h-24 bg-gray-200 rounded-xl flex-shrink-0"></div>
+                <div>
+                    <span class="text-[10px] bg-blue-100 text-blue-900 px-2 py-0.5 rounded-md font-bold uppercase">ตกแต่ง</span>
+                    <h3 class="font-bold text-gray-900 mt-1">ปั้นนูน</h3>
+                   
+                    <button class="mt-2 text-xs text-red-900 font-bold hover:underline">จองเลย →</button>
+                </div>
+            </div>
+             <div class="service-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex gap-4 hover:shadow-md transition" data-name="เพ้นท์นิ้ว" data-category="ตกแต่ง">
+                <div class="w-24 h-24 bg-gray-200 rounded-xl flex-shrink-0"></div>
+                <div>
+                    <span class="text-[10px] bg-blue-100 text-blue-900 px-2 py-0.5 rounded-md font-bold uppercase">ตกแต่ง</span>
+                    <h3 class="font-bold text-gray-900 mt-1">เพ้นท์นิ้ว</h3>
+                   
+                    <button class="mt-2 text-xs text-red-900 font-bold hover:underline">จองเลย →</button>
+                </div>
+            </div>
+             <div class="service-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex gap-4 hover:shadow-md transition" data-name="ตัดเล็บขบ" data-category="ดูแลเล็บ">
+                <div class="w-24 h-24 bg-gray-200 rounded-xl flex-shrink-0"></div>
+                <div>
+                    <span class="text-[10px] bg-green-100 text-green-900 px-2 py-0.5 rounded-md font-bold uppercase">ดูแลเล็บ</span>
+                    <h3 class="font-bold text-gray-900 mt-1">ตัดเล็บขบ</h3>
+                   
+                    <button class="mt-2 text-xs text-red-900 font-bold hover:underline">จองเลย →</button>
+                </div>
+            </div>
+             <div class="service-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex gap-4 hover:shadow-md transition" data-name="เสริมเล็บฉีก" data-category="เสริมเล็บ">
+                <div class="w-24 h-24 bg-gray-200 rounded-xl flex-shrink-0"></div>
+                <div>
+                    <span class="text-[10px] bg-purple-100 text-purple-900 px-2 py-0.5 rounded-md font-bold uppercase">เสริมเล็บ</span>
+                    <h3 class="font-bold text-gray-900 mt-1">เสริมเล็บฉีก</h3>
+                   
+                    <button class="mt-2 text-xs text-red-900 font-bold hover:underline">จองเลย →</button>
+                </div>
+            </div>
+            <div class="service-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex gap-4 hover:shadow-md transition" data-name="Overlay" data-category="เสริมเล็บ">
+                <div class="w-24 h-24 bg-gray-200 rounded-xl flex-shrink-0"></div>
+                <div>
+                    <span class="text-[10px] bg-purple-100 text-purple-900 px-2 py-0.5 rounded-md font-bold uppercase">เสริมเล็บ</span>
+                    <h3 class="font-bold text-gray-900 mt-1">Overlay</h3>
+                   
+                    <button class="mt-2 text-xs text-red-900 font-bold hover:underline">จองเลย →</button>
+                </div>
+            </div>
+            <div class="service-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex gap-4 hover:shadow-md transition" data-name="PVC กาวเจล" data-category="PVC">
+                <div class="w-24 h-24 bg-gray-200 rounded-xl flex-shrink-0"></div>
+                <div>
+                    <span class="text-[10px] bg-pink-100 text-pink-900 px-2 py-0.5 rounded-md font-bold uppercase">PVC</span>
+                    <h3 class="font-bold text-gray-900 mt-1">PVC กาวเจล</h3>
+                   
+                    <button class="mt-2 text-xs text-red-900 font-bold hover:underline">จองเลย →</button>
+                </div>
+            </div>
+            <div class="service-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex gap-4 hover:shadow-md transition" data-name="PVC กาวธรรมดา" data-category="PVC">
+                <div class="w-24 h-24 bg-gray-200 rounded-xl flex-shrink-0"></div>
+                <div>
+                    <span class="text-[10px] bg-pink-100 text-pink-900 px-2 py-0.5 rounded-md font-bold uppercase">PVC</span>
+                    <h3 class="font-bold text-gray-900 mt-1">PVC กาวธรรมดา</h3>
+                   
+                    <button class="mt-2 text-xs text-red-900 font-bold hover:underline">จองเลย →</button>
+                </div>
+            </div>
+            <div class="service-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex gap-4 hover:shadow-md transition" data-name="PVC โพลีเจล" data-category="PVC">
+                <div class="w-24 h-24 bg-gray-200 rounded-xl flex-shrink-0"></div>
+                <div>
+                    <span class="text-[10px] bg-pink-100 text-pink-900 px-2 py-0.5 rounded-md font-bold uppercase">PVC</span>
+                    <h3 class="font-bold text-gray-900 mt-1">PVC โพลีเจล</h3>
+                   
+                    <button class="mt-2 text-xs text-red-900 font-bold hover:underline">จองเลย →</button>
+                </div>
+            </div>
+        </div>
+ 
+        <div id="noResults" class="hidden text-center py-20">
+            <p class="text-gray-400">ไม่พบบริการที่ค้นหา... ลองใช้คำอื่นดูนะ</p>
+        </div>
+ 
+    </main>
+    <br><br>
+    <footer class="text-center py-2 text-[10px] text-[#800000] border-t border-black ">
+        NAIL IT BY RABBITZ สาขามหาวิทยาลัยพะเยา
+    </footer>
+ 
+    <script>
+        function searchService() {
+            const input = document.getElementById('searchInput').value.toLowerCase();
+            const cards = document.getElementsByClassName('service-card');
+            let found = false;
+ 
+            for (let card of cards) {
+                const name = card.getAttribute('data-name').toLowerCase();
+                if (name.includes(input)) {
+                    card.style.display = "flex";
+                    found = true;
+                } else {
+                    card.style.display = "none";
+                }
+            }
+ 
+            document.getElementById('noResults').classList.toggle('hidden', found);
+        }
+ 
+        function filterByTag(category) {
+            // ปรับสีปุ่ม Tag
+            const btns = document.querySelectorAll('.tag-btn');
+            btns.forEach(btn => {
+                btn.classList.remove('bg-red-900', 'text-white');
+                btn.classList.add('bg-gray-100', 'text-gray-600');
+            });
+            event.target.classList.add('bg-red-900', 'text-white');
+ 
+            // กรองข้อมูล
+            const cards = document.getElementsByClassName('service-card');
+            let found = false;
+ 
+            for (let card of cards) {
+                const cardCat = card.getAttribute('data-category');
+                if (category === 'ทั้งหมด' || cardCat === category) {
+                    card.style.display = "flex";
+                    found = true;
+                } else {
+                    card.style.display = "none";
+                }
+            }
+            document.getElementById('noResults').classList.toggle('hidden', found);
+        }
+    </script>
+</body>
+</html>
+ 
