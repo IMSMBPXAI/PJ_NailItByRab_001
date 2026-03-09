@@ -120,16 +120,37 @@
             </div>
         </div>
 
-        <div class="bg-gray-200 rounded-3xl p-4 flex items-center gap-4 mb-8 max-w-lg mx-auto border border-gray-300 shadow-inner">
-            <div class="bg-[#800000] p-2 rounded-full">
-                <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20"><path d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"></path></svg>
+        <div class="max-w-2xl mx-auto mb-10">
+            <div class="flex justify-between items-end mb-4 px-2 border-b-2 border-gray-200 pb-2">
+                <h2 class="text-xl font-bold text-[#800000]">รีวิวจากลูกค้า (Reviews)</h2>
+                <button onclick="toggleReviewForm()" class="bg-[#800000] text-white px-4 py-2 rounded-full text-sm font-bold hover:bg-red-800 transition shadow-md flex items-center gap-1">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+                    เขียนรีวิว
+                </button>
             </div>
-            <div>
-                <p class="text-[#800000] font-bold text-sm">บริการดีมากค่ะ งานสวยตามบรีฟเลยค่ะ</p>
-                <div class="flex text-yellow-500 text-xs mt-1">
-                    4.9/5 ★★★★★
+
+            <div id="reviewFormContainer" class="hidden bg-white p-6 rounded-2xl shadow-lg border border-red-100 mb-6 transition-all">
+                <h3 class="font-bold text-gray-800 mb-3">ให้คะแนนบริการของเรา</h3>
+                
+                <div class="flex gap-1 mb-4" id="starRatingContainer">
+                    <span class="star-icon cursor-pointer text-3xl text-yellow-400 transition hover:scale-110" data-val="1">★</span>
+                    <span class="star-icon cursor-pointer text-3xl text-yellow-400 transition hover:scale-110" data-val="2">★</span>
+                    <span class="star-icon cursor-pointer text-3xl text-yellow-400 transition hover:scale-110" data-val="3">★</span>
+                    <span class="star-icon cursor-pointer text-3xl text-yellow-400 transition hover:scale-110" data-val="4">★</span>
+                    <span class="star-icon cursor-pointer text-3xl text-yellow-400 transition hover:scale-110" data-val="5">★</span>
+                </div>
+                <input type="hidden" id="reviewScore" value="5">
+
+                <textarea id="reviewTextInput" rows="3" class="w-full bg-gray-50 border border-gray-300 rounded-xl p-3 text-sm focus:outline-none focus:ring-2 focus:ring-red-900/30 focus:border-[#800000] transition" placeholder="ประทับใจบริการตรงไหน เล่าให้เราฟังหน่อยนะคะ..."></textarea>
+                
+                <div class="mt-4 flex justify-end gap-2">
+                    <button onclick="toggleReviewForm()" class="px-5 py-2 bg-gray-200 text-gray-700 rounded-lg text-sm font-bold hover:bg-gray-300 transition">ยกเลิก</button>
+                    <button onclick="submitCustomerReview()" class="px-5 py-2 bg-[#800000] text-white rounded-lg text-sm font-bold hover:bg-red-800 shadow-md transition active:scale-95">ส่งรีวิว</button>
                 </div>
             </div>
+
+            <div id="customerReviewsList" class="space-y-4 max-h-[400px] overflow-y-auto pr-2" style="scrollbar-width: thin;">
+                </div>
         </div>
 
         <div class="flex flex-col items-center my-10">
@@ -276,6 +297,8 @@
     </footer>
 
     <script>
+        const LOCAL_STORAGE_REVIEWS_KEY = 'rabbitz_reviews';
+
         document.addEventListener('DOMContentLoaded', () => {
             const userDataString = localStorage.getItem('rabbitz_currentUser');
             
@@ -288,7 +311,6 @@
                 const sidebarNameDisplay = document.getElementById('sidebarUserNameDisplay');
                 if (sidebarNameDisplay) sidebarNameDisplay.innerText = `Hi, ${userData.name}`;
                 
-                // ใช้ encodeURIComponent ป้องกันชื่อมีเว้นวรรคแล้ว Error
                 const profileUrl = userData.photoUrl || `https://ui-avatars.com/api/?name=${encodeURIComponent(userData.name)}&background=fff&color=7f1d1d&bold=true`;
                 
                 const profilePicNav = document.getElementById('userProfilePic');
@@ -330,7 +352,11 @@
             if(closeBtn) closeBtn.addEventListener('click', toggleMenu);
             if(overlay) overlay.addEventListener('click', toggleMenu);
 
-            renderGallery(1); // โหลดแกลอรี่หน้า 1
+            renderGallery(1); 
+            
+            // โหลดระบบรีวิว
+            setupStarRating();
+            loadCustomerReviews();
         });
 
         function handleLogout() {
@@ -341,11 +367,147 @@
             }
         }
 
+        // ==================================================================
+        // ⭐️ ระบบเขียนรีวิวจากลูกค้า 
+        // ==================================================================
+
+        // 1. เปิด/ปิด ฟอร์มรีวิว
+        function toggleReviewForm() {
+            const form = document.getElementById('reviewFormContainer');
+            if (form.classList.contains('hidden')) {
+                form.classList.remove('hidden');
+            } else {
+                form.classList.add('hidden');
+                document.getElementById('reviewTextInput').value = '';
+            }
+        }
+
+        // 2. ระบบดาวคลิกได้
+        function setupStarRating() {
+            const stars = document.querySelectorAll('.star-icon');
+            const scoreInput = document.getElementById('reviewScore');
+
+            stars.forEach(star => {
+                star.addEventListener('click', function() {
+                    const rating = parseInt(this.getAttribute('data-val'));
+                    scoreInput.value = rating;
+
+                    // เปลี่ยนสีดาวตามที่คลิก
+                    stars.forEach((s, index) => {
+                        if (index < rating) {
+                            s.classList.remove('text-gray-300');
+                            s.classList.add('text-yellow-400');
+                        } else {
+                            s.classList.remove('text-yellow-400');
+                            s.classList.add('text-gray-300');
+                        }
+                    });
+                });
+            });
+        }
+
+        // 3. ดึงรีวิวมาแสดง
+        function loadCustomerReviews() {
+            const listContainer = document.getElementById('customerReviewsList');
+            let reviews = JSON.parse(localStorage.getItem(LOCAL_STORAGE_REVIEWS_KEY)) || [];
+            
+            // ถ้ายังไม่มีรีวิวเลย ให้สร้างตัวอย่างให้ร้านดูน่าเชื่อถือ 1 อัน
+            if (reviews.length === 0) {
+                reviews = [{
+                    id: Date.now(),
+                    customerName: "ลูกค้าประจำ01",
+                    rating: "⭐⭐⭐⭐⭐",
+                    comment: "ช่างมือเบามากค่ะ ลายตรงปก แนะนำเลย!",
+                    reply: ""
+                }];
+                localStorage.setItem(LOCAL_STORAGE_REVIEWS_KEY, JSON.stringify(reviews));
+            }
+
+            listContainer.innerHTML = '';
+
+            reviews.forEach(review => {
+                let replyHtml = '';
+                // ถ้าแอดมินตอบกลับมา ให้โชว์กล่องข้อความตอบกลับด้วย
+                if (review.reply && review.reply.trim() !== '') {
+                    replyHtml = `
+                        <div class="mt-3 bg-red-50 p-3 rounded-lg border border-red-100 relative ml-4 shadow-sm">
+                            <div class="absolute -top-2 left-4 w-3 h-3 bg-red-50 border-t border-l border-red-100 transform rotate-45"></div>
+                            <p class="text-[10px] font-bold text-red-900 mb-1 flex items-center gap-1">
+                                <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                                ตอบกลับจากร้าน:
+                            </p>
+                            <p class="text-xs text-gray-700">${review.reply}</p>
+                        </div>
+                    `;
+                }
+
+                // สร้างรูปโปรไฟล์จากชื่อ
+                const userPic = `https://ui-avatars.com/api/?name=${encodeURIComponent(review.customerName)}&background=f3f4f6&color=7f1d1d&bold=true`;
+
+                listContainer.innerHTML += `
+                    <div class="bg-white rounded-2xl p-5 border border-gray-200 shadow-sm hover:shadow-md transition">
+                        <div class="flex gap-4">
+                            <div class="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center text-xl overflow-hidden shrink-0 border border-gray-200 shadow-sm">
+                                <img src="${userPic}" alt="Avatar">
+                            </div>
+                            <div class="flex-1 w-full">
+                                <div class="flex justify-between items-center mb-1">
+                                    <p class="text-sm font-bold text-gray-800">${review.customerName}</p>
+                                    <span class="text-yellow-400 text-xs tracking-widest">${review.rating}</span>
+                                </div>
+                                <p class="text-sm text-gray-600 leading-relaxed">${review.comment}</p>
+                                ${replyHtml}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        // 4. บันทึกและส่งรีวิว
+        function submitCustomerReview() {
+            const userDataString = localStorage.getItem('rabbitz_currentUser');
+            if (!userDataString) {
+                alert('กรุณาเข้าสู่ระบบก่อนเขียนรีวิวนะคะ');
+                window.location.href = 'index.html';
+                return;
+            }
+
+            const userData = JSON.parse(userDataString);
+            const score = parseInt(document.getElementById('reviewScore').value);
+            const comment = document.getElementById('reviewTextInput').value.trim();
+
+            if (!comment) {
+                alert('กรุณาพิมพ์ข้อความรีวิวก่อนกดส่งนะคะ');
+                return;
+            }
+
+            let starString = '';
+            for(let i=0; i<score; i++) starString += '⭐';
+
+            const newReview = {
+                id: Date.now(),
+                customerName: userData.name,
+                rating: starString,
+                comment: comment,
+                reply: ""
+            };
+
+            let reviews = JSON.parse(localStorage.getItem(LOCAL_STORAGE_REVIEWS_KEY)) || [];
+            reviews.unshift(newReview); // ดันรีวิวใหม่ไว้บนสุด
+            localStorage.setItem(LOCAL_STORAGE_REVIEWS_KEY, JSON.stringify(reviews));
+
+            // เคลียร์ค่า ซ่อนฟอร์ม และรีโหลดข้อมูลมาโชว์
+            document.getElementById('reviewTextInput').value = '';
+            toggleReviewForm();
+            loadCustomerReviews();
+            alert('ขอบคุณสำหรับรีวิวค่ะ ข้อมูลถูกส่งเรียบร้อยแล้ว ❤️');
+        }
+
+
         // ------------------------------------------------------------------
         // ระบบ Pagination ของ Gallery 
         // ------------------------------------------------------------------
-        // *หากต้องการเพิ่มรูป ให้คัดลอกชื่อไฟล์ _n.jpg มาใส่ใน [ ] นี้ได้เลย 
-        // ระบบจะคำนวณและเพิ่มหน้า 4, 5, 6 ให้อัตโนมัติ
         const galleryImages = [
             "pic/617032545_1344062771074619_1246152938556010655_n.jpg",
             "pic/633932142_1362916385855924_282871075612265257_n.jpg",
@@ -403,7 +565,6 @@
             }
         }
 
-        // ฟังก์ชันสำหรับส่งคำค้นหาไปหน้า Search.html
         function goToSearch() {
             const query = document.getElementById('homeSearchInput').value.trim();
             if (query !== '') {
@@ -413,7 +574,6 @@
             }
         }
 
-        // ฟังก์ชันสำหรับตรวจจับการกดปุ่ม Enter
         function handleHomeSearch(event) {
             if (event.key === 'Enter') {
                 event.preventDefault(); 
