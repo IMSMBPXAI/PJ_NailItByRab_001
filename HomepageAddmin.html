@@ -424,21 +424,15 @@
         yearSelect.onchange = renderCalendar;
 
         function initLocalStorage() {
-            if (!localStorage.getItem(LOCAL_STORAGE_ROLES_KEY)) {
-                const mockRoles = [
-                    { id: 1, name: "RABBITZ_CEO (คุณตัวกระต่าย)", role: "admin" },
-                    { id: 2, name: "Tech_Jane (ช่างเจน)", role: "tech" }
-                ];
-                localStorage.setItem(LOCAL_STORAGE_ROLES_KEY, JSON.stringify(mockRoles));
-            }
-            if (!localStorage.getItem(LOCAL_STORAGE_CONTENT_KEY)) {
-                const mockContent = [
-                    { id: 1, name: "ทาสีเจลมือ (สีพื้น)", detail: "สีพื้นเรียบๆ 1-2 สี", price: 150 },
-                    { id: 2, name: "ต่อ PVC + ทาสีเจล", detail: "ต่อความยาว ทนทาน", price: 350 }
-                ];
-                localStorage.setItem(LOCAL_STORAGE_CONTENT_KEY, JSON.stringify(mockContent));
-            }
-        }
+    if (!localStorage.getItem(LOCAL_STORAGE_ROLES_KEY)) {
+        const mockRoles = [
+            { id: 1, name: "RABBITZ_CEO (คุณตัวกระต่าย)", role: "admin" },
+            { id: 2, name: "Tech_Jane (ช่างเจน)", role: "tech" }
+        ];
+        localStorage.setItem(LOCAL_STORAGE_ROLES_KEY, JSON.stringify(mockRoles));
+    }
+    // ไม่ต้องเซ็ต LOCAL_STORAGE_CONTENT_KEY เป็น Mock ไว้ เพื่อให้ดึงจากที่แอดมินพิมพ์เอง
+}
 
         // ==========================================
         // ⭐️ ระบบดึงสถิติ Dashboard ให้อิงจากคิวของจริง
@@ -717,31 +711,48 @@ function saveNewBookingTime() {
         // ==========================================
         // ⭐️ ระบบจัดการเนื้อหา (Content Management)
         // ==========================================
-        function fetchContent() {
-            const listContainer = document.getElementById('servicesList');
-            const storedContent = JSON.parse(localStorage.getItem(LOCAL_STORAGE_CONTENT_KEY)) || [];
-            const currentUser = JSON.parse(localStorage.getItem('rabbitz_currentUser')) || {};
-            const isOwner = currentUser.role === 'admin';
-            
-            listContainer.innerHTML = '';
-            if (storedContent.length === 0) {
-                listContainer.innerHTML = `<p class="text-center text-gray-400 text-sm mt-4">ยังไม่มีบริการที่แสดงบนหน้าเว็บ</p>`;
-                return;
-            }
+        // 1. ปรับการตั้งค่าเริ่มต้น (ไม่ต้องมี Mock ข้อมูลบริการ)
+function initLocalStorage() {
+    if (!localStorage.getItem(LOCAL_STORAGE_ROLES_KEY)) {
+        const mockRoles = [
+            { id: 1, name: "RABBITZ_CEO (คุณตัวกระต่าย)", role: "admin" },
+            { id: 2, name: "Tech_Jane (ช่างเจน)", role: "tech" }
+        ];
+        localStorage.setItem(LOCAL_STORAGE_ROLES_KEY, JSON.stringify(mockRoles));
+    }
+    // ไม่ต้องเซ็ต LOCAL_STORAGE_CONTENT_KEY เป็น Mock ไว้ เพื่อให้ดึงจากที่แอดมินพิมพ์เอง
+}
 
-            storedContent.forEach(item => {
-                let deleteBtn = isOwner ? `<button onclick="deleteContent(${item.id})" class="text-red-500 hover:text-white hover:bg-red-500 text-xs font-bold border border-red-500 px-3 py-1.5 rounded transition-colors shadow-sm">ลบออก</button>` : ``;
-                listContainer.innerHTML += `
-                    <div class="flex justify-between items-center border border-gray-200 p-3 rounded-lg bg-white hover:shadow-md transition-shadow">
-                        <div>
-                            <p class="font-bold text-sm text-red-900">${item.name}</p>
-                            <p class="text-[10px] text-gray-500 mt-1">${item.detail}</p>
-                            <p class="text-xs text-gray-800 font-semibold mt-1">ราคาเริ่มต้น ${item.price} บาท</p>
-                        </div>
-                        ${deleteBtn}
-                    </div>`;
-            });
-        }
+// 2. ปรับการแสดงรายการบริการให้ดึงข้อมูลจริง
+function fetchContent() {
+    const listContainer = document.getElementById('servicesList');
+    // ดึงข้อมูลบริการจาก Storage
+    const storedContent = JSON.parse(localStorage.getItem(LOCAL_STORAGE_CONTENT_KEY)) || [];
+    const currentUser = JSON.parse(localStorage.getItem('rabbitz_currentUser')) || {};
+    const isOwner = currentUser.role === 'admin';
+    
+    listContainer.innerHTML = '';
+    
+    if (storedContent.length === 0) {
+        listContainer.innerHTML = `<p class="text-center text-gray-400 text-sm mt-4 italic">ยังไม่มีบริการใหม่ที่เพิ่มเข้าไป</p>`;
+        return;
+    }
+
+    // เรียงเอาอันใหม่ขึ้นก่อน
+    [...storedContent].reverse().forEach(item => {
+        let deleteBtn = isOwner ? `<button onclick="deleteContent(${item.id})" class="text-red-500 hover:text-white hover:bg-red-500 text-[10px] font-bold border border-red-500 px-2 py-1 rounded transition-colors shadow-sm">ลบรายการ</button>` : ``;
+        
+        listContainer.innerHTML += `
+            <div class="flex justify-between items-center border border-gray-100 p-4 rounded-xl bg-white shadow-sm mb-2">
+                <div class="flex-1">
+                    <p class="font-bold text-sm text-red-900">${item.name}</p>
+                    <p class="text-[10px] text-gray-500 my-1">${item.detail || 'ไม่มีรายละเอียด'}</p>
+                    <p class="text-xs text-green-700 font-bold">${item.price.toLocaleString()} BATH</p>
+                </div>
+                ${deleteBtn}
+            </div>`;
+    });
+}
 
         function addServiceContent() {
             const currentUser = JSON.parse(localStorage.getItem('rabbitz_currentUser')) || {};
