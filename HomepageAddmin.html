@@ -54,22 +54,22 @@
         <div class="flex flex-col md:flex-row items-center justify-between gap-4 mb-15">
             <div class="flex-1 text-center">
                 <p class="font-bold text-lg mb-4">จำนวนการจองวันนี้</p>
-                <div class="w-24 h-24 bg-[#800000] text-white rounded-full flex items-center justify-center text-5xl font-bold mx-auto shadow-md">1</div>
+                <div id="todayBookingsCount" class="w-24 h-24 bg-[#800000] text-white rounded-full flex items-center justify-center text-5xl font-bold mx-auto shadow-md">0</div>
             </div>
             <div class="hidden md:block w-px h-32 bg-gray-400 opacity-50"></div>
             <div class="flex-1 text-center">
                 <p class="font-bold text-lg mb-2">รายได้วันนี้</p>
                 <p class="text-3xl font-bold">ประมาณ</p>
-                <p class="text-3xl font-bold">1000 บาท</p>
+                <p id="todayRevenue" class="text-3xl font-bold text-green-700">0 บาท</p>
             </div>
             <div class="hidden md:block w-px h-32 bg-gray-400 opacity-50"></div>
             <div class="flex-1 text-center">
                 <p class="font-bold text-lg mb-4">ข้อมูลลูกค้า</p>
-                <div class="grid grid-cols-2 gap-2 w-32 mx-auto">
-                    <div class="h-8 bg-[#FFCC33] rounded-md shadow-sm"></div>
-                    <div class="h-8 bg-[#FFCC33] rounded-md shadow-sm"></div>
-                    <div class="h-8 bg-[#FFCC33] rounded-md shadow-sm"></div>
-                    <div class="h-8 bg-[#FFCC33] rounded-md shadow-sm"></div>
+                <div id="todayCustomers" class="grid grid-cols-2 gap-2 w-32 mx-auto">
+                    <div class="h-8 bg-gray-200 rounded-md shadow-sm"></div>
+                    <div class="h-8 bg-gray-200 rounded-md shadow-sm"></div>
+                    <div class="h-8 bg-gray-200 rounded-md shadow-sm"></div>
+                    <div class="h-8 bg-gray-200 rounded-md shadow-sm"></div>
                 </div>
             </div>
         </div>
