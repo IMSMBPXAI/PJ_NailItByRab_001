@@ -712,6 +712,95 @@ function saveNewBookingTime() {
         // ⭐️ ระบบจัดการเนื้อหา (Content Management)
         // ==========================================
         // 1. ปรับการตั้งค่าเริ่มต้น (ไม่ต้องมี Mock ข้อมูลบริการ)
+// --- ส่วนจัดการเนื้อหาที่ปรับปรุงใหม่ ---
+
+// 1. รายการบริการเดิมที่มีอยู่ในหน้า HomepageCus.html (Static Data)
+const staticServices = [
+    { id: 's1', name: "ทาสีพื้นมือ", detail: "บริการทาสีเจลพื้นมือ 1-2 สี", price: 200 },
+    { id: 's2', name: "ทาสีพื้นเท้า", detail: "บริการทาสีเจลพื้นเท้า 1-2 สี", price: 250 },
+    { id: 's3', name: "ทาสีแฟลช/ลูกแก้ว", detail: "สีวิบวับ เล่นแสงสวยงาม", price: 250 },
+    { id: 's4', name: "ปั้นนูน", detail: "งานอาร์ต 3D ปั้นลายนูน", price: 50 },
+    { id: 's5', name: "เพ้นท์ นิ้วละ", detail: "เพ้นท์ลายตามบรีฟ", price: 10 },
+    { id: 's6', name: "ตัดเล็บขบ", detail: "ดูแลปัญหาเล็บขบโดยเฉพาะ", price: 300 },
+    { id: 's7', name: "เสริมเล็บฉีก", detail: "ซ่อมแซมเล็บที่ฉีกขาด", price: 250 },
+    { id: 's8', name: "Overlay", detail: "เสริมหน้าเล็บให้แข็งแรง", price: 250 },
+    { id: 's9', name: "PVC กาวธรรมดา", detail: "ต่อเล็บแบบมาตรฐาน", price: 300 },
+    { id: 's10', name: "PVC กาวเจล", detail: "ต่อเล็บทนทานพิเศษ", price: 350 },
+    { id: 's11', name: "PVC โพลีเจล", detail: "ต่อเล็บเบาสบายเป็นธรรมชาติ", price: 700 }
+];
+
+// 2. ฟังก์ชันดึงข้อมูลบริการทั้งหมดมาแสดงในหน้า Admin
+function fetchContent() {
+    const listContainer = document.getElementById('servicesList');
+    // ดึงข้อมูลบริการที่เพิ่มใหม่จาก Storage
+    const dynamicServices = JSON.parse(localStorage.getItem(LOCAL_STORAGE_CONTENT_KEY)) || [];
+    const currentUser = JSON.parse(localStorage.getItem('rabbitz_currentUser')) || {};
+    const isOwner = currentUser.role === 'admin';
+    
+    listContainer.innerHTML = '';
+
+    // ส่วนที่ 1: แสดงบริการหลัก (Static) - แก้ไข/ลบไม่ได้
+    staticServices.forEach(item => {
+        listContainer.innerHTML += `
+            <div class="flex justify-between items-center border border-gray-100 p-4 rounded-xl bg-gray-50 shadow-sm mb-2 opacity-80">
+                <div class="flex-1">
+                    <p class="font-bold text-sm text-gray-600">${item.name} <span class="text-[9px] bg-gray-200 px-1 rounded ml-1 text-gray-500 font-normal">บริการหลัก</span></p>
+                    <p class="text-[10px] text-gray-400 my-1">${item.detail}</p>
+                    <p class="text-xs text-gray-500 font-bold">${item.price.toLocaleString()} BATH</p>
+                </div>
+                <span class="text-[10px] text-gray-400 font-bold italic">ระบบถาวร</span>
+            </div>`;
+    });
+
+    // ส่วนที่ 2: แสดงบริการที่เพิ่มใหม่ (Dynamic) - จัดการได้
+    if (dynamicServices.length > 0) {
+        [...dynamicServices].reverse().forEach(item => {
+            let deleteBtn = isOwner ? `
+                <button onclick="deleteContent(${item.id})" class="ml-4 text-red-500 hover:text-white hover:bg-red-500 text-[10px] font-bold border border-red-500 px-2 py-1 rounded transition-all shadow-sm">
+                    ลบรายการ
+                </button>` : '';
+
+            listContainer.innerHTML += `
+                <div class="flex justify-between items-center border border-red-200 p-4 rounded-xl bg-white shadow-sm mb-2 hover:border-red-400 transition-colors">
+                    <div class="flex-1">
+                        <p class="font-bold text-sm text-red-900">${item.name} <span class="text-[9px] bg-red-100 px-1 rounded ml-1 text-red-500 font-normal">เพิ่มใหม่</span></p>
+                        <p class="text-[10px] text-gray-500 my-1">${item.detail || 'ไม่มีรายละเอียด'}</p>
+                        <p class="text-xs text-green-700 font-bold">${Number(item.price).toLocaleString()} BATH</p>
+                    </div>
+                    ${deleteBtn}
+                </div>`;
+        });
+    }
+}
+
+// 3. ฟังก์ชันเพิ่มบริการ (คงเดิมตามระบบที่เชื่อมต่อไว้)
+function addServiceContent() {
+    const nameInput = document.getElementById('contentName').value;
+    const detailInput = document.getElementById('contentDetail').value;
+    const priceInput = document.getElementById('contentPrice').value;
+
+    if (!nameInput || !priceInput) return alert("กรุณากรอกชื่อบริการและราคาด้วยค่ะ");
+
+    let contents = JSON.parse(localStorage.getItem(LOCAL_STORAGE_CONTENT_KEY)) || [];
+    const newItem = {
+        id: Date.now(),
+        name: nameInput.trim(),
+        detail: detailInput.trim(),
+        price: parseFloat(priceInput)
+    };
+
+    contents.push(newItem);
+    localStorage.setItem(LOCAL_STORAGE_CONTENT_KEY, JSON.stringify(contents));
+    
+    document.getElementById('contentName').value = '';
+    document.getElementById('contentDetail').value = '';
+    document.getElementById('contentPrice').value = '';
+
+    alert(`เพิ่มบริการ "${newItem.name}" เรียบร้อยแล้ว!`);
+    fetchContent(); 
+}
+
+// 4. แก้ไข initLocalStorage เพื่อไม่ให้ทับข้อมูลจริง
 function initLocalStorage() {
     if (!localStorage.getItem(LOCAL_STORAGE_ROLES_KEY)) {
         const mockRoles = [
@@ -719,78 +808,6 @@ function initLocalStorage() {
             { id: 2, name: "Tech_Jane (ช่างเจน)", role: "tech" }
         ];
         localStorage.setItem(LOCAL_STORAGE_ROLES_KEY, JSON.stringify(mockRoles));
-    }
-    // ไม่ต้องเซ็ต LOCAL_STORAGE_CONTENT_KEY เป็น Mock ไว้ เพื่อให้ดึงจากที่แอดมินพิมพ์เอง
-}
-
-// 2. ปรับการแสดงรายการบริการให้ดึงข้อมูลจริง
-function fetchContent() {
-    const listContainer = document.getElementById('servicesList');
-    // ดึงข้อมูลจาก Storage (ถ้าไม่มีให้เป็นอาเรย์ว่าง)
-    const storedContent = JSON.parse(localStorage.getItem(LOCAL_STORAGE_CONTENT_KEY)) || [];
-    
-    listContainer.innerHTML = '';
-    
-    if (storedContent.length === 0) {
-        listContainer.innerHTML = `<p class="text-center text-gray-400 text-sm mt-4 italic">ยังไม่มีรายการบริการในระบบ</p>`;
-        return;
-    }
-
-    // แสดงรายการทั้งหมด (เรียงจากใหม่ไปเก่า)
-    [...storedContent].reverse().forEach(item => {
-        listContainer.innerHTML += `
-            <div class="flex justify-between items-center border border-gray-100 p-4 rounded-xl bg-white shadow-sm mb-2 hover:border-red-200 transition-colors">
-                <div class="flex-1">
-                    <p class="font-bold text-sm text-red-900">${item.name}</p>
-                    <p class="text-[10px] text-gray-500 my-1">${item.detail || 'ไม่มีรายละเอียด'}</p>
-                    <p class="text-xs text-green-700 font-bold">${Number(item.price).toLocaleString()} BATH</p>
-                </div>
-                <button onclick="deleteContent(${item.id})" class="ml-4 text-red-500 hover:text-white hover:bg-red-500 text-[10px] font-bold border border-red-500 px-2 py-1 rounded transition-all shadow-sm">
-                    ลบรายการ
-                </button>
-            </div>`;
-    });
-}
-
-// 2. ฟังก์ชันเพิ่มบริการใหม่
-function addContent() {
-    const name = document.getElementById('contentName').value;
-    const price = document.getElementById('contentPrice').value;
-    const detail = document.getElementById('contentDetail').value;
-
-    if (!name || !price) {
-        alert('กรุณากรอกชื่อบริการและราคาด้วยค่ะ');
-        return;
-    }
-
-    const newItem = {
-        id: Date.now(),
-        name: name,
-        price: parseFloat(price),
-        detail: detail,
-        timestamp: new Date().toISOString()
-    };
-
-    const storedContent = JSON.parse(localStorage.getItem(LOCAL_STORAGE_CONTENT_KEY)) || [];
-    storedContent.push(newItem);
-    localStorage.setItem(LOCAL_STORAGE_CONTENT_KEY, JSON.stringify(storedContent));
-
-    // ล้างค่าในฟอร์ม
-    document.getElementById('contentName').value = '';
-    document.getElementById('contentPrice').value = '';
-    document.getElementById('contentDetail').value = '';
-
-    alert('เพิ่มบริการขึ้นหน้าเว็บเรียบร้อยแล้ว!');
-    fetchContent(); // อัปเดตรายการในหน้า Admin ทันที
-}
-
-// 3. ฟังก์ชันลบบริการ
-function deleteContent(id) {
-    if (confirm('คุณต้องการลบบริการนี้ออกจากหน้าเว็บใช่หรือไม่?')) {
-        let storedContent = JSON.parse(localStorage.getItem(LOCAL_STORAGE_CONTENT_KEY)) || [];
-        storedContent = storedContent.filter(item => item.id !== id);
-        localStorage.setItem(LOCAL_STORAGE_CONTENT_KEY, JSON.stringify(storedContent));
-        fetchContent(); // อัปเดตรายการใหม่
     }
 }
 
