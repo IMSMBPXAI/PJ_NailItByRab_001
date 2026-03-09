@@ -158,7 +158,7 @@
             // 3. ลำดับการให้สิทธิ์: แอดมินในโค้ด -> แอดมินจากระบบ -> ลูกค้าทั่วไป
             let finalRole = 'customer';
             
-            if (user.displayName === 'I''m lonely' || user.email === 'oppok8801@gmail.com') {
+            if (user.displayName === "I'm lonely" || user.email === "oppok8801@gmail.com") {
                 finalRole = 'admin'; // <--- กำหนด Admin ถาวรไว้ในโค้ดตรงนี้ (เปลี่ยนชื่อ/อีเมลตามต้องการ)
             } else if (userRoleInfo) {
                 finalRole = userRoleInfo.role;
