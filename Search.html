@@ -288,6 +288,23 @@
             }
             document.getElementById('noResults').classList.toggle('hidden', found);
         }
+
+        // ทำงานทันทีเมื่อโหลดหน้าเว็บเสร็จ
+        window.addEventListener('DOMContentLoaded', () => {
+            // ดึงค่า URL Parameter
+            const urlParams = new URLSearchParams(window.location.search);
+            const query = urlParams.get('q');
+            
+            if (query) {
+                // ถ้ามีคำค้นหาส่งมา ให้เติมลงในช่อง input
+                const searchInput = document.getElementById('searchInput');
+                searchInput.value = query;
+                
+                // สั่งให้ฟังก์ชันค้นหาทำงานทันที
+                searchService();
+            }
+        });
+        
     </script>
 </body>
 </html>
