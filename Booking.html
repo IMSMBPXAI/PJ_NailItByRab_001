@@ -290,26 +290,37 @@
         const timeSelect = document.getElementById('booking_time');
 
         function generateDates() {
-            dateSelect.innerHTML = '<option value="" disabled selected>-- เลือกวันที่ --</option>';
-            let today = new Date();
-            for (let i = 1; i <= 90; i++) {
-                let d = new Date(today);
-                d.setDate(today.getDate() + i);
-                let dateString = d.toISOString().split('T')[0];
-                let displayDate = d.toLocaleDateString('th-TH', { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' });
-                let option = document.createElement('option');
-                option.value = dateString;
-                if (mockDatabase.closedDates.includes(dateString)) {
-                    option.textContent = `${displayDate} (ร้านปิด)`;
-                    option.disabled = true;
-                    option.className = "text-gray-400 bg-gray-100";
-                } else {
-                    option.textContent = displayDate;
-                    option.className = "text-gray-900";
-                }
-                dateSelect.appendChild(option);
-            }
+    dateSelect.innerHTML = '<option value="" disabled selected>-- เลือกวันที่ --</option>';
+    let today = new Date();
+
+    // --- ส่วนที่อัปเดต: ดึงข้อมูลวันที่ร้านปิดจาก LocalStorage ---
+    const closedDates = JSON.parse(localStorage.getItem('rabbitz_closed_dates')) || [];
+    // -------------------------------------------------------
+
+    // เปิดคิวล่วงหน้า 90 วัน
+    for (let i = 1; i <= 90; i++) {
+        let d = new Date(today);
+        d.setDate(today.getDate() + i);
+
+        let dateString = d.toISOString().split('T')[0];
+        let displayDate = d.toLocaleDateString('th-TH', { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' });
+
+        let option = document.createElement('option');
+        option.value = dateString;
+
+        // ตรวจสอบว่าวันที่นี้อยู่ในรายการที่แอดมินปิดไว้หรือไม่
+        if (closedDates.includes(dateString)) {
+            option.textContent = `${displayDate} (เต็ม/ปิดรับจอง)`;
+            option.disabled = true; // ทำให้กดเลือกไม่ได้
+            option.className = "text-gray-400 bg-gray-100";
+        } else {
+            option.textContent = displayDate;
+            option.className = "text-gray-900";
         }
+
+        dateSelect.appendChild(option);
+    }
+}
 
         dateSelect.addEventListener('change', function () {
             const selectedDate = this.value;
