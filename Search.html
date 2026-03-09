@@ -398,6 +398,29 @@
             }
         });
 
+// --- ฟังก์ชันจัดการปุ่ม "จองเลย" ทุกปุ่มในหน้า Search ---
+        window.addEventListener('DOMContentLoaded', () => {
+            const bookButtons = document.querySelectorAll('.service-card button');
+            
+            bookButtons.forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // 1. ดึงข้อมูลจากการ์ดที่ผู้ใช้กด (ชื่อบริการ และ ลิงก์รูปภาพ)
+                    const card = this.closest('.service-card');
+                    const serviceName = card.getAttribute('data-name');
+                    const imgSrc = card.querySelector('img').getAttribute('src');
+                    
+                    // 2. เก็บข้อมูลไว้ใน sessionStorage ชั่วคราว
+                    sessionStorage.setItem('autoSelectService', serviceName);
+                    sessionStorage.setItem('autoSelectImage', imgSrc);
+                    
+                    // 3. พาไปหน้า Booking
+                    window.location.href = 'Booking.html';
+                });
+            });
+        });
+
     </script>
 </body>
 </html>

@@ -424,6 +424,35 @@
             window.location.href = 'detailbooking.html';
         });
 
+
+        // --- ฟังก์ชันรับข้อมูลบริการและรูปภาพจากหน้า Search ---
+        window.addEventListener('DOMContentLoaded', () => {
+            // 1. ดึงข้อมูลที่พักไว้ใน sessionStorage
+            const autoService = sessionStorage.getItem('autoSelectService');
+            const autoImage = sessionStorage.getItem('autoSelectImage');
+
+            // 2. ถ้ามีชื่อบริการส่งมา ให้ติ๊กถูกที่ช่องนั้น
+            if (autoService) {
+                const checkbox = document.querySelector(`input[name="services[]"][value="${autoService}"]`);
+                if (checkbox) {
+                    checkbox.checked = true;
+                }
+                // ล้างค่าทิ้งเพื่อไม่ให้รบกวนการจองครั้งถัดไป
+                sessionStorage.removeItem('autoSelectService');
+            }
+
+            // 3. ถ้ามีรูปภาพส่งมา ให้นำไปใส่ในช่อง Reference
+            if (autoImage) {
+                // เช็คว่ารูปยังไม่เกิน 5 รูป
+                if (uploadedImages.length < 5) {
+                    uploadedImages.push(autoImage);
+                    updateImagePreview();
+                }
+                // ล้างค่าทิ้งเพื่อไม่ให้รบกวนการจองครั้งถัดไป
+                sessionStorage.removeItem('autoSelectImage');
+            }
+        });
+        
     </script>
 </body>
 </html>
