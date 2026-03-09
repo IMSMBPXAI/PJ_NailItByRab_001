@@ -149,8 +149,22 @@
 
         // 2. ฟังก์ชันหลักในการจัดเก็บ Session และย้ายหน้าตามสิทธิ์ (Role)
         function processUserLogin(user) {
-            // ดึงบทบาทที่เลือกล่าสุด หรือจากข้อมูลผู้ใช้ หรือให้เป็น customer โดยปริยาย
-            const chosenRole = localStorage.getItem('rabbitz_temp_role') || user.role || 'customer';
+            // 1. ดึงข้อมูลสิทธิ์จากระบบหลังร้านที่แอดมินเพิ่มไว้
+            const rolesData = JSON.parse(localStorage.getItem('rabbitz_roles')) || [];
+            
+            // 2. เช็คว่าชื่อหรืออีเมลตรงกับในระบบสิทธิ์หรือไม่
+            const userRoleInfo = rolesData.find(r => r.name === user.displayName || r.name === user.email);
+            
+            // 3. ลำดับการให้สิทธิ์: แอดมินในโค้ด -> แอดมินจากระบบ -> ลูกค้าทั่วไป
+            let finalRole = 'customer';
+            
+            if (user.displayName === 'admin_rabbitz' || user.email === 'admin@rabbitz.com') {
+                finalRole = 'admin'; // <--- กำหนด Admin ถาวรไว้ในโค้ดตรงนี้ (เปลี่ยนชื่อ/อีเมลตามต้องการ)
+            } else if (userRoleInfo) {
+                finalRole = userRoleInfo.role;
+            } else {
+                finalRole = user.role || 'customer';
+            }
             
             const userData = {
                 isLoggedIn: true,
@@ -158,14 +172,14 @@
                 email: user.email || '',
                 photoUrl: user.photoURL || '',
                 uid: user.uid || Date.now(),
-                role: chosenRole
+                role: finalRole
             };
             
             localStorage.setItem('rabbitz_currentUser', JSON.stringify(userData));
-            localStorage.removeItem('rabbitz_temp_role'); // ลบค่าเลือกชั่วคราว
+            localStorage.removeItem('rabbitz_temp_role');
 
             // แยกเส้นทางส่งไปหน้าให้ถูกต้องตาม Role
-            if (chosenRole === 'admin' || chosenRole === 'tech') {
+            if (finalRole === 'admin' || finalRole === 'tech') {
                 window.location.href = 'HomepageAddmin.html';
             } else {
                 window.location.href = 'HomepageCus.html';
