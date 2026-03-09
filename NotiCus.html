@@ -116,7 +116,7 @@
                         <h2 class="text-2xl font-bold text-white uppercase tracking-wide">แจ้งเตือนของคุณ</h2>
                         <p class="text-red-100 text-sm">อัปเดตสถานะคิวล่าสุด</p>
                     </div>
-                    <span id="notif-count" class="bg-white text-red-900 px-3 py-1 rounded-full font-bold text-sm cursor-pointer hover:bg-gray-100 transition" onclick="markAllAsRead()">กำลังโหลด...</span>
+                    <span id="notif-count" class="bg-white text-red-900 px-3 py-1 rounded-full font-bold text-sm transition">กำลังโหลด...</span>
                 </div>
             </div>
  
@@ -147,7 +147,6 @@
             if (userDataString) {
                 const userData = JSON.parse(userDataString);
                 
-                // ใส่ข้อมูลผู้ใช้ใน Navbar & Sidebar
                 const nameDisplay = document.getElementById('userNameDisplay');
                 if (nameDisplay) nameDisplay.innerText = `Hi, ${userData.name}`;
                 
@@ -167,7 +166,7 @@
                     if (sidebarPreview) sidebarPreview.src = profileUrl;
                 }
 
-                // ⭐️ โหลดข้อมูลแจ้งเตือนจริงของ User คนนี้
+                // โหลดข้อมูลแจ้งเตือน
                 loadRealNotifications(userData.name);
 
             } else {
@@ -213,7 +212,6 @@
         function loadRealNotifications(userName) {
             const allBookings = JSON.parse(localStorage.getItem('allBookings')) || [];
             
-            // กรองหาเฉพาะคิวที่เป็นของ User คนที่กำลังล็อกอิน
             const myBookings = allBookings.filter(b => b.customer_name === userName);
             
             const notifList = document.getElementById('notification-list');
@@ -225,13 +223,19 @@
                 notifList.classList.add('hidden');
                 emptyState.classList.remove('hidden');
                 notifCount.innerText = "0 ใหม่";
+                notifCount.classList.add('bg-gray-200', 'text-gray-500');
+                notifCount.classList.remove('bg-white', 'text-red-900', 'cursor-pointer', 'hover:bg-gray-100');
                 return;
             }
 
             emptyState.classList.add('hidden');
-            let html = '';
             
-            // เรียงลำดับจากล่าสุดไปเก่าสุด
+            // ดึงรายการประวัติการอ่านมาตรวจสอบ (บันทึกรหัสคิว + สถานะ)
+            const readNotifs = JSON.parse(localStorage.getItem('rabbitz_read_notifs')) || [];
+
+            let html = '';
+            let unreadCount = 0;
+            
             [...myBookings].reverse().forEach(booking => {
                 const dateObj = new Date(booking.date);
                 const dateStr = dateObj.toLocaleDateString('th-TH', { month: 'short', day: 'numeric' });
@@ -242,7 +246,6 @@
                 let bgIconColor = '';
                 let textIconColor = '';
 
-                // กำหนดเนื้อหาตาม Status จริง
                 if (booking.status === 'รอการยืนยัน' || booking.status === 'Pending Payment') {
                     title = 'จองคิวสำเร็จ (รอร้านยืนยัน)';
                     detail = `คิวทำเล็บวันที่ ${dateStr} เวลา ${booking.time} น. ระบบได้รับข้อมูลแล้ว รอแอดมินยืนยันสักครู่นะคะ`;
@@ -265,10 +268,20 @@
                     iconSVG = `<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>`;
                 }
 
-                // สร้าง HTML ของแต่ละแจ้งเตือน
+                // เช็คว่าสถานะนี้ของคิวนี้ อ่านไปหรือยัง
+                const notifUniqueKey = `${booking.id}_${booking.status}`;
+                const isRead = readNotifs.includes(notifUniqueKey);
+
+                if (!isRead) {
+                    unreadCount++;
+                }
+
+                const unreadBgClass = isRead ? 'bg-white' : 'bg-red-50/50';
+                const indicatorHtml = isRead ? '' : '<div class="notif-indicator absolute left-0 top-0 bottom-0 w-1 bg-red-900"></div>';
+
                 html += `
-                    <div class="notif-item p-5 border-b border-gray-100 hover:bg-gray-50 transition cursor-pointer relative bg-red-50/50" onclick="window.location.href='History.html'">
-                        <div class="notif-indicator absolute left-0 top-0 bottom-0 w-1 bg-red-900"></div>
+                    <div class="notif-item p-5 border-b border-gray-100 hover:bg-gray-50 transition cursor-pointer relative ${unreadBgClass}" onclick="window.location.href='History.html'">
+                        ${indicatorHtml}
                         <div class="flex items-start gap-4">
                             <div class="${bgIconColor} p-2 rounded-full ${textIconColor}">
                                 ${iconSVG}
@@ -286,24 +299,47 @@
             });
 
             notifList.innerHTML = html;
-            notifCount.innerText = `${myBookings.length} ใหม่ (อ่านทั้งหมด)`;
+
+            // จัดการแสดงผลปุ่มด้านบน
+            if (unreadCount > 0) {
+                notifCount.innerText = `${unreadCount} ใหม่ (อ่านทั้งหมด)`;
+                notifCount.classList.remove('bg-gray-200', 'text-gray-500');
+                notifCount.classList.add('bg-white', 'text-red-900', 'cursor-pointer', 'hover:bg-gray-100');
+                notifCount.onclick = markAllAsRead;
+            } else {
+                notifCount.innerText = "0 ใหม่";
+                notifCount.classList.add('bg-gray-200', 'text-gray-500');
+                notifCount.classList.remove('bg-white', 'text-red-900', 'cursor-pointer', 'hover:bg-gray-100');
+                notifCount.onclick = null; // ปิดการกดปุ่ม
+            }
         }
 
         // ==========================================
-        // ฟังก์ชันกดอ่านทั้งหมด
+        // ฟังก์ชันกดอ่านทั้งหมด (บันทึกข้อมูลแบบถาวร)
         // ==========================================
         function markAllAsRead() {
-            const count = document.getElementById('notif-count');
-            count.innerText = "0 ใหม่";
-            count.classList.replace('bg-white', 'bg-gray-200');
-            count.classList.replace('text-red-900', 'text-gray-500');
-           
-            const unreadItems = document.querySelectorAll('.notif-item');
-            unreadItems.forEach(item => {
-                item.classList.remove('bg-red-50/50');
-                const indicator = item.querySelector('.notif-indicator');
-                if(indicator) indicator.remove();
+            const userDataString = localStorage.getItem('rabbitz_currentUser');
+            if (!userDataString) return;
+            
+            const userData = JSON.parse(userDataString);
+            const allBookings = JSON.parse(localStorage.getItem('allBookings')) || [];
+            const myBookings = allBookings.filter(b => b.customer_name === userData.name);
+            
+            let readNotifs = JSON.parse(localStorage.getItem('rabbitz_read_notifs')) || [];
+            
+            // นำ ID คิว + Status ปัจจุบันทั้งหมดใส่ลงใน array การอ่าน
+            myBookings.forEach(b => {
+                const notifUniqueKey = `${b.id}_${b.status}`;
+                if (!readNotifs.includes(notifUniqueKey)) {
+                    readNotifs.push(notifUniqueKey);
+                }
             });
+            
+            // บันทึกการอ่านลง LocalStorage
+            localStorage.setItem('rabbitz_read_notifs', JSON.stringify(readNotifs));
+            
+            // สั่งโหลดหน้าจอใหม่เพื่อให้สีแดงหายไป
+            loadRealNotifications(userData.name);
         }
     </script>
 </body>
