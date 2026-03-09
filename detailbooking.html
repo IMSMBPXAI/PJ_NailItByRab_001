@@ -8,11 +8,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script>
         tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: { sans: ['Kanit', 'sans-serif'] },
-                    colors: { brand: { 900: '#7f1d1d' } }
-                }
+            theme: { 
+                extend: { 
+                    fontFamily: { sans: ['Kanit', 'sans-serif'] }, 
+                    colors: { brand: { 900: '#7f1d1d' } } 
+                } 
             }
         }
     </script>
@@ -28,7 +28,7 @@
                             <img src="logo rabbitz.svg" class="size-16 mr-3 bg-white rounded-full p-1" alt="Rabbitz Logo" onerror="this.src='https://ui-avatars.com/api/?name=Logo&background=fff&color=7f1d1d'"/>
                         </a>
 
-                        <div class="hidden md:block relative mr-4">
+                        <div class="hidden md:block relative mr-4"> 
                             <h1 class="text-white text-lg font-medium">NAIL IT BY RABBITZ สาขา มหาวิทยาลัยพะเยา</h1>
                         </div>
                     </div>
@@ -126,7 +126,7 @@
                 <a href="Booking.html" class="text-gray-600 bg-gray-100 hover:bg-gray-200 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-lg px-8 py-3 w-full sm:w-auto text-center transition">
                     กลับไปแก้ไข
                 </a>
-                <button onclick="confirmBooking()" class="text-white bg-red-900 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-lg px-10 py-3 w-full sm:w-auto text-center transition shadow-md">
+                <button onclick="confirmBooking(event)" class="text-white bg-red-900 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-lg px-10 py-3 w-full sm:w-auto text-center transition shadow-md">
                     ยืนยันและชำระมัดจำ
                 </button>
             </div>
@@ -134,116 +134,130 @@
     </div>
 
     <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-    const firebaseConfig = {
-        apiKey: "YOUR_API_KEY",
-        authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-        projectId: "YOUR_PROJECT_ID",
-        storageBucket: "YOUR_PROJECT_ID.appspot.com",
-        messagingSenderId: "YOUR_SENDER_ID",
-        appId: "YOUR_APP_ID"
-    };
+        // 1. นำข้อมูลจากโปรเจกต์ Firebase ของคุณมาใส่ตรงนี้
+        const firebaseConfig = {
+            apiKey: "YOUR_API_KEY",
+            authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+            projectId: "YOUR_PROJECT_ID",
+            storageBucket: "YOUR_PROJECT_ID.appspot.com",
+            messagingSenderId: "YOUR_SENDER_ID",
+            appId: "YOUR_APP_ID"
+        };
 
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
 
-    // --- โหลดข้อมูล User และแสดงบนหน้าจอ ---
-    document.addEventListener('DOMContentLoaded', () => {
-        const userDataString = localStorage.getItem('rabbitz_currentUser');
-        if (!userDataString) {
-            alert('กรุณาเข้าสู่ระบบก่อนใช้งานครับ');
-            window.location.href = 'Homepage.html';
-            return;
-        }
-        
-        const userData = JSON.parse(userDataString);
-        if (document.getElementById('userNameDisplay')) document.getElementById('userNameDisplay').innerText = `Hi, ${userData.name}`;
-        if (document.getElementById('userProfilePic')) {
-            document.getElementById('userProfilePic').src = userData.photoUrl || `https://ui-avatars.com/api/?name=${userData.name}&background=fff&color=7f1d1d&bold=true`;
-        }
-
-        // แสดงข้อมูลสรุป
-        const bookingDataStr = sessionStorage.getItem('bookingData');
-        const summaryContainer = document.getElementById('summary-content');
-
-        if (!bookingDataStr) {
-            summaryContainer.innerHTML = `<div class="text-center py-10"><p class="text-red-600 font-medium">ไม่พบข้อมูลการจอง</p></div>`;
-            return;
-        }
-
-        const data = JSON.parse(bookingDataStr);
-        const formattedDate = new Date(data.date).toLocaleDateString('th-TH', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
-
-        let imagesHtml = '';
-        if (data.images && data.images.length > 0) {
-            imagesHtml = `
-                <div class="mb-6"><p class="text-sm text-gray-500 mb-2 border-b pb-2">รูปภาพอ้างอิง</p>
-                <div class="flex gap-3 flex-wrap mt-3">
-                    ${data.images.map(img => `<img src="${img}" class="w-24 h-24 object-cover rounded-lg shadow-sm">`).join('')}
-                </div></div>`;
-        }
-
-        summaryContainer.innerHTML = `
-            <div class="bg-red-50 p-6 rounded-xl border border-red-100 mb-6">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div><p class="text-sm text-gray-500 mb-1">วันที่นัดหมาย</p><p class="font-semibold text-xl text-red-900">${formattedDate}</p></div>
-                    <div><p class="text-sm text-gray-500 mb-1">เวลานัดหมาย</p><p class="font-semibold text-xl text-red-900">${data.time}</p></div>
-                </div>
-            </div>
-            <div class="px-2">
-                <div class="mb-6"><p class="text-sm text-gray-500 mb-2 border-b pb-2">บริการที่เลือก</p>
-                    <ul class="font-medium space-y-2 mt-3">${data.services.map(s => `<li>✓ ${s}</li>`).join('')}</ul>
-                </div>
-                ${imagesHtml}
-                <div class="mb-6"><p class="text-sm text-gray-500 mb-2 border-b pb-2">รายละเอียดเพิ่มเติม</p>
-                    <div class="bg-gray-50 p-4 rounded-lg min-h-[60px]">${data.details ? data.details.replace(/\n/g, '<br>') : 'ไม่มี'}</div>
-                </div>
-            </div>`;
-    });
-
-    window.handleLogout = function() {
-        if(confirm('ต้องการออกจากระบบใช่หรือไม่?')) {
-            localStorage.removeItem('rabbitz_currentUser');
-            window.location.href = 'Homepage.html';
-        }
-    };
-
-    // ⭐️ ยิงข้อมูลขึ้น Firebase Firestore
-    window.confirmBooking = async function() {
-        const bookingDataStr = sessionStorage.getItem('bookingData');
-        if(!bookingDataStr) return alert('ไม่พบข้อมูลการจอง');
-        
-        const btn = event.currentTarget;
-        btn.innerText = "กำลังบันทึก...";
-        btn.disabled = true;
-
-        const bookingData = JSON.parse(bookingDataStr);
-        bookingData.status = 'Pending Payment';
-        bookingData.createdAt = new Date().toISOString();
-
-        try {
-            // โยนเข้า Collection ชื่อ "bookings" ใน Firebase
-            const docRef = await addDoc(collection(db, "bookings"), bookingData);
+        // --- โหลดข้อมูล User และแสดงบนหน้าจอ ---
+        document.addEventListener('DOMContentLoaded', () => {
+            const userDataString = localStorage.getItem('rabbitz_currentUser');
+            if (!userDataString) {
+                alert('กรุณาเข้าสู่ระบบก่อนใช้งานครับ');
+                window.location.href = 'Homepage.html';
+                return;
+            }
             
-            // เก็บ ID ของ Firebase ไว้ส่งไปหน้า Payment
-            bookingData.firebaseId = docRef.id;
-            sessionStorage.setItem('bookingData', JSON.stringify(bookingData));
-            
-            window.location.href = 'Payment.html'; 
-        } catch (error) {
-            console.error("Error adding document: ", error);
-            alert("เกิดข้อผิดพลาดในการจองคิว กรุณาลองใหม่อีกครั้ง");
-            btn.innerText = "ยืนยันและชำระมัดจำ";
-            btn.disabled = false;
-        }
-    };
+            const userData = JSON.parse(userDataString);
+            if (document.getElementById('userNameDisplay')) document.getElementById('userNameDisplay').innerText = `Hi, ${userData.name}`;
+            if (document.getElementById('userProfilePic')) {
+                document.getElementById('userProfilePic').src = userData.photoUrl || `https://ui-avatars.com/api/?name=${userData.name}&background=fff&color=7f1d1d&bold=true`;
+            }
 
-    // ระบบ Sidebar
-    document.getElementById('menuBtn').addEventListener('click', () => { document.getElementById('sidebar').classList.remove('translate-x-full'); document.getElementById('overlay').classList.remove('hidden'); });
-    document.getElementById('closeBtn').addEventListener('click', () => { document.getElementById('sidebar').classList.add('translate-x-full'); document.getElementById('overlay').classList.add('hidden'); });
-    document.getElementById('overlay').addEventListener('click', () => { document.getElementById('sidebar').classList.add('translate-x-full'); document.getElementById('overlay').classList.add('hidden'); });
-</script>
+            // แสดงข้อมูลสรุป
+            const bookingDataStr = sessionStorage.getItem('bookingData');
+            const summaryContainer = document.getElementById('summary-content');
+
+            if (!bookingDataStr) {
+                summaryContainer.innerHTML = `<div class="text-center py-10"><p class="text-red-600 font-medium">ไม่พบข้อมูลการจอง</p><p class="text-gray-500 mt-2">กรุณากลับไปทำรายการที่หน้าจองคิวใหม่อีกครั้ง</p></div>`;
+                return;
+            }
+
+            const data = JSON.parse(bookingDataStr);
+            const formattedDate = new Date(data.date).toLocaleDateString('th-TH', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+
+            let imagesHtml = '';
+            if (data.images && data.images.length > 0) {
+                imagesHtml = `
+                    <div class="mb-6"><p class="text-sm text-gray-500 mb-2 border-b pb-2">รูปภาพอ้างอิง</p>
+                    <div class="flex gap-3 flex-wrap mt-3">
+                        ${data.images.map(img => `<img src="${img}" class="w-24 h-24 object-cover rounded-lg shadow-sm hover:scale-105 transition duration-300">`).join('')}
+                    </div></div>`;
+            }
+
+            summaryContainer.innerHTML = `
+                <div class="bg-red-50 p-6 rounded-xl border border-red-100 mb-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div><p class="text-sm text-gray-500 mb-1">วันที่นัดหมาย</p><p class="font-semibold text-xl text-red-900">${formattedDate}</p></div>
+                        <div><p class="text-sm text-gray-500 mb-1">เวลานัดหมาย</p><p class="font-semibold text-xl text-red-900">${data.time}</p></div>
+                    </div>
+                </div>
+                <div class="px-2">
+                    <div class="mb-6"><p class="text-sm text-gray-500 mb-2 border-b pb-2">บริการที่เลือก</p>
+                        <ul class="font-medium text-gray-800 space-y-2 mt-3">${data.services.map(s => `<li class="flex items-center"><svg class="w-4 h-4 text-green-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>${s}</li>`).join('')}</ul>
+                    </div>
+                    ${imagesHtml}
+                    <div class="mb-6"><p class="text-sm text-gray-500 mb-2 border-b pb-2">รายละเอียดเพิ่มเติม</p>
+                        <div class="bg-gray-50 text-gray-800 p-4 rounded-lg border border-gray-100 min-h-[60px]">${data.details ? data.details.replace(/\n/g, '<br>') : '<span class="text-gray-400 italic">ไม่มีการระบุรายละเอียดเพิ่มเติม</span>'}</div>
+                    </div>
+                </div>`;
+        });
+
+        window.handleLogout = function() {
+            if(confirm('ต้องการออกจากระบบใช่หรือไม่?')) {
+                localStorage.removeItem('rabbitz_currentUser');
+                window.location.href = 'Homepage.html';
+            }
+        };
+
+        // ⭐️ ฟังก์ชันยิงข้อมูลขึ้น Firebase Firestore
+        window.confirmBooking = async function(event) {
+            const bookingDataStr = sessionStorage.getItem('bookingData');
+            if(!bookingDataStr) {
+                alert('ไม่พบข้อมูลการจอง กรุณาทำรายการใหม่');
+                return;
+            }
+            
+            // เปลี่ยนข้อความปุ่มระหว่างโหลด
+            const btn = event.currentTarget;
+            btn.innerText = "กำลังบันทึกข้อมูล...";
+            btn.disabled = true;
+            btn.classList.add('opacity-75', 'cursor-not-allowed');
+
+            const bookingData = JSON.parse(bookingDataStr);
+            bookingData.status = 'Pending Payment'; // รอการชำระเงิน
+            bookingData.createdAt = new Date().toISOString(); // เวลาที่กดจอง
+
+            try {
+                // โยนเข้า Collection ชื่อ "bookings" ใน Firebase
+                const docRef = await addDoc(collection(db, "bookings"), bookingData);
+                
+                // เก็บ ID ของเอกสารบน Firebase ไว้ส่งไปหน้า Payment
+                bookingData.firebaseId = docRef.id;
+                sessionStorage.setItem('bookingData', JSON.stringify(bookingData));
+                
+                window.location.href = 'Payment.html';
+            } catch (error) {
+                console.error("Error adding document: ", error);
+                alert("เกิดข้อผิดพลาดในการจองคิวบนเซิร์ฟเวอร์ กรุณาลองใหม่อีกครั้งครับ");
+                
+                // คืนค่าปุ่มให้กลับมากดได้ใหม่
+                btn.innerText = "ยืนยันและชำระมัดจำ";
+                btn.disabled = false;
+                btn.classList.remove('opacity-75', 'cursor-not-allowed');
+            }
+        };
+
+        // ระบบ Sidebar
+        const menuBtn = document.getElementById('menuBtn');
+        const closeBtn = document.getElementById('closeBtn');
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('overlay');
+
+        if(menuBtn) menuBtn.addEventListener('click', () => { sidebar.classList.remove('translate-x-full'); overlay.classList.remove('hidden'); });
+        if(closeBtn) closeBtn.addEventListener('click', () => { sidebar.classList.add('translate-x-full'); overlay.classList.add('hidden'); });
+        if(overlay) overlay.addEventListener('click', () => { sidebar.classList.add('translate-x-full'); overlay.classList.add('hidden'); });
+    </script>
 </body>
 </html>
