@@ -1,6 +1,6 @@
 # 💅 Nail It by Rabbitz - Nail Salon Booking System
 
-![Project Status](https://img.shields.io/badge/Status-In_Progress-orange)
+![Project Status](https://img.shields.io/badge/Status-Success-green)
 ![Course](https://img.shields.io/badge/Course-Software_Requirements-blue)
 
 ระบบเว็บไซต์จองคิวร้านทำเล็บเจล **Nail It by Rabbitz (สาขาหน้ามหาวิทยาลัยพะเยา)** พัฒนาขึ้นเพื่อแก้ปัญหาการจัดการคิวแบบ Manual ลดความผิดพลาดจากการรับคิวซ้อน (Double Booking) และยกระดับประสบการณ์การจองของลูกค้าให้สะดวก รวดเร็ว แบบ End-to-End
