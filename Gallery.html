@@ -3,51 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gallery</title>
+    <title>Gallery - NAIL IT BY RABBITZ</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
     <style>
-        /* ตั้งค่าให้ทั้งหน้าเว็บใช้ฟอนต์ Kanit */
-        body {
-            font-family: 'Kanit', sans-serif;
-        }
+        body { font-family: 'Kanit', sans-serif; }
     </style>
 </head>
-<body>
+<body class="bg-gray-50">
     <header>
         <nav class="border-b border-red-900 px-4 py-2.5 fixed left-0 right-0 top-0 z-50 bg-red-900 w-full">
             <div class="flex flex-wrap items-center justify-between mx-auto max-w-[1600px]">
                 
                 <div class="flex items-center justify-start">
-                    <a href="#" class="flex items-center mr-6">
-                        <img src="logo rabbitz.svg" class="size-16 mr-3 bg-white rounded-full p-1" alt="Rabbitz Logo" />
+                    <a href="HomepageCus.html" class="flex items-center mr-6">
+                        <img src="logo rabbitz.svg" class="size-16 mr-3 bg-white rounded-full p-1" alt="Rabbitz Logo" onerror="this.src='https://ui-avatars.com/api/?name=Logo&background=fff&color=7f1d1d'"/>
                     </a>
-
+    
                     <div class="hidden md:block relative mr-4"> 
                         <h1 class="text-white text-lg font-medium">NAIL IT BY RABBITZ สาขา มหาวิทยาลัยพะเยา</h1>
                     </div>
                 </div>
-
+    
                 <div class="flex items-center gap-6">
-                    <ul class="hidden lg:flex flex-row space-x-6 text-sm font-medium text-white">
-                        <li><a href="#" class="hover:text-red-200 transition">Homepage</a></li>
+                    <ul class="hidden lg:flex flex-row space-x-6 text-sm font-medium text-white items-center">
+                        <li><a href="HomepageCus.html" class="hover:text-red-200 transition">Homepage</a></li>
                         <li class="w-px h-5 bg-white/30"></li>
-                        <li><a href="#" class="hover:text-red-200 transition">Gallery</a></li>
+                        <li><a href="Gallery.html" class="text-red-200 transition">Gallery</a></li>
                         <li class="w-px h-5 bg-white/30"></li>
-                        <li><a href="#" class="hover:text-red-200 transition">List</a></li>
+                        <li><a href="Contact.html" class="hover:text-red-200 transition">Contact</a></li>
                         <li class="w-px h-5 bg-white/30"></li>
-                        <li><a href="#" class="hover:text-red-200 transition">Booking</a></li>
+                        <li><a href="Booking.html" class="hover:text-red-200 transition">Booking</a></li>
                     </ul>
                     
                     <div class="hidden lg:block w-px h-6 bg-white/30 mx-2"></div>
-
+    
                     <div class="flex items-center space-x-4">
-                        
-                        <button type="button" class="relative p-2 text-white hover:bg-white/10 rounded-full transition focus:outline-none">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <span id="userNameDisplay" class="text-white text-sm font-medium hidden md:block">Loading...</span>
+    
+                        <button type="button" onclick="window.location.href='NotiCus.html'" class="relative p-2 text-white hover:bg-white/10 rounded-full transition focus:outline-none">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
                             </svg>
                             <span class="absolute top-2 right-2 flex h-3 w-3">
@@ -55,57 +53,62 @@
                                 <span class="relative inline-flex rounded-full h-3 w-3 bg-yellow-400 border-2 border-red-900"></span>
                             </span>
                         </button>
-
+    
                         <button type="button" class="flex text-sm bg-white rounded-full focus:ring-4 focus:ring-red-700 overflow-hidden size-10 border-2 border-white/20 shadow-sm transition hover:scale-105">
-                            <img class="w-full h-full object-cover" src="https://ui-avatars.com/api/?name=User&background=random" alt="User Profile">
+                            <img id="userProfilePic" class="w-full h-full object-cover" src="https://ui-avatars.com/api/?name=User&background=fff&color=7f1d1d" alt="User Profile">
                         </button>
-
-                    </div>
-                    <div class="flex items-center gap-4 border-l border-white/30 pl-6">
-                        <button id="menuBtn" class="text-white hover:bg-white/10 p-2 rounded-lg transition">
-                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                            </svg>
-                        </button>
+    
+                        <button onclick="handleLogout()" class="text-xs text-white underline hover:text-red-200 ml-2 hidden lg:block">Log out</button>
+    
+                        <div class="flex items-center gap-4 border-l border-white/30 pl-6">
+                            <button id="menuBtn" class="text-white hover:bg-white/10 p-2 rounded-lg transition focus:outline-none">
+                                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                                </svg>
+                            </button>
+                        </div>
                     </div>
                 </div>
-
             </div>
         </nav>
-        
+    
         <div id="sidebar" class="fixed top-0 right-0 h-full w-72 bg-gradient-to-b from-[#801919] to-[#5d1212] z-[100] transform translate-x-full transition-transform duration-300 ease-in-out shadow-2xl rounded-l-[3rem]">
             <div class="p-8 flex flex-col items-center">
-                <button id="closeBtn" class="self-end text-white mb-4">
-                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                <button id="closeBtn" class="self-end text-white mb-2 hover:scale-110 transition">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
                 </button>
-                <button type="button" class="flex text-sm bg-white rounded-full focus:ring-40 overflow-hidden size-49 border-2 border-white/20 shadow-sm ">
-                    <img class="w-full h-full object-cover" src="https://ui-avatars.com/api/?name=User&background=random" alt="User Profile">
-                </button>
-            </div>
-
-            <div class="px-6 py-4">
-                <div class="bg-white/90 rounded-[2rem] p-6 space-y-3 text-center shadow-lg">
-                    <a href="addminSetting.html" class="block text-[#801919] font-bold hover:scale-105 transition uppercase tracking-wider text-medium">Setting</a>
-                    <hr class="border-[#801919]/20 w-1/2 mx-auto">
-                    <a href="#" class="block text-[#801919] font-bold hover:scale-105 transition uppercase tracking-wider text-medium">My Booking & History</a>
+                
+                <div class="flex flex-col items-center mb-6">
+                    <div class="size-24 bg-white rounded-full p-1 shadow-xl overflow-hidden border-2 border-white/30 mb-3">
+                        <img id="userProfilePicSidebar" class="w-full h-full object-cover rounded-full" src="https://ui-avatars.com/api/?name=User&background=fff&color=7f1d1d" alt="User Profile">
+                    </div>
+                    <p id="sidebarUserNameDisplay" class="text-white font-bold text-lg uppercase tracking-wide">Loading...</p>
                 </div>
             </div>
-
+    
+            <div class="px-6">
+                <div class="bg-gray-100/95 rounded-[2.5rem] p-8 space-y-6 text-center shadow-lg">
+                    <a href="Accountsetting.html" class="block text-[#801919] font-bold hover:text-red-700 transition uppercase tracking-widest text-sm border-b border-[#801919]/10 pb-4">Setting</a>
+                    <a href="History.html" class="block text-[#801919] font-bold hover:text-red-700 transition uppercase tracking-widest text-sm">My Booking & History</a>
+                </div>
+            </div>
+            
             <div class="absolute bottom-12 left-0 right-0 px-10 text-center">
-                <button class="w-full border-2 border-white text-white py-2 rounded-full font-bold uppercase text-medium hover:bg-white hover:text-[#801919] transition">
+                <button onclick="handleLogout()" class="w-full border-2 border-white text-white py-2 rounded-full font-bold uppercase text-sm hover:bg-white hover:text-[#801919] transition">
                     Sign out
                 </button>
             </div>
         </div>
-
-        <div id="overlay" class="fixed inset-0 bg-black/40 z-[90] hidden"></div>
+        <div id="overlay" class="fixed inset-0 bg-black/40 z-[90] hidden transition-opacity duration-300 opacity-0"></div>
     </header>
         
-    <main class="pt-24 pb-12 max-w-4xl mx-auto px-4">
+    <main class="pt-28 pb-12 max-w-4xl mx-auto px-4">
         <div class="max-w-[1600px] mx-auto px-4 py-8">
-            <h1 class="text-3xl font-bold text-center text-[#800000] mb-8">Gallery</h1>
+            <h1 class="text-3xl font-bold text-center text-[#800000] mb-8">Gallery Management</h1>
             <div class="relative rounded-2xl overflow-hidden mb-8 shadow-lg">
-                <img src="pic/613027901_1331443012336595_6896879974426628931_n.jpg" class="w-full h-[300px] object-cover" alt="Promotion">
+                <img src="pic/613027901_1331443012336595_6896879974426628931_n.jpg" class="w-full h-[300px] object-cover" alt="Promotion" onerror="this.src='https://via.placeholder.com/800x300?text=Promotion'">
                 <div class="absolute bottom-4 left-6 text-white shadow-2xl p-2 rounded bg-black/40 backdrop-blur-sm">
                     <h2 class="font-bold">PROMOTION</h2>
                     <p class="text-xs">NAIL IT BY RABBITZ สาขา มหาวิทยาลัยพะเยา</p>
@@ -124,22 +127,90 @@
         <div id="galleryGrid" class="grid grid-cols-3 gap-6 mb-10">
             <div id="addBtn" class="relative aspect-square bg-[#E5E1E1] rounded-[30px] overflow-hidden flex items-center justify-center cursor-pointer hover:shadow-lg transition-all group">
                 <input type="file" id="imageInput" class="hidden" accept="image/*" multiple>
-                <img src="pic/617032545_1344062771074619_1246152938556010655_n.jpg" class="absolute inset-0 w-full h-full object-cover opacity-50 pointer-events-none">
+                <img src="pic/617032545_1344062771074619_1246152938556010655_n.jpg" class="absolute inset-0 w-full h-full object-cover opacity-50 pointer-events-none" onerror="this.src='https://via.placeholder.com/150'">
                 <span class="relative z-10 text-[#4A0000] text-6xl font-light">+</span>
             </div>
-            </div>
+        </div>
 
         <div id="paginationContainer" class="flex justify-center items-center gap-4 mt-8 mb-8">
-            </div>
-
+        </div>
     </main>
 
-    <footer class="text-center py-4 text-[10px] text-[#800000] border-t border-black">
+    <footer class="text-center py-4 text-[10px] text-[#800000] border-t border-gray-300">
         NAIL IT BY RABBITZ สาขามหาวิทยาลัยพะเยา
     </footer>
     
     <script>
-        // ข้อมูลรูปภาพเริ่มต้น
+        // ==========================================
+        // ส่วนจัดการ Session User และ UI 
+        // ==========================================
+        document.addEventListener('DOMContentLoaded', () => {
+            const userDataString = localStorage.getItem('rabbitz_currentUser');
+            
+            if (userDataString) {
+                const userData = JSON.parse(userDataString);
+                
+                const nameDisplay = document.getElementById('userNameDisplay');
+                if (nameDisplay) nameDisplay.innerText = `Hi, ${userData.name}`;
+
+                const sidebarNameDisplay = document.getElementById('sidebarUserNameDisplay');
+                if (sidebarNameDisplay) sidebarNameDisplay.innerText = `Hi, ${userData.name}`;
+                
+                const profileUrl = userData.photoUrl || `https://ui-avatars.com/api/?name=${encodeURIComponent(userData.name)}&background=fff&color=7f1d1d&bold=true`;
+                
+                const profilePicNav = document.getElementById('userProfilePic');
+                const profilePicSidebar = document.getElementById('userProfilePicSidebar');
+                
+                const savedPic = localStorage.getItem('savedProfilePic');
+                if (savedPic) {
+                    if (profilePicNav) profilePicNav.src = savedPic;
+                    if (profilePicSidebar) profilePicSidebar.src = savedPic;
+                } else {
+                    if (profilePicNav) profilePicNav.src = profileUrl;
+                    if (profilePicSidebar) profilePicSidebar.src = profileUrl;
+                }
+            } else {
+                alert('กรุณาเข้าสู่ระบบก่อนใช้งานครับ');
+                window.location.href = 'index.html';
+            }
+
+            // --- ส่วนควบคุมการเปิด-ปิด Sidebar ---
+            const menuBtn = document.getElementById('menuBtn');
+            const closeBtn = document.getElementById('closeBtn');
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('overlay');
+
+            function toggleMenu() {
+                const isOpen = !sidebar.classList.contains('translate-x-full');
+                if (!isOpen) {
+                    sidebar.classList.remove('translate-x-full');
+                    overlay.classList.remove('hidden');
+                    setTimeout(() => overlay.classList.add('opacity-100'), 10);
+                } else {
+                    sidebar.classList.add('translate-x-full');
+                    overlay.classList.remove('opacity-100');
+                    setTimeout(() => overlay.classList.add('hidden'), 300);
+                }
+            }
+
+            if(menuBtn) menuBtn.addEventListener('click', toggleMenu);
+            if(closeBtn) closeBtn.addEventListener('click', toggleMenu);
+            if(overlay) overlay.addEventListener('click', toggleMenu);
+
+            renderGallery();
+        });
+
+        function handleLogout() {
+            if(confirm('ต้องการออกจากระบบใช่หรือไม่?')) {
+                localStorage.removeItem('rabbitz_currentUser');
+                localStorage.removeItem('savedProfilePic');
+                window.location.href = 'index.html';
+            }
+        }
+
+        // ==========================================
+        // ส่วนจัดการฟังก์ชัน Gallery (เรียง/เพิ่ม/ลบ)
+        // ==========================================
         let images = JSON.parse(localStorage.getItem('rabbitz_gallery')) || [
             "pic/617032545_1344062771074619_1246152938556010655_n.jpg",
             "pic/633932142_1362916385855924_282871075612265257_n.jpg",
@@ -148,30 +219,17 @@
             "pic/637144201_1365693598911536_5126569838382212738_n.jpg",
             "pic/637349459_1365695622244667_2662039558123424415_n.jpg",
             "pic/490476818_1110586974422201_6270697783765503633_n.jpg",
-            "pic/495703403_1134734932007405_5326898256585780220_n.jpg",
-            "pic/511032408_1168803168600581_3208422786457523597_n.jpg",
-            "pic/539777209_1220247906789440_5999770783096744961_n.jpg",
-            "pic/541656025_1225856676228563_1605876038283017915_n.jpg",
-            "pic/543160509_1225864926227738_4532955836967550676_n.jpg",
-            "pic/559161820_1274448781369352_8852201499828564244_n.jpg",
-            "pic/601956313_1319492430198320_7052164193354462207_n.jpg",
-            "pic/618016409_1344054654408764_5231712140971278326_n.jpg",
-            "pic/490293883_1114039417410290_142180983519165611_n.jpg",
-            "pic/491233168_1115249853955913_1411240104245433543_n.jpg",
-            "pic/490813556_1114522994028599_2667923074285814298_n.jpg",
-            "pic/490738988_1114350210712544_405781385674706879_n.jpg"
+            "pic/495703403_1134734932007405_5326898256585780220_n.jpg"
         ];
 
         let currentPage = 1;
-        const itemsPerPage = 5; // แสดงหน้าละ 5 รูป (บวกปุ่มบวกอีก 1 เป็น 6 ช่อง)
+        const itemsPerPage = 5; 
 
         const galleryGrid = document.getElementById('galleryGrid');
         const imageInput = document.getElementById('imageInput');
         const addBtn = document.getElementById('addBtn');
 
-        // 1. ฟังก์ชันแสดงผล Gallery
         function renderGallery() {
-            // ล้างรูปเก่าออกยกเว้นปุ่มบวก
             const oldImages = galleryGrid.querySelectorAll('.gallery-item');
             oldImages.forEach(img => img.remove());
 
@@ -185,7 +243,7 @@
                 container.className = "gallery-item group relative aspect-square rounded-[30px] shadow-md border-2 border-white overflow-hidden cursor-move transition-transform hover:scale-[1.02]";
                 container.innerHTML = `
                     <img src="${src}" class="w-full h-full object-cover" onerror="this.src='https://via.placeholder.com/150'">
-                    <button onclick="deleteImage(${actualIndex})" class="absolute top-2 right-2 bg-red-600/90 text-white w-8 h-8 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity z-20">
+                    <button onclick="deleteImage(${actualIndex})" class="absolute top-2 right-2 bg-red-600/90 text-white w-8 h-8 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity z-20 hover:scale-110">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
                     </button>
                 `;
@@ -195,33 +253,31 @@
             updatePagination();
         }
 
-        // 2. ฟังก์ชันจัดการเลขหน้า
         function updatePagination() {
             const container = document.getElementById('paginationContainer');
             const totalPages = Math.max(1, Math.ceil(images.length / itemsPerPage));
             container.innerHTML = '';
 
-            for (let i = 1; i <= totalPages + 1; i++) { // +1 หน้าเผื่อไว้เพิ่มรูปใหม่ข้ามหน้า
+            for (let i = 1; i <= totalPages + 1; i++) { 
                 const btn = document.createElement('button');
                 btn.innerText = i;
                 if (i === currentPage) {
-                    btn.className = "w-8 h-8 flex items-center justify-center rounded-full bg-[#800000] text-white text-sm font-medium shadow-md transition duration-300";
+                    btn.className = "w-8 h-8 flex items-center justify-center rounded-full bg-[#800000] text-white text-sm font-medium shadow-md transition duration-300 outline-none";
                 } else {
-                    btn.className = "w-8 h-8 flex items-center justify-center rounded-full bg-white text-[#800000] border border-[#800000] text-sm font-medium hover:bg-red-50 transition duration-300";
+                    btn.className = "w-8 h-8 flex items-center justify-center rounded-full bg-white text-[#800000] border border-[#800000] text-sm font-medium hover:bg-red-50 transition duration-300 cursor-pointer outline-none";
                 }
                 btn.onclick = () => { currentPage = i; renderGallery(); };
                 container.appendChild(btn);
             }
         }
 
-        // 3. ระบบเพิ่มรูป
         addBtn.onclick = () => imageInput.click();
         imageInput.onchange = function() {
             const files = Array.from(this.files);
             files.forEach(file => {
                 const reader = new FileReader();
                 reader.onload = (e) => {
-                    images.push(e.target.result); // เพิ่มรูปใหม่ไปต่อท้ายสุด
+                    images.push(e.target.result); 
                     localStorage.setItem('rabbitz_gallery', JSON.stringify(images));
                     renderGallery();
                 };
@@ -229,13 +285,11 @@
             });
         };
 
-        // 4. ระบบลบรูป
         window.deleteImage = function(index) {
             if (confirm('ลบรูปภาพนี้ใช่ไหมคะ?')) {
                 images.splice(index, 1);
                 localStorage.setItem('rabbitz_gallery', JSON.stringify(images));
                 
-                // ถ้ารูปในหน้าปัจจุบันหมด ให้ถอยกลับไป 1 หน้า
                 if (images.length > 0 && currentPage > Math.ceil(images.length / itemsPerPage)) {
                     currentPage--;
                 }
@@ -243,13 +297,11 @@
             }
         }
 
-        // 5. ระบบลากวางสลับรูป
         new Sortable(galleryGrid, {
             animation: 150,
             draggable: ".gallery-item",
             onEnd: function (evt) {
                 const start = (currentPage - 1) * itemsPerPage;
-                // คำนวณ Index ใหม่ใน Array (ลบ 1 เพราะปุ่มบวกอยู่ที่ index 0 ใน DOM)
                 const oldIdx = evt.oldIndex - 1 + start;
                 const newIdx = evt.newIndex - 1 + start;
 
@@ -259,9 +311,6 @@
                 localStorage.setItem('rabbitz_gallery', JSON.stringify(images));
             }
         });
-
-        // สั่งให้ทำงานทันทีเมื่อโหลดหน้าเว็บ
-        renderGallery();
     </script>
 </body>
 </html>
