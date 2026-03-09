@@ -732,25 +732,54 @@ const staticServices = [
 // 2. ฟังก์ชันดึงข้อมูลบริการทั้งหมดมาแสดงในหน้า Admin
 function fetchContent() {
     const listContainer = document.getElementById('servicesList');
-    // ดึงข้อมูลบริการที่เพิ่มใหม่จาก Storage
     const dynamicServices = JSON.parse(localStorage.getItem(LOCAL_STORAGE_CONTENT_KEY)) || [];
     const currentUser = JSON.parse(localStorage.getItem('rabbitz_currentUser')) || {};
     const isOwner = currentUser.role === 'admin';
     
     listContainer.innerHTML = '';
 
-    // ส่วนที่ 1: แสดงบริการหลัก (Static) - แก้ไข/ลบไม่ได้
+    // สร้างส่วนแสดงผล "บริการหลัก" (แยกกลุ่มเพื่อให้ดูง่าย)
+    let staticHtml = `<div class="mb-4"><p class="text-[10px] font-bold text-gray-400 mb-2 uppercase tracking-widest">— บริการหลักของร้าน (ถาวร) —</p>`;
     staticServices.forEach(item => {
-        listContainer.innerHTML += `
-            <div class="flex justify-between items-center border border-gray-100 p-4 rounded-xl bg-gray-50 shadow-sm mb-2 opacity-80">
+        staticHtml += `
+            <div class="flex justify-between items-center border border-gray-100 p-3 rounded-xl bg-gray-50/50 mb-2 opacity-70">
                 <div class="flex-1">
-                    <p class="font-bold text-sm text-gray-600">${item.name} <span class="text-[9px] bg-gray-200 px-1 rounded ml-1 text-gray-500 font-normal">บริการหลัก</span></p>
-                    <p class="text-[10px] text-gray-400 my-1">${item.detail}</p>
-                    <p class="text-xs text-gray-500 font-bold">${item.price.toLocaleString()} BATH</p>
+                    <p class="font-bold text-xs text-gray-600">${item.name}</p>
+                    <p class="text-xs text-gray-500 font-bold">${item.price.toLocaleString()} ฿</p>
                 </div>
-                <span class="text-[10px] text-gray-400 font-bold italic">ระบบถาวร</span>
+                <span class="text-[9px] text-gray-400 font-bold italic">System</span>
             </div>`;
     });
+    staticHtml += `</div>`;
+
+    // สร้างส่วนแสดงผล "บริการที่เพิ่มใหม่"
+    let dynamicHtml = `<div class="mt-6"><p class="text-[10px] font-bold text-red-900 mb-2 uppercase tracking-widest">— บริการที่เพิ่มใหม่ (จัดการได้) —</p>`;
+    
+    if (dynamicServices.length === 0) {
+        dynamicHtml += `<p class="text-center text-gray-400 text-xs py-4">ยังไม่มีบริการที่เพิ่มใหม่</p>`;
+    } else {
+        [...dynamicServices].reverse().forEach(item => {
+            let deleteBtn = isOwner ? `
+                <button onclick="deleteContent(${item.id})" class="text-red-500 hover:text-red-700 p-1 transition-colors" title="ลบรายการ">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                </button>` : '';
+
+            dynamicHtml += `
+                <div class="flex justify-between items-center border border-red-100 p-3 rounded-xl bg-white shadow-sm mb-2 hover:border-red-300 transition-all group">
+                    <div class="flex-1">
+                        <p class="font-bold text-sm text-red-900">${item.name}</p>
+                        <p class="text-[10px] text-gray-500 truncate max-w-[150px]">${item.detail || 'ไม่มีรายละเอียด'}</p>
+                        <p class="text-xs text-green-700 font-bold">${Number(item.price).toLocaleString()} ฿</p>
+                    </div>
+                    ${deleteBtn}
+                </div>`;
+        });
+    }
+    dynamicHtml += `</div>`;
+
+    // รวมทั้งสองส่วนเข้าด้วยกัน
+    listContainer.innerHTML = staticHtml + dynamicHtml;
+}
 
     // ส่วนที่ 2: แสดงบริการที่เพิ่มใหม่ (Dynamic) - จัดการได้
     if (dynamicServices.length > 0) {
@@ -771,7 +800,6 @@ function fetchContent() {
                 </div>`;
         });
     }
-}
 
 // 3. ฟังก์ชันเพิ่มบริการ (คงเดิมตามระบบที่เชื่อมต่อไว้)
 function addServiceContent() {
