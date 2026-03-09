@@ -298,7 +298,7 @@
         // ใช้ Local Storage ของจริงร่วมกับระบบของลูกค้า
         const LOCAL_STORAGE_KEY = 'allBookings'; 
         const LOCAL_STORAGE_ROLES_KEY = 'rabbitz_roles';
-        const LOCAL_STORAGE_CONTENT_KEY = 'rabbitz_content';
+        const LOCAL_STORAGE_CONTENT_KEY = 'rabbitz_content'; 
 
         function adminLogout() {
             if(confirm('ต้องการออกจากระบบหลังร้าน ใช่หรือไม่?')) {
@@ -726,34 +726,78 @@ function initLocalStorage() {
 // 2. ปรับการแสดงรายการบริการให้ดึงข้อมูลจริง
 function fetchContent() {
     const listContainer = document.getElementById('servicesList');
-    // ดึงข้อมูลบริการจาก Storage
+    // ดึงข้อมูลจาก Storage (ถ้าไม่มีให้เป็นอาเรย์ว่าง)
     const storedContent = JSON.parse(localStorage.getItem(LOCAL_STORAGE_CONTENT_KEY)) || [];
-    const currentUser = JSON.parse(localStorage.getItem('rabbitz_currentUser')) || {};
-    const isOwner = currentUser.role === 'admin';
     
     listContainer.innerHTML = '';
     
     if (storedContent.length === 0) {
-        listContainer.innerHTML = `<p class="text-center text-gray-400 text-sm mt-4 italic">ยังไม่มีบริการใหม่ที่เพิ่มเข้าไป</p>`;
+        listContainer.innerHTML = `<p class="text-center text-gray-400 text-sm mt-4 italic">ยังไม่มีรายการบริการในระบบ</p>`;
         return;
     }
 
-    // เรียงเอาอันใหม่ขึ้นก่อน
+    // แสดงรายการทั้งหมด (เรียงจากใหม่ไปเก่า)
     [...storedContent].reverse().forEach(item => {
-        let deleteBtn = isOwner ? `<button onclick="deleteContent(${item.id})" class="text-red-500 hover:text-white hover:bg-red-500 text-[10px] font-bold border border-red-500 px-2 py-1 rounded transition-colors shadow-sm">ลบรายการ</button>` : ``;
-        
         listContainer.innerHTML += `
-            <div class="flex justify-between items-center border border-gray-100 p-4 rounded-xl bg-white shadow-sm mb-2">
+            <div class="flex justify-between items-center border border-gray-100 p-4 rounded-xl bg-white shadow-sm mb-2 hover:border-red-200 transition-colors">
                 <div class="flex-1">
                     <p class="font-bold text-sm text-red-900">${item.name}</p>
                     <p class="text-[10px] text-gray-500 my-1">${item.detail || 'ไม่มีรายละเอียด'}</p>
-                    <p class="text-xs text-green-700 font-bold">${item.price.toLocaleString()} BATH</p>
+                    <p class="text-xs text-green-700 font-bold">${Number(item.price).toLocaleString()} BATH</p>
                 </div>
-                ${deleteBtn}
+                <button onclick="deleteContent(${item.id})" class="ml-4 text-red-500 hover:text-white hover:bg-red-500 text-[10px] font-bold border border-red-500 px-2 py-1 rounded transition-all shadow-sm">
+                    ลบรายการ
+                </button>
             </div>`;
     });
 }
 
+// 2. ฟังก์ชันเพิ่มบริการใหม่
+function addContent() {
+    const name = document.getElementById('contentName').value;
+    const price = document.getElementById('contentPrice').value;
+    const detail = document.getElementById('contentDetail').value;
+
+    if (!name || !price) {
+        alert('กรุณากรอกชื่อบริการและราคาด้วยค่ะ');
+        return;
+    }
+
+    const newItem = {
+        id: Date.now(),
+        name: name,
+        price: parseFloat(price),
+        detail: detail,
+        timestamp: new Date().toISOString()
+    };
+
+    const storedContent = JSON.parse(localStorage.getItem(LOCAL_STORAGE_CONTENT_KEY)) || [];
+    storedContent.push(newItem);
+    localStorage.setItem(LOCAL_STORAGE_CONTENT_KEY, JSON.stringify(storedContent));
+
+    // ล้างค่าในฟอร์ม
+    document.getElementById('contentName').value = '';
+    document.getElementById('contentPrice').value = '';
+    document.getElementById('contentDetail').value = '';
+
+    alert('เพิ่มบริการขึ้นหน้าเว็บเรียบร้อยแล้ว!');
+    fetchContent(); // อัปเดตรายการในหน้า Admin ทันที
+}
+
+// 3. ฟังก์ชันลบบริการ
+function deleteContent(id) {
+    if (confirm('คุณต้องการลบบริการนี้ออกจากหน้าเว็บใช่หรือไม่?')) {
+        let storedContent = JSON.parse(localStorage.getItem(LOCAL_STORAGE_CONTENT_KEY)) || [];
+        storedContent = storedContent.filter(item => item.id !== id);
+        localStorage.setItem(LOCAL_STORAGE_CONTENT_KEY, JSON.stringify(storedContent));
+        fetchContent(); // อัปเดตรายการใหม่
+    }
+}
+
+// เรียกใช้งานครั้งแรกเมื่อโหลดหน้า
+document.addEventListener('DOMContentLoaded', () => {
+    fetchContent();
+});
         function addServiceContent() {
             const currentUser = JSON.parse(localStorage.getItem('rabbitz_currentUser')) || {};
             if (currentUser.role !== 'admin') return alert('เฉพาะเจ้าของร้านเท่านั้นที่แก้ไขเนื้อหาหน้าเว็บได้ครับ');
