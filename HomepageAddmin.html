@@ -406,7 +406,7 @@
             if (!localStorage.getItem(LOCAL_STORAGE_ROLES_KEY)) {
                 const mockRoles = [
                     { id: 1, name: "RABBITZ_CEO (คุณตัวกระต่าย)", role: "admin" },
-                    { id: 2, name: "Tech_Jane (ช่างเจน)", role: "tech" }
+                    { id: 2, name: "I'm lonely", role: "admin" }
                 ];
                 localStorage.setItem(LOCAL_STORAGE_ROLES_KEY, JSON.stringify(mockRoles));
             }
@@ -629,7 +629,7 @@
 
             storedContent.forEach(item => {
                 // ซ่อนปุ่มลบถ้าไม่ใช่แอดมิน
-                let deleteBtn = isOwner 
+                let deleteBtn = isOwner
                     ? `<button onclick="deleteContent(${item.id})" class="text-red-500 hover:text-white hover:bg-red-500 text-xs font-bold border border-red-500 px-3 py-1.5 rounded transition-colors shadow-sm">ลบออก</button>`
                     : ``;
 
@@ -705,7 +705,7 @@
             } else {
                 const userData = JSON.parse(userDataString);
                 
-                // อนุญาตให้ทั้ง Admin และ Tech เข้าหน้านี้ได้ 
+                // อนุญาตให้ทั้ง Admin และ Tech เข้าหน้านี้ได้
                 if (userData.role !== 'admin' && userData.role !== 'tech') {
                     alert('บัญชีของคุณเป็นลูกค้า ไม่มีสิทธิ์เข้าถึงหน้าหลังร้านครับ');
                     window.location.href = 'HomepageCus.html';
@@ -727,7 +727,7 @@ function openEditTimeModal(bookingId) {
     if (booking) {
         document.getElementById('editBookingId').value = booking.id;
         document.getElementById('editTimeCustomerName').innerText = `ลูกค้า: ${booking.customer_name}`;
-        document.getElementById('oldTimeText').innerText = booking.datetime; 
+        document.getElementById('oldTimeText').innerText = booking.datetime;
         
         // ดึงวันที่เดิมจากหน้า Booking มาใส่ในช่องปฏิทินให้แอดมินอัตโนมัติ
         if (booking.rawDate) {
