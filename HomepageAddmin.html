@@ -382,13 +382,40 @@
         }
 
         function saveTask() {
-            const statusRadio = document.querySelector('input[name="dayStatus"]:checked').value;
-            const task = document.getElementById('taskInput').value;
-            let msg = `ตั้งค่าวันที่ ${selectedDateText.innerText}\nสถานะ: ${statusRadio === 'closed' ? 'ปิดรับจอง (Block)' : 'เปิดรับจองปกติ'}\n`;
-            if(task) msg += `บันทึกเพิ่มเติม: ${task}`;
-            alert(msg);
-            closeModal();
+    const statusRadio = document.querySelector('input[name="dayStatus"]:checked').value;
+    const task = document.getElementById('taskInput').value;
+    
+    // ดึงข้อมูลวันที่เลือกจากปฏิทิน
+    const year = parseInt(yearSelect.value);
+    const month = parseInt(monthSelect.value) + 1; // เดือนใน JS เริ่มที่ 0
+    const day = parseInt(selectedDateText.innerText.split(' ')[0]);
+    
+    // จัดรูปแบบวันที่ให้เป็น YYYY-MM-DD เพื่อให้ตรงกับหน้า Booking
+    const dateStr = `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
+
+    // ดึงรายการวันที่ปิดจองมาจาก Storage
+    let closedDates = JSON.parse(localStorage.getItem('rabbitz_closed_dates')) || [];
+
+    if (statusRadio === 'closed') {
+        // ถ้าสั่งปิด และยังไม่มีในลิสต์ ให้เพิ่มเข้าไป
+        if (!closedDates.includes(dateStr)) {
+            closedDates.push(dateStr);
         }
+    } else {
+        // ถ้าสั่งเปิด ให้เอากันวันที่นี้ออกจากลิสต์ปิดจอง
+        closedDates = closedDates.filter(d => d !== dateStr);
+    }
+
+    // บันทึกกลับลง Storage
+    localStorage.setItem('rabbitz_closed_dates', JSON.stringify(closedDates));
+    
+    let msg = `ตั้งค่าวันที่ ${selectedDateText.innerText} เรียบร้อยแล้ว\n`;
+    msg += statusRadio === 'closed' ? "สถานะ: ปิดรับจอง (Block)" : "สถานะ: เปิดรับจองปกติ";
+    alert(msg);
+    
+    closeModal();
+    renderCalendar(); // สั่งวาดปฏิทินใหม่เพื่ออัปเดตสถานะ (ถ้ามีการเขียน logic สีไว้)
+}
 
         monthSelect.value = currentViewDate.getMonth();
         yearSelect.value = currentViewDate.getFullYear();
