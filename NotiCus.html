@@ -142,117 +142,169 @@
     </main>
  
     <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const userDataString = localStorage.getItem('rabbitz_currentUser');
-        if (userDataString) {
-            const userData = JSON.parse(userDataString);
-            
-            const nameDisplay = document.getElementById('userNameDisplay');
-            if (nameDisplay) nameDisplay.innerText = `Hi, ${userData.name}`;
-            
-            const profileUrl = userData.photoUrl || `https://ui-avatars.com/api/?name=${userData.name}&background=fff&color=7f1d1d&bold=true`;
-            const profilePic = document.getElementById('userProfilePic');
-            const sidebarPreview = document.getElementById('userProfilePicSidebar');
-            
-            const savedPic = localStorage.getItem('savedProfilePic');
-            if (savedPic) {
-                if (profilePic) profilePic.src = savedPic;
-                if (sidebarPreview) sidebarPreview.src = savedPic;
+        document.addEventListener('DOMContentLoaded', () => {
+            const userDataString = localStorage.getItem('rabbitz_currentUser');
+            if (userDataString) {
+                const userData = JSON.parse(userDataString);
+                
+                // ใส่ข้อมูลผู้ใช้ใน Navbar & Sidebar
+                const nameDisplay = document.getElementById('userNameDisplay');
+                if (nameDisplay) nameDisplay.innerText = `Hi, ${userData.name}`;
+                
+                const sidebarNameDisplay = document.getElementById('sidebarUserNameDisplay');
+                if (sidebarNameDisplay) sidebarNameDisplay.innerText = `Hi, ${userData.name}`;
+
+                const profileUrl = userData.photoUrl || `https://ui-avatars.com/api/?name=${encodeURIComponent(userData.name)}&background=fff&color=7f1d1d&bold=true`;
+                const profilePic = document.getElementById('userProfilePic');
+                const sidebarPreview = document.getElementById('userProfilePicSidebar');
+                
+                const savedPic = localStorage.getItem('savedProfilePic');
+                if (savedPic) {
+                    if (profilePic) profilePic.src = savedPic;
+                    if (sidebarPreview) sidebarPreview.src = savedPic;
+                } else {
+                    if (profilePic) profilePic.src = profileUrl;
+                    if (sidebarPreview) sidebarPreview.src = profileUrl;
+                }
+
+                // ⭐️ โหลดข้อมูลแจ้งเตือนจริงของ User คนนี้ 
+                loadRealNotifications(userData.name);
+
             } else {
-                if (profilePic) profilePic.src = profileUrl;
-                if (sidebarPreview) sidebarPreview.src = profileUrl;
+                alert('กรุณาเข้าสู่ระบบก่อนใช้งานครับ');
+                window.location.href = 'Homepage.html';
             }
 
-            // เรียกฟังก์ชันแสดงการแจ้งเตือนจากระบบ
-            renderNotifications();
-        } else {
-            alert('กรุณาเข้าสู่ระบบก่อนใช้งานครับ');
-            window.location.href = 'Homepage.html';
+            // ระบบเปิด-ปิด Sidebar
+            const menuBtn = document.getElementById('menuBtn');
+            const closeBtn = document.getElementById('closeBtn');
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('overlay');
+
+            function toggleMenu() {
+                const isOpen = !sidebar.classList.contains('translate-x-full');
+                if (!isOpen) {
+                    sidebar.classList.remove('translate-x-full');
+                    overlay.classList.remove('hidden');
+                    setTimeout(() => overlay.classList.add('opacity-100'), 10);
+                } else {
+                    sidebar.classList.add('translate-x-full');
+                    overlay.classList.remove('opacity-100');
+                    setTimeout(() => overlay.classList.add('hidden'), 300);
+                }
+            }
+
+            if(menuBtn) menuBtn.addEventListener('click', toggleMenu);
+            if(closeBtn) closeBtn.addEventListener('click', toggleMenu);
+            if(overlay) overlay.addEventListener('click', toggleMenu);
+        });
+
+        function handleLogout() {
+            if(confirm('ต้องการออกจากระบบใช่หรือไม่?')) {
+                localStorage.removeItem('rabbitz_currentUser');
+                localStorage.removeItem('savedProfilePic');
+                window.location.href = 'Homepage.html';
+            }
         }
 
-        // ระบบเปิด-ปิด Sidebar
-        const menuBtn = document.getElementById('menuBtn');
-        const closeBtn = document.getElementById('closeBtn');
-        const sidebar = document.getElementById('sidebar');
-        const overlay = document.getElementById('overlay');
-
-        if(menuBtn) menuBtn.addEventListener('click', () => { sidebar.classList.remove('translate-x-full'); overlay.classList.remove('hidden'); });
-        if(closeBtn) closeBtn.addEventListener('click', () => { sidebar.classList.add('translate-x-full'); overlay.classList.add('hidden'); });
-        if(overlay) overlay.addEventListener('click', () => { sidebar.classList.add('translate-x-full'); overlay.classList.add('hidden'); });
-    });
-
-    // ฟังก์ชันดึงแจ้งเตือนจากแอดมินมาแสดง
-    function renderNotifications() {
-        const listContainer = document.getElementById('notification-list');
-        const countDisplay = document.getElementById('notif-count');
-        const emptyState = document.getElementById('empty-state');
-        const currentUser = JSON.parse(localStorage.getItem('rabbitz_currentUser'));
-
-        let notifications = JSON.parse(localStorage.getItem('rabbitz_notifications')) || [];
-        // กรองเฉพาะแจ้งเตือนของลูกค้าที่ล็อกอินอยู่ปัจจุบัน
-        let userNotifs = notifications.filter(n => n.customer_name === currentUser.name);
-
-        if (userNotifs.length === 0) {
-            listContainer.innerHTML = '';
-            emptyState.classList.remove('hidden');
-            countDisplay.innerText = "0 ใหม่";
-            return;
-        }
-
-        emptyState.classList.add('hidden');
-        listContainer.innerHTML = '';
-        let unreadCount = 0;
-
-        userNotifs.forEach(notif => {
-            if (!notif.read) unreadCount++;
+        // ==========================================
+        // ⭐️ ระบบดึงแจ้งเตือนจากประวัติการจองจริง
+        // ==========================================
+        function loadRealNotifications(userName) {
+            const allBookings = JSON.parse(localStorage.getItem('allBookings')) || [];
             
-            const isUnread = !notif.read ? 'bg-red-50/50 relative' : '';
-            const accentBar = !notif.read ? '<div class="absolute left-0 top-0 bottom-0 w-1 bg-red-900"></div>' : '';
-            const timeLabel = new Date(notif.timestamp).toLocaleTimeString('th-TH', {hour: '2-digit', minute:'2-digit'});
+            // กรองหาเฉพาะคิวที่เป็นของ User คนที่กำลังล็อกอิน
+            const myBookings = allBookings.filter(b => b.customer_name === userName);
+            
+            const notifList = document.getElementById('notification-list');
+            const emptyState = document.getElementById('empty-state');
+            const notifCount = document.getElementById('notif-count');
 
-            listContainer.innerHTML += `
-                <div class="p-5 border-b border-gray-100 hover:bg-gray-50 transition cursor-pointer ${isUnread}">
-                    ${accentBar}
-                    <div class="flex items-start gap-4">
-                        <div class="${!notif.read ? 'bg-red-100 text-red-900' : 'bg-gray-100 text-gray-400'} p-2 rounded-full shadow-sm">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                        </div>
-                        <div class="flex-1">
-                            <div class="flex justify-between">
-                                <h3 class="font-bold text-gray-900">${notif.title}</h3>
-                                <span class="text-xs text-gray-500">${timeLabel} น.</span>
+            if (myBookings.length === 0) {
+                notifList.innerHTML = '';
+                notifList.classList.add('hidden');
+                emptyState.classList.remove('hidden');
+                notifCount.innerText = "0 ใหม่";
+                return;
+            }
+
+            emptyState.classList.add('hidden');
+            let html = '';
+            
+            // เรียงลำดับจากล่าสุดไปเก่าสุด
+            [...myBookings].reverse().forEach(booking => {
+                const dateObj = new Date(booking.date);
+                const dateStr = dateObj.toLocaleDateString('th-TH', { month: 'short', day: 'numeric' });
+                
+                let title = '';
+                let detail = '';
+                let iconSVG = '';
+                let bgIconColor = '';
+                let textIconColor = '';
+
+                // กำหนดเนื้อหาตาม Status จริง
+                if (booking.status === 'รอการยืนยัน' || booking.status === 'Pending Payment') {
+                    title = 'จองคิวสำเร็จ (รอร้านยืนยัน)';
+                    detail = `คิวทำเล็บวันที่ ${dateStr} เวลา ${booking.time} น. ระบบได้รับข้อมูลแล้ว รอแอดมินยืนยันสักครู่นะคะ`;
+                    bgIconColor = 'bg-yellow-100';
+                    textIconColor = 'text-yellow-700';
+                    iconSVG = `<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>`;
+                } 
+                else if (booking.status === 'Confirmed' || booking.status === 'ยืนยันแล้ว') {
+                    title = 'ร้านยืนยันการจองคิวแล้ว';
+                    detail = `คิวทำเล็บวันที่ ${dateStr} เวลา ${booking.time} น. ได้รับการยืนยันจากแอดมินแล้ว เจอกันที่ร้านนะคะ!`;
+                    bgIconColor = 'bg-green-100';
+                    textIconColor = 'text-green-700';
+                    iconSVG = `<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>`;
+                } 
+                else {
+                    title = 'คิวถูกยกเลิก / หมดเวลา';
+                    detail = `คิวทำเล็บวันที่ ${dateStr} เวลา ${booking.time} น. ถูกยกเลิก หรือหมดเวลาชำระเงินมัดจำ กรุณาทำรายการใหม่ค่ะ`;
+                    bgIconColor = 'bg-red-100';
+                    textIconColor = 'text-red-700';
+                    iconSVG = `<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>`;
+                }
+
+                // สร้าง HTML ของแต่ละแจ้งเตือน
+                html += `
+                    <div class="notif-item p-5 border-b border-gray-100 hover:bg-gray-50 transition cursor-pointer relative bg-red-50/50" onclick="window.location.href='History.html'">
+                        <div class="notif-indicator absolute left-0 top-0 bottom-0 w-1 bg-red-900"></div>
+                        <div class="flex items-start gap-4">
+                            <div class="${bgIconColor} p-2 rounded-full ${textIconColor}">
+                                ${iconSVG}
                             </div>
-                            <p class="text-sm text-gray-600 mt-1">${notif.message}</p>
+                            <div class="flex-1">
+                                <div class="flex justify-between items-center">
+                                    <h3 class="font-bold text-gray-900">${title}</h3>
+                                    <span class="text-xs text-gray-400 bg-gray-100 px-2 py-0.5 rounded">ID: ${booking.id}</span>
+                                </div>
+                                <p class="text-sm text-gray-600 mt-1 leading-relaxed">${detail}</p>
+                            </div>
                         </div>
                     </div>
-                </div>
-            `;
-        });
+                `;
+            });
 
-        countDisplay.innerText = `${unreadCount} ใหม่ (อ่านทั้งหมด)`;
-        if(unreadCount === 0) countDisplay.classList.add('opacity-50');
-    }
-
-    function markAllAsRead() {
-        const currentUser = JSON.parse(localStorage.getItem('rabbitz_currentUser'));
-        let notifications = JSON.parse(localStorage.getItem('rabbitz_notifications')) || [];
-        
-        notifications = notifications.map(n => {
-            if (n.customer_name === currentUser.name) n.read = true;
-            return n;
-        });
-
-        localStorage.setItem('rabbitz_notifications', JSON.stringify(notifications));
-        renderNotifications(); // อัปเดตหน้าจอทันที
-    }
-
-    function handleLogout() {
-        if(confirm('ต้องการออกจากระบบใช่หรือไม่?')) {
-            localStorage.removeItem('rabbitz_currentUser');
-            localStorage.removeItem('savedProfilePic');
-            window.location.href = 'Homepage.html';
+            notifList.innerHTML = html;
+            notifCount.innerText = `${myBookings.length} ใหม่ (อ่านทั้งหมด)`;
         }
-    }
-</script>
+
+        // ==========================================
+        // ฟังก์ชันกดอ่านทั้งหมด
+        // ==========================================
+        function markAllAsRead() {
+            const count = document.getElementById('notif-count');
+            count.innerText = "0 ใหม่";
+            count.classList.replace('bg-white', 'bg-gray-200');
+            count.classList.replace('text-red-900', 'text-gray-500');
+           
+            const unreadItems = document.querySelectorAll('.notif-item');
+            unreadItems.forEach(item => {
+                item.classList.remove('bg-red-50/50');
+                const indicator = item.querySelector('.notif-indicator');
+                if(indicator) indicator.remove();
+            });
+        }
+    </script>
 </body>
 </html>
