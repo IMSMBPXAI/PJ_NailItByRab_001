@@ -178,6 +178,45 @@
 
         newPassInput.addEventListener('input', validatePassword);
         confirmPassInput.addEventListener('input', validatePassword);
+
+        function saveNewPassword() {
+            // สมมติว่า input รหัสผ่านใหม่ในหน้า Changepass.html ของคุณใช้ id="new-password"
+            const newPassword = document.getElementById('new-password').value.trim();
+            const confirmPassword = document.getElementById('confirm-password').value.trim();
+
+            if (!newPassword || newPassword !== confirmPassword) {
+                alert('รหัสผ่านไม่ตรงกัน หรือยังไม่ได้กรอกข้อมูลครับ');
+                return;
+            }
+
+            // 1. ดึงอีเมลคนที่ทำรายการอยู่จาก Session
+            const resetEmail = sessionStorage.getItem('reset_email');
+            
+            if (!resetEmail) {
+                alert('เกิดข้อผิดพลาด ไม่พบข้อมูลการทำรายการ กรุณาเริ่มใหม่ครับ');
+                window.location.href = 'Signin.html';
+                return;
+            }
+
+            // 2. ดึงฐานข้อมูล Users ทั้งหมด
+            let storedUsers = JSON.parse(localStorage.getItem('rabbitz_users')) || [];
+            
+            // 3. หาตำแหน่ง (Index) ของคนที่มีอีเมลตรงกัน
+            const userIndex = storedUsers.findIndex(u => u.email === resetEmail);
+
+            if (userIndex !== -1) {
+                // 4. บันทึกรหัสผ่านใหม่เข้าไปทับตัวเดิม
+                storedUsers[userIndex].password = newPassword;
+                localStorage.setItem('rabbitz_users', JSON.stringify(storedUsers));
+                
+                // 5. ล้างข้อมูล Session กันความปลอดภัย แล้วกลับไปหน้า Signin
+                sessionStorage.removeItem('reset_email');
+                alert('เปลี่ยนรหัสผ่านสำเร็จ! กรุณาเข้าสู่ระบบด้วยรหัสผ่านใหม่ครับ');
+                window.location.href = 'Signin.html';
+            } else {
+                alert('เกิดข้อผิดพลาด ไม่พบบัญชีนี้ในฐานข้อมูล');
+            }
+        }
     </script>
 </body>
 </html>
