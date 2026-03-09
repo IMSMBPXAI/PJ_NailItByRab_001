@@ -136,7 +136,6 @@
     </div>
 
     <script>
-        // ประกาศตัวแปรเก็บข้อมูล User ไว้ให้ฟังก์ชันอื่นดึงไปใช้
         let currentUserData = null;
 
         document.addEventListener('DOMContentLoaded', () => {
@@ -213,7 +212,7 @@
 
             const allBookings = JSON.parse(localStorage.getItem('allBookings')) || [];
             
-            // ⭐️ แก้ไขให้เทียบชื่อกับ user ที่ล็อกอินอยู่จริงๆ แทนคำว่า Guest
+            // กรองดึงมาเฉพาะคิวของลูกค้าคนที่เข้าสู่ระบบ
             const myBookings = allBookings.filter(booking => booking.customer_name === currentUserData.name);
 
             if (myBookings.length === 0) {
@@ -235,8 +234,10 @@
                 const bookDate = new Date(booking.date);
                 bookDate.setHours(0, 0, 0, 0);
 
-                // ถ้ายืนยันแล้วและเวลายังไม่ผ่านพ้นไป ให้อยู่ใน Upcoming
-                if (booking.status === 'Confirmed' && bookDate >= today) {
+                // สถานะที่ยังถือว่าเป็นคิวปัจจุบันที่กำลังจะมาถึง
+                const activeStatuses = ['Confirmed', 'ยืนยันแล้ว', 'รอการยืนยัน', 'Paid', 'Pending Payment'];
+                
+                if (activeStatuses.includes(booking.status) && bookDate >= today) {
                     upcoming.push(booking);
                 } else {
                     past.push(booking);
@@ -273,7 +274,14 @@
                 
                 const isNext = index === 0;
                 const borderClass = isNext ? 'border-red-500 shadow-md ring-2 ring-red-100' : 'border-red-200 shadow-sm';
-                const badge = '<span class="bg-green-100 text-green-800 text-xs font-bold px-3 py-1 rounded-full border border-green-300">ยืนยันคิวแล้ว</span>';
+                
+                // ตรวจสอบสถานะและแสดง Badge ให้ถูกต้อง
+                let badge = '';
+                if(booking.status === 'Confirmed' || booking.status === 'ยืนยันแล้ว') {
+                    badge = '<span class="bg-green-100 text-green-800 text-xs font-bold px-3 py-1 rounded-full border border-green-300">ยืนยันคิวแล้ว</span>';
+                } else if(booking.status === 'รอการยืนยัน' || booking.status === 'Pending Payment') {
+                    badge = '<span class="bg-yellow-100 text-yellow-800 text-xs font-bold px-3 py-1 rounded-full border border-yellow-300">รอร้านยืนยัน</span>';
+                }
                 
                 // ใช้การเช็ค Array เผื่อเซฟเป็นแบบ Array 
                 const serviceList = Array.isArray(booking.services) ? booking.services.join(', ') : booking.service;
@@ -323,7 +331,7 @@
                 let statusBadge = '';
                 let opacityClass = 'opacity-100';
 
-                if(booking.status === 'Confirmed') {
+                if(booking.status === 'Confirmed' || booking.status === 'ยืนยันแล้ว') {
                     statusBadge = '<span class="text-gray-500 text-xs font-bold px-2 py-1 bg-gray-100 rounded border border-gray-200">เสร็จสิ้น (ในอดีต)</span>';
                     opacityClass = 'opacity-70';
                 } else if(booking.status === 'Cancelled' || booking.status === 'ยกเลิก') {
@@ -376,7 +384,7 @@
                             icon: 'success',
                             confirmButtonColor: '#7f1d1d'
                         });
-                        renderHistory(); 
+                        renderHistory();
                     }
                 }
             });
