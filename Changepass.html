@@ -217,6 +217,104 @@
                 alert('เกิดข้อผิดพลาด ไม่พบบัญชีนี้ในฐานข้อมูล');
             }
         }
+
+        const newPassInput = document.getElementById('new_password');
+        const confirmPassInput = document.getElementById('confirm_password');
+        const submitBtn = document.getElementById('submitBtn');
+        const matchMsg = document.getElementById('match-msg');
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const resetEmail = sessionStorage.getItem('reset_email');
+            if (!resetEmail) {
+                alert('คำขอหมดอายุหรือไม่ถูกต้อง กรุณาเริ่มรายการใหม่');
+                window.location.href = 'Signin.html'; // หากไม่มี session เด้งกลับหน้า Signin
+            } else {
+                document.getElementById('email-target').innerText = `สำหรับบัญชี: ${resetEmail}`;
+            }
+        });
+
+        // ฟังก์ชันตรวจสอบความถูกต้องของรหัสผ่าน (ใช้ของคุณได้เลย)
+        function validatePassword() {
+            const val = newPassInput.value;
+            const confirmVal = confirmPassInput.value;
+            // (ละโค้ดตรวจสอบ Requirement ไว้เหมือนเดิม)
+            const hasLength = val.length >= 8;
+            const hasUpper = /[A-Z]/.test(val);
+            const hasLower = /[a-z]/.test(val);
+            const hasNumber = /[0-9]/.test(val);
+            const hasSpecial = /[!@#$%^&*(),.?":{}|<>]/.test(val);
+
+            updateRequirement('req-length', hasLength);
+            updateRequirement('req-upper', hasUpper);
+            updateRequirement('req-lower', hasLower);
+            updateRequirement('req-number', hasNumber);
+            updateRequirement('req-special', hasSpecial);
+
+            const isMatch = val === confirmVal && val !== '';
+
+            if (!isMatch && confirmVal !== '') {
+                matchMsg.classList.remove('hidden');
+            } else {
+                matchMsg.classList.add('hidden');
+            }
+
+            if (hasLength && hasUpper && hasLower && hasNumber && hasSpecial && isMatch) {
+                submitBtn.disabled = false;
+            } else {
+                submitBtn.disabled = true;
+            }
+        }
+
+        function updateRequirement(id, isValid) {
+            const el = document.getElementById(id);
+            if (isValid) {
+                el.classList.remove('text-gray-400');
+                el.classList.add('text-green-700', 'font-bold');
+            } else {
+                el.classList.add('text-gray-400');
+                el.classList.remove('text-green-700', 'font-bold');
+            }
+        }
+
+        // ⭐️ ฟังก์ชันหลักสำหรับบันทึกรหัสผ่านใหม่ทับของเดิม
+        function submitChange() {
+            // 1. ดึงอีเมลเป้าหมายจาก Session
+            const resetEmail = sessionStorage.getItem('reset_email');
+            const newPasswordValue = newPassInput.value;
+
+            if(!resetEmail) {
+                alert('เกิดข้อผิดพลาด ไม่พบข้อมูลอีเมล กรุณาเริ่มใหม่');
+                window.location.href = 'Signin.html';
+                return;
+            }
+
+            // 2. ดึงฐานข้อมูลผู้ใช้ทั้งหมดที่สมัครไว้ (ที่ใช้ตอน Signin)
+            let storedUsers = JSON.parse(localStorage.getItem('rabbitz_users')) || [];
+            
+            // 3. หา Index ของผู้ใช้ที่มีอีเมล "ตรงกับอีเมลที่ขอลืมรหัสผ่านเท่านั้น"
+            const userIndex = storedUsers.findIndex(u => u.email === resetEmail);
+
+            if (userIndex > -1) {
+                // 4. เขียนรหัสผ่านใหม่ทับของเดิมเฉพาะ User คนนั้น
+                storedUsers[userIndex].password = newPasswordValue;
+                
+                // 5. บันทึกกลับลง LocalStorage
+                localStorage.setItem('rabbitz_users', JSON.stringify(storedUsers));
+
+                submitBtn.innerHTML = 'CHANGING...';
+                setTimeout(() => {
+                    alert("เปลี่ยนรหัสผ่านสำเร็จ! กรุณาเข้าสู่ระบบด้วยรหัสผ่านใหม่ของคุณ");
+                    sessionStorage.removeItem('reset_email'); // ล้างข้อมูล Session ป้องกันความปลอดภัย
+                    window.location.href = 'Signin.html'; // ส่งกลับไปหน้า Signin
+                }, 1000);
+            } else {
+                alert('ข้อผิดพลาดจากระบบ: ไม่พบบัญชีอีเมลนี้ในฐานข้อมูล');
+                window.location.href = 'Signin.html';
+            }
+        }
+
+        newPassInput.addEventListener('input', validatePassword);
+        confirmPassInput.addEventListener('input', validatePassword);
     </script>
 </body>
 </html>
