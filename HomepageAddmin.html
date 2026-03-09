@@ -294,7 +294,8 @@
 </section>
 
     <script>
-        const LOCAL_STORAGE_KEY = 'rabbitz_bookings';
+        // ใช้ Key ข้อมูลจริงที่ระบบ Booking สร้างไว้
+        const LOCAL_STORAGE_KEY = 'allBookings'; 
         const LOCAL_STORAGE_ROLES_KEY = 'rabbitz_roles';
         const LOCAL_STORAGE_CONTENT_KEY = 'rabbitz_content';
 
@@ -395,18 +396,11 @@
         yearSelect.onchange = renderCalendar;
 
         function initLocalStorage() {
-            if (!localStorage.getItem(LOCAL_STORAGE_KEY)) {
-                const mockBookings = [
-                    { id: 1, customer_name: "คุณสมหญิง", phone: "081-123-4567", service: "ทาสีเจล + เพ้นท์ลาย", datetime: "15 ต.ค. 67 - 13:00 น.", status: "รอการยืนยัน" },
-                    { id: 2, customer_name: "น้องมายด์", phone: "089-987-6543", service: "ต่อขนตา + สปามือ", datetime: "15 ต.ค. 67 - 15:30 น.", status: "ยืนยันแล้ว" },
-                    { id: 3, customer_name: "พี่แนน", phone: "082-222-3333", service: "ทาสีเจลมือ-เท้า", datetime: "16 ต.ค. 67 - 10:00 น.", status: "รอการยืนยัน" }
-                ];
-                localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(mockBookings));
-            }
+            // ปล่อย AllBookings ให้ว่างไว้เพื่อรอรับของจริงจากหน้าจอง
             if (!localStorage.getItem(LOCAL_STORAGE_ROLES_KEY)) {
                 const mockRoles = [
                     { id: 1, name: "RABBITZ_CEO (คุณตัวกระต่าย)", role: "admin" },
-                    { id: 2, name: "I'm lonely", role: "admin" }
+                    { id: 2, name: "Tech_Jane (ช่างเจน)", role: "tech" }
                 ];
                 localStorage.setItem(LOCAL_STORAGE_ROLES_KEY, JSON.stringify(mockRoles));
             }
@@ -430,30 +424,48 @@
                 return;
             }
 
-            storedBookings.forEach(booking => {
-                let statusColor = booking.status === 'รอการยืนยัน' ? 'bg-yellow-100 text-yellow-800' :
-                                  booking.status === 'ยกเลิก' ? 'bg-red-100 text-red-800' : 'bg-green-100 text-green-800';
+            // เรียงคิวล่าสุดขึ้นข้างบน
+            [...storedBookings].reverse().forEach(booking => {
+                const customerName = booking.customer_name || 'ไม่ระบุชื่อ';
+                const phone = booking.phone || '-';
                 
-                let actionButtons = booking.status === 'รอการยืนยัน' 
-                    ? `<button onclick="updateBookingStatus(${booking.id}, 'ยืนยันแล้ว')" class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded text-xs shadow-sm">ยืนยัน</button>
-                       <button onclick="updateBookingStatus(${booking.id}, 'ยกเลิก')" class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded text-xs shadow-sm">ยกเลิก</button>`
-                    : `<button onclick="openEditTimeModal(${booking.id})" class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded text-xs shadow-sm">แก้ไขเวลา</button>`;
+                // จัดการข้อมูลบริการให้โชว์สวยๆ (เพราะหน้า Booking เซฟเป็น Array)
+                const serviceText = Array.isArray(booking.services) ? booking.services.join(', ') : (booking.service || 'ไม่ระบุบริการ');
+                const datetimeText = booking.datetime || `${booking.date} | ${booking.time}`;
 
+                // แปลงสถานะให้แอดมินดูเข้าใจง่าย
+                let statusText = 'รอการยืนยัน';
+                let statusColor = 'bg-yellow-100 text-yellow-800';
+                
+                if (booking.status === 'Confirmed' || booking.status === 'ยืนยันแล้ว') {
+                    statusText = 'ยืนยันแล้ว';
+                    statusColor = 'bg-green-100 text-green-800';
+                } else if (booking.status === 'Cancelled' || booking.status === 'ยกเลิก' || booking.status === 'Failed') {
+                    statusText = 'ยกเลิก';
+                    statusColor = 'bg-red-100 text-red-800';
+                } else if (booking.status === 'Pending Payment') {
+                    statusText = 'รอชำระเงิน';
+                    statusColor = 'bg-yellow-100 text-yellow-800';
+                }
+                
                 tbody.innerHTML += `
                     <tr class="border-b bg-white hover:bg-gray-50 transition-colors">
-                        <td class="px-4 py-3 font-medium text-gray-900">${booking.customer_name}<br><span class="text-xs text-gray-400">${booking.phone}</span></td>
-                        <td class="px-4 py-3">${booking.service}</td>
-                        <td class="px-4 py-3 font-semibold text-gray-800">${booking.datetime}</td>
-                        <td class="px-4 py-3"><span class="text-xs font-medium px-2.5 py-0.5 rounded ${statusColor}">${booking.status}</span></td>
-                        <td class="px-4 py-3 flex gap-2 justify-center">${actionButtons}</td>
-                    </tr>
-                `;
+                        <td class="px-4 py-3 font-medium text-gray-900">${customerName}<br><span class="text-xs text-gray-400">${phone}</span></td>
+                        <td class="px-4 py-3 max-w-[200px] truncate" title="${serviceText}">${serviceText}</td>
+                        <td class="px-4 py-3 font-semibold text-gray-800">${datetimeText}</td>
+                        <td class="px-4 py-3"><span class="text-xs font-medium px-2.5 py-0.5 rounded ${statusColor}">${statusText}</span></td>
+                        <td class="px-4 py-3 flex gap-2 justify-center">
+                            <button onclick="updateBookingStatus(${booking.id}, 'Confirmed')" class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded text-xs">ยืนยัน</button>
+                            <button onclick="openEditTimeModal(${booking.id})" class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded text-xs">แก้ไขเวลา</button>
+                        </td>
+                    </tr>`;
             });
         }
 
         function updateBookingStatus(bookingId, newStatus) {
-            let bookings = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY));
-            const index = bookings.findIndex(b => b.id === bookingId);
+            let bookings = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY)) || [];
+            // เทียบ ID เป็น Integer
+            const index = bookings.findIndex(b => b.id === bookingId || b.id == bookingId);
             if (index !== -1) {
                 bookings[index].status = newStatus;
                 localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(bookings));
@@ -463,16 +475,18 @@
 
         function openEditTimeModal(bookingId) {
             let bookings = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY));
-            const booking = bookings.find(b => b.id === bookingId);
+            const booking = bookings.find(b => b.id === bookingId || b.id == bookingId);
             
             if (booking) {
                 document.getElementById('editBookingId').value = booking.id;
-                document.getElementById('editTimeCustomerName').innerText = `ลูกค้า: ${booking.customer_name}`;
-                document.getElementById('oldTimeText').innerText = booking.datetime; 
+                document.getElementById('editTimeCustomerName').innerText = `ลูกค้า: ${booking.customer_name || 'ไม่ระบุ'}`;
+                document.getElementById('oldTimeText').innerText = booking.datetime || `${booking.date} | ${booking.time}`; 
                 
-                document.getElementById('editBookingDate').value = '';
-                document.getElementById('editBookingTime').value = '';
-                
+                // ดึงวันที่เดิมมาใส่ในช่องแก้ไขอัตโนมัติ
+                if(booking.rawDate) {
+                    document.getElementById('editBookingDate').value = booking.rawDate;
+                }
+
                 document.getElementById('editTimeModal').classList.remove('hidden');
             }
         }
@@ -482,7 +496,7 @@
         }
 
         function saveNewBookingTime() {
-            const bookingId = parseInt(document.getElementById('editBookingId').value);
+            const bookingId = document.getElementById('editBookingId').value;
             const dateVal = document.getElementById('editBookingDate').value; 
             const timeVal = document.getElementById('editBookingTime').value; 
 
@@ -500,10 +514,13 @@
             const newDatetimeStr = `${day} ${month} ${year} - ${timeVal} น.`;
 
             let bookings = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY));
-            const index = bookings.findIndex(b => b.id === bookingId);
+            const index = bookings.findIndex(b => b.id == bookingId);
             
             if (index !== -1) {
                 bookings[index].datetime = newDatetimeStr;
+                bookings[index].date = dateVal; // อัปเดต Date สำหรับเช็คคิวซ้ำ
+                bookings[index].time = timeVal; // อัปเดต Time สำหรับเช็คคิวซ้ำ
+                bookings[index].rawDate = dateVal; 
                 localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(bookings));
                 
                 alert('อัปเดตเวลาการจองเรียบร้อยแล้ว!');
@@ -629,7 +646,7 @@
 
             storedContent.forEach(item => {
                 // ซ่อนปุ่มลบถ้าไม่ใช่แอดมิน
-                let deleteBtn = isOwner
+                let deleteBtn = isOwner 
                     ? `<button onclick="deleteContent(${item.id})" class="text-red-500 hover:text-white hover:bg-red-500 text-xs font-bold border border-red-500 px-3 py-1.5 rounded transition-colors shadow-sm">ลบออก</button>`
                     : ``;
 
@@ -705,7 +722,7 @@
             } else {
                 const userData = JSON.parse(userDataString);
                 
-                // อนุญาตให้ทั้ง Admin และ Tech เข้าหน้านี้ได้
+                // อนุญาตให้ทั้ง Admin และ Tech เข้าหน้านี้ได้ 
                 if (userData.role !== 'admin' && userData.role !== 'tech') {
                     alert('บัญชีของคุณเป็นลูกค้า ไม่มีสิทธิ์เข้าถึงหน้าหลังร้านครับ');
                     window.location.href = 'HomepageCus.html';
@@ -719,76 +736,9 @@
             }
             initLocalStorage();
         });
-        // --- แก้ไขฟังก์ชันนี้ให้เหลือเพียงอันเดียวใน HomepageAddmin.html ---
-function openEditTimeModal(bookingId) {
-    let bookings = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY));
-    const booking = bookings.find(b => b.id === bookingId);
-    
-    if (booking) {
-        document.getElementById('editBookingId').value = booking.id;
-        document.getElementById('editTimeCustomerName').innerText = `ลูกค้า: ${booking.customer_name}`;
-        document.getElementById('oldTimeText').innerText = booking.datetime;
-        
-        // ดึงวันที่เดิมจากหน้า Booking มาใส่ในช่องปฏิทินให้แอดมินอัตโนมัติ
-        if (booking.rawDate) {
-            document.getElementById('editBookingDate').value = booking.rawDate;
-        }
 
-        document.getElementById('editTimeModal').classList.remove('hidden');
-    }
-}
-// ค้นหาและแทนที่ฟังก์ชัน openEditTimeModal ใน HomepageAddmin.html ให้เหลือเพียงอันเดียวครับ
-function openEditTimeModal(bookingId) {
-    let bookings = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY));
-    const booking = bookings.find(b => b.id === bookingId);
-    
-    if (booking) {
-        document.getElementById('editBookingId').value = booking.id;
-        document.getElementById('editTimeCustomerName').innerText = `ลูกค้า: ${booking.customer_name}`;
-        document.getElementById('oldTimeText').innerText = booking.datetime; 
-        
-        // --- ส่วนที่อัปเดต: ดึงวันที่เดิมมาใส่ในช่องแก้ไขอัตโนมัติเพื่อให้แอดมินแก้ไขได้ทันที ---
-        if(booking.rawDate) {
-            document.getElementById('editBookingDate').value = booking.rawDate;
-        }
-        // --------------------------------------------------------------------------
-
-        document.getElementById('editTimeModal').classList.remove('hidden');
-    }
-}
-
-// และอัปเดตฟังก์ชัน fetchBookings ให้แสดงผลข้อมูลล่าสุดเสมอ
-function fetchBookings() {
-    const tbody = document.getElementById('bookingsTableBody');
-    const storedBookings = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY)) || [];
-    
-    tbody.innerHTML = '';
-    if (storedBookings.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="5" class="px-4 py-4 text-center text-gray-400">ยังไม่มีข้อมูลการจอง</td></tr>`;
-        return;
-    }
-
-    // เรียงคิวล่าสุดขึ้นข้างบน
-    [...storedBookings].reverse().forEach(booking => {
-        let statusColor = booking.status === 'รอการยืนยัน' ? 'bg-yellow-100 text-yellow-800' : 
-                          booking.status === 'ยกเลิก' ? 'bg-red-100 text-red-800' : 'bg-green-100 text-green-800';
-        
-        tbody.innerHTML += `
-            <tr class="border-b bg-white hover:bg-gray-50 transition-colors">
-                <td class="px-4 py-3 font-medium text-gray-900">${booking.customer_name}<br><span class="text-xs text-gray-400">${booking.phone}</span></td>
-                <td class="px-4 py-3">${booking.service}</td>
-                <td class="px-4 py-3 font-semibold text-gray-800">${booking.datetime}</td>
-                <td class="px-4 py-3"><span class="text-xs font-medium px-2.5 py-0.5 rounded ${statusColor}">${booking.status}</span></td>
-                <td class="px-4 py-3 flex gap-2 justify-center">
-                    <button onclick="updateBookingStatus(${booking.id}, 'ยืนยันแล้ว')" class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded text-xs">ยืนยัน</button>
-                    <button onclick="openEditTimeModal(${booking.id})" class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded text-xs">แก้ไขเวลา</button>
-                </td>
-            </tr>`;
-    });
-}
     function updateHomepageGallery() {
         const displayContainer = document.getElementById('homepageGalleryDisplay');
-        // ดึงข้อมูลรูปภาพจาก Key เดียวกันกับหน้า Gallery
         const savedImages = JSON.parse(localStorage.getItem('rabbitz_gallery')) || [];
         
         if (savedImages.length === 0) {
@@ -796,21 +746,16 @@ function fetchBookings() {
             return;
         }
 
-        // ล้างข้อมูลเก่าและแสดงรูปภาพ 5 รูปล่าสุด (หรือรูปแรกๆ ตามลำดับที่คุณองุ่นจัดไว้)
         displayContainer.innerHTML = '';
         savedImages.slice(0, 5).forEach(src => {
             const imgElement = document.createElement('img');
             imgElement.src = src;
-            // ใช้ Class Tailwind ให้สวยงามเหมือนในหน้า Gallery
             imgElement.className = "aspect-square rounded-[20px] shadow-sm object-cover border-2 border-white hover:scale-105 transition-transform duration-300";
             displayContainer.appendChild(imgElement);
         });
     }
 
-    // เรียกใช้งานเมื่อโหลดหน้าเว็บ
     document.addEventListener('DOMContentLoaded', updateHomepageGallery);
-
-    // พิเศษ: ถ้ามีการแก้ไขรูปในหน้า Gallery ขณะที่เปิดหน้า Home ค้างไว้ ให้รูปอัปเดตทันที
     window.addEventListener('storage', (e) => {
         if (e.key === 'rabbitz_gallery') {
             updateHomepageGallery();
