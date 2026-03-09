@@ -37,7 +37,7 @@
                     <ul class="hidden lg:flex flex-row space-x-6 text-sm font-medium text-white items-center">
                         <li><a href="HomepageCus.html" class="hover:text-red-200 transition">Homepage</a></li>
                         <li class="w-px h-5 bg-white/30"></li>
-                        <li><a href="ContactSI.html" class="hover:text-red-200 transition">Contact</a></li>
+                        <li><a href="Contact.html" class="hover:text-red-200 transition">Contact</a></li>
                         <li class="w-px h-5 bg-white/30"></li>
                         <li><a href="Booking.html" class="hover:text-red-200 transition">Booking</a></li>
                     </ul>
@@ -62,11 +62,11 @@
                             <img id="userProfilePic" class="w-full h-full object-cover" src="https://ui-avatars.com/api/?name=User&background=fff&color=7f1d1d" alt="User Profile">
                         </button>
  
-                        <button onclick="handleLogout()" class="text-xs text-white underline hover:text-red-200 ml-2">Log out</button>
+                        <button onclick="handleLogout()" class="text-xs text-white underline hover:text-red-200 ml-2 hidden lg:block">Log out</button>
  
                     </div>
                     <div class="flex items-center gap-4 border-l border-white/30 pl-6">
-                    <button id="menuBtn" class="text-white hover:bg-white/10 p-2 rounded-lg transition">
+                    <button id="menuBtn" class="text-white hover:bg-white/10 p-2 rounded-lg transition focus:outline-none">
                     <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
                     </svg>
@@ -79,29 +79,32 @@
         
         <div id="sidebar" class="fixed top-0 right-0 h-full w-72 bg-gradient-to-b from-[#801919] to-[#5d1212] z-[100] transform translate-x-full transition-transform duration-300 ease-in-out shadow-2xl rounded-l-[3rem]">
             <div class="p-8 flex flex-col items-center">
-            <button id="closeBtn" class="self-end text-white mb-4">
-                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-            </button>
-            <button type="button" class="flex text-sm bg-white rounded-full focus:ring-40 overflow-hidden size-24 border-2 border-white/20 shadow-sm ">
-                 <img id="userProfilePicSidebar" class="w-full h-full object-cover" src="https://ui-avatars.com/api/?name=User&background=random" alt="User Profile">
-            </button>
+                <button id="closeBtn" class="self-end text-white mb-4 hover:scale-110 transition">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+                
+                <div class="flex flex-col items-center mb-6">
+                    <div class="size-24 bg-white rounded-full p-1 shadow-xl overflow-hidden border-2 border-white/30 mb-3">
+                        <img id="userProfilePicSidebar" class="w-full h-full object-cover rounded-full" src="https://ui-avatars.com/api/?name=User&background=fff&color=7f1d1d" alt="User Profile">
+                    </div>
+                    <p id="sidebarUserNameDisplay" class="text-white font-bold text-lg uppercase tracking-wide">Loading...</p>
+                </div>
             </div>
      
             <div class="px-6 py-4">
-            <div class="bg-white/90 rounded-[2rem] p-6 space-y-3 text-center shadow-lg">
-                <a href="Accountsetting.html" class="block text-[#801919] font-bold hover:scale-105 transition uppercase tracking-wider text-medium">Setting</a>
-                <hr class="border-[#801919]/20 w-1/2 mx-auto">
-                <a href="History.html" class="block text-[#801919] font-bold hover:scale-105 transition uppercase tracking-wider text-medium">My Booking & History</a>
-            </div>
+                <div class="bg-gray-100/95 rounded-[2.5rem] p-8 space-y-6 text-center shadow-lg">
+                    <a href="Accountsetting.html" class="block text-[#801919] font-bold hover:text-red-700 transition uppercase tracking-widest text-sm border-b border-[#801919]/10 pb-4">Setting</a>
+                    <a href="History.html" class="block text-[#801919] font-bold hover:text-red-700 transition uppercase tracking-widest text-sm">My Booking & History</a>
+                </div>
             </div>
      
             <div class="absolute bottom-12 left-0 right-0 px-10 text-center">
-            <button onclick="handleLogout()" class="w-full border-2 border-white text-white py-2 rounded-full font-bold uppercase text-medium hover:bg-white hover:text-[#801919] transition">
-                Sign out
-            </button>
-             </div>
+                <button onclick="handleLogout()" class="w-full border-2 border-white text-white py-2 rounded-full font-bold uppercase text-sm hover:bg-white hover:text-[#801919] transition">
+                    Sign out
+                </button>
+            </div>
         </div>
-        <div id="overlay" class="fixed inset-0 bg-black/40 z-[90] hidden"></div>
+        <div id="overlay" class="fixed inset-0 bg-black/40 z-[90] hidden transition-opacity duration-300 opacity-0"></div>
     </header>
  
     <main class="min-h-screen pt-28 pb-10 px-4 flex justify-center">
@@ -111,68 +114,28 @@
                 <div class="flex justify-between items-center">
                     <div>
                         <h2 class="text-2xl font-bold text-white uppercase tracking-wide">แจ้งเตือนของคุณ</h2>
-                        <p class="text-red-100 text-sm">อัปเดตสถานะคิวและโปรโมชั่นล่าสุด</p>
+                        <p class="text-red-100 text-sm">อัปเดตสถานะคิวล่าสุด</p>
                     </div>
-                    <span id="notif-count" class="bg-white text-red-900 px-3 py-1 rounded-full font-bold text-sm cursor-pointer hover:bg-gray-100 transition" onclick="markAllAsRead()">3 ใหม่ (อ่านทั้งหมด)</span>
+                    <span id="notif-count" class="bg-white text-red-900 px-3 py-1 rounded-full font-bold text-sm cursor-pointer hover:bg-gray-100 transition" onclick="markAllAsRead()">กำลังโหลด...</span>
                 </div>
             </div>
  
             <div id="notification-list" class="bg-white rounded-b-2xl shadow-xl overflow-hidden border border-gray-200">
-               
-                <div class="p-5 border-b border-gray-100 hover:bg-gray-50 transition cursor-pointer relative bg-red-50/50">
-                    <div class="absolute left-0 top-0 bottom-0 w-1 bg-red-900"></div>
-                    <div class="flex items-start gap-4">
-                        <div class="bg-red-100 p-2 rounded-full">
-                            <svg class="w-6 h-6 text-red-900" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                        </div>
-                        <div class="flex-1">
-                            <div class="flex justify-between">
-                                <h3 class="font-bold text-gray-900">ยืนยันการจองคิวสำเร็จ</h3>
-                                <span class="text-xs text-gray-500">2 นาทีที่แล้ว</span>
-                            </div>
-                            <p class="text-sm text-gray-600 mt-1">คิวทำเล็บเจลของคุณวันที่ 25 ต.ค. เวลา 14:00 น. ได้รับการยืนยันแล้วค่ะ</p>
-                        </div>
-                    </div>
+                <div class="text-center py-10 text-gray-500">
+                    <svg class="animate-spin h-8 w-8 text-red-900 mx-auto mb-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    กำลังดึงข้อมูล...
                 </div>
- 
-                <div class="p-5 border-b border-gray-100 hover:bg-gray-50 transition cursor-pointer">
-                    <div class="flex items-start gap-4">
-                        <div class="bg-gray-100 p-2 rounded-full text-gray-400">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                        </div>
-                        <div class="flex-1">
-                            <div class="flex justify-between">
-                                <h3 class="font-bold text-gray-700">แจ้งเตือนยกเลิกคิว</h3>
-                                <span class="text-xs text-gray-500">2 ชม. ที่แล้ว</span>
-                            </div>
-                            <p class="text-sm text-gray-500 mt-1">ช่างไม่ว่างในเวลาที่ท่านเลือก กรุณาเลือกเวลาใหม่หรือติดต่อทางร้าน</p>
-                        </div>
-                    </div>
-                </div>
- 
-                <div class="p-5 border-b border-gray-100 hover:bg-gray-50 transition cursor-pointer">
-                    <div class="flex items-start gap-4">
-                        <div class="bg-yellow-100 p-2 rounded-full text-yellow-700">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.167H3.38a1.345 1.345 0 01-1.35-1.35V10.14c0-.746.604-1.35 1.35-1.35h1.108l2.147-6.167A1.76 1.76 0 0111 5.882z"></path></svg>
-                        </div>
-                        <div class="flex-1">
-                            <div class="flex justify-between">
-                                <h3 class="font-bold text-gray-700">Flash Sale! ลด 20%</h3>
-                                <span class="text-xs text-gray-500">วานนี้</span>
-                            </div>
-                            <p class="text-sm text-gray-500 mt-1">โปรโมชั่นพิเศษเฉพาะสาขา ม.พะเยา ตลอดสัปดาห์นี้เท่านั้น!</p>
-                        </div>
-                    </div>
-                </div>
- 
             </div>
  
-            <div id="empty-state" class="hidden bg-white rounded-2xl p-12 shadow-xl text-center">
+            <div id="empty-state" class="hidden bg-white rounded-b-2xl p-12 shadow-xl text-center border border-gray-200">
                 <div class="bg-gray-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4">
                     <svg class="w-10 h-10 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"></path></svg>
                 </div>
                 <h3 class="text-xl font-bold text-gray-900">ไม่มีการแจ้งเตือน</h3>
-                <p class="text-gray-500 mt-2">คุณไม่มีข้อความใหม่ในขณะนี้</p>
+                <p class="text-gray-500 mt-2">คุณยังไม่มีประวัติการทำรายการ หรือข้อความใหม่ในขณะนี้</p>
             </div>
  
         </div>
@@ -184,10 +147,14 @@
             if (userDataString) {
                 const userData = JSON.parse(userDataString);
                 
+                // ใส่ข้อมูลผู้ใช้ใน Navbar & Sidebar
                 const nameDisplay = document.getElementById('userNameDisplay');
                 if (nameDisplay) nameDisplay.innerText = `Hi, ${userData.name}`;
                 
-                const profileUrl = userData.photoUrl || `https://ui-avatars.com/api/?name=${userData.name}&background=fff&color=7f1d1d&bold=true`;
+                const sidebarNameDisplay = document.getElementById('sidebarUserNameDisplay');
+                if (sidebarNameDisplay) sidebarNameDisplay.innerText = `Hi, ${userData.name}`;
+
+                const profileUrl = userData.photoUrl || `https://ui-avatars.com/api/?name=${encodeURIComponent(userData.name)}&background=fff&color=7f1d1d&bold=true`;
                 const profilePic = document.getElementById('userProfilePic');
                 const sidebarPreview = document.getElementById('userProfilePicSidebar');
                 
@@ -199,6 +166,10 @@
                     if (profilePic) profilePic.src = profileUrl;
                     if (sidebarPreview) sidebarPreview.src = profileUrl;
                 }
+
+                // ⭐️ โหลดข้อมูลแจ้งเตือนจริงของ User คนนี้ 
+                loadRealNotifications(userData.name);
+
             } else {
                 alert('กรุณาเข้าสู่ระบบก่อนใช้งานครับ');
                 window.location.href = 'Homepage.html';
@@ -210,9 +181,22 @@
             const sidebar = document.getElementById('sidebar');
             const overlay = document.getElementById('overlay');
 
-            if(menuBtn) menuBtn.addEventListener('click', () => { sidebar.classList.remove('translate-x-full'); overlay.classList.remove('hidden'); });
-            if(closeBtn) closeBtn.addEventListener('click', () => { sidebar.classList.add('translate-x-full'); overlay.classList.add('hidden'); });
-            if(overlay) overlay.addEventListener('click', () => { sidebar.classList.add('translate-x-full'); overlay.classList.add('hidden'); });
+            function toggleMenu() {
+                const isOpen = !sidebar.classList.contains('translate-x-full');
+                if (!isOpen) {
+                    sidebar.classList.remove('translate-x-full');
+                    overlay.classList.remove('hidden');
+                    setTimeout(() => overlay.classList.add('opacity-100'), 10);
+                } else {
+                    sidebar.classList.add('translate-x-full');
+                    overlay.classList.remove('opacity-100');
+                    setTimeout(() => overlay.classList.add('hidden'), 300);
+                }
+            }
+
+            if(menuBtn) menuBtn.addEventListener('click', toggleMenu);
+            if(closeBtn) closeBtn.addEventListener('click', toggleMenu);
+            if(overlay) overlay.addEventListener('click', toggleMenu);
         });
 
         function handleLogout() {
@@ -223,17 +207,102 @@
             }
         }
 
+        // ==========================================
+        // ⭐️ ระบบดึงแจ้งเตือนจากประวัติการจองจริง
+        // ==========================================
+        function loadRealNotifications(userName) {
+            const allBookings = JSON.parse(localStorage.getItem('allBookings')) || [];
+            
+            // กรองหาเฉพาะคิวที่เป็นของ User คนที่กำลังล็อกอิน
+            const myBookings = allBookings.filter(b => b.customer_name === userName);
+            
+            const notifList = document.getElementById('notification-list');
+            const emptyState = document.getElementById('empty-state');
+            const notifCount = document.getElementById('notif-count');
+
+            if (myBookings.length === 0) {
+                notifList.innerHTML = '';
+                notifList.classList.add('hidden');
+                emptyState.classList.remove('hidden');
+                notifCount.innerText = "0 ใหม่";
+                return;
+            }
+
+            emptyState.classList.add('hidden');
+            let html = '';
+            
+            // เรียงลำดับจากล่าสุดไปเก่าสุด
+            [...myBookings].reverse().forEach(booking => {
+                const dateObj = new Date(booking.date);
+                const dateStr = dateObj.toLocaleDateString('th-TH', { month: 'short', day: 'numeric' });
+                
+                let title = '';
+                let detail = '';
+                let iconSVG = '';
+                let bgIconColor = '';
+                let textIconColor = '';
+
+                // กำหนดเนื้อหาตาม Status จริง
+                if (booking.status === 'รอการยืนยัน' || booking.status === 'Pending Payment') {
+                    title = 'จองคิวสำเร็จ (รอร้านยืนยัน)';
+                    detail = `คิวทำเล็บวันที่ ${dateStr} เวลา ${booking.time} น. ระบบได้รับข้อมูลแล้ว รอแอดมินยืนยันสักครู่นะคะ`;
+                    bgIconColor = 'bg-yellow-100';
+                    textIconColor = 'text-yellow-700';
+                    iconSVG = `<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>`;
+                } 
+                else if (booking.status === 'Confirmed' || booking.status === 'ยืนยันแล้ว') {
+                    title = 'ร้านยืนยันการจองคิวแล้ว';
+                    detail = `คิวทำเล็บวันที่ ${dateStr} เวลา ${booking.time} น. ได้รับการยืนยันจากแอดมินแล้ว เจอกันที่ร้านนะคะ!`;
+                    bgIconColor = 'bg-green-100';
+                    textIconColor = 'text-green-700';
+                    iconSVG = `<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>`;
+                } 
+                else {
+                    title = 'คิวถูกยกเลิก / หมดเวลา';
+                    detail = `คิวทำเล็บวันที่ ${dateStr} เวลา ${booking.time} น. ถูกยกเลิก หรือหมดเวลาชำระเงินมัดจำ กรุณาทำรายการใหม่ค่ะ`;
+                    bgIconColor = 'bg-red-100';
+                    textIconColor = 'text-red-700';
+                    iconSVG = `<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>`;
+                }
+
+                // สร้าง HTML ของแต่ละแจ้งเตือน
+                html += `
+                    <div class="notif-item p-5 border-b border-gray-100 hover:bg-gray-50 transition cursor-pointer relative bg-red-50/50" onclick="window.location.href='History.html'">
+                        <div class="notif-indicator absolute left-0 top-0 bottom-0 w-1 bg-red-900"></div>
+                        <div class="flex items-start gap-4">
+                            <div class="${bgIconColor} p-2 rounded-full ${textIconColor}">
+                                ${iconSVG}
+                            </div>
+                            <div class="flex-1">
+                                <div class="flex justify-between items-center">
+                                    <h3 class="font-bold text-gray-900">${title}</h3>
+                                    <span class="text-xs text-gray-400 bg-gray-100 px-2 py-0.5 rounded">ID: ${booking.id}</span>
+                                </div>
+                                <p class="text-sm text-gray-600 mt-1 leading-relaxed">${detail}</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            notifList.innerHTML = html;
+            notifCount.innerText = `${myBookings.length} ใหม่ (อ่านทั้งหมด)`;
+        }
+
+        // ==========================================
+        // ฟังก์ชันกดอ่านทั้งหมด
+        // ==========================================
         function markAllAsRead() {
             const count = document.getElementById('notif-count');
             count.innerText = "0 ใหม่";
             count.classList.replace('bg-white', 'bg-gray-200');
             count.classList.replace('text-red-900', 'text-gray-500');
            
-            const unreadItems = document.querySelectorAll('.bg-red-50\\/50');
+            const unreadItems = document.querySelectorAll('.notif-item');
             unreadItems.forEach(item => {
                 item.classList.remove('bg-red-50/50');
-                const accent = item.querySelector('.bg-red-900');
-                if(accent) accent.remove();
+                const indicator = item.querySelector('.notif-indicator');
+                if(indicator) indicator.remove();
             });
         }
     </script>
