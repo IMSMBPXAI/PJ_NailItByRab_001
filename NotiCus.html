@@ -167,12 +167,13 @@
                     if (sidebarPreview) sidebarPreview.src = profileUrl;
                 }
 
-                // ⭐️ โหลดข้อมูลแจ้งเตือนจริงของ User คนนี้ 
+                // ⭐️ โหลดข้อมูลแจ้งเตือนจริงของ User คนนี้
                 loadRealNotifications(userData.name);
 
             } else {
                 alert('กรุณาเข้าสู่ระบบก่อนใช้งานครับ');
                 window.location.href = 'index.html';
+            }
 
             // ระบบเปิด-ปิด Sidebar
             const menuBtn = document.getElementById('menuBtn');
