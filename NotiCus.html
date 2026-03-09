@@ -48,7 +48,7 @@
                        
                         <span id="userNameDisplay" class="text-white text-sm font-medium hidden md:block"></span>
  
-                        <button type="button" class="relative p-2 text-white hover:bg-white/10 rounded-full transition focus:outline-none">
+                        <button type="button" onclick="window.location.href='NotiCus.html'" class="relative p-2 text-white hover:bg-white/10 rounded-full transition focus:outline-none">
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
                             </svg>
@@ -76,33 +76,31 @@
  
             </div>
         </nav>
+        
         <div id="sidebar" class="fixed top-0 right-0 h-full w-72 bg-gradient-to-b from-[#801919] to-[#5d1212] z-[100] transform translate-x-full transition-transform duration-300 ease-in-out shadow-2xl rounded-l-[3rem]">
-   
-        <div class="p-8 flex flex-col items-center">
-        <button id="closeBtn" class="self-end text-white mb-4">
-            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-        </button>
-        <button type="button" class="flex text-sm bg-white rounded-full focus:ring-40 overflow-hidden size-49 border-2 border-white/20 shadow-sm ">
-             <img class="w-full h-full object-cover" src="https://ui-avatars.com/api/?name=User&background=random" alt="User Profile">
-        </button>
-       
+            <div class="p-8 flex flex-col items-center">
+            <button id="closeBtn" class="self-end text-white mb-4">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+            <button type="button" class="flex text-sm bg-white rounded-full focus:ring-40 overflow-hidden size-24 border-2 border-white/20 shadow-sm ">
+                 <img id="userProfilePicSidebar" class="w-full h-full object-cover" src="https://ui-avatars.com/api/?name=User&background=random" alt="User Profile">
+            </button>
+            </div>
+     
+            <div class="px-6 py-4">
+            <div class="bg-white/90 rounded-[2rem] p-6 space-y-3 text-center shadow-lg">
+                <a href="Accountsetting.html" class="block text-[#801919] font-bold hover:scale-105 transition uppercase tracking-wider text-medium">Setting</a>
+                <hr class="border-[#801919]/20 w-1/2 mx-auto">
+                <a href="History.html" class="block text-[#801919] font-bold hover:scale-105 transition uppercase tracking-wider text-medium">My Booking & History</a>
+            </div>
+            </div>
+     
+            <div class="absolute bottom-12 left-0 right-0 px-10 text-center">
+            <button onclick="handleLogout()" class="w-full border-2 border-white text-white py-2 rounded-full font-bold uppercase text-medium hover:bg-white hover:text-[#801919] transition">
+                Sign out
+            </button>
+             </div>
         </div>
- 
-        <div class="px-6 py-4">
-        <div class="bg-white/90 rounded-[2rem] p-6 space-y-3 text-center shadow-lg">
-            <a href="#" class="block text-[#801919] font-bold hover:scale-105 transition uppercase tracking-wider text-medium">Setting</a>
-            <hr class="border-[#801919]/20 w-1/2 mx-auto">
-            <a href="#" class="block text-[#801919] font-bold hover:scale-105 transition uppercase tracking-wider text-medium">My Booking & History</a>
-        </div>
-        </div>
- 
-        <div class="absolute bottom-12 left-0 right-0 px-10 text-center">
-        <button class="w-full border-2 border-white text-white py-2 rounded-full font-bold uppercase text-medium hover:bg-white hover:text-[#801919] transition">
-            Sign out
-        </button>
-         </div>
-        </div>
- 
         <div id="overlay" class="fixed inset-0 bg-black/40 z-[90] hidden"></div>
     </header>
  
@@ -115,7 +113,7 @@
                         <h2 class="text-2xl font-bold text-white uppercase tracking-wide">แจ้งเตือนของคุณ</h2>
                         <p class="text-red-100 text-sm">อัปเดตสถานะคิวและโปรโมชั่นล่าสุด</p>
                     </div>
-                    <span id="notif-count" class="bg-white text-red-900 px-3 py-1 rounded-full font-bold text-sm">3 ใหม่</span>
+                    <span id="notif-count" class="bg-white text-red-900 px-3 py-1 rounded-full font-bold text-sm cursor-pointer hover:bg-gray-100 transition" onclick="markAllAsRead()">3 ใหม่ (อ่านทั้งหมด)</span>
                 </div>
             </div>
  
@@ -181,14 +179,56 @@
     </main>
  
     <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const userDataString = localStorage.getItem('rabbitz_currentUser');
+            if (userDataString) {
+                const userData = JSON.parse(userDataString);
+                
+                const nameDisplay = document.getElementById('userNameDisplay');
+                if (nameDisplay) nameDisplay.innerText = `Hi, ${userData.name}`;
+                
+                const profileUrl = userData.photoUrl || `https://ui-avatars.com/api/?name=${userData.name}&background=fff&color=7f1d1d&bold=true`;
+                const profilePic = document.getElementById('userProfilePic');
+                const sidebarPreview = document.getElementById('userProfilePicSidebar');
+                
+                const savedPic = localStorage.getItem('savedProfilePic');
+                if (savedPic) {
+                    if (profilePic) profilePic.src = savedPic;
+                    if (sidebarPreview) sidebarPreview.src = savedPic;
+                } else {
+                    if (profilePic) profilePic.src = profileUrl;
+                    if (sidebarPreview) sidebarPreview.src = profileUrl;
+                }
+            } else {
+                alert('กรุณาเข้าสู่ระบบก่อนใช้งานครับ');
+                window.location.href = 'Homepage.html';
+            }
+
+            // ระบบเปิด-ปิด Sidebar
+            const menuBtn = document.getElementById('menuBtn');
+            const closeBtn = document.getElementById('closeBtn');
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('overlay');
+
+            if(menuBtn) menuBtn.addEventListener('click', () => { sidebar.classList.remove('translate-x-full'); overlay.classList.remove('hidden'); });
+            if(closeBtn) closeBtn.addEventListener('click', () => { sidebar.classList.add('translate-x-full'); overlay.classList.add('hidden'); });
+            if(overlay) overlay.addEventListener('click', () => { sidebar.classList.add('translate-x-full'); overlay.classList.add('hidden'); });
+        });
+
+        function handleLogout() {
+            if(confirm('ต้องการออกจากระบบใช่หรือไม่?')) {
+                localStorage.removeItem('rabbitz_currentUser');
+                localStorage.removeItem('savedProfilePic');
+                window.location.href = 'Homepage.html';
+            }
+        }
+
         function markAllAsRead() {
-            // โค้ดสำหรับอัปเดตสถานะ (จำลอง)
             const count = document.getElementById('notif-count');
             count.innerText = "0 ใหม่";
             count.classList.replace('bg-white', 'bg-gray-200');
             count.classList.replace('text-red-900', 'text-gray-500');
            
-            // ลบแถบสีแดงของ Notif ที่ยังไม่ได้อ่าน
             const unreadItems = document.querySelectorAll('.bg-red-50\\/50');
             unreadItems.forEach(item => {
                 item.classList.remove('bg-red-50/50');
@@ -197,32 +237,5 @@
             });
         }
     </script>
-
-    <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const userDataString = localStorage.getItem('rabbitz_currentUser');
-        if (userDataString) {
-            const userData = JSON.parse(userDataString);
-            const nameDisplay = document.getElementById('userNameDisplay');
-            if (nameDisplay) nameDisplay.innerText = `Hi, ${userData.name}`;
-            
-            const profilePic = document.getElementById('userProfilePic');
-            if (profilePic) {
-                if (userData.photoUrl) profilePic.src = userData.photoUrl;
-                else profilePic.src = `https://ui-avatars.com/api/?name=${userData.name}&background=fff&color=7f1d1d&bold=true`;
-            }
-        } else {
-            alert('กรุณาเข้าสู่ระบบก่อนใช้งานครับ');
-            window.location.href = 'Homepage.html';
-        }
-    });
-
-    function handleLogout() {
-        if(confirm('ต้องการออกจากระบบใช่หรือไม่?')) {
-            localStorage.removeItem('rabbitz_currentUser');
-            window.location.href = 'Homepage.html';
-        }
-    }
-</script>
 </body>
 </html>
