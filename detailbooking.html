@@ -148,7 +148,7 @@
                     nameDisplay.innerText = `Hi, ${userData.name}`;
                 }
                 
-                // แสดงรูปโปรไฟล์ (ถ้าล็อกอินด้วย Google จะมี photoUrl ถ้าไม่มีจะดึงชื่อมาทำเป็นรูป)
+                // แสดงรูปโปรไฟล์ 
                 const profilePic = document.getElementById('userProfilePic');
                 if (profilePic) {
                     if (userData.photoUrl) {
@@ -158,7 +158,6 @@
                     }
                 }
             } else {
-                // ถ้าแอบเข้าหน้านี้โดยที่ไม่ได้ล็อกอิน ให้เด้งกลับไปหน้า Homepage หลัก
                 alert('กรุณาเข้าสู่ระบบก่อนใช้งานครับ');
                 window.location.href = 'Homepage.html';
             }
@@ -167,9 +166,7 @@
         // ⭐️ ฟังก์ชันสำหรับปุ่ม Log out
         function handleLogout() {
             if(confirm('ต้องการออกจากระบบใช่หรือไม่?')) {
-                // ลบข้อมูลผู้ใช้ออกจากเครื่อง
                 localStorage.removeItem('rabbitz_currentUser');
-                // เด้งกลับไปหน้าแรก
                 window.location.href = 'Homepage.html';
             }
         }
@@ -250,14 +247,32 @@
         // --------------------------------------------------------
         function confirmBooking() {
             const bookingDataStr = sessionStorage.getItem('bookingData');
+            const userDataStr = localStorage.getItem('rabbitz_currentUser');
+            let currentUser = { name: 'Guest', phone: '-' };
+            
+            if(userDataStr) {
+                currentUser = JSON.parse(userDataStr);
+            }
+
             if(bookingDataStr) {
                 const bookingData = JSON.parse(bookingDataStr);
                 
-                // แนบข้อมูลผู้ใช้และสถานะ
-                bookingData.id = 'B' + Date.now(); 
-                bookingData.username = 'Guest'; 
-                bookingData.status = 'Pending Payment'; // ระบุว่ากำลังรอจ่ายเงิน
+                // สร้าง ID เป็นตัวเลขเพื่อให้หน้าแอดมินแก้ไขสถานะได้ง่าย
+                bookingData.id = Date.now(); 
+                
+                // ดึงชื่อและเบอร์โทร(ถ้ามี) จากระบบล็อกอินมาแปะ
+                bookingData.customer_name = currentUser.name;
+                bookingData.phone = currentUser.phone || '-';
+                
+                bookingData.status = 'Pending Payment'; 
                 bookingData.createdAt = new Date().toISOString();
+
+                // สร้างข้อความ Date/Time สวยๆ สำหรับหน้าแอดมิน 
+                bookingData.rawDate = bookingData.date; // เก็บวันที่แบบปี-เดือน-วัน ไว้ใช้กับช่องแก้ไขเวลา
+                const dateObj = new Date(bookingData.date);
+                const thaiMonths = ['ม.ค.', 'ก.พ.', 'มี.ค.', 'เม.ย.', 'พ.ค.', 'มิ.ย.', 'ก.ค.', 'ส.ค.', 'ก.ย.', 'ต.ค.', 'พ.ย.', 'ธ.ค.'];
+                const displayDate = `${dateObj.getDate()} ${thaiMonths[dateObj.getMonth()]} ${(dateObj.getFullYear() + 543).toString().slice(-2)}`;
+                bookingData.datetime = `${displayDate} - ${bookingData.time} น.`;
 
                 // อัปเดตข้อมูลกลับไปที่ Session 
                 sessionStorage.setItem('bookingData', JSON.stringify(bookingData));
