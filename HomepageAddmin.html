@@ -19,6 +19,24 @@
             cursor: pointer;
             filter: invert(0.4) sepia(1) saturate(5) hue-rotate(330deg);
         }
+
+        /* ⭐️ เพิ่ม Scrollbar ให้กล่องบริการ */
+        #servicesList {
+            max-height: 450px; /* จำกัดความสูง */
+            overflow-y: auto;  /* ให้เลื่อนขึ้นลงได้ */
+            padding-right: 8px;
+        }
+        #servicesList::-webkit-scrollbar {
+            width: 6px;
+        }
+        #servicesList::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+        #servicesList::-webkit-scrollbar-thumb {
+            background: #800000;
+            border-radius: 10px;
+        }
     </style>
 </head>
 <body class="bg-gray-50 min-h-screen">
@@ -38,7 +56,8 @@
                     </div>
                 </div>
                 <div class="flex items-center justify-between w-auto gap-4">
-                    <span id="navUserRole" class="text-white text-xs bg-red-800 px-2 py-1 rounded border border-red-700 hidden md:block"></span>
+                    <a href="addminSetting.html" id="navUserRole" title="ตั้งค่าระบบร้าน (Setting)" class="text-white text-xs bg-red-800 px-3 py-1.5 rounded border border-red-700 hidden md:block hover:bg-red-700 hover:scale-105 cursor-pointer transition shadow-sm"></a>
+    
                     <button onclick="adminLogout()" class="text-red-900 bg-white hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-4 py-2 text-center inline-flex items-center transition shadow-sm">
                         Log out
                     </button>
@@ -226,7 +245,7 @@
 
                     <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
                         <h2 class="text-lg font-bold mb-4 text-gray-700">บริการที่แสดงบนหน้าเว็บตอนนี้</h2>
-                        <div id="servicesList" class="space-y-3">
+                        <div id="servicesList">
                             <p class="text-center text-gray-400 text-sm mt-4">กำลังโหลดข้อมูล...</p>
                         </div>
                     </div>
@@ -295,10 +314,24 @@
     </section>
 
     <script>
-        // ใช้ Local Storage ของจริงร่วมกับระบบของลูกค้า
         const LOCAL_STORAGE_KEY = 'allBookings'; 
         const LOCAL_STORAGE_ROLES_KEY = 'rabbitz_roles';
         const LOCAL_STORAGE_CONTENT_KEY = 'rabbitz_content'; 
+
+        // ข้อมูลบริการหลัก
+        const staticServices = [
+            { id: 's1', name: "ทาสีพื้นมือ", detail: "บริการทาสีเจลพื้นมือ 1-2 สี", price: 200 },
+            { id: 's2', name: "ทาสีพื้นเท้า", detail: "บริการทาสีเจลพื้นเท้า 1-2 สี", price: 250 },
+            { id: 's3', name: "ทาสีแฟลช/ลูกแก้ว", detail: "สีวิบวับ เล่นแสงสวยงาม", price: 250 },
+            { id: 's4', name: "ปั้นนูน", detail: "งานอาร์ต 3D ปั้นลายนูน", price: 50 },
+            { id: 's5', name: "เพ้นท์ นิ้วละ", detail: "เพ้นท์ลายตามบรีฟ", price: 10 },
+            { id: 's6', name: "ตัดเล็บขบ", detail: "ดูแลปัญหาเล็บขบโดยเฉพาะ", price: 300 },
+            { id: 's7', name: "เสริมเล็บฉีก", detail: "ซ่อมแซมเล็บที่ฉีกขาด", price: 250 },
+            { id: 's8', name: "Overlay", detail: "เสริมหน้าเล็บให้แข็งแรง", price: 250 },
+            { id: 's9', name: "PVC กาวธรรมดา", detail: "ต่อเล็บแบบมาตรฐาน", price: 300 },
+            { id: 's10', name: "PVC กาวเจล", detail: "ต่อเล็บทนทานพิเศษ", price: 350 },
+            { id: 's11', name: "PVC โพลีเจล", detail: "ต่อเล็บเบาสบายเป็นธรรมชาติ", price: 700 }
+        ];
 
         function adminLogout() {
             if(confirm('ต้องการออกจากระบบหลังร้าน ใช่หรือไม่?')) {
@@ -382,40 +415,29 @@
         }
 
         function saveTask() {
-    const statusRadio = document.querySelector('input[name="dayStatus"]:checked').value;
-    const task = document.getElementById('taskInput').value;
-    
-    // ดึงข้อมูลวันที่เลือกจากปฏิทิน
-    const year = parseInt(yearSelect.value);
-    const month = parseInt(monthSelect.value) + 1; // เดือนใน JS เริ่มที่ 0
-    const day = parseInt(selectedDateText.innerText.split(' ')[0]);
-    
-    // จัดรูปแบบวันที่ให้เป็น YYYY-MM-DD เพื่อให้ตรงกับหน้า Booking
-    const dateStr = `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
+            const statusRadio = document.querySelector('input[name="dayStatus"]:checked').value;
+            const year = parseInt(yearSelect.value);
+            const month = parseInt(monthSelect.value) + 1; 
+            const day = parseInt(selectedDateText.innerText.split(' ')[0]);
+            
+            const dateStr = `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
+            let closedDates = JSON.parse(localStorage.getItem('rabbitz_closed_dates')) || [];
 
-    // ดึงรายการวันที่ปิดจองมาจาก Storage
-    let closedDates = JSON.parse(localStorage.getItem('rabbitz_closed_dates')) || [];
+            if (statusRadio === 'closed') {
+                if (!closedDates.includes(dateStr)) closedDates.push(dateStr);
+            } else {
+                closedDates = closedDates.filter(d => d !== dateStr);
+            }
 
-    if (statusRadio === 'closed') {
-        // ถ้าสั่งปิด และยังไม่มีในลิสต์ ให้เพิ่มเข้าไป
-        if (!closedDates.includes(dateStr)) {
-            closedDates.push(dateStr);
+            localStorage.setItem('rabbitz_closed_dates', JSON.stringify(closedDates));
+            
+            let msg = `ตั้งค่าวันที่ ${selectedDateText.innerText} เรียบร้อยแล้ว\n`;
+            msg += statusRadio === 'closed' ? "สถานะ: ปิดรับจอง (Block)" : "สถานะ: เปิดรับจองปกติ";
+            alert(msg);
+            
+            closeModal();
+            renderCalendar(); 
         }
-    } else {
-        // ถ้าสั่งเปิด ให้เอากันวันที่นี้ออกจากลิสต์ปิดจอง
-        closedDates = closedDates.filter(d => d !== dateStr);
-    }
-
-    // บันทึกกลับลง Storage
-    localStorage.setItem('rabbitz_closed_dates', JSON.stringify(closedDates));
-    
-    let msg = `ตั้งค่าวันที่ ${selectedDateText.innerText} เรียบร้อยแล้ว\n`;
-    msg += statusRadio === 'closed' ? "สถานะ: ปิดรับจอง (Block)" : "สถานะ: เปิดรับจองปกติ";
-    alert(msg);
-    
-    closeModal();
-    renderCalendar(); // สั่งวาดปฏิทินใหม่เพื่ออัปเดตสถานะ (ถ้ามีการเขียน logic สีไว้)
-}
 
         monthSelect.value = currentViewDate.getMonth();
         yearSelect.value = currentViewDate.getFullYear();
@@ -424,28 +446,24 @@
         yearSelect.onchange = renderCalendar;
 
         function initLocalStorage() {
-    if (!localStorage.getItem(LOCAL_STORAGE_ROLES_KEY)) {
-        const mockRoles = [
-            { id: 1, name: "RABBITZ_CEO (คุณตัวกระต่าย)", role: "admin" },
-            { id: 2, name: "Tech_Jane (ช่างเจน)", role: "tech" }
-        ];
-        localStorage.setItem(LOCAL_STORAGE_ROLES_KEY, JSON.stringify(mockRoles));
-    }
-    // ไม่ต้องเซ็ต LOCAL_STORAGE_CONTENT_KEY เป็น Mock ไว้ เพื่อให้ดึงจากที่แอดมินพิมพ์เอง
-}
+            if (!localStorage.getItem(LOCAL_STORAGE_ROLES_KEY)) {
+                const mockRoles = [
+                    { id: 1, name: "RABBITZ_CEO (คุณตัวกระต่าย)", role: "admin" },
+                    { id: 2, name: "Tech_Jane (ช่างเจน)", role: "tech" }
+                ];
+                localStorage.setItem(LOCAL_STORAGE_ROLES_KEY, JSON.stringify(mockRoles));
+            }
+        }
 
         // ==========================================
-        // ⭐️ ระบบดึงสถิติ Dashboard ให้อิงจากคิวของจริง
+        // ⭐️ ระบบดึงสถิติ Dashboard 
         // ==========================================
         function updateDashboardStats() {
             const allBookings = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY)) || [];
-            
-            // หาวันที่ของวันนี้ (รองรับ Timezone ไทย)
             const today = new Date();
             const offset = today.getTimezoneOffset() * 60000;
             const todayStr = (new Date(today - offset)).toISOString().split('T')[0];
 
-            // กรองหาคิวของวันนี้ และเป็นคิวที่ยืนยันหรือรอการยืนยันแล้ว
             const todayBookings = allBookings.filter(b => 
                 b.date === todayStr && 
                 b.status !== 'Cancelled' && 
@@ -455,16 +473,14 @@
             );
 
             const count = todayBookings.length;
-            const estimatedRevenue = count * 350; // สมมติรายได้เฉลี่ยหัวละ 350 บาท
+            const estimatedRevenue = count * 350;
 
-            // 1. อัปเดต Top Quick Stats
             const topCount = document.getElementById('todayBookingsCount');
             if(topCount) topCount.innerText = count;
 
             const topRevenue = document.getElementById('todayRevenue');
             if(topRevenue) topRevenue.innerText = estimatedRevenue.toLocaleString() + ' บาท';
 
-            // 2. อัปเดต Overview Tab Stats
             const overviewCount = document.getElementById('overviewBookingsCount');
             if(overviewCount) overviewCount.innerText = count;
 
@@ -475,7 +491,6 @@
             const overviewNewCust = document.getElementById('overviewNewCustomer');
             if(overviewNewCust) overviewNewCust.innerText = uniqueCustomers;
 
-            // 3. อัปเดตรูป Profile ลูกค้าด้านบน (ดึงเฉพาะ 4 คิวแรก)
             const custContainer = document.getElementById('todayCustomers');
             if(custContainer) {
                 custContainer.innerHTML = '';
@@ -487,7 +502,6 @@
                         </div>`;
                 });
                 
-                // เติมช่องให้เต็ม 4 ช่อง
                 for(let i = count; i < 4; i++) {
                     custContainer.innerHTML += `<div class="h-8 bg-gray-200 rounded-md shadow-sm"></div>`;
                 }
@@ -495,7 +509,7 @@
         }
 
         // ==========================================
-        // ⭐️ ระบบจัดการการจองคิว (ดึงจากผู้ใช้จริง)
+        // ⭐️ ระบบจัดการการจองคิว 
         // ==========================================
         function fetchBookings() {
             const tbody = document.getElementById('bookingsTableBody');
@@ -504,7 +518,7 @@
             tbody.innerHTML = '';
             if (storedBookings.length === 0) {
                 tbody.innerHTML = `<tr><td colspan="5" class="px-4 py-4 text-center text-gray-400">ยังไม่มีข้อมูลการจอง</td></tr>`;
-                updateDashboardStats(); // อัปเดตสถิติ
+                updateDashboardStats(); 
                 return;
             }
 
@@ -518,7 +532,6 @@
                 if(booking.status === 'Confirmed' || booking.status === 'ยืนยันแล้ว') statusColor = 'bg-green-100 text-green-800';
                 else if(booking.status === 'Cancelled' || booking.status === 'ยกเลิก' || booking.status === 'Failed') statusColor = 'bg-red-100 text-red-800';
 
-                // ปุ่มจัดการสถานะ
                 let actionButtons = '';
                 if(booking.status === 'รอการยืนยัน' || booking.status === 'Pending Payment') {
                     actionButtons = `
@@ -539,7 +552,6 @@
                 `;
             });
 
-            // อัปเดตสถิติด้านบนให้ตรงกับข้อมูลในตาราง
             updateDashboardStats();
         }
 
@@ -565,7 +577,6 @@
                 if (booking.rawDate) {
                     document.getElementById('editBookingDate').value = booking.rawDate;
                 }
-
                 document.getElementById('editTimeModal').classList.remove('hidden');
             }
         }
@@ -574,56 +585,52 @@
             document.getElementById('editTimeModal').classList.add('hidden');
         }
 
-        // ค้นหาฟังก์ชันเดิมแล้ววางทับด้วยโค้ดนี้
-function saveNewBookingTime() {
-    const bookingId = document.getElementById('editBookingId').value;
-    const dateVal = document.getElementById('editBookingDate').value; 
-    const timeVal = document.getElementById('editBookingTime').value; 
+        function saveNewBookingTime() {
+            const bookingId = document.getElementById('editBookingId').value;
+            const dateVal = document.getElementById('editBookingDate').value; 
+            const timeVal = document.getElementById('editBookingTime').value; 
 
-    if (!dateVal || !timeVal) {
-        alert('กรุณาเลือกปฏิทินและเวลาให้ครบถ้วนครับ');
-        return;
-    }
+            if (!dateVal || !timeVal) {
+                alert('กรุณาเลือกปฏิทินและเวลาให้ครบถ้วนครับ');
+                return;
+            }
 
-    const thaiMonths = ['ม.ค.', 'ก.พ.', 'มี.ค.', 'เม.ย.', 'พ.ค.', 'มิ.ย.', 'ก.ค.', 'ส.ค.', 'ก.ย.', 'ต.ค.', 'พ.ย.', 'ธ.ค.'];
-    const dateObj = new Date(dateVal);
-    const day = dateObj.getDate();
-    const month = thaiMonths[dateObj.getMonth()];
-    const year = (dateObj.getFullYear() + 543).toString().slice(-2); 
+            const thaiMonths = ['ม.ค.', 'ก.พ.', 'มี.ค.', 'เม.ย.', 'พ.ค.', 'มิ.ย.', 'ก.ค.', 'ส.ค.', 'ก.ย.', 'ต.ค.', 'พ.ย.', 'ธ.ค.'];
+            const dateObj = new Date(dateVal);
+            const day = dateObj.getDate();
+            const month = thaiMonths[dateObj.getMonth()];
+            const year = (dateObj.getFullYear() + 543).toString().slice(-2); 
 
-    const newDatetimeStr = `${day} ${month} ${year} - ${timeVal} น.`;
+            const newDatetimeStr = `${day} ${month} ${year} - ${timeVal} น.`;
 
-    let bookings = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY));
-    const index = bookings.findIndex(b => b.id == bookingId);
-    
-    if (index !== -1) {
-        // เก็บเวลาเดิมไว้เพื่อแจ้งเตือนลูกค้า
-        const oldDatetimeStr = bookings[index].datetime; 
-        
-        bookings[index].datetime = newDatetimeStr;
-        bookings[index].date = dateVal; 
-        bookings[index].time = timeVal; 
-        bookings[index].rawDate = dateVal; 
-        localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(bookings));
-        
-        // --- ส่วนที่เพิ่ม: ส่งการแจ้งเตือนไปยังฝั่งลูกค้า ---
-        let notifications = JSON.parse(localStorage.getItem('rabbitz_notifications')) || [];
-        notifications.unshift({
-            id: Date.now(),
-            customer_name: bookings[index].customer_name, 
-            title: '📅 อัปเดตเวลาจองคิว',
-            message: `ทางร้านได้เลื่อนเวลาคิวของคุณจากเดิม ${oldDatetimeStr} เป็นเวลาใหม่คือ ${newDatetimeStr} ค่ะ`,
-            timestamp: new Date().toISOString(),
-            read: false
-        });
-        localStorage.setItem('rabbitz_notifications', JSON.stringify(notifications));
-        // ------------------------------------------
-        
-        alert('อัปเดตเวลาการจองและส่งแจ้งเตือนเรียบร้อยแล้ว!');
-        closeEditTimeModal();
-        fetchBookings(); // ตารางแอดมินจะแสดงข้อมูลใหม่ทันที
-    }
-}
+            let bookings = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY));
+            const index = bookings.findIndex(b => b.id == bookingId);
+            
+            if (index !== -1) {
+                const oldDatetimeStr = bookings[index].datetime; 
+                
+                bookings[index].datetime = newDatetimeStr;
+                bookings[index].date = dateVal; 
+                bookings[index].time = timeVal; 
+                bookings[index].rawDate = dateVal; 
+                localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(bookings));
+                
+                let notifications = JSON.parse(localStorage.getItem('rabbitz_notifications')) || [];
+                notifications.unshift({
+                    id: Date.now(),
+                    customer_name: bookings[index].customer_name, 
+                    title: '📅 อัปเดตเวลาจองคิว',
+                    message: `ทางร้านได้เลื่อนเวลาคิวของคุณจากเดิม ${oldDatetimeStr} เป็นเวลาใหม่คือ ${newDatetimeStr} ค่ะ`,
+                    timestamp: new Date().toISOString(),
+                    read: false
+                });
+                localStorage.setItem('rabbitz_notifications', JSON.stringify(notifications));
+                
+                alert('อัปเดตเวลาการจองและส่งแจ้งเตือนเรียบร้อยแล้ว!');
+                closeEditTimeModal();
+                fetchBookings(); 
+            }
+        }
 
         // ==========================================
         // ⭐️ ระบบจัดการสิทธิ์พนักงาน (Roles)
@@ -709,140 +716,57 @@ function saveNewBookingTime() {
         }
 
         // ==========================================
-        // ⭐️ ระบบจัดการเนื้อหา (Content Management)
+        // ⭐️ ระบบจัดการเนื้อหา (Content Management) 
         // ==========================================
-        // 1. ปรับการตั้งค่าเริ่มต้น (ไม่ต้องมี Mock ข้อมูลบริการ)
-// --- ส่วนจัดการเนื้อหาที่ปรับปรุงใหม่ ---
 
-// 1. รายการบริการเดิมที่มีอยู่ในหน้า HomepageCus.html (Static Data)
-const staticServices = [
-    { id: 's1', name: "ทาสีพื้นมือ", detail: "บริการทาสีเจลพื้นมือ 1-2 สี", price: 200 },
-    { id: 's2', name: "ทาสีพื้นเท้า", detail: "บริการทาสีเจลพื้นเท้า 1-2 สี", price: 250 },
-    { id: 's3', name: "ทาสีแฟลช/ลูกแก้ว", detail: "สีวิบวับ เล่นแสงสวยงาม", price: 250 },
-    { id: 's4', name: "ปั้นนูน", detail: "งานอาร์ต 3D ปั้นลายนูน", price: 50 },
-    { id: 's5', name: "เพ้นท์ นิ้วละ", detail: "เพ้นท์ลายตามบรีฟ", price: 10 },
-    { id: 's6', name: "ตัดเล็บขบ", detail: "ดูแลปัญหาเล็บขบโดยเฉพาะ", price: 300 },
-    { id: 's7', name: "เสริมเล็บฉีก", detail: "ซ่อมแซมเล็บที่ฉีกขาด", price: 250 },
-    { id: 's8', name: "Overlay", detail: "เสริมหน้าเล็บให้แข็งแรง", price: 250 },
-    { id: 's9', name: "PVC กาวธรรมดา", detail: "ต่อเล็บแบบมาตรฐาน", price: 300 },
-    { id: 's10', name: "PVC กาวเจล", detail: "ต่อเล็บทนทานพิเศษ", price: 350 },
-    { id: 's11', name: "PVC โพลีเจล", detail: "ต่อเล็บเบาสบายเป็นธรรมชาติ", price: 700 }
-];
+        function fetchContent() {
+            const listContainer = document.getElementById('servicesList');
+            const dynamicServices = JSON.parse(localStorage.getItem(LOCAL_STORAGE_CONTENT_KEY)) || [];
+            const currentUser = JSON.parse(localStorage.getItem('rabbitz_currentUser')) || {};
+            const isOwner = currentUser.role === 'admin';
+            
+            listContainer.innerHTML = '';
 
-// 2. ฟังก์ชันดึงข้อมูลบริการทั้งหมดมาแสดงในหน้า Admin
-function fetchContent() {
-    const listContainer = document.getElementById('servicesList');
-    const dynamicServices = JSON.parse(localStorage.getItem(LOCAL_STORAGE_CONTENT_KEY)) || [];
-    const currentUser = JSON.parse(localStorage.getItem('rabbitz_currentUser')) || {};
-    const isOwner = currentUser.role === 'admin';
-    
-    listContainer.innerHTML = '';
+            let staticHtml = `<div class="mb-4"><p class="text-[10px] font-bold text-gray-400 mb-2 uppercase tracking-widest">— บริการหลักของร้าน (ถาวร) —</p>`;
+            staticServices.forEach(item => {
+                staticHtml += `
+                    <div class="flex justify-between items-center border border-gray-100 p-3 rounded-xl bg-gray-50/50 mb-2 opacity-70">
+                        <div class="flex-1">
+                            <p class="font-bold text-xs text-gray-600">${item.name}</p>
+                            <p class="text-xs text-gray-500 font-bold">${item.price.toLocaleString()} ฿</p>
+                        </div>
+                        <span class="text-[9px] text-gray-400 font-bold italic">System</span>
+                    </div>`;
+            });
+            staticHtml += `</div>`;
 
-    // สร้างส่วนแสดงผล "บริการหลัก" (แยกกลุ่มเพื่อให้ดูง่าย)
-    let staticHtml = `<div class="mb-4"><p class="text-[10px] font-bold text-gray-400 mb-2 uppercase tracking-widest">— บริการหลักของร้าน (ถาวร) —</p>`;
-    staticServices.forEach(item => {
-        staticHtml += `
-            <div class="flex justify-between items-center border border-gray-100 p-3 rounded-xl bg-gray-50/50 mb-2 opacity-70">
-                <div class="flex-1">
-                    <p class="font-bold text-xs text-gray-600">${item.name}</p>
-                    <p class="text-xs text-gray-500 font-bold">${item.price.toLocaleString()} ฿</p>
-                </div>
-                <span class="text-[9px] text-gray-400 font-bold italic">System</span>
-            </div>`;
-    });
-    staticHtml += `</div>`;
+            let dynamicHtml = `<div class="mt-6"><p class="text-[10px] font-bold text-red-900 mb-2 uppercase tracking-widest">— บริการที่เพิ่มใหม่ (จัดการได้) —</p>`;
+            
+            if (dynamicServices.length === 0) {
+                dynamicHtml += `<p class="text-center text-gray-400 text-xs py-4">ยังไม่มีบริการที่เพิ่มใหม่</p>`;
+            } else {
+                [...dynamicServices].reverse().forEach(item => {
+                    let deleteBtn = isOwner ? `
+                        <button onclick="deleteContent(${item.id})" class="text-red-500 hover:text-red-700 p-1 transition-colors" title="ลบรายการ">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                        </button>` : '';
 
-    // สร้างส่วนแสดงผล "บริการที่เพิ่มใหม่"
-    let dynamicHtml = `<div class="mt-6"><p class="text-[10px] font-bold text-red-900 mb-2 uppercase tracking-widest">— บริการที่เพิ่มใหม่ (จัดการได้) —</p>`;
-    
-    if (dynamicServices.length === 0) {
-        dynamicHtml += `<p class="text-center text-gray-400 text-xs py-4">ยังไม่มีบริการที่เพิ่มใหม่</p>`;
-    } else {
-        [...dynamicServices].reverse().forEach(item => {
-            let deleteBtn = isOwner ? `
-                <button onclick="deleteContent(${item.id})" class="text-red-500 hover:text-red-700 p-1 transition-colors" title="ลบรายการ">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
-                </button>` : '';
+                    dynamicHtml += `
+                        <div class="flex justify-between items-center border border-red-100 p-3 rounded-xl bg-white shadow-sm mb-2 hover:border-red-300 transition-all group">
+                            <div class="flex-1">
+                                <p class="font-bold text-sm text-red-900">${item.name}</p>
+                                <p class="text-[10px] text-gray-500 truncate max-w-[150px]">${item.detail || 'ไม่มีรายละเอียด'}</p>
+                                <p class="text-xs text-green-700 font-bold">${Number(item.price).toLocaleString()} ฿</p>
+                            </div>
+                            ${deleteBtn}
+                        </div>`;
+                });
+            }
+            dynamicHtml += `</div>`;
 
-            dynamicHtml += `
-                <div class="flex justify-between items-center border border-red-100 p-3 rounded-xl bg-white shadow-sm mb-2 hover:border-red-300 transition-all group">
-                    <div class="flex-1">
-                        <p class="font-bold text-sm text-red-900">${item.name}</p>
-                        <p class="text-[10px] text-gray-500 truncate max-w-[150px]">${item.detail || 'ไม่มีรายละเอียด'}</p>
-                        <p class="text-xs text-green-700 font-bold">${Number(item.price).toLocaleString()} ฿</p>
-                    </div>
-                    ${deleteBtn}
-                </div>`;
-        });
-    }
-    dynamicHtml += `</div>`;
+            listContainer.innerHTML = staticHtml + dynamicHtml;
+        }
 
-    // รวมทั้งสองส่วนเข้าด้วยกัน
-    listContainer.innerHTML = staticHtml + dynamicHtml;
-}
-
-    // ส่วนที่ 2: แสดงบริการที่เพิ่มใหม่ (Dynamic) - จัดการได้
-    if (dynamicServices.length > 0) {
-        [...dynamicServices].reverse().forEach(item => {
-            let deleteBtn = isOwner ? `
-                <button onclick="deleteContent(${item.id})" class="ml-4 text-red-500 hover:text-white hover:bg-red-500 text-[10px] font-bold border border-red-500 px-2 py-1 rounded transition-all shadow-sm">
-                    ลบรายการ
-                </button>` : '';
-
-            listContainer.innerHTML += `
-                <div class="flex justify-between items-center border border-red-200 p-4 rounded-xl bg-white shadow-sm mb-2 hover:border-red-400 transition-colors">
-                    <div class="flex-1">
-                        <p class="font-bold text-sm text-red-900">${item.name} <span class="text-[9px] bg-red-100 px-1 rounded ml-1 text-red-500 font-normal">เพิ่มใหม่</span></p>
-                        <p class="text-[10px] text-gray-500 my-1">${item.detail || 'ไม่มีรายละเอียด'}</p>
-                        <p class="text-xs text-green-700 font-bold">${Number(item.price).toLocaleString()} BATH</p>
-                    </div>
-                    ${deleteBtn}
-                </div>`;
-        });
-    }
-
-// 3. ฟังก์ชันเพิ่มบริการ (คงเดิมตามระบบที่เชื่อมต่อไว้)
-function addServiceContent() {
-    const nameInput = document.getElementById('contentName').value;
-    const detailInput = document.getElementById('contentDetail').value;
-    const priceInput = document.getElementById('contentPrice').value;
-
-    if (!nameInput || !priceInput) return alert("กรุณากรอกชื่อบริการและราคาด้วยค่ะ");
-
-    let contents = JSON.parse(localStorage.getItem(LOCAL_STORAGE_CONTENT_KEY)) || [];
-    const newItem = {
-        id: Date.now(),
-        name: nameInput.trim(),
-        detail: detailInput.trim(),
-        price: parseFloat(priceInput)
-    };
-
-    contents.push(newItem);
-    localStorage.setItem(LOCAL_STORAGE_CONTENT_KEY, JSON.stringify(contents));
-    
-    document.getElementById('contentName').value = '';
-    document.getElementById('contentDetail').value = '';
-    document.getElementById('contentPrice').value = '';
-
-    alert(`เพิ่มบริการ "${newItem.name}" เรียบร้อยแล้ว!`);
-    fetchContent(); 
-}
-
-// 4. แก้ไข initLocalStorage เพื่อไม่ให้ทับข้อมูลจริง
-function initLocalStorage() {
-    if (!localStorage.getItem(LOCAL_STORAGE_ROLES_KEY)) {
-        const mockRoles = [
-            { id: 1, name: "RABBITZ_CEO (คุณตัวกระต่าย)", role: "admin" },
-            { id: 2, name: "Tech_Jane (ช่างเจน)", role: "tech" }
-        ];
-        localStorage.setItem(LOCAL_STORAGE_ROLES_KEY, JSON.stringify(mockRoles));
-    }
-}
-
-// เรียกใช้งานครั้งแรกเมื่อโหลดหน้า
-document.addEventListener('DOMContentLoaded', () => {
-    fetchContent();
-});
         function addServiceContent() {
             const currentUser = JSON.parse(localStorage.getItem('rabbitz_currentUser')) || {};
             if (currentUser.role !== 'admin') return alert('เฉพาะเจ้าของร้านเท่านั้นที่แก้ไขเนื้อหาหน้าเว็บได้ครับ');
@@ -897,8 +821,9 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             
             initLocalStorage();
-            updateDashboardStats(); // คำนวณสถิติทันทีตอนเปิดหน้า
+            updateDashboardStats(); 
             updateHomepageGallery();
+            fetchContent(); // สั่งให้ดึงบริการแสดงผลทันที
         });
 
         // อัปเดต Gallery จากหน้าที่แล้ว
