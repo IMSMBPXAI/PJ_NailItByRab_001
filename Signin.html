@@ -181,48 +181,65 @@
         }
 
         // 2. ฟังก์ชันหลักในการจัดเก็บ Session และย้ายหน้าตามสิทธิ์ (Role)
-        function processUserLogin(user) {
-            // 1. ดึงข้อมูลสิทธิ์จากระบบหลังร้านที่แอดมินเพิ่มไว้
-            const rolesData = JSON.parse(localStorage.getItem('rabbitz_roles')) || [];
-            
-            // 2. เช็คว่าชื่อหรืออีเมลตรงกับในระบบสิทธิ์หรือไม่
-            const userRoleInfo = rolesData.find(r => r.name === user.displayName || r.name === user.email);
-            
-            // 3. ลำดับการให้สิทธิ์: แอดมินในโค้ด -> แอดมินจากระบบ -> ลูกค้าทั่วไป
-            let finalRole = 'customer';
-            
-            if (user.displayName === "I'm lonely" || user.email === "oppok8801@gmail.com" || user.email === "ppxaiphrom@gmail.com"|| user.email === "68026552@up.ac.th") {
-                finalRole = 'admin'; // <--- กำหนด Admin ถาวรไว้ในโค้ดตรงนี้ (เปลี่ยนชื่อ/อีเมลตามต้องการ)
-            } else if (userRoleInfo) {
-                finalRole = userRoleInfo.role;
-            } else {
-                finalRole = user.role || 'customer';
-            }
-            
-            const userData = {
-                isLoggedIn: true,
-                name: user.displayName || 'ผู้ใช้งาน',
-                email: user.email || '',
-                photoUrl: user.photoURL || '',
-                uid: user.uid || Date.now(),
-                role: finalRole
-            };
-            
-            localStorage.setItem('rabbitz_currentUser', JSON.stringify(userData));
-            localStorage.removeItem('rabbitz_temp_role');
+        // 2. ฟังก์ชันหลักในการจัดเก็บ Session และย้ายหน้าตามสิทธิ์ (Role)
+function processUserLogin(user) {
+    // ดึงบทบาทที่ผู้ใช้เลือกมาจากหน้า Rolechoosen (ถ้าไม่มีให้มองเป็น customer)
+    const selectedRole = localStorage.getItem('rabbitz_temp_role') || 'customer';
 
-            // แยกเส้นทางส่งไปหน้าให้ถูกต้องตาม Role
-            if (finalRole === 'admin' || finalRole === 'tech') {
-                window.location.href = 'HomepageAddmin.html';
-            } else {
-                window.location.href = 'HomepageCus.html';
-            }
+    // 1. ดึงข้อมูลสิทธิ์จากระบบหลังร้านที่แอดมินเพิ่มไว้
+    const rolesData = JSON.parse(localStorage.getItem('rabbitz_roles')) || [];
+    
+    // 2. เช็คว่าชื่อหรืออีเมลตรงกับในระบบสิทธิ์หรือไม่
+    const userRoleInfo = rolesData.find(r => r.name === user.displayName || r.name === user.email);
+    
+    // 3. ตรวจสอบ "สิทธิ์ที่แท้จริง" ของบัญชีนี้
+    let hasAdminPrivileges = false;
+    let actualAdminRole = 'admin'; // อาจจะเป็น tech หรือ admin
+
+    if (user.displayName === "I'm lonely" || user.email === "oppok8801@gmail.com" || user.email === "ppxaiphrom@gmail.com"|| user.email === "68026552@up.ac.th") {
+        hasAdminPrivileges = true;
+        actualAdminRole = 'admin';
+    } else if (userRoleInfo && (userRoleInfo.role === 'admin' || userRoleInfo.role === 'tech')) {
+        hasAdminPrivileges = true;
+        actualAdminRole = userRoleInfo.role;
+    }
+
+    // 4. ตัดสินใจมอบหมาย Role สำหรับ Session นี้
+    let finalRole = 'customer';
+
+    if (selectedRole === 'admin') {
+        if (hasAdminPrivileges) {
+            // ถ้าเลือกเข้าแบบ Admin และมีสิทธิ์จริงๆ ให้ใช้สิทธิ์นั้น
+            finalRole = actualAdminRole;
+        } else {
+            // ถ้าเลือกเข้าแบบ Admin แต่ไม่มีสิทธิ์ แจ้งเตือนและปัดตกไปเป็นลูกค้า
+            alert('บัญชีนี้ไม่มีสิทธิ์เข้าใช้งานในระบบหลังร้านครับ ระบบจะพาเข้าสู่หน้าลูกค้าทั่วไป');
+            finalRole = 'customer';
         }
+    } else {
+        // ถ้าผู้ใช้เลือกเข้าแบบ Customer ให้เป็น Customer ทันที (แม้ว่าบัญชีนั้นจะมีสิทธิ์ Admin ก็ตาม)
+        finalRole = 'customer';
+    }
+    
+    const userData = {
+        isLoggedIn: true,
+        name: user.displayName || 'ผู้ใช้งาน',
+        email: user.email || '',
+        photoUrl: user.photoURL || '',
+        uid: user.uid || Date.now(),
+        role: finalRole
+    };
+    
+    localStorage.setItem('rabbitz_currentUser', JSON.stringify(userData));
+    localStorage.removeItem('rabbitz_temp_role'); // เคลียร์ค่าที่เลือกทิ้งไป
 
-        document.getElementById('loginForm').addEventListener('submit', (e) => {
-            e.preventDefault();
-            handleEmailLogin();
-        });
+    // แยกเส้นทางส่งไปหน้าให้ถูกต้องตาม Role
+    if (finalRole === 'admin' || finalRole === 'tech') {
+        window.location.href = 'HomepageAddmin.html';
+    } else {
+        window.location.href = 'HomepageCus.html';
+    }
+}
     </script>
 
     <script type="module">
