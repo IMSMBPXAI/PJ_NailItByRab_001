@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notifications - Nail It By Rabbitz</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Kanit', 'sans-serif'] },
+                    colors: { brand: { 900: '#7f1d1d' } }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-50 font-sans relative overflow-x-hidden">
+ 
+    <header>
+        <nav class="border-b border-red-900 px-4 py-2.5 fixed left-0 right-0 top-0 z-50 bg-red-900 w-full">
+            <div class="flex flex-wrap items-center justify-between mx-auto max-w-[1600px]">
+               
+                <div class="flex items-center justify-start">
+                    <a href="HomepageCus.html" class="flex items-center mr-6">
+                        <img src="logo rabbitz.svg" class="size-16 mr-3 bg-white rounded-full p-1" alt="Rabbitz Logo" onerror="this.src='https://ui-avatars.com/api/?name=Logo&background=fff&color=7f1d1d'"/>
+                    </a>
+ 
+                    <div class="hidden md:block relative mr-4">
+                        <h1 class="text-white text-lg font-medium">NAIL IT BY RABBITZ สาขา มหาวิทยาลัยพะเยา</h1>
+                    </div>
+                </div>
+ 
+                <div class="flex items-center gap-6">
+                    <ul class="hidden lg:flex flex-row space-x-6 text-sm font-medium text-white items-center">
+                        <li><a href="HomepageCus.html" class="hover:text-red-200 transition">Homepage</a></li>
+                        <li class="w-px h-5 bg-white/30"></li>
+                        <li><a href="ContactSI.html" class="hover:text-red-200 transition">Contact</a></li>
+                        <li class="w-px h-5 bg-white/30"></li>
+                        <li><a href="Booking.html" class="hover:text-red-200 transition">Booking</a></li>
+                    </ul>
+                   
+                    <div class="hidden lg:block w-px h-6 bg-white/30 mx-2"></div>
+ 
+                    <div class="flex items-center space-x-4">
+                       
+                        <span id="userNameDisplay" class="text-white text-sm font-medium hidden md:block"></span>
+ 
+                        <button type="button" class="relative p-2 text-white hover:bg-white/10 rounded-full transition focus:outline-none">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
+                            </svg>
+                            <span class="absolute top-2 right-2 flex h-3 w-3">
+                                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-yellow-300 opacity-75"></span>
+                                <span class="relative inline-flex rounded-full h-3 w-3 bg-yellow-400 border-2 border-red-900"></span>
+                            </span>
+                        </button>
+ 
+                        <button type="button" class="flex text-sm bg-white rounded-full focus:ring-4 focus:ring-red-700 overflow-hidden size-10 border-2 border-white/20 shadow-sm transition hover:scale-105">
+                            <img id="userProfilePic" class="w-full h-full object-cover" src="https://ui-avatars.com/api/?name=User&background=fff&color=7f1d1d" alt="User Profile">
+                        </button>
+ 
+                        <button onclick="handleLogout()" class="text-xs text-white underline hover:text-red-200 ml-2">Log out</button>
+ 
+                    </div>
+                    <div class="flex items-center gap-4 border-l border-white/30 pl-6">
+                    <button id="menuBtn" class="text-white hover:bg-white/10 p-2 rounded-lg transition">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                    </button>
+                    </div>
+                </div>
+ 
+            </div>
+        </nav>
+        <div id="sidebar" class="fixed top-0 right-0 h-full w-72 bg-gradient-to-b from-[#801919] to-[#5d1212] z-[100] transform translate-x-full transition-transform duration-300 ease-in-out shadow-2xl rounded-l-[3rem]">
+   
+        <div class="p-8 flex flex-col items-center">
+        <button id="closeBtn" class="self-end text-white mb-4">
+            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+        </button>
+        <button type="button" class="flex text-sm bg-white rounded-full focus:ring-40 overflow-hidden size-49 border-2 border-white/20 shadow-sm ">
+             <img class="w-full h-full object-cover" src="https://ui-avatars.com/api/?name=User&background=random" alt="User Profile">
+        </button>
+       
+        </div>
+ 
+        <div class="px-6 py-4">
+        <div class="bg-white/90 rounded-[2rem] p-6 space-y-3 text-center shadow-lg">
+            <a href="#" class="block text-[#801919] font-bold hover:scale-105 transition uppercase tracking-wider text-medium">Setting</a>
+            <hr class="border-[#801919]/20 w-1/2 mx-auto">
+            <a href="#" class="block text-[#801919] font-bold hover:scale-105 transition uppercase tracking-wider text-medium">My Booking & History</a>
+        </div>
+        </div>
+ 
+        <div class="absolute bottom-12 left-0 right-0 px-10 text-center">
+        <button class="w-full border-2 border-white text-white py-2 rounded-full font-bold uppercase text-medium hover:bg-white hover:text-[#801919] transition">
+            Sign out
+        </button>
+         </div>
+        </div>
+ 
+        <div id="overlay" class="fixed inset-0 bg-black/40 z-[90] hidden"></div>
+    </header>
+ 
+    <main class="min-h-screen pt-28 pb-10 px-4 flex justify-center">
+        <div class="w-full max-w-2xl">
+           
+            <div class="bg-red-900 p-6 rounded-t-2xl shadow-lg border-b-4 border-red-950">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <h2 class="text-2xl font-bold text-white uppercase tracking-wide">แจ้งเตือนของคุณ</h2>
+                        <p class="text-red-100 text-sm">อัปเดตสถานะคิวและโปรโมชั่นล่าสุด</p>
+                    </div>
+                    <span id="notif-count" class="bg-white text-red-900 px-3 py-1 rounded-full font-bold text-sm">3 ใหม่</span>
+                </div>
+            </div>
+ 
+            <div id="notification-list" class="bg-white rounded-b-2xl shadow-xl overflow-hidden border border-gray-200">
+               
+                <div class="p-5 border-b border-gray-100 hover:bg-gray-50 transition cursor-pointer relative bg-red-50/50">
+                    <div class="absolute left-0 top-0 bottom-0 w-1 bg-red-900"></div>
+                    <div class="flex items-start gap-4">
+                        <div class="bg-red-100 p-2 rounded-full">
+                            <svg class="w-6 h-6 text-red-900" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                        </div>
+                        <div class="flex-1">
+                            <div class="flex justify-between">
+                                <h3 class="font-bold text-gray-900">ยืนยันการจองคิวสำเร็จ</h3>
+                                <span class="text-xs text-gray-500">2 นาทีที่แล้ว</span>
+                            </div>
+                            <p class="text-sm text-gray-600 mt-1">คิวทำเล็บเจลของคุณวันที่ 25 ต.ค. เวลา 14:00 น. ได้รับการยืนยันแล้วค่ะ</p>
+                        </div>
+                    </div>
+                </div>
+ 
+                <div class="p-5 border-b border-gray-100 hover:bg-gray-50 transition cursor-pointer">
+                    <div class="flex items-start gap-4">
+                        <div class="bg-gray-100 p-2 rounded-full text-gray-400">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        </div>
+                        <div class="flex-1">
+                            <div class="flex justify-between">
+                                <h3 class="font-bold text-gray-700">แจ้งเตือนยกเลิกคิว</h3>
+                                <span class="text-xs text-gray-500">2 ชม. ที่แล้ว</span>
+                            </div>
+                            <p class="text-sm text-gray-500 mt-1">ช่างไม่ว่างในเวลาที่ท่านเลือก กรุณาเลือกเวลาใหม่หรือติดต่อทางร้าน</p>
+                        </div>
+                    </div>
+                </div>
+ 
+                <div class="p-5 border-b border-gray-100 hover:bg-gray-50 transition cursor-pointer">
+                    <div class="flex items-start gap-4">
+                        <div class="bg-yellow-100 p-2 rounded-full text-yellow-700">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.167H3.38a1.345 1.345 0 01-1.35-1.35V10.14c0-.746.604-1.35 1.35-1.35h1.108l2.147-6.167A1.76 1.76 0 0111 5.882z"></path></svg>
+                        </div>
+                        <div class="flex-1">
+                            <div class="flex justify-between">
+                                <h3 class="font-bold text-gray-700">Flash Sale! ลด 20%</h3>
+                                <span class="text-xs text-gray-500">วานนี้</span>
+                            </div>
+                            <p class="text-sm text-gray-500 mt-1">โปรโมชั่นพิเศษเฉพาะสาขา ม.พะเยา ตลอดสัปดาห์นี้เท่านั้น!</p>
+                        </div>
+                    </div>
+                </div>
+ 
+            </div>
+ 
+            <div id="empty-state" class="hidden bg-white rounded-2xl p-12 shadow-xl text-center">
+                <div class="bg-gray-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <svg class="w-10 h-10 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"></path></svg>
+                </div>
+                <h3 class="text-xl font-bold text-gray-900">ไม่มีการแจ้งเตือน</h3>
+                <p class="text-gray-500 mt-2">คุณไม่มีข้อความใหม่ในขณะนี้</p>
+            </div>
+ 
+        </div>
+    </main>
+ 
+    <script>
+        function markAllAsRead() {
+            // โค้ดสำหรับอัปเดตสถานะ (จำลอง)
+            const count = document.getElementById('notif-count');
+            count.innerText = "0 ใหม่";
+            count.classList.replace('bg-white', 'bg-gray-200');
+            count.classList.replace('text-red-900', 'text-gray-500');
+           
+            // ลบแถบสีแดงของ Notif ที่ยังไม่ได้อ่าน
+            const unreadItems = document.querySelectorAll('.bg-red-50\\/50');
+            unreadItems.forEach(item => {
+                item.classList.remove('bg-red-50/50');
+                const accent = item.querySelector('.bg-red-900');
+                if(accent) accent.remove();
+            });
+        }
+    </script>
+</body>
+</html>

@@ -17,93 +17,131 @@
     </style>
 </head>
 <body class="bg-gray-50">
+<header>
+    <nav class="border-b border-red-900 px-4 py-2.5 fixed left-0 right-0 top-0 z-50 bg-red-900 w-full">
+        <div class="flex flex-wrap items-center justify-between mx-auto max-w-[1600px]">
+            
+            <div class="flex items-center justify-start">
+                <a href="HomepageCus.html" class="flex items-center mr-6">
+                    <img src="logo rabbitz.svg" class="size-16 mr-3 bg-white rounded-full p-1" alt="Rabbitz Logo" onerror="this.src='https://ui-avatars.com/api/?name=Logo&background=fff&color=7f1d1d'"/>
+                </a>
 
-    <header>
-        <nav class="border-b border-red-900 px-4 py-2.5 fixed left-0 right-0 top-0 z-50 bg-red-900 w-full">
-            <div class="flex flex-wrap items-center justify-between mx-auto max-w-[1600px]">
-                
-                <div class="flex items-center justify-start">
-                    <a href="HomepageCus.html" class="flex items-center mr-6">
-                        <img src="logo rabbitz.svg" class="size-16 mr-3 bg-white rounded-full p-1" alt="Rabbitz Logo" onerror="this.src='https://ui-avatars.com/api/?name=Logo&background=fff&color=7f1d1d'"/>
-                    </a>
-
-                    <div class="hidden md:block relative mr-4"> 
-                        <h1 class="text-white text-lg font-medium">NAIL IT BY RABBITZ สาขา มหาวิทยาลัยพะเยา</h1>
-                    </div>
+                <div class="hidden md:block relative mr-4"> 
+                    <h1 class="text-white text-lg font-medium">NAIL IT BY RABBITZ สาขา มหาวิทยาลัยพะเยา</h1>
                 </div>
-
-                <div class="flex items-center gap-6">
-                    <ul class="hidden lg:flex flex-row space-x-6 text-sm font-medium text-white items-center">
-                        <li><a href="HomepageCus.html" class="hover:text-red-200 transition">Homepage</a></li>
-                        <li class="w-px h-5 bg-white/30"></li>
-                        <li><a href="ContactSI.html" class="hover:text-red-200 transition">Contact</a></li>
-                        <li class="w-px h-5 bg-white/30"></li>
-                        <li><a href="Booking.html" class="hover:text-red-200 transition">Booking</a></li>
-                    </ul>
-                    
-                    <div class="hidden lg:block w-px h-6 bg-white/30 mx-2"></div>
-
-                    <div class="flex items-center space-x-4">
-                        
-                        <span id="userNameDisplay" class="text-white text-sm font-medium hidden md:block"></span>
-
-                        <button type="button" class="relative p-2 text-white hover:bg-white/10 rounded-full transition focus:outline-none">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
-                            </svg>
-                            <span class="absolute top-2 right-2 flex h-3 w-3">
-                                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-yellow-300 opacity-75"></span>
-                                <span class="relative inline-flex rounded-full h-3 w-3 bg-yellow-400 border-2 border-red-900"></span>
-                            </span>
-                        </button>
-
-                        <button type="button" class="flex text-sm bg-white rounded-full focus:ring-4 focus:ring-red-700 overflow-hidden size-10 border-2 border-white/20 shadow-sm transition hover:scale-105">
-                            <img id="userProfilePic" class="w-full h-full object-cover" src="https://ui-avatars.com/api/?name=User&background=fff&color=7f1d1d" alt="User Profile">
-                        </button>
-
-                        <button onclick="handleLogout()" class="text-xs text-white underline hover:text-red-200 ml-2">Log out</button>
-
-                    </div>
-                    <div class="flex items-center gap-4 border-l border-white/30 pl-6">
-                    <button id="menuBtn" class="text-white hover:bg-white/10 p-2 rounded-lg transition">
-                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                    </svg>
-                    </button>
-                    </div>
-                </div>
-
             </div>
-        </nav>
-        <div id="sidebar" class="fixed top-0 right-0 h-full w-72 bg-gradient-to-b from-[#801919] to-[#5d1212] z-[100] transform translate-x-full transition-transform duration-300 ease-in-out shadow-2xl rounded-l-[3rem]">
+
+            <div class="flex items-center gap-6">
+                <ul class="hidden lg:flex flex-row space-x-6 text-sm font-medium text-white items-center">
+                    <li><a href="HomepageCus.html" class="hover:text-red-200 transition">Homepage</a></li>
+                    <li class="w-px h-5 bg-white/30"></li>
+                    <li><a href="ContactSI.html" class="hover:text-red-200 transition">Contact</a></li>
+                    <li class="w-px h-5 bg-white/30"></li>
+                    <li><a href="Booking.html" class="hover:text-red-200 transition">Booking</a></li>
+                </ul>
+                
+                <div class="hidden lg:block w-px h-6 bg-white/30 mx-2"></div>
+
+                <div class="flex items-center space-x-4">
+                    <span id="userNameDisplay" class="text-white text-sm font-medium hidden md:block">Hi, PRAE THIP</span>
+
+                    <button type="button" class="relative p-2 text-white hover:bg-white/10 rounded-full transition focus:outline-none">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
+                        </svg>
+                        <span class="absolute top-2 right-2 flex h-3 w-3">
+                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-yellow-300 opacity-75"></span>
+                            <span class="relative inline-flex rounded-full h-3 w-3 bg-yellow-400 border-2 border-red-900"></span>
+                        </span>
+                    </button>
+
+                    <button type="button" class="flex text-sm bg-white rounded-full focus:ring-4 focus:ring-red-700 overflow-hidden size-10 border-2 border-white/20 shadow-sm transition hover:scale-105">
+                        <img id="userProfilePic" class="w-full h-full object-cover" src="https://ui-avatars.com/api/?name=User&background=fff&color=7f1d1d" alt="User Profile">
+                    </button>
+
+                    <button onclick="handleLogout()" class="text-xs text-white underline hover:text-red-200 ml-2 hidden lg:block">Log out</button>
+
+                    <div class="flex items-center gap-4 border-l border-white/30 pl-6">
+                        <button id="menuBtn" class="text-white hover:bg-white/10 p-2 rounded-lg transition focus:outline-none">
+                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div id="sidebar" class="fixed top-0 right-0 h-full w-72 bg-gradient-to-b from-[#801919] to-[#5d1212] z-[100] transform translate-x-full transition-transform duration-300 ease-in-out shadow-2xl rounded-l-[3rem]">
     
-        <div class="p-8 flex flex-col items-center">
-        <button id="closeBtn" class="self-end text-white mb-4">
-            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-        </button>
-        <button type="button" class="flex text-sm bg-white rounded-full focus:ring-40 overflow-hidden size-49 border-2 border-white/20 shadow-sm ">
-             <img class="w-full h-full object-cover" src="https://ui-avatars.com/api/?name=User&background=random" alt="User Profile">
+    <div class="p-8 flex flex-col items-center">
+        <button id="closeBtn" class="self-end text-white mb-2 hover:scale-110 transition">
+            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
         </button>
         
+        <div class="flex flex-col items-center mb-6">
+            <div class="size-24 bg-white rounded-full p-1 shadow-xl overflow-hidden border-2 border-white/30 mb-3">
+                <img id="sidebarProfilePic" class="w-full h-full object-cover rounded-full" src="https://ui-avatars.com/api/?name=User&background=fff&color=7f1d1d" alt="User Profile">
+            </div>
+            <p id="sidebarUserName" class="text-white font-medium text-lg">Loading...</p>
         </div>
+    </div>
 
-        <div class="px-6 py-4">
-        <div class="bg-white/90 rounded-[2rem] p-6 space-y-3 text-center shadow-lg">
-            <a href="#" class="block text-[#801919] font-bold hover:scale-105 transition uppercase tracking-wider text-medium">Setting</a>
-            <hr class="border-[#801919]/20 w-1/2 mx-auto">
-            <a href="#" class="block text-[#801919] font-bold hover:scale-105 transition uppercase tracking-wider text-medium">My Booking & History</a>
+    <div class="px-6">
+        <div class="bg-gray-100/95 rounded-[2.5rem] p-8 space-y-6 text-center shadow-lg">
+            <a href="Accountsetting.html" class="block text-[#801919] font-bold hover:text-red-700 transition uppercase tracking-widest text-sm border-b border-[#801919]/10 pb-4">Setting</a>
+            <a href="History.html" class="block text-[#801919] font-bold hover:text-red-700 transition uppercase tracking-widest text-sm">My Booking & History</a>
         </div>
-        </div>
+    </div>
 
-        <div class="absolute bottom-12 left-0 right-0 px-10 text-center">
-        <button class="w-full border-2 border-white text-white py-2 rounded-full font-bold uppercase text-medium hover:bg-white hover:text-[#801919] transition">
-            Sign out
-        </button>
-         </div>
-        </div>
+    <div class="absolute bottom-12 left-0 right-0 px-10">
+       
+    </div>
+</div>
+</header>
 
-        <div id="overlay" class="fixed inset-0 bg-black/40 z-[90] hidden"></div>
-    </header>
+<script>
+   // ฟังก์ชันจำลองการโหลดข้อมูลผู้ใช้ (คุณสามารถปรับใช้กับข้อมูลจริงจาก Database/Session ได้)
+function updateUserInfo(name, profileImg) {
+    // อัปเดตที่ Navbar (หน้าโฮม)
+    document.getElementById('userNameDisplay').textContent = name;
+    document.getElementById('userProfilePic').src = profileImg;
+
+    // อัปเดตที่ Sidebar (เมนูที่เลื่อนออกมา)
+    document.getElementById('sidebarUserName').textContent = name;
+    document.getElementById('sidebarProfilePic').src = profileImg;
+}
+
+// ตัวอย่างการใช้งาน: เรียกฟังก์ชันนี้หลังจาก Login สำเร็จ หรือตอนโหลดหน้าเว็บ
+// สมมติชื่อคือ PRAE THIP และใช้รูปเดิม
+updateUserInfo("Hi, PRAE THIP", "https://ui-avatars.com/api/?name=Prae+Thip&background=fff&color=7f1d1d");
+
+// --- ส่วนควบคุมการเปิด-ปิด Sidebar ---
+const menuBtn = document.getElementById('menuBtn');
+const closeBtn = document.getElementById('closeBtn');
+const sidebar = document.getElementById('sidebar');
+const overlay = document.getElementById('overlay');
+
+function toggleMenu() {
+    const isOpen = !sidebar.classList.contains('translate-x-full');
+    if (!isOpen) {
+        sidebar.classList.remove('translate-x-full');
+        overlay.classList.remove('hidden');
+        setTimeout(() => overlay.classList.add('opacity-100'), 10);
+    } else {
+        sidebar.classList.add('translate-x-full');
+        overlay.classList.remove('opacity-100');
+        setTimeout(() => overlay.classList.add('hidden'), 300);
+    }
+}
+
+menuBtn.addEventListener('click', toggleMenu);
+closeBtn.addEventListener('click', toggleMenu);
+overlay.addEventListener('click', toggleMenu);
+</script>
     
     <main class="pt-28 pb-12 max-w-4xl mx-auto px-4">
         
@@ -276,10 +314,13 @@
                         <span class="text-white font-bold tracking-wider">700 - 900 BATH</span>
                     </div>
                 </div>
+        <div class="text-center my-10">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto p-4">
 
             </div>
         </div>
     </main>
+    
 
     <footer class="text-center py-4 text-[10px] text-[#800000] border-t border-gray-300">
         NAIL IT BY RABBITZ สาขามหาวิทยาลัยพะเยา
@@ -324,6 +365,36 @@
                 window.location.href = 'Homepage.html';
             }
         }
+        function updateHomepageGallery() {
+        const displayContainer = document.getElementById('homepageGalleryDisplay');
+        // ดึงข้อมูลรูปภาพจาก Key เดียวกันกับหน้า Gallery
+        const savedImages = JSON.parse(localStorage.getItem('rabbitz_gallery')) || [];
+        
+        if (savedImages.length === 0) {
+            displayContainer.innerHTML = '<p class="text-gray-400 text-sm col-span-full text-center">ยังไม่มีรูปภาพผลงานในขณะนี้</p>';
+            return;
+        }
+
+        // ล้างข้อมูลเก่าและแสดงรูปภาพ 5 รูปล่าสุด (หรือรูปแรกๆ ตามลำดับที่คุณองุ่นจัดไว้)
+        displayContainer.innerHTML = '';
+        savedImages.slice(0, 5).forEach(src => {
+            const imgElement = document.createElement('img');
+            imgElement.src = src;
+            // ใช้ Class Tailwind ให้สวยงามเหมือนในหน้า Gallery
+            imgElement.className = "aspect-square rounded-[20px] shadow-sm object-cover border-2 border-white hover:scale-105 transition-transform duration-300";
+            displayContainer.appendChild(imgElement);
+        });
+    }
+
+    // เรียกใช้งานเมื่อโหลดหน้าเว็บ
+    document.addEventListener('DOMContentLoaded', updateHomepageGallery);
+
+    // พิเศษ: ถ้ามีการแก้ไขรูปในหน้า Gallery ขณะที่เปิดหน้า Home ค้างไว้ ให้รูปอัปเดตทันที
+    window.addEventListener('storage', (e) => {
+        if (e.key === 'rabbitz_gallery') {
+            updateHomepageGallery();
+        }
+    });
     </script>
 </body>
 </html>
