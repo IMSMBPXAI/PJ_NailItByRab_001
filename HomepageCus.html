@@ -10,10 +10,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600&display=swap" rel="stylesheet">
 
     <style>
-        /* ตั้งค่าให้ทั้งหน้าเว็บใช้ฟอนต์ Kanit */
-        body {
-            font-family: 'Kanit', sans-serif;
-        }
+        body { font-family: 'Kanit', sans-serif; }
     </style>
 </head>
 <body class="bg-gray-50">
@@ -35,7 +32,7 @@
                 <ul class="hidden lg:flex flex-row space-x-6 text-sm font-medium text-white items-center">
                     <li><a href="HomepageCus.html" class="hover:text-red-200 transition">Homepage</a></li>
                     <li class="w-px h-5 bg-white/30"></li>
-                    <li><a href="ContactSI.html" class="hover:text-red-200 transition">Contact</a></li>
+                    <li><a href="Contact.html" class="hover:text-red-200 transition">Contact</a></li>
                     <li class="w-px h-5 bg-white/30"></li>
                     <li><a href="Booking.html" class="hover:text-red-200 transition">Booking</a></li>
                 </ul>
@@ -43,9 +40,9 @@
                 <div class="hidden lg:block w-px h-6 bg-white/30 mx-2"></div>
 
                 <div class="flex items-center space-x-4">
-                    <span id="userNameDisplay" class="text-white text-sm font-medium hidden md:block">Hi, PRAE THIP</span>
+                    <span id="userNameDisplay" class="text-white text-sm font-medium hidden md:block">Loading...</span>
 
-                    <button type="button" class="relative p-2 text-white hover:bg-white/10 rounded-full transition focus:outline-none">
+                    <button type="button" onclick="window.location.href='NotiCus.html'" class="relative p-2 text-white hover:bg-white/10 rounded-full transition focus:outline-none">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
                         </svg>
@@ -74,74 +71,37 @@
     </nav>
 
     <div id="sidebar" class="fixed top-0 right-0 h-full w-72 bg-gradient-to-b from-[#801919] to-[#5d1212] z-[100] transform translate-x-full transition-transform duration-300 ease-in-out shadow-2xl rounded-l-[3rem]">
-    
-    <div class="p-8 flex flex-col items-center">
-        <button id="closeBtn" class="self-end text-white mb-2 hover:scale-110 transition">
-            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-            </svg>
-        </button>
         
-        <div class="flex flex-col items-center mb-6">
-            <div class="size-24 bg-white rounded-full p-1 shadow-xl overflow-hidden border-2 border-white/30 mb-3">
-                <img id="sidebarProfilePic" class="w-full h-full object-cover rounded-full" src="https://ui-avatars.com/api/?name=User&background=fff&color=7f1d1d" alt="User Profile">
+        <div class="p-8 flex flex-col items-center">
+            <button id="closeBtn" class="self-end text-white mb-2 hover:scale-110 transition">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
+            
+            <div class="flex flex-col items-center mb-6">
+                <div class="size-24 bg-white rounded-full p-1 shadow-xl overflow-hidden border-2 border-white/30 mb-3">
+                    <img id="userProfilePicSidebar" class="w-full h-full object-cover rounded-full" src="https://ui-avatars.com/api/?name=User&background=fff&color=7f1d1d" alt="User Profile">
+                </div>
+                <p id="sidebarUserNameDisplay" class="text-white font-bold text-lg uppercase tracking-wide">Loading...</p>
             </div>
-            <p id="sidebarUserName" class="text-white font-medium text-lg">Loading...</p>
+        </div>
+
+        <div class="px-6">
+            <div class="bg-gray-100/95 rounded-[2.5rem] p-8 space-y-6 text-center shadow-lg">
+                <a href="Accountsetting.html" class="block text-[#801919] font-bold hover:text-red-700 transition uppercase tracking-widest text-sm border-b border-[#801919]/10 pb-4">Setting</a>
+                <a href="History.html" class="block text-[#801919] font-bold hover:text-red-700 transition uppercase tracking-widest text-sm">My Booking & History</a>
+            </div>
+        </div>
+        
+        <div class="absolute bottom-12 left-0 right-0 px-10 text-center">
+            <button onclick="handleLogout()" class="w-full border-2 border-white text-white py-2 rounded-full font-bold uppercase text-sm hover:bg-white hover:text-[#801919] transition">
+                Sign out
+            </button>
         </div>
     </div>
-
-    <div class="px-6">
-        <div class="bg-gray-100/95 rounded-[2.5rem] p-8 space-y-6 text-center shadow-lg">
-            <a href="Accountsetting.html" class="block text-[#801919] font-bold hover:text-red-700 transition uppercase tracking-widest text-sm border-b border-[#801919]/10 pb-4">Setting</a>
-            <a href="History.html" class="block text-[#801919] font-bold hover:text-red-700 transition uppercase tracking-widest text-sm">My Booking & History</a>
-        </div>
-    </div>
-
-    <div class="absolute bottom-12 left-0 right-0 px-10">
-       
-    </div>
-</div>
+    <div id="overlay" class="fixed inset-0 bg-black/40 z-[90] hidden transition-opacity duration-300 opacity-0"></div>
 </header>
-
-<script>
-   // ฟังก์ชันจำลองการโหลดข้อมูลผู้ใช้ (คุณสามารถปรับใช้กับข้อมูลจริงจาก Database/Session ได้)
-function updateUserInfo(name, profileImg) {
-    // อัปเดตที่ Navbar (หน้าโฮม)
-    document.getElementById('userNameDisplay').textContent = name;
-    document.getElementById('userProfilePic').src = profileImg;
-
-    // อัปเดตที่ Sidebar (เมนูที่เลื่อนออกมา)
-    document.getElementById('sidebarUserName').textContent = name;
-    document.getElementById('sidebarProfilePic').src = profileImg;
-}
-
-// ตัวอย่างการใช้งาน: เรียกฟังก์ชันนี้หลังจาก Login สำเร็จ หรือตอนโหลดหน้าเว็บ
-// สมมติชื่อคือ PRAE THIP และใช้รูปเดิม
-updateUserInfo("Hi, PRAE THIP", "https://ui-avatars.com/api/?name=Prae+Thip&background=fff&color=7f1d1d");
-
-// --- ส่วนควบคุมการเปิด-ปิด Sidebar ---
-const menuBtn = document.getElementById('menuBtn');
-const closeBtn = document.getElementById('closeBtn');
-const sidebar = document.getElementById('sidebar');
-const overlay = document.getElementById('overlay');
-
-function toggleMenu() {
-    const isOpen = !sidebar.classList.contains('translate-x-full');
-    if (!isOpen) {
-        sidebar.classList.remove('translate-x-full');
-        overlay.classList.remove('hidden');
-        setTimeout(() => overlay.classList.add('opacity-100'), 10);
-    } else {
-        sidebar.classList.add('translate-x-full');
-        overlay.classList.remove('opacity-100');
-        setTimeout(() => overlay.classList.add('hidden'), 300);
-    }
-}
-
-menuBtn.addEventListener('click', toggleMenu);
-closeBtn.addEventListener('click', toggleMenu);
-overlay.addEventListener('click', toggleMenu);
-</script>
     
     <main class="pt-28 pb-12 max-w-4xl mx-auto px-4">
         
@@ -314,13 +274,9 @@ overlay.addEventListener('click', toggleMenu);
                         <span class="text-white font-bold tracking-wider">700 - 900 BATH</span>
                     </div>
                 </div>
-        <div class="text-center my-10">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto p-4">
-
             </div>
         </div>
     </main>
-    
 
     <footer class="text-center py-4 text-[10px] text-[#800000] border-t border-gray-300">
         NAIL IT BY RABBITZ สาขามหาวิทยาลัยพะเยา
@@ -328,73 +284,95 @@ overlay.addEventListener('click', toggleMenu);
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // โหลดข้อมูลผู้ใช้จาก LocalStorage
             const userDataString = localStorage.getItem('rabbitz_currentUser');
             
             if (userDataString) {
                 const userData = JSON.parse(userDataString);
                 
-                // แสดงชื่อผู้ใช้บน Navbar
                 const nameDisplay = document.getElementById('userNameDisplay');
-                if (nameDisplay) {
-                    nameDisplay.innerText = `Hi, ${userData.name}`;
-                }
+                if (nameDisplay) nameDisplay.innerText = `Hi, ${userData.name}`;
+
+                const sidebarNameDisplay = document.getElementById('sidebarUserNameDisplay');
+                if (sidebarNameDisplay) sidebarNameDisplay.innerText = `Hi, ${userData.name}`;
                 
-                // แสดงรูปโปรไฟล์ (ถ้าล็อกอินด้วย Google จะมี photoUrl ถ้าไม่มีจะดึงชื่อมาทำเป็นรูป)
-                const profilePic = document.getElementById('userProfilePic');
-                if (profilePic) {
-                    if (userData.photoUrl) {
-                        profilePic.src = userData.photoUrl;
-                    } else {
-                        profilePic.src = `https://ui-avatars.com/api/?name=${userData.name}&background=fff&color=7f1d1d&bold=true`;
-                    }
+                // ใช้ encodeURIComponent ป้องกันชื่อมีเว้นวรรคแล้ว Error
+                const profileUrl = userData.photoUrl || `https://ui-avatars.com/api/?name=${encodeURIComponent(userData.name)}&background=fff&color=7f1d1d&bold=true`;
+                
+                const profilePicNav = document.getElementById('userProfilePic');
+                const profilePicSidebar = document.getElementById('userProfilePicSidebar');
+                
+                const savedPic = localStorage.getItem('savedProfilePic');
+                if (savedPic) {
+                    if (profilePicNav) profilePicNav.src = savedPic;
+                    if (profilePicSidebar) profilePicSidebar.src = savedPic;
+                } else {
+                    if (profilePicNav) profilePicNav.src = profileUrl;
+                    if (profilePicSidebar) profilePicSidebar.src = profileUrl;
                 }
             } else {
-                // ถ้าแอบเข้าหน้านี้โดยที่ไม่ได้ล็อกอิน ให้เด้งกลับไปหน้า Homepage หลัก
                 alert('กรุณาเข้าสู่ระบบก่อนใช้งานครับ');
                 window.location.href = 'Homepage.html';
             }
+
+            // --- ส่วนควบคุมการเปิด-ปิด Sidebar ---
+            const menuBtn = document.getElementById('menuBtn');
+            const closeBtn = document.getElementById('closeBtn');
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('overlay');
+
+            function toggleMenu() {
+                const isOpen = !sidebar.classList.contains('translate-x-full');
+                if (!isOpen) {
+                    sidebar.classList.remove('translate-x-full');
+                    overlay.classList.remove('hidden');
+                    setTimeout(() => overlay.classList.add('opacity-100'), 10);
+                } else {
+                    sidebar.classList.add('translate-x-full');
+                    overlay.classList.remove('opacity-100');
+                    setTimeout(() => overlay.classList.add('hidden'), 300);
+                }
+            }
+
+            if(menuBtn) menuBtn.addEventListener('click', toggleMenu);
+            if(closeBtn) closeBtn.addEventListener('click', toggleMenu);
+            if(overlay) overlay.addEventListener('click', toggleMenu);
+
+            updateHomepageGallery();
         });
 
-        // ⭐️ ฟังก์ชันสำหรับปุ่ม Log out
         function handleLogout() {
             if(confirm('ต้องการออกจากระบบใช่หรือไม่?')) {
-                // ลบข้อมูลผู้ใช้ออกจากเครื่อง
                 localStorage.removeItem('rabbitz_currentUser');
-                // เด้งกลับไปหน้าแรก
+                localStorage.removeItem('savedProfilePic');
                 window.location.href = 'Homepage.html';
             }
         }
+
         function updateHomepageGallery() {
-        const displayContainer = document.getElementById('homepageGalleryDisplay');
-        // ดึงข้อมูลรูปภาพจาก Key เดียวกันกับหน้า Gallery
-        const savedImages = JSON.parse(localStorage.getItem('rabbitz_gallery')) || [];
-        
-        if (savedImages.length === 0) {
-            displayContainer.innerHTML = '<p class="text-gray-400 text-sm col-span-full text-center">ยังไม่มีรูปภาพผลงานในขณะนี้</p>';
-            return;
+            const displayContainer = document.getElementById('homepageGalleryDisplay');
+            if(!displayContainer) return;
+
+            const savedImages = JSON.parse(localStorage.getItem('rabbitz_gallery')) || [];
+            
+            if (savedImages.length === 0) {
+                displayContainer.innerHTML = '<p class="text-gray-400 text-sm col-span-full text-center">ยังไม่มีรูปภาพผลงานในขณะนี้</p>';
+                return;
+            }
+
+            displayContainer.innerHTML = '';
+            savedImages.slice(0, 5).forEach(src => {
+                const imgElement = document.createElement('img');
+                imgElement.src = src;
+                imgElement.className = "aspect-square rounded-[20px] shadow-sm object-cover border-2 border-white hover:scale-105 transition-transform duration-300";
+                displayContainer.appendChild(imgElement);
+            });
         }
 
-        // ล้างข้อมูลเก่าและแสดงรูปภาพ 5 รูปล่าสุด (หรือรูปแรกๆ ตามลำดับที่คุณองุ่นจัดไว้)
-        displayContainer.innerHTML = '';
-        savedImages.slice(0, 5).forEach(src => {
-            const imgElement = document.createElement('img');
-            imgElement.src = src;
-            // ใช้ Class Tailwind ให้สวยงามเหมือนในหน้า Gallery
-            imgElement.className = "aspect-square rounded-[20px] shadow-sm object-cover border-2 border-white hover:scale-105 transition-transform duration-300";
-            displayContainer.appendChild(imgElement);
+        window.addEventListener('storage', (e) => {
+            if (e.key === 'rabbitz_gallery') {
+                updateHomepageGallery();
+            }
         });
-    }
-
-    // เรียกใช้งานเมื่อโหลดหน้าเว็บ
-    document.addEventListener('DOMContentLoaded', updateHomepageGallery);
-
-    // พิเศษ: ถ้ามีการแก้ไขรูปในหน้า Gallery ขณะที่เปิดหน้า Home ค้างไว้ ให้รูปอัปเดตทันที
-    window.addEventListener('storage', (e) => {
-        if (e.key === 'rabbitz_gallery') {
-            updateHomepageGallery();
-        }
-    });
     </script>
 </body>
 </html>
