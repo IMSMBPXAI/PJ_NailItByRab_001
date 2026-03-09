@@ -148,7 +148,7 @@
                     nameDisplay.innerText = `Hi, ${userData.name}`;
                 }
                 
-                // แสดงรูปโปรไฟล์ (ถ้าล็อกอินด้วย Google จะมี photoUrl ถ้าไม่มีจะดึงชื่อมาทำเป็นรูป)
+                // แสดงรูปโปรไฟล์ 
                 const profilePic = document.getElementById('userProfilePic');
                 if (profilePic) {
                     if (userData.photoUrl) {
@@ -158,19 +158,16 @@
                     }
                 }
             } else {
-                // ถ้าแอบเข้าหน้านี้โดยที่ไม่ได้ล็อกอิน ให้เด้งกลับไปหน้า Homepage หลัก
                 alert('กรุณาเข้าสู่ระบบก่อนใช้งานครับ');
-                window.location.href = 'Homepage.html';
+                window.location.href = 'index.html';
             }
         });
 
         // ⭐️ ฟังก์ชันสำหรับปุ่ม Log out
         function handleLogout() {
             if(confirm('ต้องการออกจากระบบใช่หรือไม่?')) {
-                // ลบข้อมูลผู้ใช้ออกจากเครื่อง
                 localStorage.removeItem('rabbitz_currentUser');
-                // เด้งกลับไปหน้าแรก
-                window.location.href = 'Homepage.html';
+                window.location.href = 'index.html';
             }
         }
 
@@ -249,29 +246,42 @@
         // ฟังก์ชันยืนยันเพื่อไปหน้า Payment
         // --------------------------------------------------------
         function confirmBooking() {
-            const bookingDataStr = sessionStorage.getItem('bookingData');
-            if(bookingDataStr) {
-                const bookingData = JSON.parse(bookingDataStr);
-                
-                // แนบข้อมูลผู้ใช้และสถานะ
-                bookingData.id = 'B' + Date.now(); 
-                bookingData.username = 'Guest'; 
-                bookingData.status = 'Pending Payment'; // ระบุว่ากำลังรอจ่ายเงิน
-                bookingData.createdAt = new Date().toISOString();
+    const bookingDataStr = sessionStorage.getItem('bookingData');
+    const userDataStr = localStorage.getItem('rabbitz_currentUser');
 
-                // อัปเดตข้อมูลกลับไปที่ Session 
-                sessionStorage.setItem('bookingData', JSON.stringify(bookingData));
+    if (bookingDataStr && userDataStr) {
+        try {
+            const bookingData = JSON.parse(bookingDataStr);
+            const userData = JSON.parse(userDataStr);
+            
+            // ใช้ข้อมูลจากระบบจริงแทนค่า Guest
+            bookingData.id = 'B' + Date.now(); 
+            bookingData.customer_name = userData.name; 
+            bookingData.phone = userData.phone || '-';
+            bookingData.status = 'Pending Payment';
+            bookingData.createdAt = new Date().toISOString();
 
-                // บันทึกไปที่ LocalStorage เพื่อกั๊กคิวไว้ (กันคนอื่นแย่ง)
-                let allBookings = JSON.parse(localStorage.getItem('allBookings')) || [];
-                allBookings.push(bookingData);
-                localStorage.setItem('allBookings', JSON.stringify(allBookings));
-                
-                window.location.href = 'Payment.html'; 
-            } else {
-                 alert('ไม่พบข้อมูลการจอง กรุณาทำรายการใหม่');
-            }
+            // พยายามบันทึกข้อมูลลง Session และ LocalStorage
+            // หากรูปใหญ่เกินไปจะ Error ที่บรรทัดเหล่านี้
+            sessionStorage.setItem('bookingData', JSON.stringify(bookingData));
+
+            let allBookings = JSON.parse(localStorage.getItem('allBookings')) || [];
+            allBookings.push(bookingData);
+            localStorage.setItem('allBookings', JSON.stringify(allBookings));
+            
+            // เปลี่ยนหน้าไปยัง Payment.html
+            window.location.href = 'Payment.html'; 
+            
+        } catch (e) {
+            console.error("Storage Error:", e);
+            // แจ้งเตือนเมื่อข้อมูล (โดยเฉพาะรูปภาพ) ใหญ่เกินกว่าที่เบราว์เซอร์จะเก็บได้
+            alert('ไม่สามารถดำเนินการต่อได้เนื่องจาก "ไฟล์รูปภาพมีขนาดใหญ่เกินไป" กรุณากลับไปลดจำนวนรูปภาพหรือขนาดรูปลงครับ');
         }
+    } else {
+        alert('ไม่พบข้อมูลการจองหรือข้อมูลผู้ใช้ กรุณาทำรายการใหม่');
+        window.location.href = 'Booking.html';
+    }
+}
 
         // ระบบเปิด-ปิด Sidebar
         document.addEventListener('DOMContentLoaded', () => {

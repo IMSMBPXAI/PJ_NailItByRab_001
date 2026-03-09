@@ -17,7 +17,6 @@
         }
     </script>
     <style>
-        /* สไตล์เพิ่มเติมสำหรับซ่อน Scrollbar แต่ยังเลื่อนได้ */
         body::-webkit-scrollbar { display: none; }
         body { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
@@ -42,7 +41,7 @@
                     <ul class="hidden lg:flex flex-row space-x-6 text-sm font-medium text-white items-center">
                         <li><a href="HomepageCus.html" class="hover:text-red-200 transition">Homepage</a></li>
                         <li class="w-px h-5 bg-white/30"></li>
-                        <li><a href="ContactSI.html" class="hover:text-red-200 transition">Contact</a></li>
+                        <li><a href="Contact.html" class="hover:text-red-200 transition">Contact</a></li>
                         <li class="w-px h-5 bg-white/30"></li>
                         <li><a href="Booking.html" class="hover:text-red-200 transition">Booking</a></li>
                     </ul>
@@ -50,32 +49,61 @@
                     <div class="hidden lg:block w-px h-6 bg-white/30 mx-2"></div>
  
                     <div class="flex items-center space-x-4">
-                        <span id="userNameDisplay" class="text-white text-sm font-medium hidden md:block">Rabbitz_User</span>
+                        <span id="userNameDisplay" class="text-white text-sm font-medium hidden md:block"></span>
  
-                        <button type="button" class="relative p-2 text-white hover:bg-white/10 rounded-full transition focus:outline-none">
+                        <button type="button" onclick="window.location.href='NotiCus.html'" class="relative p-2 text-white hover:bg-white/10 rounded-full transition focus:outline-none">
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
                             </svg>
-                            <span class="absolute top-2 right-2 flex h-3 w-3">
-                                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-yellow-300 opacity-75"></span>
-                                <span class="relative inline-flex rounded-full h-3 w-3 bg-yellow-400 border-2 border-red-900"></span>
-                            </span>
                         </button>
  
                         <button type="button" class="flex text-sm bg-white rounded-full focus:ring-4 focus:ring-red-700 overflow-hidden size-10 border-2 border-white/20 shadow-sm transition hover:scale-105">
                             <img id="userProfilePicNav" class="w-full h-full object-cover" src="https://ui-avatars.com/api/?name=User&background=fff&color=7f1d1d" alt="User Profile">
                         </button>
  
-                        <button onclick="handleLogout()" class="text-xs text-white underline hover:text-red-200 ml-2">Log out</button>
+                        <button onclick="handleLogout()" class="text-xs text-white underline hover:text-red-200 ml-2 hidden lg:block">Log out</button>
+                    </div>
+
+                    <div class="flex items-center gap-4 border-l border-white/30 pl-6">
+                        <button id="menuBtn" class="text-white hover:bg-white/10 p-2 rounded-lg transition focus:outline-none">
+                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                            </svg>
+                        </button>
                     </div>
                 </div>
             </div>
         </nav>
+
+        <div id="sidebar" class="fixed top-0 right-0 h-full w-72 bg-gradient-to-b from-[#801919] to-[#5d1212] z-[100] transform translate-x-full transition-transform duration-300 ease-in-out shadow-2xl rounded-l-[3rem]">
+            <div class="p-8 flex flex-col items-center">
+                <button id="closeBtn" class="self-end text-white mb-4">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+                <div class="size-24 bg-white rounded-full p-1 shadow-xl overflow-hidden border-2 border-white/30 mb-3">
+                    <img id="userProfilePicSidebar" class="w-full h-full object-cover rounded-full" src="https://ui-avatars.com/api/?name=User&background=random" alt="User Profile">
+                </div>
+                <p id="sidebarUserNameDisplay" class="text-white font-bold text-lg uppercase tracking-wide">Loading...</p>
+            </div>
+            <div class="px-6 py-4">
+                <div class="bg-white/90 rounded-[2rem] p-6 space-y-3 text-center shadow-lg">
+                    <a href="Accountsetting.html" class="block text-[#801919] font-bold hover:scale-105 transition uppercase tracking-wider text-medium">Setting</a>
+                    <hr class="border-[#801919]/20 w-1/2 mx-auto">
+                    <a href="History.html" class="block text-[#801919] font-bold hover:scale-105 transition uppercase tracking-wider text-medium">My Booking & History</a>
+                </div>
+            </div>
+            <div class="absolute bottom-12 left-0 right-0 px-10 text-center">
+                <button onclick="handleLogout()" class="w-full border-2 border-white text-white py-2 rounded-full font-bold uppercase text-medium hover:bg-white hover:text-[#801919] transition">
+                    Sign out
+                </button>
+            </div>
+        </div>
+        <div id="overlay" class="fixed inset-0 bg-black/40 z-[90] hidden"></div>
     </header>
  
     <main class="pt-24 pb-12 px-4 max-w-xl mx-auto">
        
-        <div class="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
+        <div class="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden mt-10">
             <div class="h-24 bg-gradient-to-r from-red-900 to-red-700"></div>
  
             <div class="px-8 pb-8">
@@ -99,13 +127,13 @@
                 <form id="settingForm" class="space-y-5 -mt-6">
                     <div>
                         <label for="username" class="block text-sm font-semibold text-gray-700 mb-1.5">ชื่อผู้ใช้งาน (Username)</label>
-                        <input type="text" id="username" value="Rabbitz_User"
+                        <input type="text" id="username" 
                             class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-red-900 focus:border-transparent outline-none transition text-gray-600">
                     </div>
  
                     <div>
                         <label for="phone" class="block text-sm font-semibold text-gray-700 mb-1.5">เบอร์โทรศัพท์</label>
-                        <input type="tel" id="phone" value="081-234-5678"
+                        <input type="tel" id="phone" placeholder="เช่น 081-234-5678"
                             class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-red-900 focus:border-transparent outline-none transition text-gray-600">
                     </div>
  
@@ -144,10 +172,74 @@
     </footer>
  
     <script>
-        // --- 1. จัดการเปลี่ยนรูปโปรไฟล์ ---
+        document.addEventListener('DOMContentLoaded', () => {
+            // โหลดข้อมูลผู้ใช้จาก LocalStorage
+            const userDataString = localStorage.getItem('rabbitz_currentUser');
+            if (userDataString) {
+                const userData = JSON.parse(userDataString);
+                
+                // อัปเดตชื่อแสดงบน Navbar และ Sidebar
+                const nameDisplay = document.getElementById('userNameDisplay');
+                if (nameDisplay) nameDisplay.innerText = `Hi, ${userData.name}`;
+                
+                const sidebarNameDisplay = document.getElementById('sidebarUserNameDisplay');
+                if (sidebarNameDisplay) sidebarNameDisplay.innerText = `Hi, ${userData.name}`;
+
+                // โหลดข้อมูลเข้าช่องฟอร์มต่างๆ
+                const usernameInput = document.getElementById('username');
+                if (usernameInput) usernameInput.value = userData.name || '';
+                
+                const phoneInput = document.getElementById('phone');
+                if (phoneInput) phoneInput.value = userData.phone || ''; // โหลดเบอร์โทร
+                
+                const allergiesInput = document.getElementById('allergies');
+                if (allergiesInput) allergiesInput.value = userData.allergies || ''; // โหลดสิ่งที่แพ้
+                
+                // โหลดรูปโปรไฟล์
+                const profileUrl = userData.photoUrl || `https://ui-avatars.com/api/?name=${encodeURIComponent(userData.name)}&background=7f1d1d&color=fff&bold=true`;
+                
+                const navPreview = document.getElementById('userProfilePicNav');
+                const mainPreview = document.getElementById('main-profile-preview');
+                const sidebarPreview = document.getElementById('userProfilePicSidebar');
+                
+                const savedPic = localStorage.getItem('savedProfilePic');
+                if (savedPic) {
+                    if(navPreview) navPreview.src = savedPic;
+                    if(mainPreview) mainPreview.src = savedPic;
+                    if(sidebarPreview) sidebarPreview.src = savedPic;
+                } else {
+                    if(navPreview) navPreview.src = profileUrl;
+                    if(mainPreview) mainPreview.src = profileUrl;
+                    if(sidebarPreview) sidebarPreview.src = profileUrl;
+                }
+            } else {
+                alert('กรุณาเข้าสู่ระบบก่อนใช้งานครับ');
+                window.location.href = 'index.html';
+            }
+
+            // ระบบเปิด-ปิด Sidebar
+            const menuBtn = document.getElementById('menuBtn');
+            const closeBtn = document.getElementById('closeBtn');
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('overlay');
+
+            if(menuBtn) menuBtn.addEventListener('click', () => { sidebar.classList.remove('translate-x-full'); overlay.classList.remove('hidden'); });
+            if(closeBtn) closeBtn.addEventListener('click', () => { sidebar.classList.add('translate-x-full'); overlay.classList.add('hidden'); });
+            if(overlay) overlay.addEventListener('click', () => { sidebar.classList.add('translate-x-full'); overlay.classList.add('hidden'); });
+        });
+
+        function handleLogout() {
+            if(confirm('คุณต้องการออกจากระบบใช่หรือไม่?')) {
+                localStorage.removeItem('rabbitz_currentUser'); 
+                localStorage.removeItem('savedProfilePic'); 
+                window.location.href = 'index.html';
+            }
+        }
+
         const profileUpload = document.getElementById('profile-upload');
         const mainPreview = document.getElementById('main-profile-preview');
         const navPreview = document.getElementById('userProfilePicNav');
+        const sidebarPreview = document.getElementById('userProfilePicSidebar');
  
         profileUpload.addEventListener('change', function() {
             const file = this.files[0];
@@ -155,26 +247,16 @@
                 const reader = new FileReader();
                 reader.onload = function(e) {
                     const imageUrl = e.target.result;
-                    // อัปเดตรูปทั้ง 2 จุด
                     mainPreview.src = imageUrl;
                     navPreview.src = imageUrl;
-                    // บันทึกลงเครื่องแบบจำลอง (เผื่อ Refresh หน้า)
+                    if(sidebarPreview) sidebarPreview.src = imageUrl;
                     localStorage.setItem('savedProfilePic', imageUrl);
                 }
                 reader.readAsDataURL(file);
             }
         });
  
-        // โหลดรูปเดิมที่เคยบันทึกไว้ (ถ้ามี)
-        window.onload = () => {
-            const savedPic = localStorage.getItem('savedProfilePic');
-            if (savedPic) {
-                mainPreview.src = savedPic;
-                navPreview.src = savedPic;
-            }
-        };
- 
-        // --- 2. จัดการฟอร์มและการแสดง Modal ---
+        // --- ส่วนที่ปรับปรุง: บันทึกข้อมูลฟอร์มลง LocalStorage ---
         const form = document.getElementById('settingForm');
         const modal = document.getElementById('successModal');
  
@@ -184,6 +266,24 @@
             btn.innerText = "กำลังบันทึก...";
             btn.disabled = true;
  
+            // ดึงค่าจากช่อง Input ปัจจุบัน
+            const newName = document.getElementById('username').value;
+            const newPhone = document.getElementById('phone').value;
+            const newAllergies = document.getElementById('allergies').value;
+
+            // ดึงข้อมูล User เดิมมาอัปเดตและบันทึกทับ
+            let userData = JSON.parse(localStorage.getItem('rabbitz_currentUser')) || {};
+            userData.name = newName;
+            userData.phone = newPhone;
+            userData.allergies = newAllergies;
+            localStorage.setItem('rabbitz_currentUser', JSON.stringify(userData));
+
+            // อัปเดตชื่อบน Navbar และ Sidebar ทันทีโดยไม่ต้องรีเฟรชหน้า
+            const nameDisplay = document.getElementById('userNameDisplay');
+            if (nameDisplay) nameDisplay.innerText = `Hi, ${newName}`;
+            const sidebarNameDisplay = document.getElementById('sidebarUserNameDisplay');
+            if (sidebarNameDisplay) sidebarNameDisplay.innerText = `Hi, ${newName}`;
+
             setTimeout(() => {
                 btn.innerText = "บันทึกการเปลี่ยนแปลง";
                 btn.disabled = false;
@@ -194,14 +294,6 @@
         function closeModal() {
             modal.classList.add('hidden');
         }
- 
-        function handleLogout() {
-            if(confirm('คุณต้องการออกจากระบบใช่หรือไม่?')) {
-                localStorage.removeItem('savedProfilePic'); // ล้างรูปที่เซฟไว้ตอนออกระบบ (optional)
-                alert('ออกจากระบบสำเร็จ');
-            }
-        }
     </script>
 </body>
 </html>
- 

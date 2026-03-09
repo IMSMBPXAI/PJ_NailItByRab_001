@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Homepage</title>
+    <title>NAIL IT BY RABBITZ สาขา มหาวิทยาลัยพะเยา</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -28,8 +28,8 @@
                             <span class="self-center text-2xl font-semibold whitespace-nowrap text-red-900"></span>
                         </a>
 
-                        <div class="hidden md:block relative mr-4"> 
-                            <div class="hidden md:block relative mr-4"> 
+                        <div class="hidden md:block relative mr-4">
+                            <div class="hidden md:block relative mr-4">
                         <h1 class="text-white text-lg font-medium">NAIL IT BY RABBITZ สาขา มหาวิทยาลัยพะเยา</h1>
                     </div>
                         </div>
@@ -40,7 +40,7 @@
                     <div class="flex items-center justify-between w-auto" id="navbar-sticky">
                         
                         <ul class="flex flex-row p-0 mt-0 space-x-6 text-sm font-medium border-0 mr-8">
-                            <li><a href="Homepage.html" class="text-white hover:text-red-900 bg-red-900 hover:bg-white p-2 rounded-lg">Homepage</a></li>
+                            <li><a href="index.html" class="text-white hover:text-red-900 bg-red-900 hover:bg-white p-2 rounded-lg">Homepage</a></li>
                             <div class="hidden lg:block w-px h-6 bg-white mr-4"></div> <li><a href="Contact.html" class="text-white hover:text-red-900 bg-red-900 hover:bg-white p-2 rounded-lg">Contact</a></li>
                             <div class="hidden lg:block w-px h-6 bg-white mr-4"></div><li><a href="Booking.html" class="text-white hover:text-red-900 bg-red-900 hover:bg-white p-2 rounded-lg">Booking</a></li>
                         </ul>
@@ -57,7 +57,7 @@
                             <button type="button" class="text-shadow-[0_75px_75px_rgb(0_0_0_/_0.75)] text-red-900 bg-white focus:ring-4 focus:outline-none focus:ring-gray-900 font-medium rounded-lg text-sm px-4 py-2 text-center inline-flex items-center">
                                 <a href="Rolechoosen.html">Sign in</a>
                                 <svg class="w-4 h-4 ml-2 -mr-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
-                            </button>  
+                            </button>
         </nav>
     </header>
 
@@ -71,8 +71,10 @@
     <main class="pt-24 pb-12 max-w-4xl mx-auto px-4">
         
         <div class="relative mb-8">
-            <input type="text" class="w-full border-2 border-gray-400 rounded-full py-2 px-10 focus:outline-none" placeholder="ค้นหา...">
-            <svg class="w-5 h-5 absolute right-4 top-3 text-rabbitz-red" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+            <input type="text" id="indexSearchInput" onkeypress="handleIndexSearch(event)" class="w-full border-2 border-gray-400 rounded-full py-2 px-10 focus:outline-none" placeholder="ค้นหา...">
+            <button onclick="goToSearchFromIndex()" class="absolute right-4 top-3 text-[#800000] focus:outline-none hover:scale-110 transition">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+            </button>
         </div>
 
         <div class="relative rounded-2xl overflow-hidden mb-8 shadow-lg">
@@ -255,41 +257,64 @@
 
         </div>
     </div>
+
+
+        <footer class="text-center py-4 text-[10px] text-[#800000] border-t border-black">
+            NAIL IT BY RABBITZ สาขามหาวิทยาลัยพะเยา
+        </footer>
     </main>
     
-<script>
-    function updateHomepageGallery() {
-        const displayContainer = document.getElementById('homepageGalleryDisplay');
-        // ดึงข้อมูลรูปภาพจาก Key เดียวกันกับหน้า Gallery
-        const savedImages = JSON.parse(localStorage.getItem('rabbitz_gallery')) || [];
-        
-        if (savedImages.length === 0) {
-            displayContainer.innerHTML = '<p class="text-gray-400 text-sm col-span-full text-center">ยังไม่มีรูปภาพผลงานในขณะนี้</p>';
-            return;
+    <script>
+        function updateHomepageGallery() {
+            const displayContainer = document.getElementById('homepageGalleryDisplay');
+            // ดึงข้อมูลรูปภาพจาก Key เดียวกันกับหน้า Gallery
+            const savedImages = JSON.parse(localStorage.getItem('rabbitz_gallery')) || [];
+            
+            if (savedImages.length === 0) {
+                displayContainer.innerHTML = '<p class="text-gray-400 text-sm col-span-full text-center">ยังไม่มีรูปภาพผลงานในขณะนี้</p>';
+                return;
+            }
+
+            // ล้างข้อมูลเก่าและแสดงรูปภาพ 5 รูปล่าสุด (หรือรูปแรกๆ ตามลำดับที่คุณองุ่นจัดไว้)
+            displayContainer.innerHTML = '';
+            savedImages.slice(0, 5).forEach(src => {
+                const imgElement = document.createElement('img');
+                imgElement.src = src;
+                // ใช้ Class Tailwind ให้สวยงามเหมือนในหน้า Gallery
+                imgElement.className = "aspect-square rounded-[20px] shadow-sm object-cover border-2 border-white hover:scale-105 transition-transform duration-300";
+                displayContainer.appendChild(imgElement);
+            });
         }
 
-        // ล้างข้อมูลเก่าและแสดงรูปภาพ 5 รูปล่าสุด (หรือรูปแรกๆ ตามลำดับที่คุณองุ่นจัดไว้)
-        displayContainer.innerHTML = '';
-        savedImages.slice(0, 5).forEach(src => {
-            const imgElement = document.createElement('img');
-            imgElement.src = src;
-            // ใช้ Class Tailwind ให้สวยงามเหมือนในหน้า Gallery
-            imgElement.className = "aspect-square rounded-[20px] shadow-sm object-cover border-2 border-white hover:scale-105 transition-transform duration-300";
-            displayContainer.appendChild(imgElement);
+        // เรียกใช้งานเมื่อโหลดหน้าเว็บ
+        document.addEventListener('DOMContentLoaded', updateHomepageGallery);
+
+        // พิเศษ: ถ้ามีการแก้ไขรูปในหน้า Gallery ขณะที่เปิดหน้า Home ค้างไว้ ให้รูปอัปเดตทันที
+        window.addEventListener('storage', (e) => {
+            if (e.key === 'rabbitz_gallery') {
+                updateHomepageGallery();
+            }
         });
-    }
 
-    // เรียกใช้งานเมื่อโหลดหน้าเว็บ
-    document.addEventListener('DOMContentLoaded', updateHomepageGallery);
-
-    // พิเศษ: ถ้ามีการแก้ไขรูปในหน้า Gallery ขณะที่เปิดหน้า Home ค้างไว้ ให้รูปอัปเดตทันที
-    window.addEventListener('storage', (e) => {
-        if (e.key === 'rabbitz_gallery') {
-            updateHomepageGallery();
+        // ฟังก์ชันสำหรับส่งคำค้นหาไปหน้า Search.html
+        function goToSearchFromIndex() {
+            const query = document.getElementById('indexSearchInput').value.trim();
+            if (query !== '') {
+                // ส่งคำค้นหาไปกับ URL
+                window.location.href = `Search.html?q=${encodeURIComponent(query)}`;
+            } else {
+                // ถ้าไม่ได้พิมพ์อะไร ให้ไปหน้า Search แบบปกติ
+                window.location.href = `Search.html`;
+            }
         }
-    });
-</script>
-    <footer class="text-center py-4 text-[10px] text-[#800000] border-t border-black">
-        NAIL IT BY RABBITZ สาขามหาวิทยาลัยพะเยา
-    </footer>
+
+        // ฟังก์ชันสำหรับตรวจจับการกดปุ่ม Enter
+        function handleIndexSearch(event) {
+            if (event.key === 'Enter') {
+                event.preventDefault(); // ป้องกันหน้าเว็บรีเฟรช
+                goToSearchFromIndex();
+            }
+        }
+    </script>
+
 </body>

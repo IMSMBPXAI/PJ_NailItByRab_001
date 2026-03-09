@@ -15,93 +15,90 @@
 </head>
 <body class="bg-gray-50 text-gray-800">
 
-           <header>
-            <nav class="border-b border-red-900 px-4 py-2.5 fixed left-0 right-0 top-0 z-50 bg-red-900 w-full">
-                <div class="flex flex-wrap items-center justify-between mx-auto max-w-[1600px]">
-                    
-                    <div class="flex items-center justify-start">
-                        <a href="HomepageCus.html" class="flex items-center mr-6">
-                            <img src="logo rabbitz.svg" class="size-16 mr-3 bg-white rounded-full p-1" alt="Rabbitz Logo" onerror="this.src='https://ui-avatars.com/api/?name=Logo&background=fff&color=7f1d1d'"/>
-                        </a>
+    <header>
+        <nav class="border-b border-red-900 px-4 py-2.5 fixed left-0 right-0 top-0 z-50 bg-red-900 w-full">
+            <div class="flex flex-wrap items-center justify-between mx-auto max-w-[1600px]">
+                
+                <div class="flex items-center justify-start">
+                    <a href="HomepageCus.html" class="flex items-center mr-6">
+                        <img src="logo rabbitz.svg" class="size-16 mr-3 bg-white rounded-full p-1" alt="Rabbitz Logo" onerror="this.src='https://ui-avatars.com/api/?name=Logo&background=fff&color=7f1d1d'"/>
+                    </a>
 
-                        <div class="hidden md:block relative mr-4"> 
-                            <h1 class="text-white text-lg font-medium">NAIL IT BY RABBITZ สาขา มหาวิทยาลัยพะเยา</h1>
-                        </div>
+                    <div class="hidden md:block relative mr-4"> 
+                        <h1 class="text-white text-lg font-medium">NAIL IT BY RABBITZ สาขา มหาวิทยาลัยพะเยา</h1>
                     </div>
-
-                    <div class="flex items-center gap-6">
-                        <ul class="hidden lg:flex flex-row space-x-6 text-sm font-medium text-white items-center">
-                            <li><a href="HomepageCus.html" class="hover:text-red-200 transition">Homepage</a></li>
-                            <li class="w-px h-5 bg-white/30"></li>
-                            <li><a href="ContactSI.html" class="hover:text-red-200 transition">Contact</a></li>
-                            <li class="w-px h-5 bg-white/30"></li>
-                            <li><a href="Booking.html" class="hover:text-red-200 transition">Booking</a></li>
-                        </ul>
-                        
-                        <div class="hidden lg:block w-px h-6 bg-white/30 mx-2"></div>
-
-                        <div class="flex items-center space-x-4">
-                            
-                            <span id="userNameDisplay" class="text-white text-sm font-medium hidden md:block"></span>
-
-                            <button type="button" class="relative p-2 text-white hover:bg-white/10 rounded-full transition focus:outline-none">
-                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
-                                </svg>
-                                <span class="absolute top-2 right-2 flex h-3 w-3">
-                                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-yellow-300 opacity-75"></span>
-                                    <span class="relative inline-flex rounded-full h-3 w-3 bg-yellow-400 border-2 border-red-900"></span>
-                                </span>
-                            </button>
-
-                            <button type="button" class="flex text-sm bg-white rounded-full focus:ring-4 focus:ring-red-700 overflow-hidden size-10 border-2 border-white/20 shadow-sm transition hover:scale-105">
-                                <img id="userProfilePic" class="w-full h-full object-cover" src="https://ui-avatars.com/api/?name=User&background=fff&color=7f1d1d" alt="User Profile">
-                            </button>
-
-                            <button onclick="handleLogout()" class="text-xs text-white underline hover:text-red-200 ml-2">Log out</button>
-
-                        </div>
-                        <div class="flex items-center gap-4 border-l border-white/30 pl-6">
-                        <button id="menuBtn" class="text-white hover:bg-white/10 p-2 rounded-lg transition">
-                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                        </svg>
-                        </button>
-                        </div>
-                    </div>
-
                 </div>
-            </nav>
-            <div id="sidebar" class="fixed top-0 right-0 h-full w-72 bg-gradient-to-b from-[#801919] to-[#5d1212] z-[100] transform translate-x-full transition-transform duration-300 ease-in-out shadow-2xl rounded-l-[3rem]">
-        
-            <div class="p-8 flex flex-col items-center">
-            <button id="closeBtn" class="self-end text-white mb-4">
-                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-            </button>
-            <button type="button" class="flex text-sm bg-white rounded-full focus:ring-40 overflow-hidden size-49 border-2 border-white/20 shadow-sm ">
-                <img class="w-full h-full object-cover" src="https://ui-avatars.com/api/?name=User&background=random" alt="User Profile">
-            </button>
+
+                <div class="flex items-center gap-6">
+                    <ul class="hidden lg:flex flex-row space-x-6 text-sm font-medium text-white items-center">
+                        <li><a href="HomepageCus.html" class="hover:text-red-200 transition">Homepage</a></li>
+                        <li class="w-px h-5 bg-white/30"></li>
+                        <li><a href="Contact.html" class="hover:text-red-200 transition">Contact</a></li>
+                        <li class="w-px h-5 bg-white/30"></li>
+                        <li><a href="Booking.html" class="hover:text-red-200 transition">Booking</a></li>
+                    </ul>
+                    
+                    <div class="hidden lg:block w-px h-6 bg-white/30 mx-2"></div>
+
+                    <div class="flex items-center space-x-4">
+                        <span id="userNameDisplay" class="text-white text-sm font-medium hidden md:block">Loading...</span>
+
+                        <button type="button" onclick="window.location.href='NotiCus.html'" class="relative p-2 text-white hover:bg-white/10 rounded-full transition focus:outline-none">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
+                            </svg>
+                        </button>
+
+                        <button type="button" class="flex text-sm bg-white rounded-full focus:ring-4 focus:ring-red-700 overflow-hidden size-10 border-2 border-white/20 shadow-sm transition hover:scale-105">
+                            <img id="userProfilePic" class="w-full h-full object-cover" src="https://ui-avatars.com/api/?name=User&background=fff&color=7f1d1d" alt="User Profile">
+                        </button>
+
+                        <button onclick="handleLogout()" class="text-xs text-white underline hover:text-red-200 ml-2 hidden lg:block">Log out</button>
+
+                        <div class="flex items-center gap-4 border-l border-white/30 pl-6">
+                            <button id="menuBtn" class="text-white hover:bg-white/10 p-2 rounded-lg transition focus:outline-none">
+                                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <div id="sidebar" class="fixed top-0 right-0 h-full w-72 bg-gradient-to-b from-[#801919] to-[#5d1212] z-[100] transform translate-x-full transition-transform duration-300 ease-in-out shadow-2xl rounded-l-[3rem]">
             
+            <div class="p-8 flex flex-col items-center">
+                <button id="closeBtn" class="self-end text-white mb-2 hover:scale-110 transition">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+                
+                <div class="flex flex-col items-center mb-6">
+                    <div class="size-24 bg-white rounded-full p-1 shadow-xl overflow-hidden border-2 border-white/30 mb-3">
+                        <img id="userProfilePicSidebar" class="w-full h-full object-cover rounded-full" src="https://ui-avatars.com/api/?name=User&background=fff&color=7f1d1d" alt="User Profile">
+                    </div>
+                    <p id="sidebarUserNameDisplay" class="text-white font-bold text-lg uppercase tracking-wide">Loading...</p>
+                </div>
             </div>
 
-            <div class="px-6 py-4">
-            <div class="bg-white/90 rounded-[2rem] p-6 space-y-3 text-center shadow-lg">
-                <a href="#" class="block text-[#801919] font-bold hover:scale-105 transition uppercase tracking-wider text-medium">Setting</a>
-                <hr class="border-[#801919]/20 w-1/2 mx-auto">
-                <a href="#" class="block text-[#801919] font-bold hover:scale-105 transition uppercase tracking-wider text-medium">My Booking & History</a>
+            <div class="px-6">
+                <div class="bg-gray-100/95 rounded-[2.5rem] p-8 space-y-6 text-center shadow-lg">
+                    <a href="Accountsetting.html" class="block text-[#801919] font-bold hover:text-red-700 transition uppercase tracking-widest text-sm border-b border-[#801919]/10 pb-4">Setting</a>
+                    <a href="History.html" class="block text-[#801919] font-bold hover:text-red-700 transition uppercase tracking-widest text-sm">My Booking & History</a>
+                </div>
             </div>
-            </div>
-
+            
             <div class="absolute bottom-12 left-0 right-0 px-10 text-center">
-            <button class="w-full border-2 border-white text-white py-2 rounded-full font-bold uppercase text-medium hover:bg-white hover:text-[#801919] transition">
-                Sign out
-            </button>
+                <button onclick="handleLogout()" class="w-full border-2 border-white text-white py-2 rounded-full font-bold uppercase text-sm hover:bg-white hover:text-[#801919] transition">
+                    Sign out
+                </button>
             </div>
-            </div>
-
-            <div id="overlay" class="fixed inset-0 bg-black/40 z-[90] hidden"></div>
-        </header>
-    
+        </div>
+        <div id="overlay" class="fixed inset-0 bg-black/40 z-[90] hidden transition-opacity duration-300 opacity-0"></div>
+    </header>
 
     <div class="pt-28 pb-12 px-4 min-h-screen">
         <div class="max-w-4xl mx-auto bg-white rounded-2xl shadow-lg p-8">
@@ -139,61 +136,91 @@
     </div>
 
     <script>
+        let currentUserData = null;
 
         document.addEventListener('DOMContentLoaded', () => {
-            // โหลดข้อมูลผู้ใช้จาก LocalStorage
             const userDataString = localStorage.getItem('rabbitz_currentUser');
             
             if (userDataString) {
-                const userData = JSON.parse(userDataString);
+                currentUserData = JSON.parse(userDataString);
                 
-                // แสดงชื่อผู้ใช้บน Navbar
                 const nameDisplay = document.getElementById('userNameDisplay');
-                if (nameDisplay) {
-                    nameDisplay.innerText = `Hi, ${userData.name}`;
-                }
+                if (nameDisplay) nameDisplay.innerText = `Hi, ${currentUserData.name}`;
+
+                const sidebarNameDisplay = document.getElementById('sidebarUserNameDisplay');
+                if (sidebarNameDisplay) sidebarNameDisplay.innerText = `Hi, ${currentUserData.name}`;
                 
-                // แสดงรูปโปรไฟล์ (ถ้าล็อกอินด้วย Google จะมี photoUrl ถ้าไม่มีจะดึงชื่อมาทำเป็นรูป)
-                const profilePic = document.getElementById('userProfilePic');
-                if (profilePic) {
-                    if (userData.photoUrl) {
-                        profilePic.src = userData.photoUrl;
-                    } else {
-                        profilePic.src = `https://ui-avatars.com/api/?name=${userData.name}&background=fff&color=7f1d1d&bold=true`;
-                    }
+                const profileUrl = currentUserData.photoUrl || `https://ui-avatars.com/api/?name=${encodeURIComponent(currentUserData.name)}&background=fff&color=7f1d1d&bold=true`;
+                
+                const profilePicNav = document.getElementById('userProfilePic');
+                const profilePicSidebar = document.getElementById('userProfilePicSidebar');
+                
+                const savedPic = localStorage.getItem('savedProfilePic');
+                if (savedPic) {
+                    if (profilePicNav) profilePicNav.src = savedPic;
+                    if (profilePicSidebar) profilePicSidebar.src = savedPic;
+                } else {
+                    if (profilePicNav) profilePicNav.src = profileUrl;
+                    if (profilePicSidebar) profilePicSidebar.src = profileUrl;
                 }
+
+                // สั่งเรนเดอร์คิวทันทีหลังจากล็อกอินผ่าน
+                renderHistory();
+
             } else {
-                // ถ้าแอบเข้าหน้านี้โดยที่ไม่ได้ล็อกอิน ให้เด้งกลับไปหน้า Homepage หลัก
                 alert('กรุณาเข้าสู่ระบบก่อนใช้งานครับ');
-                window.location.href = 'Homepage.html';
+                window.location.href = 'index.html';
             }
+
+            // --- ส่วนควบคุมการเปิด-ปิด Sidebar ---
+            const menuBtn = document.getElementById('menuBtn');
+            const closeBtn = document.getElementById('closeBtn');
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('overlay');
+
+            function toggleMenu() {
+                const isOpen = !sidebar.classList.contains('translate-x-full');
+                if (!isOpen) {
+                    sidebar.classList.remove('translate-x-full');
+                    overlay.classList.remove('hidden');
+                    setTimeout(() => overlay.classList.add('opacity-100'), 10);
+                } else {
+                    sidebar.classList.add('translate-x-full');
+                    overlay.classList.remove('opacity-100');
+                    setTimeout(() => overlay.classList.add('hidden'), 300);
+                }
+            }
+
+            if(menuBtn) menuBtn.addEventListener('click', toggleMenu);
+            if(closeBtn) closeBtn.addEventListener('click', toggleMenu);
+            if(overlay) overlay.addEventListener('click', toggleMenu);
         });
 
-        // ⭐️ ฟังก์ชันสำหรับปุ่ม Log out
         function handleLogout() {
             if(confirm('ต้องการออกจากระบบใช่หรือไม่?')) {
-                // ลบข้อมูลผู้ใช้ออกจากเครื่อง
                 localStorage.removeItem('rabbitz_currentUser');
-                // เด้งกลับไปหน้าแรก
-                window.location.href = 'Homepage.html';
+                localStorage.removeItem('savedProfilePic');
+                window.location.href = 'index.html';
             }
         }
-
 
         const upcomingContainer = document.getElementById('upcoming-container');
         const pastContainer = document.getElementById('past-container');
         
         function renderHistory() {
+            if(!currentUserData) return;
+
             const allBookings = JSON.parse(localStorage.getItem('allBookings')) || [];
             
-            const myBookings = allBookings.filter(booking => booking.username === "Guest");
+            // กรองดึงมาเฉพาะคิวของลูกค้าคนที่เข้าสู่ระบบ
+            const myBookings = allBookings.filter(booking => booking.customer_name === currentUserData.name);
 
             if (myBookings.length === 0) {
                 upcomingContainer.innerHTML = `
                     <div class="text-center py-10 bg-gray-50 rounded-xl border-2 border-dashed border-gray-200">
                         <p class="text-gray-500 font-medium">คุณยังไม่มีคิวที่กำลังจะมาถึง</p>
                     </div>`;
-                pastContainer.innerHTML = `<p class="text-sm text-gray-400 italic">ไม่มีประวัติการทำรายการ</p>`;
+                pastContainer.innerHTML = `<p class="text-sm text-gray-400 italic bg-gray-50 p-4 rounded-lg text-center">ไม่มีประวัติการทำรายการ</p>`;
                 return;
             }
 
@@ -207,13 +234,17 @@
                 const bookDate = new Date(booking.date);
                 bookDate.setHours(0, 0, 0, 0);
 
-                if (booking.status === 'Confirmed' && bookDate >= today) {
+                // สถานะที่ยังถือว่าเป็นคิวปัจจุบันที่กำลังจะมาถึง
+                const activeStatuses = ['Confirmed', 'ยืนยันแล้ว', 'รอการยืนยัน', 'Paid', 'Pending Payment'];
+                
+                if (activeStatuses.includes(booking.status) && bookDate >= today) {
                     upcoming.push(booking);
                 } else {
                     past.push(booking);
                 }
             });
 
+            // เรียงลำดับวันที่ (คิวใกล้สุดขึ้นก่อน)
             upcoming.sort((a, b) => new Date(a.date) - new Date(b.date));
             past.sort((a, b) => new Date(b.date) - new Date(a.date));
 
@@ -243,7 +274,17 @@
                 
                 const isNext = index === 0;
                 const borderClass = isNext ? 'border-red-500 shadow-md ring-2 ring-red-100' : 'border-red-200 shadow-sm';
-                const badge = '<span class="bg-green-100 text-green-800 text-xs font-bold px-3 py-1 rounded-full border border-green-300">ยืนยันคิวแล้ว</span>';
+                
+                // ตรวจสอบสถานะและแสดง Badge ให้ถูกต้อง
+                let badge = '';
+                if(booking.status === 'Confirmed' || booking.status === 'ยืนยันแล้ว') {
+                    badge = '<span class="bg-green-100 text-green-800 text-xs font-bold px-3 py-1 rounded-full border border-green-300">ยืนยันคิวแล้ว</span>';
+                } else if(booking.status === 'รอการยืนยัน' || booking.status === 'Pending Payment') {
+                    badge = '<span class="bg-yellow-100 text-yellow-800 text-xs font-bold px-3 py-1 rounded-full border border-yellow-300">รอร้านยืนยัน</span>';
+                }
+                
+                // ใช้การเช็ค Array เผื่อเซฟเป็นแบบ Array 
+                const serviceList = Array.isArray(booking.services) ? booking.services.join(', ') : booking.service;
 
                 html += `
                     <div class="bg-white border-2 ${borderClass} rounded-xl p-6 relative transition hover:shadow-lg">
@@ -259,7 +300,7 @@
 
                         <div class="mb-2">
                             <p class="text-sm font-semibold text-gray-700 mb-1">บริการที่จอง:</p>
-                            <p class="text-sm text-gray-600 bg-gray-50 p-2 rounded-lg border border-gray-100">${booking.services.join(', ')}</p>
+                            <p class="text-sm text-gray-600 bg-gray-50 p-2 rounded-lg border border-gray-100">${serviceList}</p>
                         </div>
 
                         <div class="flex flex-wrap items-center justify-end gap-3 mt-5">
@@ -290,10 +331,10 @@
                 let statusBadge = '';
                 let opacityClass = 'opacity-100';
 
-                if(booking.status === 'Confirmed') {
+                if(booking.status === 'Confirmed' || booking.status === 'ยืนยันแล้ว') {
                     statusBadge = '<span class="text-gray-500 text-xs font-bold px-2 py-1 bg-gray-100 rounded border border-gray-200">เสร็จสิ้น (ในอดีต)</span>';
                     opacityClass = 'opacity-70';
-                } else if(booking.status === 'Cancelled') {
+                } else if(booking.status === 'Cancelled' || booking.status === 'ยกเลิก') {
                     statusBadge = '<span class="text-red-500 text-xs font-bold px-2 py-1 bg-red-50 rounded border border-red-100">ถูกยกเลิก</span>';
                     opacityClass = 'opacity-60 grayscale';
                 } else {
@@ -301,12 +342,14 @@
                     opacityClass = 'opacity-60';
                 }
 
+                const serviceList = Array.isArray(booking.services) ? booking.services.join(', ') : booking.service;
+
                 html += `
                     <div class="bg-white border border-gray-200 rounded-xl p-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 transition hover:opacity-100 ${opacityClass}">
                         <div>
                             <p class="text-xs text-gray-400">ID: ${booking.id}</p>
                             <h4 class="text-md font-bold text-gray-700">${formattedDate} | ${booking.time}</h4>
-                            <p class="text-xs text-gray-500 truncate max-w-[200px] sm:max-w-xs mt-1">${booking.services.join(', ')}</p>
+                            <p class="text-xs text-gray-500 truncate max-w-[200px] sm:max-w-xs mt-1">${serviceList}</p>
                         </div>
                         <div>${statusBadge}</div>
                     </div>
@@ -328,7 +371,8 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     let allBookings = JSON.parse(localStorage.getItem('allBookings')) || [];
-                    const bookingIndex = allBookings.findIndex(b => b.id === bookingId);
+                    // เช็ค ID เป็นทั้งสตริงและตัวเลขเพื่อความชัวร์
+                    const bookingIndex = allBookings.findIndex(b => b.id == bookingId);
                     
                     if(bookingIndex > -1) {
                         allBookings[bookingIndex].status = 'Cancelled';
@@ -340,7 +384,7 @@
                             icon: 'success',
                             confirmButtonColor: '#7f1d1d'
                         });
-                        renderHistory(); 
+                        renderHistory();
                     }
                 }
             });
@@ -359,7 +403,7 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     let allBookings = JSON.parse(localStorage.getItem('allBookings')) || [];
-                    const bookingIndex = allBookings.findIndex(b => b.id === bookingId);
+                    const bookingIndex = allBookings.findIndex(b => b.id == bookingId);
                     
                     if(bookingIndex > -1) {
                         allBookings[bookingIndex].status = 'Cancelled';
@@ -369,8 +413,6 @@
                 }
             });
         }
-
-        renderHistory();
 
     </script>
 </body>

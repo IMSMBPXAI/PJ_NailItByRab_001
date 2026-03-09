@@ -3,63 +3,103 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CONTACT</title>
+    <title>CONTACT - NAIL IT BY RABBITZ</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600&display=swap" rel="stylesheet">
 
     <style>
-  /* ตั้งค่าให้ทั้งหน้าเว็บใช้ฟอนต์ Kanit */
-  body {
-    font-family: 'Kanit', sans-serif;
-    }
+        body { font-family: 'Kanit', sans-serif; }
     </style>
 </head>
 <body class="bg-white pb-12">
     <header>
+        <nav class="border-b border-red-900 px-4 py-2.5 fixed left-0 right-0 top-0 z-50 bg-red-900 w-full">
+            <div class="flex flex-wrap items-center justify-between mx-auto max-w-[1600px]">
+                
+                <div class="flex items-center justify-start">
+                    <a href="HomepageCus.html" class="flex items-center mr-6">
+                        <img src="logo rabbitz.svg" class="size-16 mr-3 bg-white rounded-full p-1" alt="Rabbitz Logo" onerror="this.src='https://ui-avatars.com/api/?name=Logo&background=fff&color=7f1d1d'"/>
+                    </a>
 
-        <nav class="border-b border-red-900 px-4 py-2.5 fixed left-0 right-0 top-0 z-50 bg-red-900 w-full md:w-auto">
-                    <div class="flex flex-wrap items-center justify-between mx-auto max-w-[1600px]">
-                    
-                    <div class="flex items-center justify-start">
-                        <a href="#" class="flex items-center mr-6">
-                            <img src="logo rabbitz.svg" class="size-20 mr-3 bg-white rounded-full" alt="Rabbitz Logo" />
-                            <span class="self-center text-2xl font-semibold whitespace-nowrap text-red-900"></span>
-                        </a>
-
-                        <div class="hidden md:block relative mr-4"> 
+                    <div class="hidden md:block relative mr-4"> 
                         <h1 class="text-white text-lg font-medium">NAIL IT BY RABBITZ สาขา มหาวิทยาลัยพะเยา</h1>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-6">
+                    <ul class="hidden lg:flex flex-row space-x-6 text-sm font-medium text-white items-center">
+                        <li><a href="HomepageCus.html" class="hover:text-red-200 transition">Homepage</a></li>
+                        <li class="w-px h-5 bg-white/30"></li>
+                        <li><a href="Contact.html" class="hover:text-red-200 transition">Contact</a></li>
+                        <li class="w-px h-5 bg-white/30"></li>
+                        <li><a href="Booking.html" class="hover:text-red-200 transition">Booking</a></li>
+                    </ul>
+                    
+                    <div class="hidden lg:block w-px h-6 bg-white/30 mx-2"></div>
+
+                    <div class="flex items-center space-x-4">
+                        <span id="userNameDisplay" class="text-white text-sm font-medium hidden md:block">Loading...</span>
+
+                        <button type="button" onclick="window.location.href='NotiCus.html'" class="relative p-2 text-white hover:bg-white/10 rounded-full transition focus:outline-none">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
+                            </svg>
+                        </button>
+
+                        <button type="button" class="flex text-sm bg-white rounded-full focus:ring-4 focus:ring-red-700 overflow-hidden size-10 border-2 border-white/20 shadow-sm transition hover:scale-105">
+                            <img id="userProfilePic" class="w-full h-full object-cover" src="https://ui-avatars.com/api/?name=User&background=fff&color=7f1d1d" alt="User Profile">
+                        </button>
+
+                        <button onclick="handleLogout()" class="text-xs text-white underline hover:text-red-200 ml-2 hidden lg:block">Log out</button>
+
+                        <div class="flex items-center gap-4 border-l border-white/30 pl-6">
+                            <button id="menuBtn" class="text-white hover:bg-white/10 p-2 rounded-lg transition focus:outline-none">
+                                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                                </svg>
+                            </button>
                         </div>
                     </div>
-
-    <!-- ส่วนหัวฝั่ง homepage-->
-
-                    <div class="flex items-center justify-between w-auto" id="navbar-sticky">
-                        
-                        <ul class="flex flex-row p-0 mt-0 space-x-6 text-sm font-medium border-0 mr-8">
-                            <li><a href="Homepage.html" class="text-white hover:text-red-900 bg-red-900 hover:bg-white p-2 rounded-lg">Homepage</a></li>
-                            <div class="hidden lg:block w-px h-6 bg-white mr-4"></div> <li><a href="Contact.html" class="text-white hover:text-red-900 bg-red-900 hover:bg-white p-2 rounded-lg">Contact</a></li>
-                            <div class="hidden lg:block w-px h-6 bg-white mr-4"></div><li><a href="Booking.html" class="text-white hover:text-red-900 bg-red-900 hover:bg-white p-2 rounded-lg">Booking</a></li>
-                        </ul>
-                        <!-- เส้นคั่นที่ละปุ่ม -->
-                        <div class="hidden lg:block w-px h-6 bg-white mr-4"></div>
-
-
-            <div class="flex items-center space-x-4 mr-4">
-                            
-                            <button type="button" class="text-shadow-[0_75px_75px_rgb(0_0_0_/_0.75)] relative text-white border-2 border-white bg-white-700 focus:ring-4 focus:outline-none focus:ring-gray-900 font-medium rounded-lg text-sm px-4 py-2 text-center inline-flex items-center">
-                                <a href="Signup.html">Sign up</a>
-                                <svg class="w-4 h-4 ml-2 -mr-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
-                                </button>
-                            <button type="button" class="text-shadow-[0_75px_75px_rgb(0_0_0_/_0.75)] text-red-900 bg-white focus:ring-4 focus:outline-none focus:ring-gray-900 font-medium rounded-lg text-sm px-4 py-2 text-center inline-flex items-center">
-                                <a href="Rolechoosen.html">Sign in</a>
-                                <svg class="w-4 h-4 ml-2 -mr-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
-                            </button>  
+                </div>
+            </div>
         </nav>
+
+        <div id="sidebar" class="fixed top-0 right-0 h-full w-72 bg-gradient-to-b from-[#801919] to-[#5d1212] z-[100] transform translate-x-full transition-transform duration-300 ease-in-out shadow-2xl rounded-l-[3rem]">
+            
+            <div class="p-8 flex flex-col items-center">
+                <button id="closeBtn" class="self-end text-white mb-2 hover:scale-110 transition">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+                
+                <div class="flex flex-col items-center mb-6">
+                    <div class="size-24 bg-white rounded-full p-1 shadow-xl overflow-hidden border-2 border-white/30 mb-3">
+                        <img id="userProfilePicSidebar" class="w-full h-full object-cover rounded-full" src="https://ui-avatars.com/api/?name=User&background=fff&color=7f1d1d" alt="User Profile">
+                    </div>
+                    <p id="sidebarUserNameDisplay" class="text-white font-bold text-lg uppercase tracking-wide">Loading...</p>
+                </div>
+            </div>
+
+            <div class="px-6">
+                <div class="bg-gray-100/95 rounded-[2.5rem] p-8 space-y-6 text-center shadow-lg">
+                    <a href="Accountsetting.html" class="block text-[#801919] font-bold hover:text-red-700 transition uppercase tracking-widest text-sm border-b border-[#801919]/10 pb-4">Setting</a>
+                    <a href="History.html" class="block text-[#801919] font-bold hover:text-red-700 transition uppercase tracking-widest text-sm">My Booking & History</a>
+                </div>
+            </div>
+            
+            <div class="absolute bottom-12 left-0 right-0 px-10 text-center">
+                <button onclick="handleLogout()" class="w-full border-2 border-white text-white py-2 rounded-full font-bold uppercase text-sm hover:bg-white hover:text-[#801919] transition">
+                    Sign out
+                </button>
+            </div>
+        </div>
+        <div id="overlay" class="fixed inset-0 bg-black/40 z-[90] hidden transition-opacity duration-300 opacity-0"></div>
     </header>
 
-    <br><br><br>
+    <br><br><br><br><br>
 
     <div class="flex justify-center my-8">
         <div class="bg-[#800000] text-white px-16 py-2 rounded-full text-xl font-medium shadow-md">
@@ -73,7 +113,6 @@
             
             <div class="mt-4 flex justify-between items-end px-4">
                 <h2 class="text-xl font-bold text-gray-800">NAIL IT สาขาหน้า ม.พะเยา</h2>
-                
             </div>
         </div>
     </div>
@@ -94,19 +133,19 @@
             <span class="text-gray-800 font-medium">oishi_onisuka_kk@hotmail.com</span>
         </div>
 
-        <div class="bg-[#9bb8d7] hover:scale-105 transition-transform rounded-full py-3 px-6 flex items-center shadow-md cursor-pointer">
-            <div class="bg-black p-2 rounded-full mr-4 text-white">
-                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
-            </div>
-            <span class="text-gray-800 font-medium">Nail It by Rabbitz : ร้านทำเล็บเจล ม.พะเยา</span>
-        </div>
+        <a href="https://www.facebook.com/nailitbyrab/photos?locale=th_TH" target="_blank" rel="noopener noreferrer" class="bg-[#9bb8d7] hover:scale-105 transition-transform rounded-full py-3 px-6 flex items-center shadow-md cursor-pointer">
+                <div class="bg-black p-2 rounded-full mr-4 text-white flex-shrink-0">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                </div>
+                <span class="text-gray-800 font-medium">Nail It by Rabbitz : ร้านทำเล็บเจล ม.พะเยา</span>
+        </a>
 
-        <div class="bg-[#d18e8e] hover:scale-105 transition-transform rounded-full py-3 px-6 flex items-center shadow-md cursor-pointer">
-            <div class="bg-black p-2 rounded-full mr-4 text-white">
-                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
-            </div>
-            <span class="text-gray-800 font-medium">nailitbyrabbitz</span>
-        </div>
+    <a href="https://www.instagram.com/nailitbyrabbitz/" target="_blank" rel="noopener noreferrer" class="bg-[#d18e8e] hover:scale-105 transition-transform rounded-full py-3 px-6 flex items-center shadow-md cursor-pointer">
+                <div class="bg-black p-2 rounded-full mr-4 text-white flex-shrink-0">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                </div>
+                <span class="text-gray-800 font-medium">nailitbyrabbitz</span>
+    </a>
 
     </div>
     <br><br>
@@ -114,6 +153,70 @@
     <footer class="text-center py-2 text-[10px] text-[#800000] border-t border-black ">
         NAIL IT BY RABBITZ สาขามหาวิทยาลัยพะเยา
     </footer>
-    
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const userDataString = localStorage.getItem('rabbitz_currentUser');
+            
+            if (userDataString) {
+                const userData = JSON.parse(userDataString);
+                
+                const nameDisplay = document.getElementById('userNameDisplay');
+                if (nameDisplay) nameDisplay.innerText = `Hi, ${userData.name}`;
+
+                const sidebarNameDisplay = document.getElementById('sidebarUserNameDisplay');
+                if (sidebarNameDisplay) sidebarNameDisplay.innerText = `Hi, ${userData.name}`;
+                
+                // ใช้ encodeURIComponent ป้องกันชื่อมีเว้นวรรคแล้ว Error (ช่วยให้รูปโชว์เป็นตัวอักษรนำหน้า 2 ตัวเหมือนในภาพ)
+                const profileUrl = userData.photoUrl || `https://ui-avatars.com/api/?name=${encodeURIComponent(userData.name)}&background=fff&color=7f1d1d&bold=true`;
+                
+                const profilePicNav = document.getElementById('userProfilePic');
+                const profilePicSidebar = document.getElementById('userProfilePicSidebar');
+                
+                const savedPic = localStorage.getItem('savedProfilePic');
+                if (savedPic) {
+                    if (profilePicNav) profilePicNav.src = savedPic;
+                    if (profilePicSidebar) profilePicSidebar.src = savedPic;
+                } else {
+                    if (profilePicNav) profilePicNav.src = profileUrl;
+                    if (profilePicSidebar) profilePicSidebar.src = profileUrl;
+                }
+            } else {
+                alert('กรุณาเข้าสู่ระบบก่อนใช้งานครับ');
+                window.location.href = 'index.html';
+            }
+
+            // --- ส่วนควบคุมการเปิด-ปิด Sidebar ---
+            const menuBtn = document.getElementById('menuBtn');
+            const closeBtn = document.getElementById('closeBtn');
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('overlay');
+
+            function toggleMenu() {
+                const isOpen = !sidebar.classList.contains('translate-x-full');
+                if (!isOpen) {
+                    sidebar.classList.remove('translate-x-full');
+                    overlay.classList.remove('hidden');
+                    setTimeout(() => overlay.classList.add('opacity-100'), 10);
+                } else {
+                    sidebar.classList.add('translate-x-full');
+                    overlay.classList.remove('opacity-100');
+                    setTimeout(() => overlay.classList.add('hidden'), 300);
+                }
+            }
+
+            if(menuBtn) menuBtn.addEventListener('click', toggleMenu);
+            if(closeBtn) closeBtn.addEventListener('click', toggleMenu);
+            if(overlay) overlay.addEventListener('click', toggleMenu);
+        });
+
+        function handleLogout() {
+            if(confirm('ต้องการออกจากระบบใช่หรือไม่?')) {
+                localStorage.removeItem('rabbitz_currentUser');
+                localStorage.removeItem('savedProfilePic');
+                window.location.href = 'index.html';
+            }
+        }
+    </script>
 </body>
 </html>

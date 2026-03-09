@@ -18,93 +18,95 @@
     </script>
 </head>
 <body class="bg-gray-50 font-sans">
- 
-    <header>
-        <nav class="border-b border-red-900 px-4 py-2.5 fixed left-0 right-0 top-0 z-50 bg-red-900 w-full">
-            <div class="flex flex-wrap items-center justify-between mx-auto max-w-[1600px]">
-               
-                <div class="flex items-center justify-start">
-                    <a href="HomepageCus.html" class="flex items-center mr-6">
-                        <img src="logo rabbitz.svg" class="size-16 mr-3 bg-white rounded-full p-1" alt="Rabbitz Logo" onerror="this.src='https://ui-avatars.com/api/?name=Logo&background=fff&color=7f1d1d'"/>
-                    </a>
- 
-                    <div class="hidden md:block relative mr-4">
-                        <h1 class="text-white text-lg font-medium">NAIL IT BY RABBITZ สาขา มหาวิทยาลัยพะเยา</h1>
+        <head>
+
+            <nav class="border-b border-red-900 px-4 py-2.5 fixed left-0 right-0 top-0 z-50 bg-red-900 w-full">
+                    <div class="flex flex-wrap items-center justify-between mx-auto max-w-[1600px]">
+                        
+                        <div class="flex items-center justify-start">
+                            <a href="HomepageCus.html" class="flex items-center mr-6">
+                                <img src="logo rabbitz.svg" class="size-16 mr-3 bg-white rounded-full p-1" alt="Rabbitz Logo" onerror="this.src='https://ui-avatars.com/api/?name=Logo&background=fff&color=7f1d1d'"/>
+                            </a>
+
+                            <div class="hidden md:block relative mr-4"> 
+                                <h1 class="text-white text-lg font-medium">NAIL IT BY RABBITZ สาขา มหาวิทยาลัยพะเยา</h1>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center gap-6">
+                            <ul class="hidden lg:flex flex-row space-x-6 text-sm font-medium text-white items-center">
+                                <li><a href="HomepageCus.html" class="hover:text-red-200 transition">Homepage</a></li>
+                                <li class="w-px h-5 bg-white/30"></li>
+                                <li><a href="Contact.html" class="hover:text-red-200 transition">Contact</a></li>
+                                <li class="w-px h-5 bg-white/30"></li>
+                                <li><a href="Booking.html" class="hover:text-red-200 transition">Booking</a></li>
+                            </ul>
+                            
+                            <div class="hidden lg:block w-px h-6 bg-white/30 mx-2"></div>
+
+                            <div class="flex items-center space-x-4">
+                                <span id="userNameDisplay" class="text-white text-sm font-medium hidden md:block">Loading...</span>
+
+                                <button type="button" onclick="window.location.href='NotiCus.html'" class="relative p-2 text-white hover:bg-white/10 rounded-full transition focus:outline-none">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
+                                    </svg>
+                                    <span class="absolute top-2 right-2 flex h-3 w-3">
+                                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-yellow-300 opacity-75"></span>
+                                        <span class="relative inline-flex rounded-full h-3 w-3 bg-yellow-400 border-2 border-red-900"></span>
+                                    </span>
+                                </button>
+
+                                <button type="button" class="flex text-sm bg-white rounded-full focus:ring-4 focus:ring-red-700 overflow-hidden size-10 border-2 border-white/20 shadow-sm transition hover:scale-105">
+                                    <img id="userProfilePic" class="w-full h-full object-cover" src="https://ui-avatars.com/api/?name=User&background=fff&color=7f1d1d" alt="User Profile">
+                                </button>
+
+                                <button onclick="handleLogout()" class="text-xs text-white underline hover:text-red-200 ml-2 hidden lg:block">Log out</button>
+
+                                <div class="flex items-center gap-4 border-l border-white/30 pl-6">
+                                    <button id="menuBtn" class="text-white hover:bg-white/10 p-2 rounded-lg transition focus:outline-none">
+                                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </div>
- 
-                <div class="flex items-center gap-6">
-                    <ul class="hidden lg:flex flex-row space-x-6 text-sm font-medium text-white items-center">
-                        <li><a href="HomepageCus.html" class="hover:text-red-200 transition">Homepage</a></li>
-                        <li class="w-px h-5 bg-white/30"></li>
-                        <li><a href="ContactSI.html" class="hover:text-red-200 transition">Contact</a></li>
-                        <li class="w-px h-5 bg-white/30"></li>
-                        <li><a href="Booking.html" class="hover:text-red-200 transition">Booking</a></li>
-                    </ul>
-                   
-                    <div class="hidden lg:block w-px h-6 bg-white/30 mx-2"></div>
- 
-                    <div class="flex items-center space-x-4">
-                       
-                        <span id="userNameDisplay" class="text-white text-sm font-medium hidden md:block"></span>
- 
-                        <button type="button" class="relative p-2 text-white hover:bg-white/10 rounded-full transition focus:outline-none">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
+                </nav>
+
+                <div id="sidebar" class="fixed top-0 right-0 h-full w-72 bg-gradient-to-b from-[#801919] to-[#5d1212] z-[100] transform translate-x-full transition-transform duration-300 ease-in-out shadow-2xl rounded-l-[3rem]">
+                    
+                    <div class="p-8 flex flex-col items-center">
+                        <button id="closeBtn" class="self-end text-white mb-2 hover:scale-110 transition">
+                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
                             </svg>
-                            <span class="absolute top-2 right-2 flex h-3 w-3">
-                                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-yellow-300 opacity-75"></span>
-                                <span class="relative inline-flex rounded-full h-3 w-3 bg-yellow-400 border-2 border-red-900"></span>
-                            </span>
                         </button>
- 
-                        <button type="button" class="flex text-sm bg-white rounded-full focus:ring-4 focus:ring-red-700 overflow-hidden size-10 border-2 border-white/20 shadow-sm transition hover:scale-105">
-                            <img id="userProfilePic" class="w-full h-full object-cover" src="https://ui-avatars.com/api/?name=User&background=fff&color=7f1d1d" alt="User Profile">
-                        </button>
- 
-                        <button onclick="handleLogout()" class="text-xs text-white underline hover:text-red-200 ml-2">Log out</button>
- 
+                        
+                        <div class="flex flex-col items-center mb-6">
+                            <div class="size-24 bg-white rounded-full p-1 shadow-xl overflow-hidden border-2 border-white/30 mb-3">
+                                <img id="userProfilePicSidebar" class="w-full h-full object-cover rounded-full" src="https://ui-avatars.com/api/?name=User&background=fff&color=7f1d1d" alt="User Profile">
+                            </div>
+                            <p id="sidebarUserNameDisplay" class="text-white font-bold text-lg uppercase tracking-wide">Loading...</p>
+                        </div>
                     </div>
-                    <div class="flex items-center gap-4 border-l border-white/30 pl-6">
-                    <button id="menuBtn" class="text-white hover:bg-white/10 p-2 rounded-lg transition">
-                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                    </svg>
-                    </button>
+
+                    <div class="px-6">
+                        <div class="bg-gray-100/95 rounded-[2.5rem] p-8 space-y-6 text-center shadow-lg">
+                            <a href="Accountsetting.html" class="block text-[#801919] font-bold hover:text-red-700 transition uppercase tracking-widest text-sm border-b border-[#801919]/10 pb-4">Setting</a>
+                            <a href="History.html" class="block text-[#801919] font-bold hover:text-red-700 transition uppercase tracking-widest text-sm">My Booking & History</a>
+                        </div>
+                    </div>
+                    
+                    <div class="absolute bottom-12 left-0 right-0 px-10 text-center">
+                        <button onclick="handleLogout()" class="w-full border-2 border-white text-white py-2 rounded-full font-bold uppercase text-sm hover:bg-white hover:text-[#801919] transition">
+                            Sign out
+                        </button>
                     </div>
                 </div>
- 
-            </div>
-        </nav>
-        <div id="sidebar" class="fixed top-0 right-0 h-full w-72 bg-gradient-to-b from-[#801919] to-[#5d1212] z-[100] transform translate-x-full transition-transform duration-300 ease-in-out shadow-2xl rounded-l-[3rem]">
-   
-        <div class="p-8 flex flex-col items-center">
-        <button id="closeBtn" class="self-end text-white mb-4">
-            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-        </button>
-        <button type="button" class="flex text-sm bg-white rounded-full focus:ring-40 overflow-hidden size-49 border-2 border-white/20 shadow-sm ">
-             <img class="w-full h-full object-cover" src="https://ui-avatars.com/api/?name=User&background=random" alt="User Profile">
-        </button>
-       
-        </div>
- 
-        <div class="px-6 py-4">
-        <div class="bg-white/90 rounded-[2rem] p-6 space-y-3 text-center shadow-lg">
-            <a href="#" class="block text-[#801919] font-bold hover:scale-105 transition uppercase tracking-wider text-medium">Setting</a>
-            <hr class="border-[#801919]/20 w-1/2 mx-auto">
-            <a href="#" class="block text-[#801919] font-bold hover:scale-105 transition uppercase tracking-wider text-medium">My Booking & History</a>
-        </div>
-        </div>
- 
-        <div class="absolute bottom-12 left-0 right-0 px-10 text-center">
-        <button class="w-full border-2 border-white text-white py-2 rounded-full font-bold uppercase text-medium hover:bg-white hover:text-[#801919] transition">
-            Sign out
-        </button>
-         </div>
-        </div>
- 
-        <div id="overlay" class="fixed inset-0 bg-black/40 z-[90] hidden"></div>
-    </header>
+                <div id="overlay" class="fixed inset-0 bg-black/40 z-[90] hidden transition-opacity duration-300 opacity-0"></div>
+        </header>
  
     <main class="pt-24 pb-10 px-4 max-w-4xl mx-auto">
        
@@ -131,105 +133,102 @@
         </div>
  
         <div id="serviceContainer" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            
             <div class="service-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex gap-4 hover:shadow-md transition" data-name="ทาสีพื้นมือ" data-category="ทาสี">
-                <div class="w-24 h-24 bg-gray-200 rounded-xl flex-shrink-0"></div>
-               
+                <img src="pic/601956313_1319492430198320_7052164193354462207_n.jpg" class="w-24 h-24 object-cover rounded-xl flex-shrink-0 shadow-sm border border-gray-100" alt="ทาสีพื้นมือ" onerror="this.src='https://via.placeholder.com/100'">
                 <div>
                     <span class="text-[10px] bg-red-100 text-red-900 px-2 py-0.5 rounded-md font-bold uppercase">ทาสี</span>
                     <h3 class="font-bold text-gray-900 mt-1">ทาสีพื้นมือ</h3>
-                   
                     <button class="mt-2 text-xs text-red-900 font-bold hover:underline">จองเลย →</button>
                 </div>
             </div>
  
             <div class="service-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex gap-4 hover:shadow-md transition" data-name="ทาสีพื้นเท้า" data-category="ทาสี">
-                <div class="w-24 h-24 bg-gray-200 rounded-xl flex-shrink-0"></div>
+                <img src="pic/511032408_1168803168600581_3208422786457523597_n.jpg" class="w-24 h-24 object-cover rounded-xl flex-shrink-0 shadow-sm border border-gray-100" alt="ทาสีพื้นเท้า" onerror="this.src='https://via.placeholder.com/100'">
                 <div>
                     <span class="text-[10px] bg-red-100 text-red-900 px-2 py-0.5 rounded-md font-bold uppercase">ทาสี</span>
                     <h3 class="font-bold text-gray-900 mt-1">ทาสีพื้นเท้า</h3>
-                   
                     <button class="mt-2 text-xs text-red-900 font-bold hover:underline">จองเลย →</button>
                 </div>
             </div>
  
             <div class="service-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex gap-4 hover:shadow-md transition" data-name="ทาสีแฟลช/ลูกแก้ว" data-category="ทาสี">
-                <div class="w-24 h-24 bg-gray-200 rounded-xl flex-shrink-0"></div>
+                <img src="pic/541656025_1225856676228563_1605876038283017915_n.jpg" class="w-24 h-24 object-cover rounded-xl flex-shrink-0 shadow-sm border border-gray-100" alt="ทาสีแฟลช/ลูกแก้ว" onerror="this.src='https://via.placeholder.com/100'">
                 <div>
                     <span class="text-[10px] bg-red-100 text-red-900 px-2 py-0.5 rounded-md font-bold uppercase">ทาสี</span>
                     <h3 class="font-bold text-gray-900 mt-1">ทาสีแฟลช/ลูกแก้ว</h3>
-                 
                     <button class="mt-2 text-xs text-red-900 font-bold hover:underline">จองเลย →</button>
                 </div>
             </div>
-             <div class="service-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex gap-4 hover:shadow-md transition" data-name="ปั้นนูน" data-category="ตกแต่ง">
-                <div class="w-24 h-24 bg-gray-200 rounded-xl flex-shrink-0"></div>
+
+            <div class="service-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex gap-4 hover:shadow-md transition" data-name="ปั้นนูน" data-category="ตกแต่ง">
+                <img src="pic/634931143_1365712815576281_5935012769015046080_n.jpg" class="w-24 h-24 object-cover rounded-xl flex-shrink-0 shadow-sm border border-gray-100" alt="ปั้นนูน" onerror="this.src='https://via.placeholder.com/100'">
                 <div>
                     <span class="text-[10px] bg-blue-100 text-blue-900 px-2 py-0.5 rounded-md font-bold uppercase">ตกแต่ง</span>
                     <h3 class="font-bold text-gray-900 mt-1">ปั้นนูน</h3>
-                   
                     <button class="mt-2 text-xs text-red-900 font-bold hover:underline">จองเลย →</button>
                 </div>
             </div>
-             <div class="service-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex gap-4 hover:shadow-md transition" data-name="เพ้นท์นิ้ว" data-category="ตกแต่ง">
-                <div class="w-24 h-24 bg-gray-200 rounded-xl flex-shrink-0"></div>
+
+            <div class="service-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex gap-4 hover:shadow-md transition" data-name="เพ้นท์นิ้ว" data-category="ตกแต่ง">
+                <img src="pic/637349459_1365695622244667_2662039558123424415_n.jpg" class="w-24 h-24 object-cover rounded-xl flex-shrink-0 shadow-sm border border-gray-100" alt="เพ้นท์นิ้ว" onerror="this.src='https://via.placeholder.com/100'">
                 <div>
                     <span class="text-[10px] bg-blue-100 text-blue-900 px-2 py-0.5 rounded-md font-bold uppercase">ตกแต่ง</span>
                     <h3 class="font-bold text-gray-900 mt-1">เพ้นท์นิ้ว</h3>
-                   
                     <button class="mt-2 text-xs text-red-900 font-bold hover:underline">จองเลย →</button>
                 </div>
             </div>
-             <div class="service-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex gap-4 hover:shadow-md transition" data-name="ตัดเล็บขบ" data-category="ดูแลเล็บ">
-                <div class="w-24 h-24 bg-gray-200 rounded-xl flex-shrink-0"></div>
+
+            <div class="service-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex gap-4 hover:shadow-md transition" data-name="ตัดเล็บขบ" data-category="ดูแลเล็บ">
+                <img src="pic/559161820_1274448781369352_8852201499828564244_n.jpg" class="w-24 h-24 object-cover rounded-xl flex-shrink-0 shadow-sm border border-gray-100" alt="ตัดเล็บขบ" onerror="this.src='https://via.placeholder.com/100'">
                 <div>
                     <span class="text-[10px] bg-green-100 text-green-900 px-2 py-0.5 rounded-md font-bold uppercase">ดูแลเล็บ</span>
                     <h3 class="font-bold text-gray-900 mt-1">ตัดเล็บขบ</h3>
-                   
                     <button class="mt-2 text-xs text-red-900 font-bold hover:underline">จองเลย →</button>
                 </div>
             </div>
-             <div class="service-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex gap-4 hover:shadow-md transition" data-name="เสริมเล็บฉีก" data-category="เสริมเล็บ">
-                <div class="w-24 h-24 bg-gray-200 rounded-xl flex-shrink-0"></div>
+
+            <div class="service-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex gap-4 hover:shadow-md transition" data-name="เสริมเล็บฉีก" data-category="เสริมเล็บ">
+                <img src="pic/495703403_1134734932007405_5326898256585780220_n.jpg" class="w-24 h-24 object-cover rounded-xl flex-shrink-0 shadow-sm border border-gray-100" alt="เสริมเล็บฉีก" onerror="this.src='https://via.placeholder.com/100'">
                 <div>
                     <span class="text-[10px] bg-purple-100 text-purple-900 px-2 py-0.5 rounded-md font-bold uppercase">เสริมเล็บ</span>
                     <h3 class="font-bold text-gray-900 mt-1">เสริมเล็บฉีก</h3>
-                   
                     <button class="mt-2 text-xs text-red-900 font-bold hover:underline">จองเลย →</button>
                 </div>
             </div>
+
             <div class="service-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex gap-4 hover:shadow-md transition" data-name="Overlay" data-category="เสริมเล็บ">
-                <div class="w-24 h-24 bg-gray-200 rounded-xl flex-shrink-0"></div>
+                <img src="pic/490293883_1114039417410290_142180983519165611_n.jpg" class="w-24 h-24 object-cover rounded-xl flex-shrink-0 shadow-sm border border-gray-100" alt="Overlay" onerror="this.src='https://via.placeholder.com/100'">
                 <div>
                     <span class="text-[10px] bg-purple-100 text-purple-900 px-2 py-0.5 rounded-md font-bold uppercase">เสริมเล็บ</span>
                     <h3 class="font-bold text-gray-900 mt-1">Overlay</h3>
-                   
                     <button class="mt-2 text-xs text-red-900 font-bold hover:underline">จองเลย →</button>
                 </div>
             </div>
+
             <div class="service-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex gap-4 hover:shadow-md transition" data-name="PVC กาวเจล" data-category="PVC">
-                <div class="w-24 h-24 bg-gray-200 rounded-xl flex-shrink-0"></div>
+                <img src="pic/539777209_1220247906789440_5999770783096744961_n.jpg" class="w-24 h-24 object-cover rounded-xl flex-shrink-0 shadow-sm border border-gray-100" alt="PVC กาวเจล" onerror="this.src='https://via.placeholder.com/100'">
                 <div>
                     <span class="text-[10px] bg-pink-100 text-pink-900 px-2 py-0.5 rounded-md font-bold uppercase">PVC</span>
                     <h3 class="font-bold text-gray-900 mt-1">PVC กาวเจล</h3>
-                   
                     <button class="mt-2 text-xs text-red-900 font-bold hover:underline">จองเลย →</button>
                 </div>
             </div>
+
             <div class="service-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex gap-4 hover:shadow-md transition" data-name="PVC กาวธรรมดา" data-category="PVC">
-                <div class="w-24 h-24 bg-gray-200 rounded-xl flex-shrink-0"></div>
+                <img src="pic/490476818_1110586974422201_6270697783765503633_n.jpg" class="w-24 h-24 object-cover rounded-xl flex-shrink-0 shadow-sm border border-gray-100" alt="PVC กาวธรรมดา" onerror="this.src='https://via.placeholder.com/100'">
                 <div>
                     <span class="text-[10px] bg-pink-100 text-pink-900 px-2 py-0.5 rounded-md font-bold uppercase">PVC</span>
                     <h3 class="font-bold text-gray-900 mt-1">PVC กาวธรรมดา</h3>
-                   
                     <button class="mt-2 text-xs text-red-900 font-bold hover:underline">จองเลย →</button>
                 </div>
             </div>
+
             <div class="service-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex gap-4 hover:shadow-md transition" data-name="PVC โพลีเจล" data-category="PVC">
-                <div class="w-24 h-24 bg-gray-200 rounded-xl flex-shrink-0"></div>
+                <img src="pic/543160509_1225864926227738_4532955836967550676_n.jpg" class="w-24 h-24 object-cover rounded-xl flex-shrink-0 shadow-sm border border-gray-100" alt="PVC โพลีเจล" onerror="this.src='https://via.placeholder.com/100'">
                 <div>
                     <span class="text-[10px] bg-pink-100 text-pink-900 px-2 py-0.5 rounded-md font-bold uppercase">PVC</span>
                     <h3 class="font-bold text-gray-900 mt-1">PVC โพลีเจล</h3>
-                   
                     <button class="mt-2 text-xs text-red-900 font-bold hover:underline">จองเลย →</button>
                 </div>
             </div>
@@ -246,6 +245,100 @@
     </footer>
  
     <script>
+
+                document.addEventListener('DOMContentLoaded', () => {
+            const userDataString = localStorage.getItem('rabbitz_currentUser');
+            
+            if (userDataString) {
+                const userData = JSON.parse(userDataString);
+                
+                const nameDisplay = document.getElementById('userNameDisplay');
+                if (nameDisplay) nameDisplay.innerText = `Hi, ${userData.name}`;
+
+                const sidebarNameDisplay = document.getElementById('sidebarUserNameDisplay');
+                if (sidebarNameDisplay) sidebarNameDisplay.innerText = `Hi, ${userData.name}`;
+                
+                // ใช้ encodeURIComponent ป้องกันชื่อมีเว้นวรรคแล้ว Error
+                const profileUrl = userData.photoUrl || `https://ui-avatars.com/api/?name=${encodeURIComponent(userData.name)}&background=fff&color=7f1d1d&bold=true`;
+                
+                const profilePicNav = document.getElementById('userProfilePic');
+                const profilePicSidebar = document.getElementById('userProfilePicSidebar');
+                
+                const savedPic = localStorage.getItem('savedProfilePic');
+                if (savedPic) {
+                    if (profilePicNav) profilePicNav.src = savedPic;
+                    if (profilePicSidebar) profilePicSidebar.src = savedPic;
+                } else {
+                    if (profilePicNav) profilePicNav.src = profileUrl;
+                    if (profilePicSidebar) profilePicSidebar.src = profileUrl;
+                }
+            } else {
+                alert('กรุณาเข้าสู่ระบบก่อนใช้งานครับ');
+                window.location.href = 'index.html';
+            }
+
+            // --- ส่วนควบคุมการเปิด-ปิด Sidebar ---
+            const menuBtn = document.getElementById('menuBtn');
+            const closeBtn = document.getElementById('closeBtn');
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('overlay');
+
+            function toggleMenu() {
+                const isOpen = !sidebar.classList.contains('translate-x-full');
+                if (!isOpen) {
+                    sidebar.classList.remove('translate-x-full');
+                    overlay.classList.remove('hidden');
+                    setTimeout(() => overlay.classList.add('opacity-100'), 10);
+                } else {
+                    sidebar.classList.add('translate-x-full');
+                    overlay.classList.remove('opacity-100');
+                    setTimeout(() => overlay.classList.add('hidden'), 300);
+                }
+            }
+
+            if(menuBtn) menuBtn.addEventListener('click', toggleMenu);
+            if(closeBtn) closeBtn.addEventListener('click', toggleMenu);
+            if(overlay) overlay.addEventListener('click', toggleMenu);
+
+            updateHomepageGallery();
+        });
+
+        function handleLogout() {
+            if(confirm('ต้องการออกจากระบบใช่หรือไม่?')) {
+                localStorage.removeItem('rabbitz_currentUser');
+                localStorage.removeItem('savedProfilePic');
+                window.location.href = 'index.html';
+            }
+        }
+
+        function updateHomepageGallery() {
+            const displayContainer = document.getElementById('homepageGalleryDisplay');
+            if(!displayContainer) return;
+
+            const savedImages = JSON.parse(localStorage.getItem('rabbitz_gallery')) || [];
+            
+            if (savedImages.length === 0) {
+                displayContainer.innerHTML = '<p class="text-gray-400 text-sm col-span-full text-center">ยังไม่มีรูปภาพผลงานในขณะนี้</p>';
+                return;
+            }
+
+            displayContainer.innerHTML = '';
+            savedImages.slice(0, 5).forEach(src => {
+                const imgElement = document.createElement('img');
+                imgElement.src = src;
+                imgElement.className = "aspect-square rounded-[20px] shadow-sm object-cover border-2 border-white hover:scale-105 transition-transform duration-300";
+                displayContainer.appendChild(imgElement);
+            });
+        }
+
+        window.addEventListener('storage', (e) => {
+            if (e.key === 'rabbitz_gallery') {
+                updateHomepageGallery();
+            }
+        });
+
+
+
         function searchService() {
             const input = document.getElementById('searchInput').value.toLowerCase();
             const cards = document.getElementsByClassName('service-card');
@@ -288,6 +381,46 @@
             }
             document.getElementById('noResults').classList.toggle('hidden', found);
         }
+
+        // ทำงานทันทีเมื่อโหลดหน้าเว็บเสร็จ
+        window.addEventListener('DOMContentLoaded', () => {
+            // ดึงค่า URL Parameter
+            const urlParams = new URLSearchParams(window.location.search);
+            const query = urlParams.get('q');
+            
+            if (query) {
+                // ถ้ามีคำค้นหาส่งมา ให้เติมลงในช่อง input
+                const searchInput = document.getElementById('searchInput');
+                searchInput.value = query;
+                
+                // สั่งให้ฟังก์ชันค้นหาทำงานทันที
+                searchService();
+            }
+        });
+
+// --- ฟังก์ชันจัดการปุ่ม "จองเลย" ทุกปุ่มในหน้า Search ---
+        window.addEventListener('DOMContentLoaded', () => {
+            const bookButtons = document.querySelectorAll('.service-card button');
+            
+            bookButtons.forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // 1. ดึงข้อมูลจากการ์ดที่ผู้ใช้กด (ชื่อบริการ และ ลิงก์รูปภาพ)
+                    const card = this.closest('.service-card');
+                    const serviceName = card.getAttribute('data-name');
+                    const imgSrc = card.querySelector('img').getAttribute('src');
+                    
+                    // 2. เก็บข้อมูลไว้ใน sessionStorage ชั่วคราว
+                    sessionStorage.setItem('autoSelectService', serviceName);
+                    sessionStorage.setItem('autoSelectImage', imgSrc);
+                    
+                    // 3. พาไปหน้า Booking
+                    window.location.href = 'Booking.html';
+                });
+            });
+        });
+
     </script>
 </body>
 </html>

@@ -43,7 +43,7 @@
                         <ul class="hidden lg:flex flex-row space-x-6 text-sm font-medium text-white items-center">
                             <li><a href="HomepageCus.html" class="hover:text-red-200 transition">Homepage</a></li>
                             <li class="w-px h-5 bg-white/30"></li>
-                            <li><a href="ContactSI.html" class="hover:text-red-200 transition">Contact</a></li>
+                            <li><a href="Contact.html" class="hover:text-red-200 transition">Contact</a></li>
                             <li class="w-px h-5 bg-white/30"></li>
                             <li><a href="Booking.html" class="hover:text-red-200 transition">Booking</a></li>
                         </ul>
@@ -68,7 +68,7 @@
                                 <img id="userProfilePic" class="w-full h-full object-cover" src="https://ui-avatars.com/api/?name=User&background=fff&color=7f1d1d" alt="User Profile">
                             </button>
 
-                            <button onclick="handleLogout()" class="text-xs text-white underline hover:text-red-200 ml-2">Log out</button>
+                            <button onclick="handleLogout()" class="text-xs text-white underline hover:text-red-200 ml-2 hidden lg:block">Log out</button>
 
                         </div>
                         <div class="flex items-center gap-4 border-l border-white/30 pl-6">
@@ -82,34 +82,36 @@
 
                 </div>
             </nav>
+
             <div id="sidebar" class="fixed top-0 right-0 h-full w-72 bg-gradient-to-b from-[#801919] to-[#5d1212] z-[100] transform translate-x-full transition-transform duration-300 ease-in-out shadow-2xl rounded-l-[3rem]">
         
-            <div class="p-8 flex flex-col items-center">
-            <button id="closeBtn" class="self-end text-white mb-4">
-                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-            </button>
-            <button type="button" class="flex text-sm bg-white rounded-full focus:ring-40 overflow-hidden size-49 border-2 border-white/20 shadow-sm ">
-                <img class="w-full h-full object-cover" src="https://ui-avatars.com/api/?name=User&background=random" alt="User Profile">
-            </button>
-            
+                <div class="p-8 flex flex-col items-center">
+                    <button id="closeBtn" class="self-end text-white mb-2 hover:scale-110 transition">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                    </button>
+                    
+                    <div class="flex flex-col items-center mb-6">
+                        <div class="size-24 bg-white rounded-full p-1 shadow-xl overflow-hidden border-2 border-white/30 mb-3">
+                            <img id="userProfilePicSidebar" class="w-full h-full object-cover rounded-full" src="https://ui-avatars.com/api/?name=User&background=fff&color=7f1d1d" alt="User Profile">
+                        </div>
+                        <p id="sidebarUserNameDisplay" class="text-white font-bold text-lg uppercase tracking-wide">Loading...</p>
+                    </div>
+                </div>
+    
+                <div class="px-6">
+                    <div class="bg-gray-100/95 rounded-[2.5rem] p-8 space-y-6 text-center shadow-lg">
+                        <a href="Accountsetting.html" class="block text-[#801919] font-bold hover:text-red-700 transition uppercase tracking-widest text-sm border-b border-[#801919]/10 pb-4">Setting</a>
+                        <a href="History.html" class="block text-[#801919] font-bold hover:text-red-700 transition uppercase tracking-widest text-sm">My Booking & History</a>
+                    </div>
+                </div>
+                
+                <div class="absolute bottom-12 left-0 right-0 px-10 text-center">
+                    <button onclick="handleLogout()" class="w-full border-2 border-white text-white py-2 rounded-full font-bold uppercase text-sm hover:bg-white hover:text-[#801919] transition">
+                        Sign out
+                    </button>
+                </div>
             </div>
-
-            <div class="px-6 py-4">
-            <div class="bg-white/90 rounded-[2rem] p-6 space-y-3 text-center shadow-lg">
-                <a href="#" class="block text-[#801919] font-bold hover:scale-105 transition uppercase tracking-wider text-medium">Setting</a>
-                <hr class="border-[#801919]/20 w-1/2 mx-auto">
-                <a href="#" class="block text-[#801919] font-bold hover:scale-105 transition uppercase tracking-wider text-medium">My Booking & History</a>
-            </div>
-            </div>
-
-            <div class="absolute bottom-12 left-0 right-0 px-10 text-center">
-            <button class="w-full border-2 border-white text-white py-2 rounded-full font-bold uppercase text-medium hover:bg-white hover:text-[#801919] transition">
-                Sign out
-            </button>
-            </div>
-            </div>
-
-            <div id="overlay" class="fixed inset-0 bg-black/40 z-[90] hidden"></div>
+            <div id="overlay" class="fixed inset-0 bg-black/40 z-[90] hidden transition-opacity duration-300 opacity-0"></div>
         </header>
         
     
@@ -219,76 +221,84 @@
     </div>
 
     <script>
-
-         document.addEventListener('DOMContentLoaded', () => {
-            // โหลดข้อมูลผู้ใช้จาก LocalStorage
+        document.addEventListener('DOMContentLoaded', () => {
             const userDataString = localStorage.getItem('rabbitz_currentUser');
             
             if (userDataString) {
                 const userData = JSON.parse(userDataString);
                 
-                // แสดงชื่อผู้ใช้บน Navbar
                 const nameDisplay = document.getElementById('userNameDisplay');
-                if (nameDisplay) {
-                    nameDisplay.innerText = `Hi, ${userData.name}`;
-                }
+                if (nameDisplay) nameDisplay.innerText = `Hi, ${userData.name}`;
+
+                const sidebarNameDisplay = document.getElementById('sidebarUserNameDisplay');
+                if (sidebarNameDisplay) sidebarNameDisplay.innerText = `Hi, ${userData.name}`;
                 
-                // แสดงรูปโปรไฟล์ (ถ้าล็อกอินด้วย Google จะมี photoUrl ถ้าไม่มีจะดึงชื่อมาทำเป็นรูป)
-                const profilePic = document.getElementById('userProfilePic');
-                if (profilePic) {
-                    if (userData.photoUrl) {
-                        profilePic.src = userData.photoUrl;
-                    } else {
-                        profilePic.src = `https://ui-avatars.com/api/?name=${userData.name}&background=fff&color=7f1d1d&bold=true`;
-                    }
+                const profileUrl = userData.photoUrl || `https://ui-avatars.com/api/?name=${encodeURIComponent(userData.name)}&background=fff&color=7f1d1d&bold=true`;
+                
+                const profilePicNav = document.getElementById('userProfilePic');
+                const profilePicSidebar = document.getElementById('userProfilePicSidebar');
+                
+                const savedPic = localStorage.getItem('savedProfilePic');
+                if (savedPic) {
+                    if (profilePicNav) profilePicNav.src = savedPic;
+                    if (profilePicSidebar) profilePicSidebar.src = savedPic;
+                } else {
+                    if (profilePicNav) profilePicNav.src = profileUrl;
+                    if (profilePicSidebar) profilePicSidebar.src = profileUrl;
                 }
             } else {
-                // ถ้าแอบเข้าหน้านี้โดยที่ไม่ได้ล็อกอิน ให้เด้งกลับไปหน้า Homepage หลัก
                 alert('กรุณาเข้าสู่ระบบก่อนใช้งานครับ');
-                window.location.href = 'Homepage.html';
+                window.location.href = 'index.html';
             }
+
+            // ระบบเปิด-ปิด Sidebar ย้ายมารวมกันตรงนี้เพื่อลดการเรียกซ้ำซ้อน
+            const menuBtn = document.getElementById('menuBtn');
+            const closeBtn = document.getElementById('closeBtn');
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('overlay');
+
+            function toggleMenu() {
+                const isOpen = !sidebar.classList.contains('translate-x-full');
+                if (!isOpen) {
+                    sidebar.classList.remove('translate-x-full');
+                    overlay.classList.remove('hidden');
+                    setTimeout(() => overlay.classList.add('opacity-100'), 10);
+                } else {
+                    sidebar.classList.add('translate-x-full');
+                    overlay.classList.remove('opacity-100');
+                    setTimeout(() => overlay.classList.add('hidden'), 300);
+                }
+            }
+
+            if(menuBtn) menuBtn.addEventListener('click', toggleMenu);
+            if(closeBtn) closeBtn.addEventListener('click', toggleMenu);
+            if(overlay) overlay.addEventListener('click', toggleMenu);
         });
 
-        // ⭐️ ฟังก์ชันสำหรับปุ่ม Log out
         function handleLogout() {
             if(confirm('ต้องการออกจากระบบใช่หรือไม่?')) {
-                // ลบข้อมูลผู้ใช้ออกจากเครื่อง
                 localStorage.removeItem('rabbitz_currentUser');
-                // เด้งกลับไปหน้าแรก
-                window.location.href = 'Homepage.html';
+                localStorage.removeItem('savedProfilePic');
+                window.location.href = 'index.html';
             }
         }
 
-        // --------------------------------------------------------
-        // 1. ระบบจัดการวันและเวลา + เช็คคิวแบบเรียลไทม์
-        // --------------------------------------------------------
-        const allTimeSlots = [
-            "13:00 - 14:30", "14:30 - 16:00", "16:00 - 17:30", "17:30 - 19:00"
-        ];
-
-        const mockDatabase = {
-            // หากแอดมินต้องการปิดร้านวันไหน ให้มาเพิ่มวันที่ใน Array นี้ ตัวอย่าง: ['2026-04-13', '2026-04-14']
-            closedDates: [] 
-        };
-
+        // --- ส่วนระบบจัดการวันเวลาและอัปโหลดรูปภาพ ปล่อยให้เหมือนเดิม ---
+        const allTimeSlots = ["13:00 - 14:30", "14:30 - 16:00", "16:00 - 17:30", "17:30 - 19:00"];
+        const mockDatabase = { closedDates: [] };
         const dateSelect = document.getElementById('booking_date');
         const timeSelect = document.getElementById('booking_time');
 
         function generateDates() {
             dateSelect.innerHTML = '<option value="" disabled selected>-- เลือกวันที่ --</option>';
             let today = new Date();
-
-            // เปิดคิวล่วงหน้า 90 วัน
             for (let i = 1; i <= 90; i++) {
                 let d = new Date(today);
                 d.setDate(today.getDate() + i);
-
                 let dateString = d.toISOString().split('T')[0];
                 let displayDate = d.toLocaleDateString('th-TH', { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' });
-
                 let option = document.createElement('option');
                 option.value = dateString;
-
                 if (mockDatabase.closedDates.includes(dateString)) {
                     option.textContent = `${displayDate} (ร้านปิด)`;
                     option.disabled = true;
@@ -297,53 +307,39 @@
                     option.textContent = displayDate;
                     option.className = "text-gray-900";
                 }
-
                 dateSelect.appendChild(option);
             }
         }
 
         dateSelect.addEventListener('change', function () {
             const selectedDate = this.value;
-            
-            // ดึงประวัติการจองทั้งหมดจากระบบ (Local Storage)
             const allBookings = JSON.parse(localStorage.getItem('allBookings')) || [];
             const now = Date.now();
-
             timeSelect.innerHTML = '<option value="" disabled selected>-- เลือกรอบเวลา --</option>';
             timeSelect.disabled = false;
 
             allTimeSlots.forEach(slot => {
                 let option = document.createElement('option');
                 option.value = slot;
-
-                // กรองหารายการจองที่ตรงกับวันและเวลานี้
                 const slotBookings = allBookings.filter(b => b.date === selectedDate && b.time === slot);
-
                 let isUnavailable = false;
                 let statusText = "";
 
-                // วนลูปเช็คสถานะการจองในรอบเวลานี้
                 for (let booking of slotBookings) {
                     if (booking.status === 'Confirmed') {
                         isUnavailable = true;
                         statusText = " (มีผู้จองแล้ว)";
-                        break; // ถ้ามีคนยืนยันแล้ว ไม่ต้องเช็คเงื่อนไขอื่น
-                    } 
-                    else if (booking.status === 'Pending Payment') {
-                        // ถ้าติดสถานะรอดำเนินการ เช็คว่าเวลาผ่านมาเกิน 15 นาทีหรือยัง
+                        break; 
+                    } else if (booking.status === 'Pending Payment') {
                         const createdAtTime = new Date(booking.createdAt).getTime();
                         const diffMinutes = (now - createdAtTime) / (1000 * 60);
-
                         if (diffMinutes <= 15) {
                             isUnavailable = true;
                             statusText = " (อยู่ระหว่างดำเนินการจอง)";
                         }
-                        // ถ้าเกิน 15 นาที ระบบจะข้ามไป ถือว่าคิวนั้นว่างแล้ว
                     }
-                    // ถ้าสถานะเป็น Cancelled หรือ Failed ระบบจะข้ามไป ถือว่าคิวว่าง
                 }
 
-                // นำสถานะมาอัปเดตบนหน้าจอ
                 if (isUnavailable) {
                     option.textContent = `${slot}${statusText}`;
                     option.disabled = true;
@@ -352,19 +348,14 @@
                     option.textContent = slot;
                     option.className = "text-gray-900 font-medium";
                 }
-                
                 timeSelect.appendChild(option);
             });
         });
 
         generateDates();
 
-        // --------------------------------------------------------
-        // 2. ระบบจัดการรูปภาพ (เก็บเป็น Array ของ Base64)
-        // --------------------------------------------------------
         const fileInput = document.getElementById('dropzone-file');
         const previewContainer = document.getElementById('image-preview-container');
-        
         let uploadedImages = []; 
 
         fileInput.addEventListener('change', function (e) {
@@ -374,8 +365,6 @@
                 this.value = '';
                 return;
             }
-
-            // แปลงไฟล์เป็น Base64
             newFiles.forEach(file => {
                 const reader = new FileReader();
                 reader.onload = function(event) {
@@ -393,13 +382,11 @@
                 const imgContainer = document.createElement('div');
                 imgContainer.className = 'relative w-full h-24 rounded-lg overflow-hidden border border-gray-200 shadow-sm group';
                 imgContainer.innerHTML = `<img src="${base64String}" class="w-full h-full object-cover" alt="Reference">`;
-
                 const deleteBtn = document.createElement('button');
                 deleteBtn.type = 'button';
                 deleteBtn.className = 'absolute top-1 right-1 bg-red-600 bg-opacity-80 text-white rounded-full p-1 hover:bg-red-700 transition-opacity opacity-80 hover:opacity-100 focus:outline-none';
                 deleteBtn.innerHTML = '<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>';
                 deleteBtn.onclick = () => removeFile(index);
-
                 imgContainer.appendChild(deleteBtn);
                 previewContainer.appendChild(imgContainer);
             });
@@ -410,42 +397,18 @@
             updateImagePreview();
         }
 
-        // --------------------------------------------------------
-        // 3. ระบบ Checkbox บริการ
-        // --------------------------------------------------------
-        function selectAllServices() {
-            document.querySelectorAll('.service-checkbox').forEach(cb => cb.checked = true);
-        }
+        function selectAllServices() { document.querySelectorAll('.service-checkbox').forEach(cb => cb.checked = true); }
+        function clearAllServices() { document.querySelectorAll('.service-checkbox').forEach(cb => cb.checked = false); }
 
-        function clearAllServices() {
-            document.querySelectorAll('.service-checkbox').forEach(cb => cb.checked = false);
-        }
-
-        // --------------------------------------------------------
-        // 4. บังคับเลือกข้อมูลและส่งมอบให้ detailbooking.html
-        // --------------------------------------------------------
         document.getElementById('booking-form').addEventListener('submit', function (event) {
             event.preventDefault(); 
-
-            // ตรวจสอบข้อมูลฟอร์ม
             const selectedDate = document.getElementById('booking_date').value;
-            if (!selectedDate) {
-                alert('กรุณาเลือกวันที่ต้องการจองคิวค่ะ');
-                return;
-            }
-
+            if (!selectedDate) { alert('กรุณาเลือกวันที่ต้องการจองคิวค่ะ'); return; }
             const selectedTime = document.getElementById('booking_time').value;
-            if (!selectedTime) {
-                alert('กรุณาเลือกรอบเวลาที่ต้องการจองคิวค่ะ');
-                return;
-            }
-
+            if (!selectedTime) { alert('กรุณาเลือกรอบเวลาที่ต้องการจองคิวค่ะ'); return; }
             const checkedServicesNodes = document.querySelectorAll('.service-checkbox:checked');
-            if (checkedServicesNodes.length === 0) {
-                alert('กรุณาเลือกบริการที่ต้องการทำอย่างน้อย 1 รายการค่ะ');
-                return;
-            }
-
+            if (checkedServicesNodes.length === 0) { alert('กรุณาเลือกบริการที่ต้องการทำอย่างน้อย 1 รายการค่ะ'); return; }
+            
             const selectedServicesArray = Array.from(checkedServicesNodes).map(cb => cb.value);
             const additionalDetails = document.getElementById('additional_details').value;
 
@@ -461,30 +424,35 @@
             window.location.href = 'detailbooking.html';
         });
 
-    </script>
-    <script>
-        // ระบบเปิด-ปิด Sidebar
-        document.addEventListener('DOMContentLoaded', () => {
-            const menuBtn = document.getElementById('menuBtn');
-            const closeBtn = document.getElementById('closeBtn');
-            const sidebar = document.getElementById('sidebar');
-            const overlay = document.getElementById('overlay');
 
-            const openMenu = () => {
-                sidebar.classList.remove('translate-x-full');
-                overlay.classList.remove('hidden');
-            };
+        // --- ฟังก์ชันรับข้อมูลบริการและรูปภาพจากหน้า Search ---
+        window.addEventListener('DOMContentLoaded', () => {
+            // 1. ดึงข้อมูลที่พักไว้ใน sessionStorage
+            const autoService = sessionStorage.getItem('autoSelectService');
+            const autoImage = sessionStorage.getItem('autoSelectImage');
 
-            const closeMenu = () => {
-                sidebar.classList.add('translate-x-full');
-                overlay.classList.add('hidden');
-            };
+            // 2. ถ้ามีชื่อบริการส่งมา ให้ติ๊กถูกที่ช่องนั้น
+            if (autoService) {
+                const checkbox = document.querySelector(`input[name="services[]"][value="${autoService}"]`);
+                if (checkbox) {
+                    checkbox.checked = true;
+                }
+                // ล้างค่าทิ้งเพื่อไม่ให้รบกวนการจองครั้งถัดไป
+                sessionStorage.removeItem('autoSelectService');
+            }
 
-            if(menuBtn) menuBtn.addEventListener('click', openMenu);
-            if(closeBtn) closeBtn.addEventListener('click', closeMenu);
-            if(overlay) overlay.addEventListener('click', closeMenu);
+            // 3. ถ้ามีรูปภาพส่งมา ให้นำไปใส่ในช่อง Reference
+            if (autoImage) {
+                // เช็คว่ารูปยังไม่เกิน 5 รูป
+                if (uploadedImages.length < 5) {
+                    uploadedImages.push(autoImage);
+                    updateImagePreview();
+                }
+                // ล้างค่าทิ้งเพื่อไม่ให้รบกวนการจองครั้งถัดไป
+                sessionStorage.removeItem('autoSelectImage');
+            }
         });
+        
     </script>
 </body>
-
 </html>
