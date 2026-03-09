@@ -395,7 +395,36 @@
                 goToSearch();
             }
         }
-        
+        function renderRealServices() {
+    const serviceGrid = document.querySelector('main .grid.grid-cols-1.md\\:grid-cols-2');
+    const storedServices = JSON.parse(localStorage.getItem('rabbitz_content')) || [];
+
+    if (storedServices.length === 0) return;
+
+    storedServices.forEach(item => {
+        const serviceHtml = `
+            <div class="bg-[#800000] rounded-full p-2 flex items-center shadow-lg border border-gray-700 hover:scale-105 transition-transform duration-300">
+                <div class="w-24 h-16 rounded-full overflow-hidden border-2 border-white/20 ml-2 shadow-inner bg-white flex items-center justify-center">
+                    <img src="logo rabbitz.svg" class="w-10 h-10 opacity-40" alt="Icon">
+                </div>
+                <div class="flex-grow px-4 text-center">
+                    <span class="bg-white text-[#800000] px-6 py-1 rounded-full text-[12px] font-bold block mb-1 truncate max-w-[140px] mx-auto">
+                        ${item.name}
+                    </span>
+                    <span class="text-white font-bold tracking-wider text-sm">
+                        ${Number(item.price).toLocaleString()} BATH
+                    </span>
+                </div>
+            </div>`;
+        serviceGrid.insertAdjacentHTML('beforeend', serviceHtml);
+    });
+}
+
+// เรียกใช้ใน DOMContentLoaded
+document.addEventListener('DOMContentLoaded', () => {
+    // โค้ดเดิม...
+    renderRealServices(); // เพิ่มบรรทัดนี้
+});
     </script>
 </body>
 </html>
