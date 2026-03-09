@@ -81,7 +81,14 @@
 
                 <div>
                     <label class="block text-red-900 font-semibold mb-1">Password:</label>
-                    <input type="password" id="password" class="w-full px-4 py-2 text-red-900 bg-white border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-900 transition placeholder-gray-400" placeholder="••••••••" required>
+                    <div class="relative">
+                        <input type="password" id="password" class="w-full px-4 py-2 pr-10 text-red-900 bg-white border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-900 transition placeholder-gray-400" placeholder="••••••••" required>
+                        <button type="button" onclick="togglePassword('password', 'eyeIconPass')" class="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-red-900 focus:outline-none transition">
+                            <svg id="eyeIconPass" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" />
+                            </svg>
+                        </button>
+                    </div>
                     
                     <div class="mt-2 text-xs text-gray-500 space-y-1 pl-1 bg-white p-2 rounded-lg border border-gray-200 shadow-sm">
                         <p id="req-length" class="flex items-center"><span class="w-4 h-4 mr-1 border border-gray-400 rounded-full flex items-center justify-center text-[10px]">✕</span> อย่างน้อย 8 ตัวอักษร</p>
@@ -93,7 +100,14 @@
 
                 <div>
                     <label class="block text-red-900 font-semibold mb-1">Confirm Password:</label>
-                    <input type="password" id="confirm_password" class="w-full px-4 py-2 text-red-900 bg-white border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-900 transition placeholder-gray-400" placeholder="••••••••" required>
+                    <div class="relative">
+                        <input type="password" id="confirm_password" class="w-full px-4 py-2 pr-10 text-red-900 bg-white border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-900 transition placeholder-gray-400" placeholder="••••••••" required>
+                        <button type="button" onclick="togglePassword('confirm_password', 'eyeIconConfirm')" class="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-red-900 focus:outline-none transition">
+                            <svg id="eyeIconConfirm" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" />
+                            </svg>
+                        </button>
+                    </div>
                     <p id="error-msg" class="text-red-600 font-bold text-xs mt-1 hidden">* รหัสผ่านไม่ตรงกัน</p>
                 </div>
 
@@ -113,6 +127,22 @@
     </div>
 
     <script>
+    // ⭐️ ฟังก์ชันเปิด-ปิด ตาดูรหัสผ่าน
+    function togglePassword(inputId, iconId) {
+        const input = document.getElementById(inputId);
+        const icon = document.getElementById(iconId);
+        
+        if (input.type === "password") {
+            input.type = "text";
+            // เปลี่ยนเป็นรูปตาเปิด
+            icon.innerHTML = `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />`;
+        } else {
+            input.type = "password";
+            // เปลี่ยนเป็นรูปตาปิดแบบขีดฆ่า
+            icon.innerHTML = `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" />`;
+        }
+    }
+
     const form = document.getElementById('registerForm');
     const usernameInput = document.getElementById('username');
     const emailInput = document.getElementById('email');
@@ -122,7 +152,7 @@
     const submitBtn = document.getElementById('submitBtn');
     const errorMsg = document.getElementById('error-msg');
 
-    // ฟังก์ชันดึงข้อมูลผู้ใช้จาก LocalStorage (ใช้ชื่อคีย์ให้ตรงกับหน้า Login)
+    // ฟังก์ชันดึงข้อมูลผู้ใช้จาก LocalStorage
     function getUsers() {
         const users = localStorage.getItem('rabbitz_users');
         return users ? JSON.parse(users) : [];
@@ -282,14 +312,13 @@
         users.push(newUser);
         localStorage.setItem('rabbitz_users', JSON.stringify(users));
         
-        // เมื่อสมัครเสร็จ ตั้งค่า Role เริ่มต้นเป็น Customer (จำลองการ Login)
-        // เช็คสิทธิ์ว่าชื่อหรืออีเมลนี้ แอดมินได้เพิ่มรอไว้ในระบบแล้วหรือไม่
+        // เช็คสิทธิ์
         const rolesData = JSON.parse(localStorage.getItem('rabbitz_roles')) || [];
         const roleMatch = rolesData.find(r => r.name === newUser.username || r.name === newUser.email);
         
         let finalRole = 'customer';
         if (newUser.username === 'admin_rabbitz' || newUser.email === 'admin@rabbitz.com') {
-            finalRole = 'admin'; // <--- กำหนด Admin ถาวรไว้ในโค้ดตรงนี้เช่นกัน
+            finalRole = 'admin'; 
         } else if (roleMatch) {
             finalRole = roleMatch.role;
         }
@@ -301,13 +330,12 @@
             role: finalRole
         };
         localStorage.setItem('rabbitz_currentUser', JSON.stringify(userData));
-        localStorage.setItem('rabbitz_currentUser', JSON.stringify(userData));
         
         // เปลี่ยนปุ่มเป็นสถานะกำลังโหลด
         submitBtn.innerHTML = 'CREATING...';
         submitBtn.disabled = true;
         
-        // เด้งไปหน้า Rolechoosen ตามที่ผู้ใช้ระบุ (หรืออาจจะไป HomepageCus เลยก็ได้)
+        // เด้งไปหน้า Rolechoosen 
         setTimeout(() => {
             window.location.href = "Rolechoosen.html";
         }, 800);
