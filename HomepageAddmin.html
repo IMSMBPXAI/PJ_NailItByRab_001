@@ -539,7 +539,7 @@
             if (booking) {
                 document.getElementById('editBookingId').value = booking.id;
                 document.getElementById('editTimeCustomerName').innerText = `ลูกค้า: ${booking.customer_name || 'ไม่ระบุ'}`;
-                document.getElementById('oldTimeText').innerText = booking.datetime || `${booking.date} | ${booking.time}`; 
+                document.getElementById('oldTimeText').innerText = booking.datetime || `${booking.date} | ${booking.time}`;
                 
                 if (booking.rawDate) {
                     document.getElementById('editBookingDate').value = booking.rawDate;
@@ -555,8 +555,8 @@
 
         function saveNewBookingTime() {
             const bookingId = document.getElementById('editBookingId').value;
-            const dateVal = document.getElementById('editBookingDate').value; 
-            const timeVal = document.getElementById('editBookingTime').value; 
+            const dateVal = document.getElementById('editBookingDate').value;
+            const timeVal = document.getElementById('editBookingTime').value;
 
             if (!dateVal || !timeVal) {
                 alert('กรุณาเลือกปฏิทินและเวลาให้ครบถ้วนครับ');
@@ -567,7 +567,7 @@
             const dateObj = new Date(dateVal);
             const day = dateObj.getDate();
             const month = thaiMonths[dateObj.getMonth()];
-            const year = (dateObj.getFullYear() + 543).toString().slice(-2); 
+            const year = (dateObj.getFullYear() + 543).toString().slice(-2);
 
             const newDatetimeStr = `${day} ${month} ${year} - ${timeVal} น.`;
 
@@ -576,14 +576,14 @@
             
             if (index !== -1) {
                 bookings[index].datetime = newDatetimeStr;
-                bookings[index].date = dateVal; 
-                bookings[index].time = timeVal; 
-                bookings[index].rawDate = dateVal; 
+                bookings[index].date = dateVal;
+                bookings[index].time = timeVal;
+                bookings[index].rawDate = dateVal;
                 localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(bookings));
                 
                 alert('อัปเดตเวลาการจองเรียบร้อยแล้ว!');
                 closeEditTimeModal();
-                fetchBookings(); 
+                fetchBookings();
             }
         }
 
@@ -611,7 +611,7 @@
                 let selectState = isOwner ? '' : 'disabled';
                 let selectBg = isOwner ? 'bg-white focus:border-red-900' : 'bg-gray-100 cursor-not-allowed';
 
-                let actionHtml = isOwner 
+                let actionHtml = isOwner
                     ? `<button onclick="updateRole(${roleData.id})" class="text-blue-600 hover:text-blue-800 font-bold text-xs mr-3 transition-colors">บันทึก</button>
                        <button onclick="deleteRole(${roleData.id})" class="text-red-600 hover:text-red-800 font-bold text-xs transition-colors">ลบสิทธิ์</button>`
                     : `<span class="text-gray-400 text-[10px] font-bold bg-gray-200 px-2 py-1 rounded">เฉพาะเจ้าของร้าน</span>`;
