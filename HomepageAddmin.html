@@ -303,7 +303,7 @@
         function adminLogout() {
             if(confirm('ต้องการออกจากระบบหลังร้าน ใช่หรือไม่?')) {
                 localStorage.removeItem('rabbitz_currentUser');
-                window.location.href = 'Homepage.html';
+                window.location.href = 'Index.html';
             }
         }
 
@@ -741,7 +741,7 @@
             const userDataString = localStorage.getItem('rabbitz_currentUser');
             if (!userDataString) {
                 alert('กรุณาเข้าสู่ระบบก่อนใช้งานครับ');
-                window.location.href = 'Homepage.html';
+                window.location.href = 'Index.html';
             } else {
                 const userData = JSON.parse(userDataString);
                 if (userData.role !== 'admin' && userData.role !== 'tech') {
