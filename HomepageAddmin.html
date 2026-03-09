@@ -553,39 +553,56 @@
             document.getElementById('editTimeModal').classList.add('hidden');
         }
 
-        function saveNewBookingTime() {
-            const bookingId = document.getElementById('editBookingId').value;
-            const dateVal = document.getElementById('editBookingDate').value;
-            const timeVal = document.getElementById('editBookingTime').value;
+        // ค้นหาฟังก์ชันเดิมแล้ววางทับด้วยโค้ดนี้
+function saveNewBookingTime() {
+    const bookingId = document.getElementById('editBookingId').value;
+    const dateVal = document.getElementById('editBookingDate').value; 
+    const timeVal = document.getElementById('editBookingTime').value; 
 
-            if (!dateVal || !timeVal) {
-                alert('กรุณาเลือกปฏิทินและเวลาให้ครบถ้วนครับ');
-                return;
-            }
+    if (!dateVal || !timeVal) {
+        alert('กรุณาเลือกปฏิทินและเวลาให้ครบถ้วนครับ');
+        return;
+    }
 
-            const thaiMonths = ['ม.ค.', 'ก.พ.', 'มี.ค.', 'เม.ย.', 'พ.ค.', 'มิ.ย.', 'ก.ค.', 'ส.ค.', 'ก.ย.', 'ต.ค.', 'พ.ย.', 'ธ.ค.'];
-            const dateObj = new Date(dateVal);
-            const day = dateObj.getDate();
-            const month = thaiMonths[dateObj.getMonth()];
-            const year = (dateObj.getFullYear() + 543).toString().slice(-2);
+    const thaiMonths = ['ม.ค.', 'ก.พ.', 'มี.ค.', 'เม.ย.', 'พ.ค.', 'มิ.ย.', 'ก.ค.', 'ส.ค.', 'ก.ย.', 'ต.ค.', 'พ.ย.', 'ธ.ค.'];
+    const dateObj = new Date(dateVal);
+    const day = dateObj.getDate();
+    const month = thaiMonths[dateObj.getMonth()];
+    const year = (dateObj.getFullYear() + 543).toString().slice(-2); 
 
-            const newDatetimeStr = `${day} ${month} ${year} - ${timeVal} น.`;
+    const newDatetimeStr = `${day} ${month} ${year} - ${timeVal} น.`;
 
-            let bookings = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY));
-            const index = bookings.findIndex(b => b.id == bookingId);
-            
-            if (index !== -1) {
-                bookings[index].datetime = newDatetimeStr;
-                bookings[index].date = dateVal;
-                bookings[index].time = timeVal;
-                bookings[index].rawDate = dateVal;
-                localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(bookings));
-                
-                alert('อัปเดตเวลาการจองเรียบร้อยแล้ว!');
-                closeEditTimeModal();
-                fetchBookings();
-            }
-        }
+    let bookings = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY));
+    const index = bookings.findIndex(b => b.id == bookingId);
+    
+    if (index !== -1) {
+        // เก็บเวลาเดิมไว้เพื่อแจ้งเตือนลูกค้า
+        const oldDatetimeStr = bookings[index].datetime; 
+        
+        bookings[index].datetime = newDatetimeStr;
+        bookings[index].date = dateVal; 
+        bookings[index].time = timeVal; 
+        bookings[index].rawDate = dateVal; 
+        localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(bookings));
+        
+        // --- ส่วนที่เพิ่ม: ส่งการแจ้งเตือนไปยังฝั่งลูกค้า ---
+        let notifications = JSON.parse(localStorage.getItem('rabbitz_notifications')) || [];
+        notifications.unshift({
+            id: Date.now(),
+            customer_name: bookings[index].customer_name, 
+            title: '📅 อัปเดตเวลาจองคิว',
+            message: `ทางร้านได้เลื่อนเวลาคิวของคุณจากเดิม ${oldDatetimeStr} เป็นเวลาใหม่คือ ${newDatetimeStr} ค่ะ`,
+            timestamp: new Date().toISOString(),
+            read: false
+        });
+        localStorage.setItem('rabbitz_notifications', JSON.stringify(notifications));
+        // ------------------------------------------
+        
+        alert('อัปเดตเวลาการจองและส่งแจ้งเตือนเรียบร้อยแล้ว!');
+        closeEditTimeModal();
+        fetchBookings(); // ตารางแอดมินจะแสดงข้อมูลใหม่ทันที
+    }
+}
 
         // ==========================================
         // ⭐️ ระบบจัดการสิทธิ์พนักงาน (Roles)
