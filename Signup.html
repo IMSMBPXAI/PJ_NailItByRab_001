@@ -283,12 +283,24 @@
         localStorage.setItem('rabbitz_users', JSON.stringify(users));
         
         // เมื่อสมัครเสร็จ ตั้งค่า Role เริ่มต้นเป็น Customer (จำลองการ Login)
+        // เช็คสิทธิ์ว่าชื่อหรืออีเมลนี้ แอดมินได้เพิ่มรอไว้ในระบบแล้วหรือไม่
+        const rolesData = JSON.parse(localStorage.getItem('rabbitz_roles')) || [];
+        const roleMatch = rolesData.find(r => r.name === newUser.username || r.name === newUser.email);
+        
+        let finalRole = 'customer';
+        if (newUser.username === 'admin_rabbitz' || newUser.email === 'admin@rabbitz.com') {
+            finalRole = 'admin'; // <--- กำหนด Admin ถาวรไว้ในโค้ดตรงนี้เช่นกัน
+        } else if (roleMatch) {
+            finalRole = roleMatch.role;
+        }
+
         const userData = {
             isLoggedIn: true,
             name: newUser.username,
             email: newUser.email,
-            role: newUser.role
+            role: finalRole
         };
+        localStorage.setItem('rabbitz_currentUser', JSON.stringify(userData));
         localStorage.setItem('rabbitz_currentUser', JSON.stringify(userData));
         
         // เปลี่ยนปุ่มเป็นสถานะกำลังโหลด
