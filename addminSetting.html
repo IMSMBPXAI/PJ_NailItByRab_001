@@ -32,25 +32,6 @@
         }
        
         input:focus { outline: none; }
-
-        /* สไตล์ปุ่ม Toggle Switch แบบ CSS */
-        .toggle-checkbox:checked {
-            right: 0;
-            border-color: #7f1d1d;
-        }
-        .toggle-checkbox:checked + .toggle-label {
-            background-color: #7f1d1d;
-        }
-        .toggle-checkbox {
-            right: 0;
-            z-index: 1;
-            border-color: #e5e7eb;
-            transition: all 0.3s;
-        }
-        .toggle-label {
-            background-color: #e5e7eb;
-            transition: all 0.3s;
-        }
     </style>
 </head>
 <body class="bg-gray-50 font-sans text-gray-800 pb-10">
@@ -73,14 +54,17 @@
         </nav>
     </header>
  
-    <div class="max-w-2xl mx-auto px-4 pt-28 pb-6 flex items-center justify-between">
+    <div class="max-w-2xl mx-auto px-4 pt-28 pb-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div class="flex items-center gap-4">
             <a href="HomepageAddmin.html" class="text-brand-900 bg-white p-2 rounded-full shadow-sm border border-gray-200 hover:bg-gray-100 transition">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
             </a>
-            <h1 class="text-2xl font-black text-brand-900 uppercase tracking-wide">ตั้งค่าระบบร้าน</h1>
+            <div>
+                <h1 class="text-2xl font-black text-brand-900 uppercase tracking-wide leading-none">ตั้งค่าระบบร้าน</h1>
+                <p id="lastUpdateTime" class="text-xs text-gray-500 font-medium mt-1">อัปเดตล่าสุด: ยังไม่มีการบันทึก</p>
+            </div>
         </div>
-        <button id="saveBtn" onclick="saveSettings()" class="bg-brand-900 text-white px-8 py-2.5 rounded-xl text-sm font-bold hover:bg-red-800 shadow-md transition active:scale-95 flex items-center gap-2">
+        <button id="saveBtn" onclick="saveSettings()" class="w-full sm:w-auto bg-brand-900 text-white px-8 py-2.5 rounded-xl text-sm font-bold hover:bg-red-800 shadow-md transition active:scale-95 flex items-center justify-center gap-2">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"></path></svg>
             บันทึกการตั้งค่า
         </button>
@@ -147,17 +131,6 @@
                         </div>
                     </div>
                 </div>
-
-                <div class="flex items-center justify-between bg-gray-50 p-4 rounded-xl border border-gray-200 mt-2">
-                    <div>
-                        <p class="font-bold text-sm text-gray-800">ยืนยันคิวอัตโนมัติเมื่อลูกค้าแนบสลิป</p>
-                        <p class="text-[10px] text-gray-500 mt-0.5">ถ้ายกเลิก แอดมินจะต้องกดยืนยันคิวด้วยตัวเองทุกครั้ง</p>
-                    </div>
-                    <div class="relative inline-block w-12 mr-2 align-middle select-none transition duration-200 ease-in">
-                        <input type="checkbox" name="toggle" id="set_autoConfirm" class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer"/>
-                        <label for="set_autoConfirm" class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer"></label>
-                    </div>
-                </div>
             </div>
         </div>
 
@@ -197,7 +170,6 @@
     </main>
 
     <script>
-        // 1. โหลดข้อมูลเดิมมาแสดงเมื่อเปิดหน้า
         document.addEventListener('DOMContentLoaded', () => {
             const savedSettingsStr = localStorage.getItem('rabbitz_settings');
             
@@ -211,12 +183,17 @@
                 depositAmount: "100",
                 openTime: "09:30",
                 closeTime: "20:00",
-                autoConfirm: true
+                lastUpdated: "" // ฟิลด์เก็บเวลาอัปเดตล่าสุด
             };
 
-            // ถ้ามีข้อมูลที่เคยเซฟไว้ ให้ดึงมาใช้
+            // ถ้ามีข้อมูลที่เคยเซฟไว้ ให้ดึงมาใช้ และแสดงเวลาล่าสุดที่เซฟไว้
             if (savedSettingsStr) {
                 settings = { ...settings, ...JSON.parse(savedSettingsStr) };
+                
+                if (settings.lastUpdated) {
+                    document.getElementById('lastUpdateTime').innerText = `อัปเดตล่าสุด: ${settings.lastUpdated}`;
+                    document.getElementById('lastUpdateTime').classList.replace('text-gray-500', 'text-green-700');
+                }
             }
 
             // นำค่าไปใส่ในช่องกรอกข้อมูล
@@ -228,10 +205,9 @@
             document.getElementById('set_depositAmount').value = settings.depositAmount;
             document.getElementById('set_openTime').value = settings.openTime;
             document.getElementById('set_closeTime').value = settings.closeTime;
-            document.getElementById('set_autoConfirm').checked = settings.autoConfirm;
         });
 
-        // 2. ฟังก์ชันเซฟการตั้งค่า
+        // ฟังก์ชันเซฟการตั้งค่า
         function saveSettings() {
             const btn = document.getElementById('saveBtn');
             const originalContent = btn.innerHTML;
@@ -239,6 +215,13 @@
             // เปลี่ยนปุ่มเป็นสถานะกำลังโหลด
             btn.innerHTML = `<svg class="animate-spin h-4 w-4 mr-2 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> SAVING...`;
             btn.classList.add('opacity-70', 'cursor-not-allowed');
+
+            // ⭐️ ดึงเวลาปัจจุบันเพื่อนำไปแสดงว่าบันทึกล่าสุดเมื่อไหร่
+            const now = new Date();
+            const timeString = now.toLocaleDateString('th-TH', { 
+                year: 'numeric', month: 'short', day: 'numeric', 
+                hour: '2-digit', minute: '2-digit' 
+            }) + ' น.';
 
             // เก็บค่าจากฟอร์ม
             const newSettings = {
@@ -250,12 +233,17 @@
                 depositAmount: document.getElementById('set_depositAmount').value,
                 openTime: document.getElementById('set_openTime').value,
                 closeTime: document.getElementById('set_closeTime').value,
-                autoConfirm: document.getElementById('set_autoConfirm').checked
+                lastUpdated: timeString // บันทึกเวลาเข้าไปด้วย
             };
 
             // จำลองการดีเลย์เซฟข้อมูล
             setTimeout(() => {
                 localStorage.setItem('rabbitz_settings', JSON.stringify(newSettings));
+                
+                // อัปเดตข้อความบนหน้าจอทันที
+                const timeText = document.getElementById('lastUpdateTime');
+                timeText.innerText = `อัปเดตล่าสุด: ${timeString}`;
+                timeText.classList.replace('text-gray-500', 'text-green-700');
                 
                 alert('✅ ข้อมูลการตั้งค่าถูกบันทึกลงระบบแล้ว!');
                 
@@ -264,7 +252,7 @@
             }, 800);
         }
 
-        // 3. ฟังก์ชัน Logout (วิ่งไปหน้า index.html)
+        // ฟังก์ชัน Logout 
         function adminLogout() {
             if(confirm('คุณต้องการออกจากระบบจัดการ (Admin) ใช่หรือไม่?')) {
                 localStorage.removeItem('rabbitz_currentUser');
@@ -272,10 +260,9 @@
             }
         }
 
-        // 4. ฟังก์ชัน Factory Reset
+        // ฟังก์ชัน Factory Reset
         function factoryReset() {
             if(confirm('⚠️ คำเตือน: คุณแน่ใจหรือไม่ที่จะล้างข้อมูลระบบทั้งหมด? ข้อมูลการจองคิวและตั้งค่าทั้งหมดจะหายไป')) {
-                // ลบ Key ที่เกี่ยวข้องทั้งหมด
                 localStorage.removeItem('allBookings');
                 localStorage.removeItem('rabbitz_settings');
                 localStorage.removeItem('rabbitz_content');
