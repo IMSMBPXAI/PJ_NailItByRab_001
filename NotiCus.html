@@ -197,5 +197,32 @@
             });
         }
     </script>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const userDataString = localStorage.getItem('rabbitz_currentUser');
+        if (userDataString) {
+            const userData = JSON.parse(userDataString);
+            const nameDisplay = document.getElementById('userNameDisplay');
+            if (nameDisplay) nameDisplay.innerText = `Hi, ${userData.name}`;
+            
+            const profilePic = document.getElementById('userProfilePic');
+            if (profilePic) {
+                if (userData.photoUrl) profilePic.src = userData.photoUrl;
+                else profilePic.src = `https://ui-avatars.com/api/?name=${userData.name}&background=fff&color=7f1d1d&bold=true`;
+            }
+        } else {
+            alert('กรุณาเข้าสู่ระบบก่อนใช้งานครับ');
+            window.location.href = 'Homepage.html';
+        }
+    });
+
+    function handleLogout() {
+        if(confirm('ต้องการออกจากระบบใช่หรือไม่?')) {
+            localStorage.removeItem('rabbitz_currentUser');
+            window.location.href = 'Homepage.html';
+        }
+    }
+</script>
 </body>
 </html>
