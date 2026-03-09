@@ -187,7 +187,9 @@
 
             const data = JSON.parse(bookingDataStr);
 
-            const dateObj = new Date(data.date);
+            // 🌟 บังคับให้สร้างวันที่โดยใช้ Local Time เพื่อไม่ให้เพี้ยน
+            const dateParts = data.date.split('-');
+            const dateObj = new Date(dateParts[0], dateParts[1] - 1, dateParts[2]);
             const formattedDate = dateObj.toLocaleDateString('th-TH', { 
                 weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' 
             });
@@ -246,42 +248,42 @@
         // ฟังก์ชันยืนยันเพื่อไปหน้า Payment
         // --------------------------------------------------------
         function confirmBooking() {
-    const bookingDataStr = sessionStorage.getItem('bookingData');
-    const userDataStr = localStorage.getItem('rabbitz_currentUser');
+            const bookingDataStr = sessionStorage.getItem('bookingData');
+            const userDataStr = localStorage.getItem('rabbitz_currentUser');
 
-    if (bookingDataStr && userDataStr) {
-        try {
-            const bookingData = JSON.parse(bookingDataStr);
-            const userData = JSON.parse(userDataStr);
-            
-            // ใช้ข้อมูลจากระบบจริงแทนค่า Guest
-            bookingData.id = 'B' + Date.now(); 
-            bookingData.customer_name = userData.name; 
-            bookingData.phone = userData.phone || '-';
-            bookingData.status = 'Pending Payment';
-            bookingData.createdAt = new Date().toISOString();
+            if (bookingDataStr && userDataStr) {
+                try {
+                    const bookingData = JSON.parse(bookingDataStr);
+                    const userData = JSON.parse(userDataStr);
+                    
+                    // ใช้ข้อมูลจากระบบจริงแทนค่า Guest
+                    bookingData.id = 'B' + Date.now(); 
+                    bookingData.customer_name = userData.name; 
+                    bookingData.phone = userData.phone || '-';
+                    bookingData.status = 'Pending Payment';
+                    bookingData.createdAt = new Date().toISOString();
 
-            // พยายามบันทึกข้อมูลลง Session และ LocalStorage
-            // หากรูปใหญ่เกินไปจะ Error ที่บรรทัดเหล่านี้
-            sessionStorage.setItem('bookingData', JSON.stringify(bookingData));
+                    // พยายามบันทึกข้อมูลลง Session และ LocalStorage
+                    // หากรูปใหญ่เกินไปจะ Error ที่บรรทัดเหล่านี้
+                    sessionStorage.setItem('bookingData', JSON.stringify(bookingData));
 
-            let allBookings = JSON.parse(localStorage.getItem('allBookings')) || [];
-            allBookings.push(bookingData);
-            localStorage.setItem('allBookings', JSON.stringify(allBookings));
-            
-            // เปลี่ยนหน้าไปยัง Payment.html
-            window.location.href = 'Payment.html'; 
-            
-        } catch (e) {
-            console.error("Storage Error:", e);
-            // แจ้งเตือนเมื่อข้อมูล (โดยเฉพาะรูปภาพ) ใหญ่เกินกว่าที่เบราว์เซอร์จะเก็บได้
-            alert('ไม่สามารถดำเนินการต่อได้เนื่องจาก "ไฟล์รูปภาพมีขนาดใหญ่เกินไป" กรุณากลับไปลดจำนวนรูปภาพหรือขนาดรูปลงครับ');
+                    let allBookings = JSON.parse(localStorage.getItem('allBookings')) || [];
+                    allBookings.push(bookingData);
+                    localStorage.setItem('allBookings', JSON.stringify(allBookings));
+                    
+                    // เปลี่ยนหน้าไปยัง Payment.html
+                    window.location.href = 'Payment.html'; 
+                    
+                } catch (e) {
+                    console.error("Storage Error:", e);
+                    // แจ้งเตือนเมื่อข้อมูล (โดยเฉพาะรูปภาพ) ใหญ่เกินกว่าที่เบราว์เซอร์จะเก็บได้
+                    alert('ไม่สามารถดำเนินการต่อได้เนื่องจาก "ไฟล์รูปภาพมีขนาดใหญ่เกินไป" กรุณากลับไปลดจำนวนรูปภาพหรือขนาดรูปลงครับ');
+                }
+            } else {
+                alert('ไม่พบข้อมูลการจองหรือข้อมูลผู้ใช้ กรุณาทำรายการใหม่');
+                window.location.href = 'Booking.html';
+            }
         }
-    } else {
-        alert('ไม่พบข้อมูลการจองหรือข้อมูลผู้ใช้ กรุณาทำรายการใหม่');
-        window.location.href = 'Booking.html';
-    }
-}
 
         // ระบบเปิด-ปิด Sidebar
         document.addEventListener('DOMContentLoaded', () => {

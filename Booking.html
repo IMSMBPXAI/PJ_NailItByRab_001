@@ -283,49 +283,61 @@
             }
         }
 
-        // --- ส่วนระบบจัดการวันเวลาและอัปโหลดรูปภาพ ปล่อยให้เหมือนเดิม ---
         const allTimeSlots = ["13:00 - 14:30", "14:30 - 16:00", "16:00 - 17:30", "17:30 - 19:00"];
-        const mockDatabase = { closedDates: [] };
         const dateSelect = document.getElementById('booking_date');
         const timeSelect = document.getElementById('booking_time');
 
         function generateDates() {
-    dateSelect.innerHTML = '<option value="" disabled selected>-- เลือกวันที่ --</option>';
-    let today = new Date();
+            dateSelect.innerHTML = '<option value="" disabled selected>-- เลือกวันที่ --</option>';
+            let today = new Date();
 
-    // --- ส่วนที่อัปเดต: ดึงข้อมูลวันที่ร้านปิดจาก LocalStorage ---
-    const closedDates = JSON.parse(localStorage.getItem('rabbitz_closed_dates')) || [];
-    // -------------------------------------------------------
+            // ดึงข้อมูลวันที่ร้านปิดจาก LocalStorage
+            const closedDates = JSON.parse(localStorage.getItem('rabbitz_closed_dates')) || [];
 
-    // เปิดคิวล่วงหน้า 90 วัน
-    for (let i = 1; i <= 90; i++) {
-        let d = new Date(today);
-        d.setDate(today.getDate() + i);
+            // 🌟 แก้ไข: ให้เริ่มลูปที่ 0 เพื่อให้รวม "วันนี้" เข้าไปด้วย
+            for (let i = 0; i <= 90; i++) {
+                let d = new Date(); 
+                d.setDate(today.getDate() + i);
 
-        let dateString = d.toISOString().split('T')[0];
-        let displayDate = d.toLocaleDateString('th-TH', { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' });
+                let year = d.getFullYear();
+                let month = String(d.getMonth() + 1).padStart(2, '0');
+                let day = String(d.getDate()).padStart(2, '0');
+                let dateString = `${year}-${month}-${day}`; 
 
-        let option = document.createElement('option');
-        option.value = dateString;
+                let displayDate = d.toLocaleDateString('th-TH', { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' });
+                
+                // เติมคำว่า (วันนี้) ให้ดูชัดเจนขึ้น
+                if (i === 0) displayDate += " (วันนี้)";
 
-        // ตรวจสอบว่าวันที่นี้อยู่ในรายการที่แอดมินปิดไว้หรือไม่
-        if (closedDates.includes(dateString)) {
-            option.textContent = `${displayDate} (เต็ม/ปิดรับจอง)`;
-            option.disabled = true; // ทำให้กดเลือกไม่ได้
-            option.className = "text-gray-400 bg-gray-100";
-        } else {
-            option.textContent = displayDate;
-            option.className = "text-gray-900";
+                let option = document.createElement('option');
+                option.value = dateString;
+
+                // ตรวจสอบว่าวันที่นี้อยู่ในรายการที่แอดมินปิดไว้หรือไม่
+                if (closedDates.includes(dateString)) {
+                    option.textContent = `${displayDate} (เต็ม/ปิดรับจอง)`;
+                    option.disabled = true; // ทำให้กดเลือกไม่ได้
+                    option.className = "text-gray-400 bg-gray-100";
+                } else {
+                    option.textContent = displayDate;
+                    option.className = "text-gray-900";
+                }
+
+                dateSelect.appendChild(option);
+            }
         }
-
-        dateSelect.appendChild(option);
-    }
-}
 
         dateSelect.addEventListener('change', function () {
             const selectedDate = this.value;
             const allBookings = JSON.parse(localStorage.getItem('allBookings')) || [];
-            const now = Date.now();
+            
+            const now = new Date();
+            // หาวันที่และเวลาปัจจุบัน (ในรูปแบบนาที) เพื่อเอามาเปรียบเทียบ
+            const currentYear = now.getFullYear();
+            const currentMonth = String(now.getMonth() + 1).padStart(2, '0');
+            const currentDay = String(now.getDate()).padStart(2, '0');
+            const todayString = `${currentYear}-${currentMonth}-${currentDay}`;
+            const currentMinutes = now.getHours() * 60 + now.getMinutes();
+
             timeSelect.innerHTML = '<option value="" disabled selected>-- เลือกรอบเวลา --</option>';
             timeSelect.disabled = false;
 
@@ -336,21 +348,40 @@
                 let isUnavailable = false;
                 let statusText = "";
 
-                for (let booking of slotBookings) {
-                    if (booking.status === 'Confirmed') {
+                // 🌟 ระบบที่ 1: เช็คว่าเวลาของรอบคิว "ผ่านไปแล้วหรือยัง" (เฉพาะกรณีเลือกจองวันนี้)
+                if (selectedDate === todayString) {
+                    // ดึงเวลาเริ่มต้นของ slot เช่น "16:00" จาก "16:00 - 17:30"
+                    const startTimeStr = slot.split(' - ')[0]; 
+                    const [startHour, startMinute] = startTimeStr.split(':').map(Number);
+                    const slotStartMinutes = (startHour * 60) + startMinute;
+
+                    // ถ้าเวลาปัจจุบัน (นาที) >= เวลาเริ่มคิว แปลว่าเลยเวลามาแล้วหรือถึงเวลาแล้วพอดี -> ห้ามจอง
+                    if (currentMinutes >= slotStartMinutes) {
                         isUnavailable = true;
-                        statusText = " (มีผู้จองแล้ว)";
-                        break; 
-                    } else if (booking.status === 'Pending Payment') {
-                        const createdAtTime = new Date(booking.createdAt).getTime();
-                        const diffMinutes = (now - createdAtTime) / (1000 * 60);
-                        if (diffMinutes <= 15) {
+                        statusText = " (หมดเวลาจอง)";
+                    }
+                }
+
+                // 🌟 ระบบที่ 2: เช็คว่าคิวนี้ "มีคนจองไปแล้วหรือยัง"
+                if (!isUnavailable) {
+                    for (let booking of slotBookings) {
+                        if (booking.status === 'Confirmed') {
                             isUnavailable = true;
-                            statusText = " (อยู่ระหว่างดำเนินการจอง)";
+                            statusText = " (มีผู้จองแล้ว)";
+                            break; 
+                        } else if (booking.status === 'Pending Payment') {
+                            const createdAtTime = new Date(booking.createdAt).getTime();
+                            const diffMinutes = (Date.now() - createdAtTime) / (1000 * 60);
+                            if (diffMinutes <= 15) {
+                                isUnavailable = true;
+                                statusText = " (อยู่ระหว่างดำเนินการจอง)";
+                                break;
+                            }
                         }
                     }
                 }
 
+                // แสดงผลลัพธ์
                 if (isUnavailable) {
                     option.textContent = `${slot}${statusText}`;
                     option.disabled = true;
@@ -434,7 +465,6 @@
             sessionStorage.setItem('bookingData', JSON.stringify(bookingData));
             window.location.href = 'detailbooking.html';
         });
-
 
         // --- ฟังก์ชันรับข้อมูลบริการและรูปภาพจากหน้า Search ---
         window.addEventListener('DOMContentLoaded', () => {
