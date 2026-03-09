@@ -784,5 +784,29 @@
             }
         });
     </script>
+    <script type="module">
+  // 1. Import ฟังก์ชันที่จำเป็นจาก Firebase
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+  import { getFirestore, collection, addDoc, getDocs, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+  // 2. ใส่ Config โปรเจกต์ของคุณ (เอามาจากหน้า Project Settings ใน Firebase)
+  const firebaseConfig = {
+    apiKey: "YOUR_API_KEY",
+    authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+    projectId: "YOUR_PROJECT_ID",
+    storageBucket: "YOUR_PROJECT_ID.appspot.com",
+    messagingSenderId: "YOUR_SENDER_ID",
+    appId: "YOUR_APP_ID"
+  };
+
+  // 3. เริ่มต้นใช้งาน Firebase และ Firestore
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  // ประกาศตัวแปร db ให้ใช้แบบ Global ได้ (เผื่อปุ่ม onclick ของคุณเรียกใช้)
+  window.db = db;
+  window.collection = collection;
+  window.addDoc = addDoc;
+</script>
 </body>
 </html>

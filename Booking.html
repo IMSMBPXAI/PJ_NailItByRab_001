@@ -220,101 +220,94 @@
         </div>
     </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const userDataString = localStorage.getItem('rabbitz_currentUser');
+    <script type="module">
+    // 1. นำเข้า Firebase
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+    // 2. ตั้งค่าโปรเจกต์ (นำมาจาก Firebase Console ของคุณ)
+    const firebaseConfig = {
+        apiKey: "YOUR_API_KEY",
+        authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+        projectId: "YOUR_PROJECT_ID",
+        storageBucket: "YOUR_PROJECT_ID.appspot.com",
+        messagingSenderId: "YOUR_SENDER_ID",
+        appId: "YOUR_APP_ID"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    window.db = db; // ให้ตัวแปรอื่นๆ เรียกใช้ได้
+
+    // --- โหลดข้อมูล User ---
+    document.addEventListener('DOMContentLoaded', () => {
+        const userDataString = localStorage.getItem('rabbitz_currentUser');
+        if (userDataString) {
+            const userData = JSON.parse(userDataString);
+            const nameDisplay = document.getElementById('userNameDisplay');
+            if (nameDisplay) nameDisplay.innerText = `Hi, ${userData.name}`;
             
-            if (userDataString) {
-                const userData = JSON.parse(userDataString);
-                
-                const nameDisplay = document.getElementById('userNameDisplay');
-                if (nameDisplay) nameDisplay.innerText = `Hi, ${userData.name}`;
+            const profilePic = document.getElementById('userProfilePic');
+            if (profilePic) {
+                profilePic.src = userData.photoUrl ? userData.photoUrl : `https://ui-avatars.com/api/?name=${userData.name}&background=fff&color=7f1d1d&bold=true`;
+            }
+        } else {
+            alert('กรุณาเข้าสู่ระบบก่อนใช้งานครับ');
+            window.location.href = 'Homepage.html';
+        }
+    });
 
-                const sidebarNameDisplay = document.getElementById('sidebarUserNameDisplay');
-                if (sidebarNameDisplay) sidebarNameDisplay.innerText = `Hi, ${userData.name}`;
-                
-                const profileUrl = userData.photoUrl || `https://ui-avatars.com/api/?name=${encodeURIComponent(userData.name)}&background=fff&color=7f1d1d&bold=true`;
-                
-                const profilePicNav = document.getElementById('userProfilePic');
-                const profilePicSidebar = document.getElementById('userProfilePicSidebar');
-                
-                const savedPic = localStorage.getItem('savedProfilePic');
-                if (savedPic) {
-                    if (profilePicNav) profilePicNav.src = savedPic;
-                    if (profilePicSidebar) profilePicSidebar.src = savedPic;
-                } else {
-                    if (profilePicNav) profilePicNav.src = profileUrl;
-                    if (profilePicSidebar) profilePicSidebar.src = profileUrl;
-                }
+    window.handleLogout = function() {
+        if(confirm('ต้องการออกจากระบบใช่หรือไม่?')) {
+            localStorage.removeItem('rabbitz_currentUser');
+            window.location.href = 'Homepage.html';
+        }
+    };
+
+    // --- ระบบวันเวลา ดึงคิวจาก Firestore ---
+    const allTimeSlots = ["13:00 - 14:30", "14:30 - 16:00", "16:00 - 17:30", "17:30 - 19:00"];
+    const mockDatabase = { closedDates: [] };
+    const dateSelect = document.getElementById('booking_date');
+    const timeSelect = document.getElementById('booking_time');
+
+    function generateDates() {
+        dateSelect.innerHTML = '<option value="" disabled selected>-- เลือกวันที่ --</option>';
+        let today = new Date();
+        for (let i = 1; i <= 90; i++) {
+            let d = new Date(today);
+            d.setDate(today.getDate() + i);
+            let dateString = d.toISOString().split('T')[0];
+            let displayDate = d.toLocaleDateString('th-TH', { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' });
+            let option = document.createElement('option');
+            option.value = dateString;
+            
+            if (mockDatabase.closedDates.includes(dateString)) {
+                option.textContent = `${displayDate} (ร้านปิด)`;
+                option.disabled = true;
+                option.className = "text-gray-400 bg-gray-100";
             } else {
-                alert('กรุณาเข้าสู่ระบบก่อนใช้งานครับ');
-                window.location.href = 'index.html';
+                option.textContent = displayDate;
+                option.className = "text-gray-900";
             }
-
-            // ระบบเปิด-ปิด Sidebar ย้ายมารวมกันตรงนี้เพื่อลดการเรียกซ้ำซ้อน
-            const menuBtn = document.getElementById('menuBtn');
-            const closeBtn = document.getElementById('closeBtn');
-            const sidebar = document.getElementById('sidebar');
-            const overlay = document.getElementById('overlay');
-
-            function toggleMenu() {
-                const isOpen = !sidebar.classList.contains('translate-x-full');
-                if (!isOpen) {
-                    sidebar.classList.remove('translate-x-full');
-                    overlay.classList.remove('hidden');
-                    setTimeout(() => overlay.classList.add('opacity-100'), 10);
-                } else {
-                    sidebar.classList.add('translate-x-full');
-                    overlay.classList.remove('opacity-100');
-                    setTimeout(() => overlay.classList.add('hidden'), 300);
-                }
-            }
-
-            if(menuBtn) menuBtn.addEventListener('click', toggleMenu);
-            if(closeBtn) closeBtn.addEventListener('click', toggleMenu);
-            if(overlay) overlay.addEventListener('click', toggleMenu);
-        });
-
-        function handleLogout() {
-            if(confirm('ต้องการออกจากระบบใช่หรือไม่?')) {
-                localStorage.removeItem('rabbitz_currentUser');
-                localStorage.removeItem('savedProfilePic');
-                window.location.href = 'index.html';
-            }
+            dateSelect.appendChild(option);
         }
+    }
 
-        // --- ส่วนระบบจัดการวันเวลาและอัปโหลดรูปภาพ ปล่อยให้เหมือนเดิม ---
-        const allTimeSlots = ["13:00 - 14:30", "14:30 - 16:00", "16:00 - 17:30", "17:30 - 19:00"];
-        const mockDatabase = { closedDates: [] };
-        const dateSelect = document.getElementById('booking_date');
-        const timeSelect = document.getElementById('booking_time');
+    // แก้ให้ดึงคิวจาก Firestore ทันทีที่เปลี่ยนวันที่
+    dateSelect.addEventListener('change', async function () {
+        const selectedDate = this.value;
+        const now = Date.now();
+        timeSelect.innerHTML = '<option value="" disabled selected>-- กำลังโหลดคิว... --</option>';
+        timeSelect.disabled = true;
 
-        function generateDates() {
-            dateSelect.innerHTML = '<option value="" disabled selected>-- เลือกวันที่ --</option>';
-            let today = new Date();
-            for (let i = 1; i <= 90; i++) {
-                let d = new Date(today);
-                d.setDate(today.getDate() + i);
-                let dateString = d.toISOString().split('T')[0];
-                let displayDate = d.toLocaleDateString('th-TH', { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' });
-                let option = document.createElement('option');
-                option.value = dateString;
-                if (mockDatabase.closedDates.includes(dateString)) {
-                    option.textContent = `${displayDate} (ร้านปิด)`;
-                    option.disabled = true;
-                    option.className = "text-gray-400 bg-gray-100";
-                } else {
-                    option.textContent = displayDate;
-                    option.className = "text-gray-900";
-                }
-                dateSelect.appendChild(option);
-            }
-        }
+        try {
+            // ดึงข้อมูลการจองทั้งหมดจาก Firestore
+            const querySnapshot = await getDocs(collection(window.db, "bookings"));
+            let allBookings = [];
+            querySnapshot.forEach((doc) => {
+                allBookings.push(doc.data());
+            });
 
-        dateSelect.addEventListener('change', function () {
-            const selectedDate = this.value;
-            const allBookings = JSON.parse(localStorage.getItem('allBookings')) || [];
-            const now = Date.now();
             timeSelect.innerHTML = '<option value="" disabled selected>-- เลือกรอบเวลา --</option>';
             timeSelect.disabled = false;
 
@@ -326,16 +319,15 @@
                 let statusText = "";
 
                 for (let booking of slotBookings) {
-                    if (booking.status === 'Confirmed') {
+                    if (booking.status === 'ยืนยันแล้ว' || booking.status === 'Confirmed') {
                         isUnavailable = true;
                         statusText = " (มีผู้จองแล้ว)";
-                        break; 
+                        break;
                     } else if (booking.status === 'Pending Payment') {
                         const createdAtTime = new Date(booking.createdAt).getTime();
-                        const diffMinutes = (now - createdAtTime) / (1000 * 60);
-                        if (diffMinutes <= 15) {
+                        if ((now - createdAtTime) / (1000 * 60) <= 15) {
                             isUnavailable = true;
-                            statusText = " (อยู่ระหว่างดำเนินการจอง)";
+                            statusText = " (อยู่ระหว่างดำเนินการ)";
                         }
                     }
                 }
@@ -350,80 +342,97 @@
                 }
                 timeSelect.appendChild(option);
             });
-        });
+        } catch (error) {
+            console.error("Error loading time slots: ", error);
+            timeSelect.innerHTML = '<option value="" disabled selected>-- โหลดข้อมูลผิดพลาด --</option>';
+        }
+    });
 
-        generateDates();
+    generateDates();
 
-        const fileInput = document.getElementById('dropzone-file');
-        const previewContainer = document.getElementById('image-preview-container');
-        let uploadedImages = []; 
+    // --- จัดการรูปภาพ ---
+    const fileInput = document.getElementById('dropzone-file');
+    const previewContainer = document.getElementById('image-preview-container');
+    let uploadedImages = []; 
 
-        fileInput.addEventListener('change', function (e) {
-            const newFiles = Array.from(e.target.files);
-            if (uploadedImages.length + newFiles.length > 5) {
-                alert('อัปโหลดได้สูงสุด 5 รูปเท่านั้นค่ะ');
-                this.value = '';
-                return;
-            }
-            newFiles.forEach(file => {
-                const reader = new FileReader();
-                reader.onload = function(event) {
-                    uploadedImages.push(event.target.result);
-                    updateImagePreview();
-                };
-                reader.readAsDataURL(file);
-            });
+    fileInput.addEventListener('change', function (e) {
+        const newFiles = Array.from(e.target.files);
+        if (uploadedImages.length + newFiles.length > 5) {
+            alert('อัปโหลดได้สูงสุด 5 รูปเท่านั้นค่ะ');
             this.value = '';
-        });
-
-        function updateImagePreview() {
-            previewContainer.innerHTML = '';
-            uploadedImages.forEach((base64String, index) => {
-                const imgContainer = document.createElement('div');
-                imgContainer.className = 'relative w-full h-24 rounded-lg overflow-hidden border border-gray-200 shadow-sm group';
-                imgContainer.innerHTML = `<img src="${base64String}" class="w-full h-full object-cover" alt="Reference">`;
-                const deleteBtn = document.createElement('button');
-                deleteBtn.type = 'button';
-                deleteBtn.className = 'absolute top-1 right-1 bg-red-600 bg-opacity-80 text-white rounded-full p-1 hover:bg-red-700 transition-opacity opacity-80 hover:opacity-100 focus:outline-none';
-                deleteBtn.innerHTML = '<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>';
-                deleteBtn.onclick = () => removeFile(index);
-                imgContainer.appendChild(deleteBtn);
-                previewContainer.appendChild(imgContainer);
-            });
+            return;
         }
-
-        function removeFile(index) {
-            uploadedImages.splice(index, 1);
-            updateImagePreview();
-        }
-
-        function selectAllServices() { document.querySelectorAll('.service-checkbox').forEach(cb => cb.checked = true); }
-        function clearAllServices() { document.querySelectorAll('.service-checkbox').forEach(cb => cb.checked = false); }
-
-        document.getElementById('booking-form').addEventListener('submit', function (event) {
-            event.preventDefault(); 
-            const selectedDate = document.getElementById('booking_date').value;
-            if (!selectedDate) { alert('กรุณาเลือกวันที่ต้องการจองคิวค่ะ'); return; }
-            const selectedTime = document.getElementById('booking_time').value;
-            if (!selectedTime) { alert('กรุณาเลือกรอบเวลาที่ต้องการจองคิวค่ะ'); return; }
-            const checkedServicesNodes = document.querySelectorAll('.service-checkbox:checked');
-            if (checkedServicesNodes.length === 0) { alert('กรุณาเลือกบริการที่ต้องการทำอย่างน้อย 1 รายการค่ะ'); return; }
-            
-            const selectedServicesArray = Array.from(checkedServicesNodes).map(cb => cb.value);
-            const additionalDetails = document.getElementById('additional_details').value;
-
-            const bookingData = {
-                date: selectedDate,
-                time: selectedTime,
-                services: selectedServicesArray, 
-                details: additionalDetails,
-                images: uploadedImages 
+        newFiles.forEach(file => {
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                uploadedImages.push(event.target.result);
+                updateImagePreview();
             };
-
-            sessionStorage.setItem('bookingData', JSON.stringify(bookingData));
-            window.location.href = 'detailbooking.html';
+            reader.readAsDataURL(file);
         });
+        this.value = '';
+    });
 
-    </script>
+    function updateImagePreview() {
+        previewContainer.innerHTML = '';
+        uploadedImages.forEach((base64String, index) => {
+            const imgContainer = document.createElement('div');
+            imgContainer.className = 'relative w-full h-24 rounded-lg overflow-hidden border border-gray-200 shadow-sm group';
+            imgContainer.innerHTML = `<img src="${base64String}" class="w-full h-full object-cover" alt="Reference">`;
+            const deleteBtn = document.createElement('button');
+            deleteBtn.type = 'button';
+            deleteBtn.className = 'absolute top-1 right-1 bg-red-600 bg-opacity-80 text-white rounded-full p-1 hover:bg-red-700 opacity-80 hover:opacity-100';
+            deleteBtn.innerHTML = '<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>';
+            deleteBtn.onclick = () => { uploadedImages.splice(index, 1); updateImagePreview(); };
+            imgContainer.appendChild(deleteBtn);
+            previewContainer.appendChild(imgContainer);
+        });
+    }
+
+    window.selectAllServices = function() { document.querySelectorAll('.service-checkbox').forEach(cb => cb.checked = true); };
+    window.clearAllServices = function() { document.querySelectorAll('.service-checkbox').forEach(cb => cb.checked = false); };
+
+    // --- ส่งข้อมูลไปหน้า Detail ---
+    document.getElementById('booking-form').addEventListener('submit', function (event) {
+        event.preventDefault(); 
+        const selectedDate = document.getElementById('booking_date').value;
+        const selectedTime = document.getElementById('booking_time').value;
+        const checkedServicesNodes = document.querySelectorAll('.service-checkbox:checked');
+        
+        if (!selectedDate || !selectedTime || checkedServicesNodes.length === 0) {
+            alert('กรุณากรอกข้อมูลให้ครบถ้วนค่ะ');
+            return;
+        }
+
+        const userDataString = localStorage.getItem('rabbitz_currentUser');
+        const userData = userDataString ? JSON.parse(userDataString) : { name: "Guest" };
+
+        const bookingData = {
+            customer_name: userData.name,
+            date: selectedDate,
+            time: selectedTime,
+            services: Array.from(checkedServicesNodes).map(cb => cb.value), 
+            details: document.getElementById('additional_details').value,
+            images: uploadedImages 
+        };
+
+        sessionStorage.setItem('bookingData', JSON.stringify(bookingData));
+        window.location.href = 'detailbooking.html';
+    });
+
+    // ระบบ Sidebar
+    document.getElementById('menuBtn').addEventListener('click', () => {
+        document.getElementById('sidebar').classList.remove('translate-x-full');
+        document.getElementById('overlay').classList.remove('hidden');
+    });
+    document.getElementById('closeBtn').addEventListener('click', () => {
+        document.getElementById('sidebar').classList.add('translate-x-full');
+        document.getElementById('overlay').classList.add('hidden');
+    });
+    document.getElementById('overlay').addEventListener('click', () => {
+        document.getElementById('sidebar').classList.add('translate-x-full');
+        document.getElementById('overlay').classList.add('hidden');
+    });
+</script>
 </body>
 </html>
