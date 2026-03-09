@@ -90,7 +90,7 @@
 
     <script>
         let currentBooking = null;
-        let isExpired = false; 
+        let isExpired = false;
         let countdownInterval;
 
         document.addEventListener('DOMContentLoaded', () => {
@@ -113,22 +113,22 @@
 
         function initPaymentSystem() {
             const config = {
-                promptpayID: "0948263229",   
-                amount: 100.00,             
-                timeLimit: 15 * 60, // 15 นาที         
+                promptpayID: "0948263229",
+                amount: 100.00,
+                timeLimit: 15 * 60, // 15 นาที
             };
 
             function generatePromptPay(id, amount) {
                 const target = id.length >= 13 ? id : ("0066" + id.substring(1));
                 const targetType = id.length >= 13 ? "02" : "01";
                 let data = [
-                    "000201", "010211", "2937", 
+                    "000201", "010211", "2937",
                     "0016A000000677010111" + targetType + (target.length < 10 ? "0" + target.length : target.length) + target,
-                    "5802TH", "5303764", 
+                    "5802TH", "5303764",
                     "54" + (amount.toFixed(2).length < 10 ? "0" + amount.toFixed(2).length : amount.toFixed(2).length) + amount.toFixed(2)
                 ].join("");
-                data += "6304"; 
-                data += calcCRC16(data); 
+                data += "6304";
+                data += calcCRC16(data);
                 return data;
             }
 
@@ -214,7 +214,7 @@
             clearInterval(countdownInterval);
 
             if (status === 'SUCCESS') {
-                updateBookingStatus('Confirmed');
+                updateBookingStatus('รอการยืนยัน'); // <--- เปลี่ยนให้เป็นรอแอดมินอนุมัติ
                 
                 Swal.fire({
                     icon: 'success',
